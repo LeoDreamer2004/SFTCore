@@ -15,10 +15,13 @@ import org.leodreamer.sftcore.common.data.SFTRecipes;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.AquaRegia;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Lava;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.CHEMICAL_BATH_RECIPES;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.FIELD_GENERATOR_IV;
+import static com.gregtechceu.gtceu.common.data.GTItems.ROBOT_ARM_IV;
+import static com.gregtechceu.gtceu.common.data.GTMachines.AUTO_MAINTENANCE_HATCH;
+import static com.gregtechceu.gtceu.common.data.GTMachines.CONFIGURABLE_MAINTENANCE_HATCH;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.FISHBIG_MAKER_RECIPES;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.HURRY_UP_RECIPES;
 
@@ -80,6 +83,27 @@ public class CustomGTRecipes {
                 .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(4000))
                 .duration(40)
                 .EUt(VA[LV])
+                .save(provider);
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id("configurable_auto_maintenance_hatch"))
+                .outputItems(SFTMachines.AUTO_CONFIGURABLE_MAINTENANCE_HATCH)
+                .inputItems(frameGt, HastelloyX)
+                .inputItems(AUTO_MAINTENANCE_HATCH)
+                .inputItems(CONFIGURABLE_MAINTENANCE_HATCH, 4)
+                .inputItems(ROBOT_ARM_IV, 8)
+                .inputItems(FIELD_GENERATOR_IV, 4)
+                .inputItems(plateDouble, VanadiumGallium, 8)
+                .inputItems(bolt, Ruridit, 16)
+                .inputItems(plate, TungstenSteel, 16)
+                .inputItems(foil, TungstenSteel, 64)
+                .inputFluids(Polybenzimidazole.getFluid(L * 8))
+                .inputFluids(Lubricant.getFluid(4000))
+                .scannerResearch(b -> b
+                        .researchStack(AUTO_MAINTENANCE_HATCH.asStack())
+                        .duration(800)
+                        .EUt(VA[IV]))
+                .duration(300)
+                .EUt(VA[LuV])
                 .save(provider);
     }
 }

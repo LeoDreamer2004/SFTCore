@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblo
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.simibubi.create.AllBlocks;
@@ -25,12 +26,17 @@ import net.minecraft.world.level.block.Blocks;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
+import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.HEAT_VENT;
+import static com.gregtechceu.gtceu.common.data.GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.LARGE_CHEMICAL_RECIPES;
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
+import static org.leodreamer.sftcore.common.data.SFTBlocks.MULTI_FUNCTIONAL_CASING;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers.*;
 
 public final class SFTMultiMachines {
@@ -59,7 +65,7 @@ public final class SFTMultiMachines {
                             .where("C", blocks(MekanismBlocks.TELEPORTER_FRAME.getBlock()))
                             .where("E", blocks(MekanismBlocks.DYNAMIC_TANK.getBlock()))
                             .where("F", blocks(GeneratorsBlocks.FUSION_REACTOR_FRAME.getBlock()))
-                            .where("H", blocks(Blocks.GLOWSTONE))
+                            .where("H", blocks(MekanismBlocks.REFINED_GLOWSTONE_BLOCK.getBlock()))
                             .build())
             .workableCasingModel(SFTCore.id("block/casings/solid/create_railway_casing"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
@@ -83,8 +89,7 @@ public final class SFTMultiMachines {
                             .where("C", blocks(CASING_STEEL_SOLID.get())
                                     .setMinGlobalLimited(10)
                                     .or(autoAbilities(definition.getRecipeTypes()))
-                                    .or(autoAbilities(true, false, true))
-                            )
+                                    .or(autoAbilities(true, false, true)))
                             .where("O", abilities(PartAbility.MUFFLER))
                             .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
@@ -186,6 +191,33 @@ public final class SFTMultiMachines {
                             .build())
             .workableCasingModel(SFTCore.id("block/casings/solid/mek_sps_casing"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+
+    public static final MachineDefinition COMMON_FACTORY = REGISTRATE.multiblock("common_factory", CommonFactoryMachine::new)
+            .rotationState(RotationState.ALL)
+            .recipeTypes(CommonFactoryMachine.AVAILABLE_RECIPES)
+            .tooltips(
+                    Component.translatable("sftcore.machine.common_factory.tooltip.0"),
+                    Component.translatable("sftcore.machine.common_factory.tooltip.1"),
+                    Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", 0.9),
+                    Component.translatable("sftcore.multiblock.time_multiplier.tooltip", 0.8)
+            )
+            .recipeModifiers(new SimpleMultiplierModifier(0.9, 0.8))
+            .appearanceBlock(MULTI_FUNCTIONAL_CASING)
+            .pattern(definition ->
+                    FactoryBlockPattern.start()
+                            .aisle("AAA", "AAA", "AAA")
+                            .aisle("AAA", "ACA", "AAA")
+                            .aisle("AAA", "ASA", "AAA")
+                            .where("S", controller(blocks(definition.get())))
+                            .where("C", heatingCoils())
+                            .where("A", blocks(MULTI_FUNCTIONAL_CASING.get())
+                                    .or(Predicates.autoAbilities(CommonFactoryMachine.AVAILABLE_RECIPES))
+                                    .or(Predicates.abilities(SFTPartAbility.MACHINE_ADJUSTMENT).setExactLimit(1)))
+                            .build())
+            .workableCasingModel(SFTCore.id("block/casings/solid/multi_functional_casing"),
+                    GTCEu.id("block/multiblock/gcym/large_mixer"))
             .register();
 
     public static final MachineDefinition DESULFURIZER = REGISTRATE.multiblock("desulfurizer",
@@ -377,7 +409,7 @@ public final class SFTMultiMachines {
 
     public static final MachineDefinition CHEMICAL_FACTORY = REGISTRATE.multiblock("chemical_factory", CoilWorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.ALL)
-            .recipeType(GTRecipeTypes.LARGE_CHEMICAL_RECIPES)
+            .recipeType(LARGE_CHEMICAL_RECIPES)
             .recipeModifiers(DEFAULT_ENVIRONMENT_REQUIREMENT,
                     OC_PERFECT_SUBTICK,
                     PARALLEL_HATCH,
@@ -437,7 +469,7 @@ public final class SFTMultiMachines {
                     GTRecipeModifiers::ebfOverclock,
                     GCYM_MACHINE_REDUCE,
                     MEGA_COIL_MACHINE_REDUCE)
-            .recipeType(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
+            .recipeType(ALLOY_BLAST_RECIPES)
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
                     Component.translatable(
                             "gtceu.machine.available_recipe_map_1.tooltip",

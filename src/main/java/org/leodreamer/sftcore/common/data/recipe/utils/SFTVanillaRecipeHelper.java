@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.utils.recipe;
+package org.leodreamer.sftcore.common.data.recipe.utils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;

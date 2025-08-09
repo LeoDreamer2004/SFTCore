@@ -14,7 +14,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.utils.recipe.SFTVanillaRecipeHelper;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
 

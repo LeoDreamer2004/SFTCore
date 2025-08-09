@@ -258,7 +258,7 @@ public final class MekanismRecipes {
         MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fusion"))
                 .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(1))
                 .duration(4000)
-                .EUt(-128)
+                .EUt(-V[MV])
                 .save(provider);
 
         MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_1"))
@@ -266,7 +266,7 @@ public final class MekanismRecipes {
                 .outputFluids(FilteredPlutonium.getFluid(1))
                 .circuitMeta(1)
                 .duration(113000)
-                .EUt(-128)
+                .EUt(-V[MV])
                 .save(provider);
 
         MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_1_fast"))
@@ -274,7 +274,7 @@ public final class MekanismRecipes {
                 .outputFluids(FilteredPlutonium.getFluid(30))
                 .circuitMeta(4)
                 .duration(9700)
-                .EUt(-128)
+                .EUt(-V[MV])
                 .save(provider);
 
         MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_2"))
@@ -282,7 +282,7 @@ public final class MekanismRecipes {
                 .outputFluids(FilteredPolonium.getFluid(2))
                 .circuitMeta(1)
                 .duration(113000)
-                .EUt(-128)
+                .EUt(-V[MV])
                 .save(provider);
 
         MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_2_fast"))
@@ -290,7 +290,7 @@ public final class MekanismRecipes {
                 .outputFluids(FilteredPolonium.getFluid(30))
                 .circuitMeta(5)
                 .duration(9700)
-                .EUt(-128)
+                .EUt(-V[MV])
                 .save(provider);
 
         MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_3"))
@@ -298,7 +298,7 @@ public final class MekanismRecipes {
                 .outputFluids(EnergeticFissileFuel.getFluid(500))
                 .circuitMeta(3)
                 .duration(113000)
-                .EUt(-128)
+                .EUt(-V[MV])
                 .save(provider);
     }
 

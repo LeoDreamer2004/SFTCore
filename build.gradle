@@ -100,6 +100,7 @@ minecraft {
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
+            args '--offline'
         }
 
         server {
@@ -141,6 +142,10 @@ repositories {
     //     dir 'libs'
     // }
     mavenCentral()
+    maven {
+        name = "BMCLAPI"
+        url = "https://bmclapi2.bangbang93.com/maven/"
+    }
     maven { // GregTech
         name = 'GTCEu Maven'
         url = 'https://maven.gtceu.com'
@@ -220,6 +225,7 @@ dependencies {
     implementation fg.deobf("curse.maven:ex-pattern-provider-892005:6677843")
     implementation fg.deobf("curse.maven:advancedae-1084104:6757852")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
+    implementation fg.deobf("curse.maven:gtmthings-1104310:6843500")
     implementation("com.eliotlash.mclib:mclib:20")
     implementation 'org.projectlombok:lombok:1.18.30'
 
@@ -231,6 +237,8 @@ dependencies {
 
     runtimeOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-${minecraft_version}:${flywheel_version}"))
     runtimeOnly fg.deobf("curse.maven:modern-fix-790626:6837713")
+    runtimeOnly fg.deobf("curse.maven:just-enough-characters-250702:6680042")
+    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     runtimeOnly fg.deobf("maven.modrinth:jade:${jade_version}")
 
     annotationProcessor 'org.projectlombok:lombok:1.18.30'

@@ -1,7 +1,9 @@
 {
   "block.sftcore.certus_quartz_charger": "晶石充能器",
   "block.sftcore.chemical_factory": "化工厂",
+  "block.sftcore.common_factory": "通用工厂",
   "block.sftcore.common_mekanism_process_factory": "通用机械集成工厂",
+  "block.sftcore.configurable_auto_maintenance_hatch": "可配置自动维护仓",
   "block.sftcore.desulfurizer": "脱硫器",
   "block.sftcore.fishbig_maker": "鱼大制造机",
   "block.sftcore.greenhouse": "电动温室",
@@ -9,15 +11,17 @@
   "block.sftcore.large_cracker": "大型裂化机",
   "block.sftcore.large_inscriber": "大型铭刻机",
   "block.sftcore.large_mekanism_nuclear_reactor": "大型通用机械核反应堆",
+  "block.sftcore.machine_adjustment_hatch": "机器调节仓",
   "block.sftcore.mega_alloy_blast_smelter": "高温熔炼厂",
   "block.sftcore.multi_functional_casing": "多功能机械方块",
   "block.sftcore.oil_drilling_rig": "石油钻机",
   "block.sftcore.ore_replicator": "矿石发生器",
-  "block.sftcore.semiconductor_blast_furnace": "半导体锻炉",
+  "block.sftcore.semiconductor_blast_furnace": "半导体烧结炉",
   "commands.sftcore.dump.failure": "导出失败",
   "commands.sftcore.dump.start": "开始导出...",
   "commands.sftcore.dump.success": "导出完成",
   "commands.sftcore.dump.success.link": "[打开文件]",
+  "gtceu.dummy": "无",
   "gtceu.machine.available_recipe_map_1.tooltip": "§5Δ §l配方类型：%s",
   "gtceu.machine.available_recipe_map_2.tooltip": "§5Δ §l配方类型：%s，%s",
   "gtceu.machine.available_recipe_map_3.tooltip": "§5Δ §l配方类型：%s，%s，%s",
@@ -80,5 +84,7 @@
   "sftcore.multiblock.perfect_overclock.tooltip.1": "§7§o   在不增加总耗能的同时任意增大功率§r",
   "sftcore.multiblock.time_multiplier.tooltip": "§9- §l时间倍率：%f§r",
   "sftcore.oil_drilling_rig": "石油钻机",
-  "sftcore.semiconductor_blast_furnace": "半导体锻炉"
+  "sftcore.semiconductor_blast_furnace": "半导体锻炉",
+  "sftcore.machine.common_factory.tooltip.0": "- §7电压等级和类型由放入§r机器调节仓§7的小机器决定§r",
+  "sftcore.machine.common_factory.tooltip.1": "- §7线圈等级每超过§6白铜§7一级，机器获得2额外并行§r"
 }

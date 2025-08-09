@@ -26,6 +26,7 @@ public class SFTLangHandler extends LangHandler {
         provider.add("gtceu.machine.available_recipe_map_4.tooltip", "§5Δ §lRecipe Types: %s, %s, %s, %s");
 
         // machines
+        provider.add("gtceu.dummy", "Null");
         provider.add("gtceu.machine.parallel_hatch_mk5.tooltip", "Allows to run up to 64 recipes in parallel.");
         provider.add("gtceu.machine.parallel_hatch_mk6.tooltip", "Allows to run up to 256 recipes in parallel.");
         provider.add("gtceu.machine.parallel_hatch_mk7.tooltip", "Allows to run up to 1024 recipes in parallel.");
@@ -67,5 +68,9 @@ public class SFTLangHandler extends LangHandler {
         provider.add("sftcore.machine.certus_quartz_charger.tooltip", "Release the power of Certus Quartz.");
         provider.add("sftcore.machine.large_mekanism_nuclear_reactor.tooltip", "Extract energy from fuel thoroughly.");
         provider.add("sftcore.machine.large_cracker.tooltip.1", "- §7For every 1 level above §6Cupronickel§7, recipe energy and time consumption are both reduced by 10%%");
+        multiLang(provider, "sftcore.machine.common_factory.tooltip",
+                "- §7The simple machine in the§r machine adjustment hatch§7 limits the recipe type and voltage.§r",
+                "- §7For every 1 level above §6Cupronickel§7, the machine gets 2 extra parallels§r"
+        );
     }
 }

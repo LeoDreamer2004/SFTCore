@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
-import org.leodreamer.sftcore.common.utils.recipe.SFTVanillaRecipeHelper;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -36,7 +36,7 @@ public final class VanillaRecipes {
         uu(provider, Items.COPPER_INGOT, 6, "  U", "   ", "U  ");
         uu(provider, Items.REDSTONE, 12, "   ", "U U", "   ");
         uu(provider, Items.GLOWSTONE_DUST, 4, "U  ", "  U", "   ");
-        uu(provider, Items.LAPIS_LAZULI, 16, "  U", "  U", "U  ");
+        uu(provider, Items.LAPIS_LAZULI, 16, " U ", "U U", " U ");
         uu(provider, Items.QUARTZ, 8, "  U", "  U", "U  ");
         uu(provider, Items.EMERALD, 2, "UUU", "   ", "UUU");
         uu(provider, Items.DIAMOND, 1, "U U", " U ", "U U");

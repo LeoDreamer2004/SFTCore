@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
-import org.leodreamer.sftcore.common.data.recipe.SFTOres;
+import org.leodreamer.sftcore.common.data.SFTOres;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeRemovals;
 
 import java.util.function.Consumer;

@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "sftcore:machine_adjustment_hatch",
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
+  "variants": {
+    "is_painted=false": {
+      "model": {
+        "parent": "gtceu:block/machine/template/part/hatch_machine_emissive",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/lv/bottom",
+          "overlay": "sftcore:block/overlay/machine/overlay_machine_in_emissive",
+          "overlay_emissive": "sftcore:block/overlay/machine/overlay_machine_holder",
+          "side": "gtceu:block/casings/voltage/lv/side",
+          "top": "gtceu:block/casings/voltage/lv/top"
+        }
+      }
+    },
+    "is_painted=true": {
+      "model": {
+        "parent": "gtceu:block/machine/template/part/hatch_machine_emissive_color_ring",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/lv/bottom",
+          "overlay": "sftcore:block/overlay/machine/overlay_machine_in_emissive",
+          "overlay_emissive": "sftcore:block/overlay/machine/overlay_machine_holder",
+          "side": "gtceu:block/casings/voltage/lv/side",
+          "top": "gtceu:block/casings/voltage/lv/top"
+        }
+      }
+    }
+  }
+}

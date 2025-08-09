@@ -35,24 +35,27 @@ public final class SFTRecipeTypes {
             .setSound(GTSoundEntries.CHEMICAL);
 
     // ae2 integration
-    public static final GTRecipeType CERTUS_QUARTZ_CHARGE_RECIPES =
-            register("certus_quartz_charge", MULTIBLOCK).setEUIO(IO.IN)
-                    .setMaxIOSize(2, 1, 1, 0)
-                    .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-                    .setSound(GTSoundEntries.ELECTROLYZER);
+    public static final GTRecipeType CERTUS_QUARTZ_CHARGE_RECIPES = register("certus_quartz_charge", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ELECTROLYZER);
 
     public static final GTRecipeType LARGE_INSCRIBER = register("large_inscriber", MULTIBLOCK)
+            .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
 
     // mekanism integration
     public static final GTRecipeType MEKANISM_NUCLEAR_REACTION_RECIPES = register("mekanism_nuclear_reaction", GENERATOR)
+            .setEUIO(IO.OUT)
             .setMaxIOSize(1, 0, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TURBINE);
 
     public static final GTRecipeType MEKANISM_PROCESSING_RECIPES = register("common_mekanism_processing", MULTIBLOCK)
+            .setEUIO(IO.IN)
             .setMaxIOSize(6, 3, 3, 3)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MIXER);
