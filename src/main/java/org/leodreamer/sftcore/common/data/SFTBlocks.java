@@ -6,12 +6,13 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.api.wrapper.TooltipedBlockItem;
 
 import java.util.function.Supplier;
 
@@ -19,11 +20,15 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
 public final class SFTBlocks {
 
-    public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock("multi_functional_casing", SFTCore.id("block/casings/solid/multi_functional_casing"));
+    public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock(
+            "multi_functional_casing",
+            SFTCore.id("block/casings/solid/multi_functional_casing"),
+            Component.translatable("sftcore.block.texture_come_from", "GTO")
+    );
 
-    public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture) {
+    public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture, Component... tooltips) {
         return createCasingBlock(name, Block::new, texture, () -> Blocks.IRON_BLOCK,
-                () -> RenderType::solid);
+                () -> RenderType::solid, tooltips);
     }
 
     public static BlockEntry<Block> createCasingBlock(
@@ -31,7 +36,8 @@ public final class SFTBlocks {
             NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
             ResourceLocation texture,
             NonNullSupplier<? extends Block> properties,
-            Supplier<Supplier<RenderType>> type
+            Supplier<Supplier<RenderType>> type,
+            Component... tooltips
     ) {
         return REGISTRATE.block(name, blockSupplier)
                 .initialProperties(properties)
@@ -39,7 +45,7 @@ public final class SFTBlocks {
                 .addLayer(type)
                 .exBlockstate(GTModels.cubeAllModel(texture))
                 .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
-                .item(BlockItem::new)
+                .item((block, property) -> new TooltipedBlockItem(block, property, tooltips))
                 .build()
                 .register();
     }

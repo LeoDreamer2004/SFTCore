@@ -24,8 +24,11 @@ public class GTMultimachineTweaks {
             // modified by mixin
             if (hatch == null) continue;
             hatch.setTooltipBuilder(
-                    hatch.getTooltipBuilder().andThen((itemStack, components) ->
-                            components.add(Component.translatable("sftcore.machine.modified_by_sft"))
+                    hatch.getTooltipBuilder().andThen((itemStack, components) -> {
+                                components.remove(components.size() - 1); // sharing disabled
+                                components.add(Component.translatable("gtceu.part_sharing.enabled"));
+                                components.add(Component.translatable("sftcore.machine.modified_by_sft"));
+                            }
                     )
             );
         }

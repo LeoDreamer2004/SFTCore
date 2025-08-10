@@ -47,6 +47,10 @@ public class SFTLangHandler extends LangHandler {
         provider.add("commands.sftcore.dump.success.link", "[Open the file]");
         provider.add("commands.sftcore.dump.failure", "Dump failed.");
 
+        // blocks
+        provider.add("sftcore.block.texture_come_from", "Textures come from: %s");
+        provider.add("sftcore.multiblock.structure_come_from", "Structures come from: %s");
+
         // recipe modifiers
         provider.add("sftcore.multiblock.half_perfect_overclock.tooltip", "§do §lHalf Perfect Overclock§r");
         provider.add("sftcore.multiblock.half_perfect_overclock.tooltip.1", "§7§o   Process 3 times faster when overclocked with 4 times power§r");
@@ -56,7 +60,7 @@ public class SFTLangHandler extends LangHandler {
         provider.add("sftcore.multiblock.time_multiplier.tooltip", "§9- §lTime Multiplier§r§9: %f§r");
         provider.add("sftcore.multiblock.mega_reduce_with_coil", "§co §lCoil Discount§r");
         provider.add("sftcore.multiblock.mega_reduce_with_coil.1", "§7§o   For every §d%dK§7§o above coil temperature, recipe energy is multiplied by §a%f§r§7§o and time by §9%f§r");
-        provider.add("sftcore.machine.modified_by_sft", "§b§n§o- Modified By SFT§r§r§r§b§n -§r§r");
+        provider.add("sftcore.machine.modified_by_sft", "§b§n§o* Modified By SFT §r§r§r§b§n *§r§r");
 
         // machines
         provider.add("sftcore.machine.ore_replicator.tooltip", "Place it under an ore block and it will generate ores.");
@@ -70,7 +74,9 @@ public class SFTLangHandler extends LangHandler {
         provider.add("sftcore.machine.large_cracker.tooltip.1", "- §7For every 1 level above §6Cupronickel§7, recipe energy and time consumption are both reduced by 10%%");
         multiLang(provider, "sftcore.machine.common_factory.tooltip",
                 "- §7The simple machine in the§r machine adjustment hatch§7 limits the recipe type and voltage.§r",
+                "- §7The voltage of energy hatch and machine must match, though it is allowed to use 2 energy hatch.§r",
                 "- §7For every 1 level above §6Cupronickel§7, the machine gets 2 extra parallels§r"
         );
+        provider.add("sftcore.machine.common_factory.voltage_invalid", "The voltage of energy hatch and machine don't match!");
     }
 }

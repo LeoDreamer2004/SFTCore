@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblo
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.simibubi.create.AllBlocks;
@@ -23,6 +22,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
@@ -30,6 +30,7 @@ import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.HEAT_VENT;
 import static com.gregtechceu.gtceu.common.data.GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
@@ -200,10 +201,16 @@ public final class SFTMultiMachines {
             .tooltips(
                     Component.translatable("sftcore.machine.common_factory.tooltip.0"),
                     Component.translatable("sftcore.machine.common_factory.tooltip.1"),
+                    Component.translatable("sftcore.machine.common_factory.tooltip.2"),
                     Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", 0.9),
-                    Component.translatable("sftcore.multiblock.time_multiplier.tooltip", 0.8)
+                    Component.translatable("sftcore.multiblock.time_multiplier.tooltip", 0.8),
+                    Component.translatable("sftcore.multiblock.structure_come_from", "GTL")
             )
-            .recipeModifiers(new SimpleMultiplierModifier(0.9, 0.8))
+            .recipeModifiers(
+                    SFTRecipeModifiers::commonFactoryParallel,
+                    new SimpleMultiplierModifier(0.9, 0.8),
+                    OC_NON_PERFECT
+            )
             .appearanceBlock(MULTI_FUNCTIONAL_CASING)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -213,8 +220,10 @@ public final class SFTMultiMachines {
                             .where("S", controller(blocks(definition.get())))
                             .where("C", heatingCoils())
                             .where("A", blocks(MULTI_FUNCTIONAL_CASING.get())
-                                    .or(Predicates.autoAbilities(CommonFactoryMachine.AVAILABLE_RECIPES))
-                                    .or(Predicates.abilities(SFTPartAbility.MACHINE_ADJUSTMENT).setExactLimit(1)))
+                                    .setMinGlobalLimited(12)
+                                    .or(autoAbilities(CommonFactoryMachine.AVAILABLE_RECIPES))
+                                    .or(abilities(SFTPartAbility.MACHINE_ADJUSTMENT).setExactLimit(1))
+                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                             .build())
             .workableCasingModel(SFTCore.id("block/casings/solid/multi_functional_casing"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
@@ -228,25 +237,27 @@ public final class SFTMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(SFTRecipeTypes.DESULFURIZE_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, OC_HALF_PERFECT)
-            .appearanceBlock(CASING_PTFE_INERT)
+            .appearanceBlock(CASING_STAINLESS_TURBINE)
             .pattern(definition ->
                     FactoryBlockPattern.start()
-                            .aisle("AAAAA", "AFFFA", "AAAAA", " BBB ", " BBB ", "CCCCC", "CCCCC", "CCCCC")
-                            .aisle("AAAAA", "A   A", "AAAAA", "B   B", "B   B", "CCCCC", "E   E", "CCCCC")
-                            .aisle("AAAAA", "AADAA", "AAAAA", " BBB ", " BBB ", "CCCCC", "CEEEC", "CCCCC"
-                            )
-                            .where("D", controller(blocks(definition.get())))
-                            .where("A", blocks(CASING_PTFE_INERT.get())
+                            .aisle(" AAA     ", " AAA     ", " AAA     ", "         ", " BBB     ", "         ", " BBB     ", "         ", " BBB     ", "         ", "         ", "         ")
+                            .aisle("AAAAACDCE", "A   ACDCE", "A   ACDCE", " FFF     ", "BFFFB    ", " FFF     ", "BFFFB    ", " FFF     ", "BFFFB    ", " FFF     ", "         ", "         ")
+                            .aisle("AAAAACDCE", "A GGGEECE", "A G ACECE", " FGF  E  ", "BFGFB E  ", " FGF  E  ", "BFGFB E  ", " FGF  E  ", "BFGFB E  ", " FGF  E  ", "  E   E  ", "  EEEEE  ")
+                            .aisle("AAAAACDCE", "A   ACDCE", "A   ACDCE", " FFF     ", "BFFFB    ", " FFF     ", "BFFFB    ", " FFF     ", "BFFFB    ", " FFF     ", "         ", "         ")
+                            .aisle(" AAA     ", " AIA     ", " AAA     ", "         ", " BBB     ", "         ", " BBB     ", "         ", " BBB     ", "         ", "         ", "         ")
+                            .where("I", controller(blocks(definition.get())))
+                            .where("A", blocks(CASING_STAINLESS_TURBINE.get())
                                     .setMinGlobalLimited(10)
                                     .or(autoAbilities(definition.getRecipeTypes()))
-                                    .or(autoAbilities(true, false, true))
-                            )
-                            .where("B", blocks(COIL_CUPRONICKEL.get()))
-                            .where("C", blocks(CASING_STAINLESS_CLEAN.get()))
-                            .where("E", blocks(CLEANROOM_GLASS.get()))
-                            .where("F", blocks(CASING_GRATE.get()))
+                                    .or(autoAbilities(true, false, true)))
+                            .where("B", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                            .where("C", blocks(CASING_INVAR_HEATPROOF.get()))
+                            .where("D", blocks(COIL_CUPRONICKEL.get()))
+                            .where("E", blocks(CASING_STAINLESS_TURBINE.get()))
+                            .where("F", blocks(CASING_STAINLESS_CLEAN.get()))
+                            .where("G", blocks(CASING_TITANIUM_PIPE.get()))
                             .build())
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"),
+            .workableCasingModel(GTCEu.id("block/casings/mechanic/machine_casing_turbine_stainless_steel"),
                     GTCEu.id("block/multiblock/large_chemical_reactor"))
             .register();
 
@@ -282,20 +293,22 @@ public final class SFTMultiMachines {
             .appearanceBlock(CASING_STEEL_SOLID)
             .pattern(definition ->
                     FactoryBlockPattern.start()
-                            .aisle("CCC", "CGC", "CGC", "CLC", "CCC")
-                            .aisle("CMC", "G#G", "G#G", "LIL", "COC")
-                            .aisle("CKC", "CGC", "CGC", "CLC", "CCC")
-                            .where("K", controller(blocks(definition.get())))
-                            .where("M", blocks(Blocks.MOSS_BLOCK).or(blocks(Blocks.GRASS_BLOCK)))
-                            .where("G", blocks(AEBlocks.QUARTZ_GLASS.block()))
-                            .where("I", blocks(Blocks.GLOWSTONE))
-                            .where("L", blocks(CASING_GRATE.get()))
-                            .where("C", blocks(CASING_STEEL_SOLID.get())
-                                    .setMinGlobalLimited(10)
+                            .aisle(" AAA ", " AAA ", " BBB ", " BBB ", " BBB ", " BBB ", " BBB ", " CCC ", "     ")
+                            .aisle("AAAAA", "ADDDA", "B   B", "B   B", "B   B", "B   B", "B   B", "CEEEC", " CCC ")
+                            .aisle("AAAAA", "ADFDA", "B   B", "B   B", "B   B", "B   B", "B   B", "CEGEC", " CCC ")
+                            .aisle("AAAAA", "ADDDA", "B   B", "B   B", "B   B", "B   B", "B   B", "CEEEC", " CCC ")
+                            .aisle(" AAA ", " AHA ", " BBB ", " BBB ", " BBB ", " BBB ", " BBB ", " CCC ", "     ")
+                            .where("H", controller(blocks(definition.get())))
+                            .where("A", blocks(CASING_STEEL_SOLID.get())
+                                    .setMinGlobalLimited(25)
                                     .or(autoAbilities(definition.getRecipeTypes()))
                                     .or(autoAbilities(true, false, true)))
-                            .where("O", abilities(PartAbility.MUFFLER))
-                            .where("#", air())
+                            .where("B", blocks(CASING_TEMPERED_GLASS.get()))
+                            .where("C", blocks(CASING_STEEL_SOLID.get()))
+                            .where("D", blocks(Blocks.MUD))
+                            .where("E", blocks(CASING_GRATE.get()))
+                            .where("F", fluids(Fluids.WATER))
+                            .where("G", blocks(LAMPS.get(DyeColor.WHITE).get()))
                             .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
@@ -327,22 +340,25 @@ public final class SFTMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, GTRecipeModifiers::ebfOverclock, BATCH_MODE)
-            .appearanceBlock(CASING_INVAR_HEATPROOF)
+            .appearanceBlock(CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition ->
                     FactoryBlockPattern.start()
-                            .aisle("AAAAA", "ABBBA", "ABBBA", "ABBBA", "ABBBA", "AAAAA")
-                            .aisle("AAAAA", "BCCCB", "BCCCB", "BCCCB", "BCCCB", "AAAAA")
-                            .aisle("AAAAA", "BCECB", "BCECB", "BCECB", "BCECB", "AAFAA")
-                            .aisle("AAAAA", "BCCCB", "BCCCB", "BCCCB", "BCCCB", "AAAAA")
-                            .aisle("AADAA", "ABBBA", "ABBBA", "ABBBA", "ABBBA", "AAAAA")
-                            .where("D", controller(blocks(definition.get())))
-                            .where("A", blocks(CASING_INVAR_HEATPROOF.get())
-                                    .setMinGlobalLimited(45)
+                            .aisle("  AAAAA  ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "  BBBBB  ", "         ")
+                            .aisle(" AAAAAAA ", "  ACCCA  ", "  AAAAA  ", "  BDDDB  ", "  BDDDB  ", "  BDDDB  ", "  BBBBB  ", "  BCCCB  ", " BBBBBBB ", "         ")
+                            .aisle("AAAAAAAAA", " AA   AA ", " AA   AA ", " BB   BB ", " BB   BB ", " BB   BB ", " BB   BB ", " BB   BB ", "BBBBBBBBB", "   BBB   ")
+                            .aisle("AAAAAAAAA", " C E E C ", " A E E A ", " D E E D ", " D E E D ", " D E E D ", " B E E B ", " C E E C ", "BBBE EBBB", "  BBBBB  ")
+                            .aisle("AAAAAAAAA", " C     C ", " A     A ", " D     D ", " D     D ", " D     D ", " B     B ", " C     C ", "BBB   BBB", "  BBFBB  ")
+                            .aisle("AAAAAAAAA", " C E E C ", " A E E A ", " D E E D ", " D E E D ", " D E E D ", " B E E B ", " C E E C ", "BBBE EBBB", "  BBBBB  ")
+                            .aisle("AAAAAAAAA", " AA   AA ", " AA   AA ", " BB   BB ", " BB   BB ", " BB   BB ", " BB   BB ", " BB   BB ", "BBBBBBBBB", "   BBB   ")
+                            .aisle(" AAAAAAA ", "  AAGAA  ", "  AAAAA  ", "  BDDDB  ", "  BDDDB  ", "  BDDDB  ", "  BBBBB  ", "  BCCCB  ", " BBBBBBB ", "         ")
+                            .aisle("  AAAAA  ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "  BBBBB  ", "         ")
+                            .where("G", controller(blocks(definition.get())))
+                            .where("A", blocks(CASING_HIGH_TEMPERATURE_SMELTING.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
-                                    .or(autoAbilities(true, false, true))
-                            )
-                            .where("B", blocks(CASING_TEMPERED_GLASS.get()))
-                            .where("C", heatingCoils())
+                                    .or(autoAbilities(true, false, true)))
+                            .where("B", blocks(CASING_HIGH_TEMPERATURE_SMELTING.get()))
+                            .where("C", blocks(HEAT_VENT.get()))
+                            .where("D", heatingCoils())
                             .where("E", blocks(CASING_TITANIUM_PIPE.get()))
                             .where("F", abilities(PartAbility.MUFFLER))
                             .build()
@@ -350,8 +366,8 @@ public final class SFTMultiMachines {
             .recoveryItems(
                     () -> new ItemLike[]{
                             GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.dustTiny, GTMaterials.Ash).get()})
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_heatproof"),
-                    GTCEu.id("block/multiblock/electric_blast_furnace"))
+            .workableCasingModel(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
+                    GTCEu.id("block/multiblock/gcym/large_mixer"))
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
                     Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.0"),
                     Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.1"),
@@ -386,22 +402,27 @@ public final class SFTMultiMachines {
             .appearanceBlock(CASING_STAINLESS_CLEAN)
             .pattern(definition ->
                     FactoryBlockPattern.start()
-                            .aisle("AAAAAAAAAAA", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", "AAAAAAAAAAA")
-                            .aisle("AAAAAAAAAAA", "AAAAAAAAA A", "A C C C C A", "A         A", "A         A", "A C C C C A", "A         A", "ADDDDDDDDDA")
-                            .aisle("AEEEEEEEEEA", "A C C C C A", "A C C C C A", "A C C C C A", "A C C C C A", "A C C C C A", "A C C C C A", "ADDDDDDDDDA")
-                            .aisle("AEEEEEEEEEA", "A         A", "A C C C C A", "A         A", "A         A", "A C C C C A", "A         A", "ADDDDDDDDDA")
-                            .aisle("AEEEEEEEEEA", "A         A", "A C C C C A", "A         A", "A         A", "A C C C C A", "A         A", "ADDDDDDDDDA")
-                            .aisle("AEEEEEEEEEA", "A C C C C A", "A C C C C A", "A C C C C A", "A C C C C A", "A C C C C A", "A C C C C A", "ADDDDDDDDDA")
-                            .aisle("AAAAAAAAAAA", "AAAAAAAAA A", "A C C C C A", "A         A", "A         A", "A C C C C A", "A         A", "ADDDDDDDDDA")
-                            .aisle("AAAAAKAAAAA", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", " ABBBBBBBA ", "AAAAAAAAAAA")
-                            .where("K", controller(blocks(definition.get())))
+                            .aisle("  AAAAAAA  ", "    AAA    ", "    AAA    ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "    BBB    ", "  BBBBBBB  ", "           ")
+                            .aisle(" AAAAAAAAA ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " CBDDDDD C ", " BBBBBBBBB ", "   BBBBB   ")
+                            .aisle("AAAAAAAAAAA", "  DDDDDDD  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", " BD     D  ", "BBBBBBBBBBB", "  BBBBBBB  ")
+                            .aisle("AAAAAAAAAAA", " DDDDDDDDD ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", "BBBBBBBBBBB", " BBBBBBBBB ")
+                            .aisle("AAAAAAAAAAA", "ADDDDDDDDDA", "AD EC CE DA", " D  C C  D ", " D EC CE D ", " D  C C  D ", " D EC CE D ", " D  C C  D ", " D EC CE D ", " D  C C  D ", " D EC CE D ", "BD       DB", "BBBBBBBBBBB", " BBBBBBBBB ")
+                            .aisle("AAAAAAAAAAA", "ADDDDDDDDDA", "AD E   E DA", "BD       DB", "BD E   E DB", "BD       DB", "BD E   E DB", "BD       DB", "BD E   E DB", "BD       DB", "BD E   E DB", "BD       DB", "BBBBBBBBBBB", " BBBBFBBBB ")
+                            .aisle("AAAAAAAAAAA", "ADDDDDDDDDA", "AD EC CE DA", " D  C C  D ", " D EC CE D ", " D  C C  D ", " D EC CE D ", " D  C C  D ", " D EC CE D ", " D  C C  D ", " D EC CE D ", "BD       DB", "BBBBBBBBBBB", " BBBBBBBBB ")
+                            .aisle("AAAAAAAAAAA", " DDDDDDDDD ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", " D EEEEE D ", " D       D ", "BBBBBBBBBBB", " BBBBBBBBB ")
+                            .aisle("AAAAAAAAAAA", "  DDDDDDD  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "  D     D  ", "BBBBBBBBBBB", "  BBBBBBB  ")
+                            .aisle(" AAAAAAAAA ", " C DDDDD C ", " C DDDDD C ", " C DDDDD C ", " C DGDGD C ", " C DGDGD C ", " C DGDGD C ", " C DGDGD C ", " C DGDGD C ", " C DGDGD C ", " C DDDDD C ", " C DDDDD C ", " BBBBBBBBB ", "   BBBBB   ")
+                            .aisle("  AAAAAAA  ", "    AHA    ", "    AAA    ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "     B     ", "    BBB    ", "  BBBBBBB  ", "           ")
+                            .where("H", controller(blocks(definition.get())))
                             .where("A", blocks(CASING_STAINLESS_CLEAN.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
-                                    .or(autoAbilities(true, true, true)))
-                            .where("B", blocks(CASING_TEMPERED_GLASS.get()))
-                            .where("C", heatingCoils())
-                            .where("D", blocks(FILTER_CASING.get()))
-                            .where("E", blocks(CASING_STAINLESS_STEEL_GEARBOX.get()))
+                                    .or(autoAbilities(true, false, true)))
+                            .where("B", blocks(CASING_STAINLESS_TURBINE.get()))
+                            .where("C", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                            .where("D", blocks(CASING_STAINLESS_CLEAN.get()))
+                            .where("E", heatingCoils())
+                            .where("F", abilities(PartAbility.MUFFLER))
+                            .where("G", blocks(CASING_TEMPERED_GLASS.get()))
                             .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
                     GTCEu.id("block/multiblock/cracking_unit"))

@@ -15,6 +15,7 @@ public class SFTRecipes {
         VanillaRecipes.init(provider);
         CommonGTRecipes.init(provider);
         CustomGTRecipes.init(provider);
+        BlockRecipes.init(provider);
         SemiconductorRecipes.init(provider);
         MekanismRecipes.init(provider);
         AE2Recipes.init(provider);

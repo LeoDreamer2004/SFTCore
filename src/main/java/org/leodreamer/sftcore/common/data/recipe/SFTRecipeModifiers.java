@@ -4,9 +4,12 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
 
 import static com.gregtechceu.gtceu.api.recipe.OverclockingLogic.STD_VOLTAGE_FACTOR;
 import static com.gregtechceu.gtceu.api.recipe.OverclockingLogic.create;
@@ -58,7 +61,8 @@ public final class SFTRecipeModifiers {
     public static final RecipeModifier MEGA_COIL_MACHINE_REDUCE =
             new CoilReductionModifier(MEGA_COIL_TEMP_LEVEL, MEGA_COIL_EUT_MULTIPLIER, MEGA_COIL_DURATION_MULTIPLIER);
 
-    public static @NotNull ModifierFunction largeCrackerOverlock(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    @NotNull
+    public static ModifierFunction largeCrackerOverlock(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine)) {
             return RecipeModifier.nullWrongType(CoilWorkableElectricMultiblockMachine.class, machine);
         }
@@ -66,6 +70,27 @@ public final class SFTRecipeModifiers {
         return ModifierFunction.builder()
                 .eutMultiplier(1.0 - coilMachine.getCoilTier() * 0.1)
                 .durationMultiplier(1.0 - coilMachine.getCoilTier() * 0.1)
+                .build();
+    }
+
+    @NotNull
+    public static ModifierFunction commonFactoryParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        if (!(machine instanceof CommonFactoryMachine cMachine)) {
+            return RecipeModifier.nullWrongType(CommonFactoryMachine.class, machine);
+        }
+        if (!cMachine.isVoltageValid()) {
+            return ModifierFunction.NULL;
+        }
+
+        int maxParallels = cMachine.getMaxParallels();
+        int parallels = ParallelLogic.getParallelAmount(machine, recipe, maxParallels);
+
+        if (parallels == 1) return ModifierFunction.IDENTITY;
+
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(parallels))
+                .eutMultiplier(parallels)
+                .parallels(parallels)
                 .build();
     }
 }

@@ -27,7 +27,7 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.PACKER_RECIPES;
 import static net.minecraft.world.item.Items.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.*;
 
-public class CommonGTRecipes {
+public final class CommonGTRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         transitionStageRecipes(provider);
         desulfurizeRecipes(provider);

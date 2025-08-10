@@ -9,9 +9,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ParallelHatchPartMachine.class)
-public class GTParallelHatchMixin {
+public abstract class GTParallelHatchMixin {
     @Mutable
     @Final
     @Shadow(remap = false)
@@ -20,5 +21,14 @@ public class GTParallelHatchMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void gtceu$modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
         this.maxParallel *= 16;
+        this.setCurrentParallel(this.maxParallel);
+    }
+
+    @Shadow(remap = false)
+    public abstract void setCurrentParallel(int parallelAmount);
+
+    @Inject(method = "canShared", at = @At("HEAD"), cancellable = true, remap = false)
+    private void gtceu$canShared(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(true);
     }
 }

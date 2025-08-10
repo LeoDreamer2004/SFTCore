@@ -44,10 +44,12 @@ public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
         this.inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
     }
 
-    //////////////////////////////////////
-    // ***** Initialization ******//
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        updateMachineSubscription();
+    }
 
-    /// ///////////////////////////////////
     @Override
     @NotNull
     public ManagedFieldHolder getFieldHolder() {

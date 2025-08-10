@@ -5,11 +5,18 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import lombok.Getter;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.common.api.feature.IMachineAdjustment;
+
+import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 
@@ -54,18 +61,11 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
 
     private GTRecipeType recipeType = DUMMY_RECIPES;
 
+    @Getter
+    private boolean voltageValid = false;
+
     public CommonFactoryMachine(IMachineBlockEntity holder) {
         super(holder);
-    }
-
-    @Override
-    public void attachSideTabs(TabsWidget sideTabs) {
-        // Hide the recipe configurator tab
-        sideTabs.setMainTab(this);
-
-        var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
-        if (directionalConfigurator != null)
-            sideTabs.attachSubTab(directionalConfigurator);
     }
 
     @NotNull
@@ -75,17 +75,15 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
                 return holderPart;
             }
         }
-        throw new IllegalStateException("No machine holder found in the common factory");
+        throw new IllegalStateException("No machine adjustment hatch found in the common factory.");
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        var machineHolder = getMachineHolder();
-        this.machineSub = machineHolder.addListenerOnChanged((holder) -> {
-            this.recipeType = holder.getRecipeType();
-            this.tier = holder.getTier();
-        });
+        var machineAdjustment = getMachineHolder();
+        this.onMachineAdjustmentChanged(machineAdjustment);
+        this.machineSub = machineAdjustment.addListenerOnChanged(this::onMachineAdjustmentChanged);
     }
 
     @Override
@@ -97,9 +95,57 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         }
     }
 
+    private void checkVoltageValid() {
+        long maxVoltage = energyContainer.getInputVoltage();
+        int voltageTier = GTUtil.getFloorTierByVoltage(maxVoltage);
+        voltageValid = voltageTier == tier;
+    }
+
+    private void onMachineAdjustmentChanged(IMachineAdjustment holder) {
+        this.recipeType = holder.getRecipeType();
+        this.tier = holder.getTier();
+        checkVoltageValid();
+    }
+
     @Override
     @NotNull
     public GTRecipeType getRecipeType() {
         return recipeType;
+    }
+
+    public int getMaxParallels() {
+        return 2 * (getCoilTier() + 1);
+    }
+
+    ///  GUI  ///
+
+    @Override
+    public void attachSideTabs(TabsWidget sideTabs) {
+        // Hide the recipe configurator tab
+        sideTabs.setMainTab(this);
+
+        var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
+        if (directionalConfigurator != null)
+            sideTabs.attachSubTab(directionalConfigurator);
+    }
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        super.addDisplayText(textList);
+        if (!isFormed()) {
+            return;
+        }
+
+        if (!recipeLogic.isActive()) {
+            var component = textList.remove(textList.size() - 1); // idle
+            MultiblockDisplayText.builder(textList, isFormed())
+                    .addParallelsLine(getMaxParallels());
+            textList.add(component);
+        }
+        if (!isVoltageValid() && recipeType != DUMMY_RECIPES) {
+            textList.add(Component.translatable("sftcore.machine.common_factory.voltage_invalid")
+                    .withStyle(ChatFormatting.RED));
+        }
+        getDefinition().getAdditionalDisplay().accept(this, textList);
     }
 }

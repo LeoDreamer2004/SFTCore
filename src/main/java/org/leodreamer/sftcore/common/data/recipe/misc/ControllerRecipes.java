@@ -14,6 +14,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
+import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.Objects;
@@ -27,9 +28,10 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.WORLD_ACCELERATOR;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
+import static org.leodreamer.sftcore.common.data.SFTBlocks.MULTI_FUNCTIONAL_CASING;
 import static org.leodreamer.sftcore.common.data.machine.SFTMultiMachines.*;
 
-public class ControllerRecipes {
+public final class ControllerRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         SFTVanillaRecipeHelper.addShapedRecipe("mega_blast_furnace")
                 .pattern("ABA", "CDC", "EFE")
@@ -51,6 +53,17 @@ public class ControllerRecipes {
                 .arg('E', new MaterialEntry(plateDense, RhodiumPlatedPalladium))
                 .arg('F', new MaterialEntry(wireGtQuadruple, UraniumRhodiumDinaquadide))
                 .output(MEGA_VACUUM_FREEZER.asStack())
+                .save(provider);
+
+        SFTVanillaRecipeHelper.addShapedRecipe("chemical_factory")
+                .pattern("ABA", "CDC", "EFE")
+                .arg('A', CustomTags.LuV_CIRCUITS)
+                .arg('B', new MaterialEntry(rotor, RhodiumPlatedPalladium))
+                .arg('C', new MaterialEntry(pipeLargeFluid, Polybenzimidazole))
+                .arg('D', LARGE_CHEMICAL_REACTOR)
+                .arg('E', new MaterialEntry(cableGtOctal, NiobiumTitanium))
+                .arg('F', new MaterialEntry(plateDouble, RhodiumPlatedPalladium))
+                .output(CHEMICAL_FACTORY.asStack())
                 .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("mega_alloy_blast_smelter")
@@ -177,7 +190,16 @@ public class ControllerRecipes {
                 .outputItems(COMMON_MEKANISM_PROCESS_FACTORY)
                 .duration(600)
                 .EUt(VA[LV])
+                .save(provider);
 
+        SFTVanillaRecipeHelper.addShapedRecipe("common_factory")
+                .pattern("ABA", "CDC", "AEA")
+                .arg('A', new MaterialEntry(plateDouble, Aluminium))
+                .arg('B', ROBOT_ARM_MV)
+                .arg('C', CustomTags.MV_CIRCUITS)
+                .arg('D', MULTI_FUNCTIONAL_CASING)
+                .arg('E', ELECTRIC_MOTOR_MV)
+                .output(SFTMultiMachines.COMMON_FACTORY.asStack())
                 .save(provider);
     }
 }

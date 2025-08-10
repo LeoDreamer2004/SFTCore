@@ -1,4 +1,4 @@
-// 1.20.1	2025-08-10T02:52:37.410921139	Registrate Provider for sftcore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2025-08-10T15:17:55.033498428	Registrate Provider for sftcore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 bf246669aaf876441016cacf1449710cfe73f109 assets/sftcore/blockstates/certus_quartz_charger.json
 b6cf69088eb8fb4bdea6d079f74a6ce88c2aa65f assets/sftcore/blockstates/chemical_factory.json
 e2739c053b7160761e7cd841a7aa04d3c6212ed4 assets/sftcore/blockstates/common_factory.json
@@ -17,8 +17,8 @@ bd36ac0a44c1d7eeb5c3abc10ae56b95b9cc603a assets/sftcore/blockstates/machine_adju
 7936981358786f88f096ca3bde7d0e30de515702 assets/sftcore/blockstates/oil_drilling_rig.json
 874a09e6afd7384bf7538e890de209b8ec25ae23 assets/sftcore/blockstates/ore_replicator.json
 ae0b283ec0b46996a81b55c816395cbe93265cc5 assets/sftcore/blockstates/semiconductor_blast_furnace.json
-0876316076f02af65e202228286dd065ba45efe2 assets/sftcore/lang/en_ud.json
-4d5410aacbab9c31e82284062d77d1be055af152 assets/sftcore/lang/en_us.json
+3a30ffd8b7014ed06ce84ad9a76f57b52d516680 assets/sftcore/lang/en_ud.json
+e73b90ad6f71dc580996f2ac370b927afb79cb71 assets/sftcore/lang/en_us.json
 eb2522f1b05c40b9b02586eb467bb6e5ab73db96 assets/sftcore/models/block/machine/certus_quartz_charger.json
 7b4609460a701619cfe37b675cce18f947557c1c assets/sftcore/models/block/machine/chemical_factory.json
 5227918c08d698b73080358442d05d4abd27151c assets/sftcore/models/block/machine/common_factory.json

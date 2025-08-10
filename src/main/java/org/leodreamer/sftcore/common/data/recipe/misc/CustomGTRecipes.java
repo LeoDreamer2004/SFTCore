@@ -25,7 +25,7 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.FISHBIG_MAKER_RECIPES;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.HURRY_UP_RECIPES;
 
-public class CustomGTRecipes {
+public final class CustomGTRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         CHEMICAL_BATH_RECIPES.recipeBuilder(SFTCore.id("uu_matter"))
                 .outputItems(SFTItems.UU_MATTER)
