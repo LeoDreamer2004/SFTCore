@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.simibubi.create.AllItems;
@@ -34,6 +35,7 @@ public final class CommonGTRecipes {
         oilDrillingRigRecipes(provider);
         greenhouseRecipes(provider);
         universalCircuitRecipes(provider);
+        largeGasCollectorRecipes(provider);
     }
 
     private static void transitionStageRecipes(Consumer<FinishedRecipe> provider) {
@@ -276,5 +278,27 @@ public final class CommonGTRecipes {
                     .duration(20)
                     .save(provider);
         }
+    }
+
+    private static void largeGasCollectorRecipes(Consumer<FinishedRecipe> provider) {
+        gasCollector(provider, "air", GRASS_BLOCK, Air, LV, false);
+        gasCollector(provider, "liquid_air", GRASS_BLOCK, LiquidAir, HV, true);
+        gasCollector(provider, "nether_air", NETHERRACK, NetherAir, MV, false);
+        gasCollector(provider, "liquid_nether_air", NETHERRACK, LiquidNetherAir, EV, true);
+        gasCollector(provider, "ender_air", END_STONE, EnderAir, HV, false);
+        gasCollector(provider, "liquid_ender_air", END_STONE, LiquidEnderAir, IV, true);
+    }
+
+    private static void gasCollector(Consumer<FinishedRecipe> provider, String id, Item input, Material output, int tier, boolean freeze) {
+        var builder = LARGE_GAS_COLLECTOR_RECIPES.recipeBuilder(id)
+                .notConsumable(input)
+                .outputFluids(output.getFluid(100000))
+                .duration(freeze ? 700 : 600)
+                .EUt(VA[tier]);
+        if (freeze)
+            builder.notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack());
+        else
+            builder.circuitMeta(1);
+        builder.save(provider);
     }
 }

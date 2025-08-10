@@ -51,7 +51,7 @@ public final class SFTRecipeTypes {
     public static final GTRecipeType MEKANISM_NUCLEAR_REACTION_RECIPES = register("mekanism_nuclear_reaction", GENERATOR)
             .setEUIO(IO.OUT)
             .setMaxIOSize(1, 0, 1, 1)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TURBINE);
 
     public static final GTRecipeType MEKANISM_PROCESSING_RECIPES = register("common_mekanism_processing", MULTIBLOCK)
@@ -76,7 +76,7 @@ public final class SFTRecipeTypes {
     public static final GTRecipeType DESULFURIZE_RECIPES = register("desulfurize", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 2, 1, 2)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL);
 
     public static final GTRecipeType HURRY_UP_RECIPES = register("hurry_up", MULTIBLOCK)
@@ -84,6 +84,12 @@ public final class SFTRecipeTypes {
             .setMaxIOSize(2, 1, 2, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
+
+    public static final GTRecipeType LARGE_GAS_COLLECTOR_RECIPES = register("large_gas_collector", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 0, 0, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COOLING);
 
     public static final GTRecipeType SEMICONDUCTOR_BLAST_RECIPES = register("semiconductor_blast_furnace", MULTIBLOCK)
             .setEUIO(IO.IN)

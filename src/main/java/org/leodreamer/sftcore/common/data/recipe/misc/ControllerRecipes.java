@@ -22,9 +22,9 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.FILTER_CASING;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
-import static com.gregtechceu.gtceu.common.data.GTMachines.HULL;
-import static com.gregtechceu.gtceu.common.data.GTMachines.WORLD_ACCELERATOR;
+import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
@@ -137,6 +137,16 @@ public final class ControllerRecipes {
                 .output(GREENHOUSE.asStack())
                 .save(provider);
 
+        SFTVanillaRecipeHelper.addShapedRecipe("large_greenhouse")
+                .pattern("ACA", "CSC", "WHW")
+                .arg('A', new MaterialEntry(rotor, TungstenSteel))
+                .arg('W', new MaterialEntry(cableGtQuadruple, Platinum))
+                .arg('C', CustomTags.LuV_CIRCUITS)
+                .arg('S', GREENHOUSE.asStack())
+                .arg('H', FILTER_CASING.asStack())
+                .output(LARGE_GREENHOUSE.asStack())
+                .save(provider);
+
         SFTVanillaRecipeHelper.addShapedRecipe("hurry_up")
                 .pattern("CBC", "BAB", "CDC")
                 .arg('A', HULL[MV])
@@ -200,6 +210,18 @@ public final class ControllerRecipes {
                 .arg('D', MULTI_FUNCTIONAL_CASING)
                 .arg('E', ELECTRIC_MOTOR_MV)
                 .output(SFTMultiMachines.COMMON_FACTORY.asStack())
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("large_gas_collector"))
+                .outputItems(LARGE_GAS_COLLECTOR.asStack())
+                .inputItems(frameGt, TungstenSteel, 4)
+                .inputItems(GAS_COLLECTOR[IV].asStack())
+                .inputItems(EMITTER_IV, 4)
+                .inputItems(ROBOT_ARM_IV, 2)
+                .inputItems(cableGtDouble, NiobiumTitanium, 8)
+                .inputFluids(Polybenzimidazole.getFluid(16 * L))
+                .duration(400)
+                .EUt(VA[IV])
                 .save(provider);
     }
 }

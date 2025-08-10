@@ -114,7 +114,7 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
     }
 
     public int getMaxParallels() {
-        return 2 * (getCoilTier() + 1);
+        return 4 * (getCoilTier() + 1);
     }
 
     ///  GUI  ///

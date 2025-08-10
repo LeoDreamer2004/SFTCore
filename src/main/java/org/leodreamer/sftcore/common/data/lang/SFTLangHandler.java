@@ -63,19 +63,23 @@ public class SFTLangHandler extends LangHandler {
         provider.add("sftcore.machine.modified_by_sft", "§b§n§o* Modified By SFT §r§r§r§b§n *§r§r");
 
         // machines
+        provider.add("sftcore.machine.allow_laser", "§eo §lLaser Hatch: §a✔§r");
+        provider.add("sftcore.machine.allow_laser.1", "§7§o   Laser hatch can provide huge energy, and must be used together with a normal energy hatch.");
         provider.add("sftcore.machine.ore_replicator.tooltip", "Place it under an ore block and it will generate ores.");
         provider.add("sftcore.machine.desulfurizer.tooltip", "Desulfurize oil efficiently.");
         provider.add("sftcore.machine.oil_drilling_rig.tooltip", "Oh, It's not so environmental friendly...");
         provider.add("sftcore.machine.semiconductor_blast_furnace.tooltip", "Expert in producing semiconductor.");
         provider.add("sftcore.machine.large_inscriber.tooltip", "A large inscriber for advanced circuits.");
         provider.add("sftcore.machine.greenhouse.tooltip", "Hope our plants can grow well.");
+        provider.add("sftcore.machine.large_gas_collector.tooltip", "Collect gas from the anywhere.");
+        provider.add("sftcore.machine.large_gas_collector.tooltip.1", "-§7 Has (nearly)§c§l infinite§7 parallels");
         provider.add("sftcore.machine.certus_quartz_charger.tooltip", "Release the power of Certus Quartz.");
         provider.add("sftcore.machine.large_mekanism_nuclear_reactor.tooltip", "Extract energy from fuel thoroughly.");
-        provider.add("sftcore.machine.large_cracker.tooltip.1", "- §7For every 1 level above §6Cupronickel§7, recipe energy and time consumption are both reduced by 10%%");
+        provider.add("sftcore.machine.large_cracker.tooltip.1", "- §7For every 1 level above §6Cupronickel§7, recipe energy and time consumption are both reduced by 10%");
         multiLang(provider, "sftcore.machine.common_factory.tooltip",
                 "- §7The simple machine in the§r machine adjustment hatch§7 limits the recipe type and voltage.§r",
-                "- §7The voltage of energy hatch and machine must match, though it is allowed to use 2 energy hatch.§r",
-                "- §7For every 1 level above §6Cupronickel§7, the machine gets 2 extra parallels§r"
+                "- §7The voltage of energy hatch and machine must match, though it is allowed to use two energy hatch.§r",
+                "- §7For every 1 level above §6Cupronickel§7, the machine gets 4 extra parallels§r"
         );
         provider.add("sftcore.machine.common_factory.voltage_invalid", "The voltage of energy hatch and machine don't match!");
     }

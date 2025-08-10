@@ -142,6 +142,8 @@ repositories {
     //     dir 'libs'
     // }
     mavenCentral()
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.minecraftforge.net/' }
     maven {
         name = "BMCLAPI"
         url = "https://bmclapi2.bangbang93.com/maven/"

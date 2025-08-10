@@ -30,8 +30,7 @@ import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.common.data.GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING;
-import static com.gregtechceu.gtceu.common.data.GCYMBlocks.HEAT_VENT;
+import static com.gregtechceu.gtceu.common.data.GCYMBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.*;
@@ -134,7 +133,9 @@ public final class SFTMultiMachines {
             .recipeType(SFTRecipeTypes.MEKANISM_NUCLEAR_REACTION_RECIPES)
             .recipeModifiers(OC_PERFECT_SUBTICK, BATCH_MODE)
             .tooltips(Component.translatable("sftcore.multiblock.perfect_overclock.tooltip"),
-                    Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"))
+                    Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"),
+                    Component.translatable("sftcore.machine.allow_laser"),
+                    Component.translatable("sftcore.machine.allow_laser.1"))
             .appearanceBlock(GeneratorsBlocks.FUSION_REACTOR_FRAME::getBlock)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -151,7 +152,8 @@ public final class SFTMultiMachines {
                             .aisle("   AALAA   ", "   ABBBA   ", "   ABBBA   ", "   ABBBA   ", "   ABBBA   ", "   ABBBA   ", "   ABBBA   ", "   ABBBA   ", "   CCCCC   ", "   DBBBD   ", "   DBBBD   ", "   DBBBD   ", "   DBBBD   ", "   DBBBD   ", "   DBBBD   ", "   DDDDD   ", "   DDDDD   ")
                             .where("L", controller(blocks(definition.get())))
                             .where("A", blocks(GeneratorsBlocks.FUSION_REACTOR_FRAME.getBlock())
-                                    .or(autoAbilities(definition.getRecipeTypes())))
+                                    .or(autoAbilities(definition.getRecipeTypes()))
+                                    .or(abilities(PartAbility.OUTPUT_LASER).setMaxGlobalLimited(1)))
                             .where("C", blocks(FIREBOX_STEEL.get()))
                             .where("B", blocks(GeneratorsBlocks.REACTOR_GLASS.getBlock()))
                             .where("E", blocks(GeneratorsBlocks.FISSION_FUEL_ASSEMBLY.getBlock()))
@@ -287,9 +289,8 @@ public final class SFTMultiMachines {
     public static final MachineDefinition GREENHOUSE = REGISTRATE.multiblock("greenhouse",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
-            .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT)
+            .recipeModifiers(OC_NON_PERFECT, BATCH_MODE)
             .appearanceBlock(CASING_STEEL_SOLID)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -314,11 +315,57 @@ public final class SFTMultiMachines {
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
             .register();
 
+    public static final MachineDefinition LARGE_GREENHOUSE = REGISTRATE.multiblock("large_greenhouse",
+                    WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
+            .recipeModifiers(PARALLEL_HATCH, GCYM_MACHINE_REDUCE, OC_HALF_PERFECT, BATCH_MODE)
+            .tooltips(
+                    Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
+                    Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
+                            Component.translatable("sftcore.greenhouse")),
+                    Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", GCYM_EUT_MULTIPLIER),
+                    Component.translatable("sftcore.multiblock.time_multiplier.tooltip", GCYM_DURATION_MULTIPLIER),
+                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip"),
+                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1")
+            )
+            .appearanceBlock(CASING_STAINLESS_CLEAN)
+            .pattern(definition ->
+                    FactoryBlockPattern.start()
+                            .aisle("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "                             ")
+                            .aisle("ADDDDDDDDDDDDDDDDDDDDDDDDDDDA", "A                           A", "B                           B", "B                           B", "B                           B", "B                           B", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB")
+                            .aisle("ADEEEEEEEEEEEEEEEEEEEEEEEEEDA", "A                           A", "C                           C", "C                           C", "C                           C", "B                           B", "BFFFFFFFFFFFFFFFFFFFFFFFFFFFB")
+                            .aisle("ADEEEEEEEEEEEEEEEEEEEEEEEEEDA", "A                           A", "C                           C", "C                           C", "C                           C", "B                           B", "BGGGGGGGGGGGGGGGGGGGGGGGGGGGB")
+                            .aisle("ADDDDDDDDDDDDDDDDDDDDDDDDDDDA", "A                           A", "C                           C", "C                           C", "C                           C", "B                           B", "BFFFFFFFFFFFFFFFFFFFFFFFFFFFB")
+                            .aisle("ADHHHHHHHHHHHHHHHHHHHHHHHHHDA", "A                           A", "C                           B", "C                           B", "C                           B", "B                           B", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB")
+                            .aisle("ADAAAAAAAAAAAAAAAAAAAAAAAAADA", "A                           A", "B                           B", "B                           B", "B                           B", "B                           B", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB")
+                            .aisle("ADHHHHHHHHHHHHHHHHHHHHHHHHHDA", "A                           A", "C                           B", "C                           B", "C                           B", "B                           B", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB")
+                            .aisle("ADDDDDDDDDDDDDDDDDDDDDDDDDDDA", "A                           A", "C                           C", "C                           C", "C                           C", "B                           B", "BFFFFFFFFFFFFFFFFFFFFFFFFFFFB")
+                            .aisle("ADEEEEEEEEEEEEEEEEEEEEEEEEEDA", "A                           A", "C                           C", "C                           C", "C                           C", "B                           B", "BGGGGGGGGGGGGGGGGGGGGGGGGGGGB")
+                            .aisle("ADEEEEEEEEEEEEEEEEEEEEEEEEEDA", "A                           A", "C                           C", "C                           C", "C                           C", "B                           B", "BFFFFFFFFFFFFFFFFFFFFFFFFFFFB")
+                            .aisle("ADDDDDDDDDDDDDDDDDDDDDDDDDDDA", "A                           A", "B                           B", "B                           B", "B                           B", "B                           B", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB")
+                            .aisle("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAIAAAAAAAAAAAAAA", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "BCCCCCCCCCCCCCCCCCCCCCCCCCCCB", "                             ")
+                            .where("I", controller(blocks(definition.get())))
+                            .where("A", blocks(CASING_STAINLESS_CLEAN.get())
+                                    .or(autoAbilities(definition.getRecipeTypes()))
+                                    .or(autoAbilities(true, false, true)))
+                            .where("B", blocks(PLASTCRETE.get()))
+                            .where("C", blocks(CLEANROOM_GLASS.get()))
+                            .where("D", blocks(CASING_STAINLESS_CLEAN.get()))
+                            .where("E", blocks(Blocks.MOSS_BLOCK))
+                            .where("F", blocks(FILTER_CASING.get()))
+                            .where("G", blocks(LAMPS.get(DyeColor.WHITE).get()))
+                            .where("H", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                            .build())
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+                    GTCEu.id("block/multiblock/gcym/large_mixer"))
+            .register();
+
     public static final MachineDefinition OIL_DRILLING_RIG = REGISTRATE.multiblock("oil_drilling_rig",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(SFTRecipeTypes.OIL_DRILLING_RECIPES)
-            .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT)
+            .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT, BATCH_MODE)
             .appearanceBlock(CASING_STEEL_SOLID)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -333,6 +380,41 @@ public final class SFTMultiMachines {
                             .where("B", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
                             .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    GTCEu.id("block/multiblock/gcym/large_mixer"))
+            .register();
+
+    public static final MachineDefinition LARGE_GAS_COLLECTOR = REGISTRATE.multiblock("large_gas_collector", WorkableElectricMultiblockMachine::new)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(SFTRecipeTypes.LARGE_GAS_COLLECTOR_RECIPES)
+            .recipeModifiers(SFTRecipeModifiers::gasCollectorParallel, OC_NON_PERFECT, BATCH_MODE)
+            .appearanceBlock(CASING_STRESS_PROOF)
+            .tooltips(Component.translatable("sftcore.machine.large_gas_collector.tooltip.1"))
+            .pattern(definition ->
+                    FactoryBlockPattern.start()
+                            .aisle(" AAA   AAA ", " BBB   BBB ", " BBB   BBB ", " BBBCCCBBB ", " BBB   BBB ", " BBB   BBB ", " BBB   BBB ", "           ")
+                            .aisle("AAAAA AAAAA", "B   B B   B", "B   B B   B", "B   BCB   B", "B   B B   B", "B   B B   B", "B   B B   B", " BBB   BBB ")
+                            .aisle("AAAAA AAAAA", "B D B B D B", "B D B B D B", "B D BCB D B", "B D B B D B", "B D B B D B", "B D B B D B", " BBB   BBB ")
+                            .aisle("AAAAA AAAAA", "B   B B   B", "B   B B   B", "B E BCB E B", "B   B B   B", "B   B B   B", "B   B B   B", " BBB   BBB ")
+                            .aisle(" AAA   AAA ", " BBB   BBB ", " BBB   BBB ", " BEB C BEB ", " BBB   BBB ", " BBB   BBB ", " BBB   BBB ", "           ")
+                            .aisle("           ", "           ", "  C     C  ", " CECCCCCEC ", "  C     C  ", "           ", "           ", "           ")
+                            .aisle(" AAAAAAAAA ", " AAAAAAAAA ", " AAAAAAAAA ", " AEAAAAAAA ", " AAAAAAAAA ", "           ", "           ", "           ")
+                            .aisle("AAAAAAAAAAA", " A       A ", " A       A ", " A       A ", "AFFFFFFFFFA", "           ", "           ", "           ")
+                            .aisle("AAAAAAAAAAA", "A         A", "A         A", "A         A", "AFFFFFFFFFA", "           ", "           ", "           ")
+                            .aisle("AAAAAAAAAAA", "A         A", "A         A", "A         A", "AFFFFFFFFFA", "           ", "           ", "           ")
+                            .aisle("AAAAAAAAAAA", " A       A ", " A       A ", " A       A ", "AFFFFFFFFFA", "           ", "           ", "           ")
+                            .aisle(" GGGGGGGGG ", "  GGGGGGG  ", "  GGGHGGG  ", "  GGGGGGG  ", " GGGGGGGGG ", "           ", "           ", "           ")
+                            .where("H", controller(blocks(definition.get())))
+                            .where("A", blocks(CASING_STRESS_PROOF.get()))
+                            .where("B", blocks(CASING_CORROSION_PROOF.get()))
+                            .where("C", blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                            .where("D", blocks(HERMETIC_CASING_IV.get()))
+                            .where("E", blocks(CASING_STEEL_PIPE.get()))
+                            .where("F", blocks(CASING_GRATE.get()))
+                            .where("G", blocks(CASING_STRESS_PROOF.get())
+                                    .or(autoAbilities(definition.getRecipeTypes()))
+                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                            .build())
+            .workableCasingModel(GTCEu.id("block/casings/gcym/stress_proof_casing"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
             .register();
 
@@ -373,14 +455,12 @@ public final class SFTMultiMachines {
                     Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.1"),
                     Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.2"))
             .additionalDisplay((controller, components) -> {
-                // spotless:off
                 if (controller instanceof CoilWorkableElectricMultiblockMachine coilMachine && controller.isFormed()) {
                     components.add(Component.translatable("gtceu.multiblock.blast_furnace.max_temperature",
                             Component.translatable(FormattingUtil.formatNumbers(coilMachine.getCoilType().getCoilTemperature() +
                                             100L * Math.max(0, coilMachine.getTier() - GTValues.MV)) + "K")
                                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED))));
                 }
-                // spotless:on
             })
             .register();
 
@@ -444,7 +524,10 @@ public final class SFTMultiMachines {
                     Component.translatable("sftcore.multiblock.mega_reduce_with_coil"),
                     Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1"),
                     Component.translatable("sftcore.multiblock.perfect_overclock.tooltip"),
-                    Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"))
+                    Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"),
+                    Component.translatable("sftcore.machine.allow_laser"),
+                    Component.translatable("sftcore.machine.allow_laser.1")
+            )
             .appearanceBlock(CASING_PTFE_INERT)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -457,7 +540,8 @@ public final class SFTMultiMachines {
                             .where("N", controller(blocks(definition.getBlock())))
                             .where("A", blocks(CASING_PTFE_INERT.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
-                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                    .or(abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(1)))
                             .where("C", blocks(CASING_LAMINATED_GLASS.get()))
                             .where("B", blocks(CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                             .where("D", heatingCoils())
@@ -506,7 +590,10 @@ public final class SFTMultiMachines {
                             "sftcore.multiblock.time_multiplier.tooltip", 0.6
                     ),
                     Component.translatable("sftcore.multiblock.mega_reduce_with_coil"),
-                    Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1"))
+                    Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1"),
+                    Component.translatable("sftcore.machine.allow_laser"),
+                    Component.translatable("sftcore.machine.allow_laser.1")
+            )
             .appearanceBlock(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -530,6 +617,7 @@ public final class SFTMultiMachines {
                             .where("B", blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
                                     .or(autoAbilities(true, false, true))
+                                    .or(abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(1))
                             )
                             .where("C", blocks(CASING_EXTREME_ENGINE_INTAKE.get()))
                             .where("D", blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()))
