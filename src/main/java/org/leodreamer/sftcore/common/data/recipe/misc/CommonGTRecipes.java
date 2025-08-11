@@ -1,10 +1,12 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import appeng.core.definitions.AEParts;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -15,8 +17,10 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.SFTMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -24,7 +28,10 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.ROBOT_ARM_HV;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.PACKER_RECIPES;
+import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.FRAME;
+import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.PIPE_NORMAL;
 import static net.minecraft.world.item.Items.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.*;
 
@@ -36,6 +43,7 @@ public final class CommonGTRecipes {
         greenhouseRecipes(provider);
         universalCircuitRecipes(provider);
         largeGasCollectorRecipes(provider);
+        dualHatchRecipes(provider);
     }
 
     private static void transitionStageRecipes(Consumer<FinishedRecipe> provider) {
@@ -300,5 +308,54 @@ public final class CommonGTRecipes {
         else
             builder.circuitMeta(1);
         builder.save(provider);
+    }
+
+    private static void dualHatchRecipes(Consumer<FinishedRecipe> provider) {
+        Material[] fluidMap = new Material[]{GTMaterials.Glue, GTMaterials.Polyethylene,
+                GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole};
+
+        for (var machine : SFTMachines.DUAL_IMPORT_HATCH) {
+            if (machine == null) continue;
+            int tier = machine.getTier();
+            int j = Math.min(fluidMap.length - 1, tier / 2);
+            for (; j < fluidMap.length; j++) {
+                int fluidAmount = GTValues.L * 8 * (tier + 1);
+                ASSEMBLER_RECIPES
+                        .recipeBuilder(
+                                SFTCore.id("dual_import_bus_" + VN[tier].toLowerCase(Locale.ROOT) + "_" + fluidMap[j].getName()))
+                        .inputItems(ITEM_IMPORT_BUS[tier])
+                        .inputItems(FLUID_IMPORT_HATCH[tier])
+                        .inputItems(PIPE_NORMAL.get(tier), 2)
+                        .inputItems(FRAME.get(tier), 3)
+                        .circuitMeta(1)
+                        .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
+                        .outputItems(machine)
+                        .duration(100)
+                        .EUt(VA[tier])
+                        .save(provider);
+            }
+        }
+
+        for (var machine : SFTMachines.DUAL_EXPORT_HATCH) {
+            if (machine == null) continue;
+            int tier = machine.getTier();
+            int j = Math.min(fluidMap.length - 1, tier / 2);
+            for (; j < fluidMap.length; j++) {
+                int fluidAmount = GTValues.L * 8 * (tier + 1);
+                ASSEMBLER_RECIPES
+                        .recipeBuilder(
+                                SFTCore.id("dual_export_bus_" + VN[tier].toLowerCase(Locale.ROOT) + "_" + fluidMap[j].getName()))
+                        .inputItems(ITEM_IMPORT_BUS[tier])
+                        .inputItems(FLUID_IMPORT_HATCH[tier])
+                        .inputItems(PIPE_NORMAL.get(tier), 2)
+                        .inputItems(FRAME.get(tier), 3)
+                        .circuitMeta(2)
+                        .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
+                        .outputItems(machine)
+                        .duration(100)
+                        .EUt(VA[tier])
+                        .save(provider);
+            }
+        }
     }
 }

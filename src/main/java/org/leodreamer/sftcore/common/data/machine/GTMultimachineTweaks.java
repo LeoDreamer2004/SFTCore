@@ -1,10 +1,14 @@
 package org.leodreamer.sftcore.common.data.machine;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import net.minecraft.network.chat.Component;
 
+import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_EXPORT_HATCH;
+import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_IMPORT_HATCH;
 import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers.*;
@@ -13,6 +17,7 @@ public class GTMultimachineTweaks {
 
     public static void init() {
         ParallelHatchTweaks();
+        DualHatchTweaks();
         GTMultiTweaks();
         GTPerfectTweaks();
         GCYMTweaks();
@@ -31,6 +36,33 @@ public class GTMultimachineTweaks {
                             }
                     )
             );
+        }
+    }
+
+    public static void DualHatchTweaks() {
+        for (int tier : GTValues.ALL_TIERS) {
+            // mixin
+            for (var hatch : new MachineDefinition[]{DUAL_IMPORT_HATCH[tier], DUAL_EXPORT_HATCH[tier]}) {
+                if (hatch == null) continue;
+                hatch.setTooltipBuilder(
+                        hatch.getTooltipBuilder().andThen((itemStack, components) -> {
+                                    var shareEnabled = components.remove(components.size() - 1);
+                                    components.remove(components.size() - 1); // fluid storage
+                                    components.remove(components.size() - 1); // item storage
+                                    components.add(Component.translatable(
+                                            "gtceu.universal.tooltip.item_storage_capacity",
+                                            (int) Math.pow(tier, 2)));
+                                    components.add(Component.translatable(
+                                            "gtceu.universal.tooltip.fluid_storage_capacity_mult",
+                                            tier,
+                                            DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
+                                                    tier)));
+                                    components.add(shareEnabled);
+                                    components.add(Component.translatable("sftcore.machine.modified_by_sft"));
+                                }
+                        )
+                );
+            }
         }
     }
 

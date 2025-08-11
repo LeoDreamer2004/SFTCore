@@ -19,7 +19,7 @@ public abstract class GTParallelHatchMixin {
     private int maxParallel;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void gtceu$modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
+    private void parallelHatch$modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
         this.maxParallel *= 16;
         this.setCurrentParallel(this.maxParallel);
     }
@@ -28,7 +28,7 @@ public abstract class GTParallelHatchMixin {
     public abstract void setCurrentParallel(int parallelAmount);
 
     @Inject(method = "canShared", at = @At("HEAD"), cancellable = true, remap = false)
-    private void gtceu$canShared(CallbackInfoReturnable<Boolean> cir) {
+    private void parallelHatch$canShared(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }
 }
