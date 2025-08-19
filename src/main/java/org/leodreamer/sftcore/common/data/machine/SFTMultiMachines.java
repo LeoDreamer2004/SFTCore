@@ -206,11 +206,12 @@ public final class SFTMultiMachines {
                     Component.translatable("sftcore.machine.common_factory.tooltip.2"),
                     Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", 0.9),
                     Component.translatable("sftcore.multiblock.time_multiplier.tooltip", 0.8),
-                    Component.translatable("sftcore.multiblock.structure_come_from", "GTL")
+                    Component.translatable("sftcore.structure_come_from", "GregTech Leisure")
             )
             .recipeModifiers(
                     SFTRecipeModifiers::commonFactoryParallel,
                     new SimpleMultiplierModifier(0.9, 0.8),
+                    BATCH_MODE,
                     OC_NON_PERFECT
             )
             .appearanceBlock(MULTI_FUNCTIONAL_CASING)

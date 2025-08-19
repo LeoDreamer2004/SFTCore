@@ -23,7 +23,7 @@ public final class SFTBlocks {
     public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock(
             "multi_functional_casing",
             SFTCore.id("block/casings/solid/multi_functional_casing"),
-            Component.translatable("sftcore.block.texture_come_from", "GTO")
+            Component.translatable("sftcore.texture_come_from", "GregTech Odyssey")
     );
 
     public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture, Component... tooltips) {

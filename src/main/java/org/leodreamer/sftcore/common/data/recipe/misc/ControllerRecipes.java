@@ -46,7 +46,7 @@ public final class ControllerRecipes {
 
         SFTVanillaRecipeHelper.addShapedRecipe("mega_vacuum_freezer")
                 .pattern("ABA", "CDC", "EFE")
-                .arg('A', new MaterialEntry(pipeNormalItem, NiobiumTitanium))
+                .arg('A', new MaterialEntry(pipeNormalFluid, NiobiumTitanium))
                 .arg('B', CustomTags.ZPM_CIRCUITS)
                 .arg('C', FIELD_GENERATOR_ZPM)
                 .arg('D', VACUUM_FREEZER)

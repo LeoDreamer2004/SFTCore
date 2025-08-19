@@ -1,4 +1,4 @@
-// 1.20.1	2025-08-11T14:46:49.155463015	Registrate Provider for sftcore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2025-08-19T19:12:42.07563693	Registrate Provider for sftcore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 bf246669aaf876441016cacf1449710cfe73f109 assets/sftcore/blockstates/certus_quartz_charger.json
 b6cf69088eb8fb4bdea6d079f74a6ce88c2aa65f assets/sftcore/blockstates/chemical_factory.json
 e2739c053b7160761e7cd841a7aa04d3c6212ed4 assets/sftcore/blockstates/common_factory.json
@@ -29,8 +29,8 @@ c84470bf97ca54603d78fe23c5533215ea9be74f assets/sftcore/blockstates/mv_dual_outp
 7936981358786f88f096ca3bde7d0e30de515702 assets/sftcore/blockstates/oil_drilling_rig.json
 874a09e6afd7384bf7538e890de209b8ec25ae23 assets/sftcore/blockstates/ore_replicator.json
 ae0b283ec0b46996a81b55c816395cbe93265cc5 assets/sftcore/blockstates/semiconductor_blast_furnace.json
-f944ce624c4427b5f7064ad7c9aaeaf105276210 assets/sftcore/lang/en_ud.json
-1f9b6c3302c8966efcb349a2d74a19fd1744fbdb assets/sftcore/lang/en_us.json
+f998430243fb348339289c83c375e2dcbb57f4fc assets/sftcore/lang/en_ud.json
+1e69e984878725dc83daa2f7c731f1343a6e37f4 assets/sftcore/lang/en_us.json
 eb2522f1b05c40b9b02586eb467bb6e5ab73db96 assets/sftcore/models/block/machine/certus_quartz_charger.json
 7b4609460a701619cfe37b675cce18f947557c1c assets/sftcore/models/block/machine/chemical_factory.json
 5227918c08d698b73080358442d05d4abd27151c assets/sftcore/models/block/machine/common_factory.json
@@ -99,6 +99,7 @@ e449ab571c4438b6b5e5a297e8fd9fcdd2c3a17d assets/sftcore/models/item/oil_drilling
 ed2db5299e8beb984faa74e82d685a466034b635 assets/sftcore/models/item/ore_replicator.json
 a635a8a0d5663bfff61a9cd42b7938b8752eb892 assets/sftcore/models/item/select_stick.json
 3ed83c5edba44b34db8c34fd6da2dcb7a242dbf5 assets/sftcore/models/item/semiconductor_blast_furnace.json
+6e366546ecabb21c36f4358a05090593c582af14 assets/sftcore/models/item/time_bottle.json
 c5064b38d917ee8d5bddca37ef03dd7bfd6a6b0d assets/sftcore/models/item/uhv_universal_circuit.json
 64e9793a846cb6446824d92584ccee23ac7822c9 assets/sftcore/models/item/ulv_universal_circuit.json
 04ead15e57dbb3a9341d16de5e94626a85808da1 assets/sftcore/models/item/uu_matter.json

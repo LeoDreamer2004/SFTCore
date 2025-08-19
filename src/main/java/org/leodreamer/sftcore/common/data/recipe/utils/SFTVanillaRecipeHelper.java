@@ -33,7 +33,7 @@ public class SFTVanillaRecipeHelper {
 
         public ShapedRecipeBuilder pattern(String... patterns) {
             if (!recipe.isEmpty()) {
-                SFTCore.LOGGER.warn("Please define the pattern before adding any arguments to the recipe.");
+                throw new IllegalArgumentException("Please define the pattern before adding any arguments to the recipe.");
             }
             recipe.addAll(Arrays.asList(patterns));
             return this;

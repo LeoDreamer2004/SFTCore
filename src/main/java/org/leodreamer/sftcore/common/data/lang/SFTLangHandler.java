@@ -17,6 +17,32 @@ public class SFTLangHandler extends LangHandler {
         }
         //// Cover the tooltip of GTCEu ////
 
+        // circuit
+        provider.add("item.gtceu.basic_integrated_circuit.tooltip.0", "§7Cheaper Circuits");
+        provider.add("item.gtceu.good_integrated_circuit.tooltip.0", "§7Smaller and More Powerful");
+        provider.add("item.gtceu.advanced_integrated_circuit.tooltip.0", "§7Integrated Manufacturing, Trustworthy and Reliable");
+
+        provider.add("item.gtceu.micro_processor.tooltip.0", "§7Transistors Packed Tight");
+        provider.add("item.gtceu.micro_processor_assembly.tooltip.0", "§7Exquisitely Crafted");
+        provider.add("item.gtceu.micro_processor_computer.tooltip.0", "§7Intricately Interconnected Circuits");
+        provider.add("item.gtceu.micro_processor_mainframe.tooltip.0", "§7Amazing Computation Speed!");
+
+        provider.add("item.gtceu.nano_processor.tooltip.0", "§7Advanced Nanotechnology");
+        provider.add("item.gtceu.nano_processor_assembly.tooltip.0", "§7Smaller than Ever");
+        provider.add("item.gtceu.nano_processor_computer.tooltip.0", "§7Process Nearing Picometer");
+        provider.add("item.gtceu.nano_processor_mainframe.tooltip.0", "§7The Limit of Moore's Law");
+
+        provider.add("item.gtceu.quantum_processor.tooltip.0", "§7Quantum Superposition");
+        provider.add("item.gtceu.quantum_processor_assembly.tooltip.0", "§7Around Thirty Thousand Hadamard Gates");
+        provider.add("item.gtceu.quantum_processor_computer.tooltip.0", "§7Error Rate Less Than One in a Billion");
+        provider.add("item.gtceu.quantum_processor_mainframe.tooltip.0", "§7Quantum Computing Comes to Life!");
+
+        provider.add("item.gtceu.crystal_processor.tooltip.0", "§7Taking Advantage of Crystal Engraving");
+        provider.add("item.gtceu.crystal_processor_assembly.tooltip.0", "§7As If You Can Hear the Crystals Grow");
+        provider.add("item.gtceu.crystal_processor_computer.tooltip.0", "§7Perfect Unit Cells");
+        provider.add("item.gtceu.crystal_processor_mainframe.tooltip.0", "§7The Strongest Inorganic Creation");
+
+        // multiblock
         provider.add("gtceu.multiblock.parallelizable.tooltip", "§co §lParallelizable§r");
         provider.add("gtceu.part_sharing.disabled", "§e- Sharing: §4✘§r");
         provider.add("gtceu.part_sharing.enabled", "§e- Sharing: §a✔§r");
@@ -47,9 +73,13 @@ public class SFTLangHandler extends LangHandler {
         provider.add("commands.sftcore.dump.success.link", "[Open the file]");
         provider.add("commands.sftcore.dump.failure", "Dump failed.");
 
-        // blocks
-        provider.add("sftcore.block.texture_come_from", "Textures come from: %s");
-        provider.add("sftcore.multiblock.structure_come_from", "Structures come from: %s");
+        // blocks and items
+        provider.add("sftcore.texture_come_from", "Textures come from: %s");
+        provider.add("sftcore.structure_come_from", "Structures come from: %s");
+
+        provider.add("item.sftcore.time_bottle.tooltip", "Right click on a machine and finish the current recipe instantly with the wireless energy.");
+        provider.add("item.sftcore.time_bottle.energy_lack", "Your wireless energy DOES NOT support the machine acceleration.");
+        provider.add("item.sftcore.time_bottle.accelerate", "Using %s EU, accelerate the machine with %d ticks");
 
         // recipe modifiers
         provider.add("sftcore.multiblock.half_perfect_overclock.tooltip", "§do §lHalf Perfect Overclock§r");

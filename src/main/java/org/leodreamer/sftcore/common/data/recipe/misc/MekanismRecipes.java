@@ -24,14 +24,13 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.MEKANISM_
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.MEKANISM_PROCESSING_RECIPES;
 
 public final class MekanismRecipes {
-    public static void
-    init(Consumer<FinishedRecipe> provider) {
+    public static void init(Consumer<FinishedRecipe> provider) {
         MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/steel"))
                 .outputItems(MekanismItems.STEEL_INGOT, 4)
                 .inputItems(ingot, Iron, 4)
                 .inputItems(gem, Coal)
                 .circuitMeta(1)
-                .duration(60)
+                .duration(20)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -40,7 +39,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Osmium, 4)
                 .inputItems(dust, Redstone)
                 .circuitMeta(1)
-                .duration(30)
+                .duration(10)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -49,7 +48,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Iron, 8)
                 .inputItems(dust, Redstone)
                 .circuitMeta(1)
-                .duration(60)
+                .duration(20)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -58,7 +57,7 @@ public final class MekanismRecipes {
                 .inputItems(MekanismItems.INFUSED_ALLOY, 4)
                 .inputItems(gem, Diamond)
                 .circuitMeta(1)
-                .duration(30)
+                .duration(10)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -67,7 +66,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Obsidian, 8)
                 .inputItems(gem, Diamond)
                 .circuitMeta(1)
-                .duration(60)
+                .duration(20)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -76,7 +75,7 @@ public final class MekanismRecipes {
                 .inputItems(MekanismItems.REINFORCED_ALLOY, 2)
                 .inputItems(MekanismItems.REFINED_OBSIDIAN_DUST)
                 .circuitMeta(1)
-                .duration(15)
+                .duration(5)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -85,7 +84,7 @@ public final class MekanismRecipes {
                 .inputItems(block, Clay)
                 .inputItems(MekanismItems.BIO_FUEL, 8)
                 .circuitMeta(1)
-                .duration(15)
+                .duration(5)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -94,7 +93,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Clay)
                 .inputItems(MekanismItems.BIO_FUEL, 2)
                 .circuitMeta(1)
-                .duration(15)
+                .duration(5)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -103,7 +102,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Tin)
                 .inputItems(ingot, Copper, 24)
                 .circuitMeta(1)
-                .duration(60)
+                .duration(20)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -112,7 +111,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Tin)
                 .inputItems(ingot, Copper, 24)
                 .circuitMeta(1)
-                .duration(60)
+                .duration(20)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -121,7 +120,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Tin)
                 .inputItems(dust, Copper, 24)
                 .circuitMeta(1)
-                .duration(60)
+                .duration(20)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -130,7 +129,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Tin)
                 .inputItems(dust, Copper, 24)
                 .circuitMeta(1)
-                .duration(60)
+                .duration(20)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -139,7 +138,7 @@ public final class MekanismRecipes {
                 .inputItems(MekanismItems.REFINED_OBSIDIAN_DUST, 2)
                 .inputItems(ingot, Osmium)
                 .circuitMeta(2)
-                .duration(30)
+                .duration(10)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -148,7 +147,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Glowstone, 2)
                 .inputItems(ingot, Osmium)
                 .circuitMeta(2)
-                .duration(30)
+                .duration(10)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -156,7 +155,7 @@ public final class MekanismRecipes {
                 .outputItems(MekanismItems.OBSIDIAN_DUST, 4)
                 .inputItems(Blocks.OBSIDIAN.asItem())
                 .circuitMeta(3)
-                .duration(15)
+                .duration(5)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -164,7 +163,7 @@ public final class MekanismRecipes {
                 .outputItems(Items.GRAVEL)
                 .inputItems(gem, Flint)
                 .circuitMeta(3)
-                .duration(15)
+                .duration(5)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -188,7 +187,7 @@ public final class MekanismRecipes {
                 .outputItems(MekanismItems.ANTIMATTER_PELLET)
                 .inputFluids(FilteredPolonium.getFluid(10000))
                 .circuitMeta(5)
-                .duration(300)
+                .duration(100)
                 .EUt(VA[HV])
                 .save(provider);
 
@@ -196,7 +195,7 @@ public final class MekanismRecipes {
                 .outputItems(Items.GUNPOWDER)
                 .inputItems(gem, Flint)
                 .circuitMeta(6)
-                .duration(15)
+                .duration(5)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -265,7 +264,7 @@ public final class MekanismRecipes {
                 .inputFluids(EnergeticFissileFuel.getFluid(700))
                 .outputFluids(FilteredPlutonium.getFluid(1))
                 .circuitMeta(1)
-                .duration(113000)
+                .duration(111000)
                 .EUt(-V[MV])
                 .save(provider);
 
@@ -279,9 +278,9 @@ public final class MekanismRecipes {
 
         MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_2"))
                 .inputFluids(EnergeticFissileFuel.getFluid(700))
-                .outputFluids(FilteredPolonium.getFluid(2))
-                .circuitMeta(1)
-                .duration(113000)
+                .outputFluids(FilteredPolonium.getFluid(1))
+                .circuitMeta(2)
+                .duration(111000)
                 .EUt(-V[MV])
                 .save(provider);
 
@@ -297,7 +296,7 @@ public final class MekanismRecipes {
                 .inputFluids(EnergeticFissileFuel.getFluid(700))
                 .outputFluids(EnergeticFissileFuel.getFluid(500))
                 .circuitMeta(3)
-                .duration(113000)
+                .duration(111000)
                 .EUt(-V[MV])
                 .save(provider);
     }
@@ -311,7 +310,7 @@ public final class MekanismRecipes {
                     .outputItems(MekanismItems.BIO_FUEL, amount)
                     .inputItems(ingredient)
                     .circuitMeta(6)
-                    .duration(15)
+                    .duration(5)
                     .EUt(VA[MV])
                     .save(provider);
         };

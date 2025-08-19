@@ -20,6 +20,7 @@ public class SFTRecipes {
         MekanismRecipes.init(provider);
         AE2Recipes.init(provider);
         ControllerRecipes.init(provider);
+        GTMTRecipes.init(provider);
     }
 
     public static @Nullable Item getItemById(String modId, String path) {

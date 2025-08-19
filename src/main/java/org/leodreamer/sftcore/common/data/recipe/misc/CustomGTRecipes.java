@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismFluids;
 import mekanism.common.registries.MekanismItems;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTMachines;
+import org.leodreamer.sftcore.common.data.SFTMaterials;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
 
 import java.util.function.Consumer;
@@ -44,6 +46,16 @@ public final class CustomGTRecipes {
                     .inputFluids(AquaRegia.getFluid(8000))
                     .duration(1200)
                     .EUt(VA[HV])
+                    .save(provider);
+
+            HURRY_UP_RECIPES.recipeBuilder(SFTCore.id("time_bottle"))
+                    .outputItems(SFTItems.TIME_BOTTLE)
+                    .inputItems(torcherino, 9)
+                    .inputItems(GTBlocks.INDUSTRIAL_TNT, 64)
+                    .inputFluids(Polyethylene.getFluid(L * 32))
+                    .inputFluids(SFTMaterials.FilteredPolonium.getFluid(1000))
+                    .duration(2000)
+                    .EUt(VA[EV])
                     .save(provider);
         }
 

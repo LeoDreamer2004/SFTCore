@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -28,16 +29,14 @@ public class SFTCore {
 
     @SuppressWarnings("removal")
     public SFTCore() {
-        SFTCreativeTabs.init();
         SFTDataGen.init();
-        SFTBlocks.init();
-        SFTItems.init();
 
         REGISTRATE.registerRegistrate();
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.register(this);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        bus.addGenericListener(CoverDefinition.class, this::registerCovers);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SFTClient::init);
     }
@@ -68,6 +67,13 @@ public class SFTCore {
     @SubscribeEvent
     public void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         SFTMachines.init();
+    }
+
+    @SubscribeEvent
+    public void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
+        SFTCreativeTabs.init();
+        SFTBlocks.init();
+        SFTItems.init();
     }
 
     @SubscribeEvent
