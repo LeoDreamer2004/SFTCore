@@ -12,7 +12,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.api.wrapper.TooltipedBlockItem;
+import org.leodreamer.sftcore.api.registry.SFTTooltips;
+import org.leodreamer.sftcore.api.wrapper.TooltipedBlockItem;
 
 import java.util.function.Supplier;
 
@@ -23,7 +24,7 @@ public final class SFTBlocks {
     public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock(
             "multi_functional_casing",
             SFTCore.id("block/casings/solid/multi_functional_casing"),
-            Component.translatable("sftcore.texture_come_from", "GregTech Odyssey")
+            SFTTooltips.textureComeFrom("GregTech Odyssey")
     );
 
     public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture, Component... tooltips) {

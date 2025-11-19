@@ -4,14 +4,17 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import net.minecraft.network.chat.Component;
+import org.leodreamer.sftcore.api.registry.SFTTooltips;
 import org.leodreamer.sftcore.common.data.machine.GTMultimachineTweaks;
 import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
-import org.leodreamer.sftcore.common.machine.ConfigurableAutoHatchMaintenancePartMachine;
 import org.leodreamer.sftcore.common.machine.OreReplicatorMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
+import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableAutoMaintenanceHatchPartMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableCleaningMaintenanceHatchPartMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHatchPartMachine;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -27,12 +30,21 @@ public final class SFTMachines {
             .rotationState(RotationState.NONE)
             .register();
 
-    public static final MachineDefinition AUTO_CONFIGURABLE_MAINTENANCE_HATCH = REGISTRATE.machine("configurable_auto_maintenance_hatch", ConfigurableAutoHatchMaintenancePartMachine::new)
+    public static final MachineDefinition CONFIGURABLE_AUTO_MAINTENANCE_HATCH = REGISTRATE.machine("configurable_auto_maintenance_hatch", ConfigurableAutoMaintenanceHatchPartMachine::new)
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .tooltips(Component.translatable("gtceu.part_sharing.disabled"))
             .overlayTieredHullModel(GTCEu.id("block/machine/part/auto_maintenance_hatch"))
             .tier(IV)
+            .register();
+
+    public static final MachineDefinition CONFIGURABLE_CLEANING_MAINTENANCE_HATCH = REGISTRATE.machine("configurable_cleaning_maintenance_hatch",
+                    (holder) -> new ConfigurableCleaningMaintenanceHatchPartMachine(holder, CleanroomType.CLEANROOM))
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.MAINTENANCE)
+            .tooltips(Component.translatable("gtceu.part_sharing.disabled"))
+            .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
+            .tier(LuV)
             .register();
 
     public static final MachineDefinition MACHINE_ADJUSTMENT = REGISTRATE.machine("machine_adjustment_hatch", MachineAdjustmentHatchPartMachine::new)
@@ -64,7 +76,7 @@ public final class SFTMachines {
                                     DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
                                             tier)),
                             Component.translatable("gtceu.part_sharing.enabled"),
-                            Component.translatable("sftcore.machine.modified_by_sft")
+                            SFTTooltips.modifiedBySFT()
                     )
                     .register(),
             GTValues.tiersBetween(LV, IV));
@@ -89,7 +101,7 @@ public final class SFTMachines {
                                     DualHatchPartMachine.getTankCapacity(
                                             DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                             Component.translatable("gtceu.part_sharing.enabled"),
-                            Component.translatable("sftcore.machine.modified_by_sft"))
+                            SFTTooltips.modifiedBySFT())
                     .register(),
             GTValues.tiersBetween(LV, IV));
 

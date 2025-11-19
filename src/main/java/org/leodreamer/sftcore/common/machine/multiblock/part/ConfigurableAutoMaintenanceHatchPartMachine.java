@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.machine;
+package org.leodreamer.sftcore.common.machine.multiblock.part;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -17,7 +17,7 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 
-public class ConfigurableAutoHatchMaintenancePartMachine extends TieredPartMachine implements IMaintenanceMachine {
+public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachine implements IMaintenanceMachine {
     @Getter
     @Persisted
     private float durationMultiplier = 1f;
@@ -27,7 +27,7 @@ public class ConfigurableAutoHatchMaintenancePartMachine extends TieredPartMachi
     private static final float DURATION_ACTION_AMOUNT = 0.2f;
 
 
-    public ConfigurableAutoHatchMaintenancePartMachine(IMachineBlockEntity holder) {
+    public ConfigurableAutoMaintenanceHatchPartMachine(IMachineBlockEntity holder) {
         super(holder, GTValues.IV);
     }
 

@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.api.wrapper;
+package org.leodreamer.sftcore.api.wrapper;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;

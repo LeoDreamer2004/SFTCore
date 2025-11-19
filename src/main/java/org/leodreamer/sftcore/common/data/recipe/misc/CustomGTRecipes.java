@@ -1,7 +1,9 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismFluids;
 import mekanism.common.registries.MekanismItems;
@@ -13,6 +15,7 @@ import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTMachines;
 import org.leodreamer.sftcore.common.data.SFTMaterials;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
 
@@ -20,8 +23,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.FIELD_GENERATOR_IV;
 import static com.gregtechceu.gtceu.common.data.GTItems.ROBOT_ARM_IV;
-import static com.gregtechceu.gtceu.common.data.GTMachines.AUTO_MAINTENANCE_HATCH;
-import static com.gregtechceu.gtceu.common.data.GTMachines.CONFIGURABLE_MAINTENANCE_HATCH;
+import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.FISHBIG_MAKER_RECIPES;
@@ -98,7 +100,7 @@ public final class CustomGTRecipes {
                 .save(provider);
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id("configurable_auto_maintenance_hatch"))
-                .outputItems(SFTMachines.AUTO_CONFIGURABLE_MAINTENANCE_HATCH)
+                .outputItems(SFTMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
                 .inputItems(frameGt, HastelloyX)
                 .inputItems(AUTO_MAINTENANCE_HATCH)
                 .inputItems(CONFIGURABLE_MAINTENANCE_HATCH, 4)
@@ -116,6 +118,15 @@ public final class CustomGTRecipes {
                         .EUt(VA[IV]))
                 .duration(300)
                 .EUt(VA[LuV])
+                .save(provider);
+
+        SFTVanillaRecipeHelper.addShapedRecipe("configurable_cleaning_maintenance_hatch")
+                .pattern("ABA", "CDC", "ABA")
+                .arg('A', CLEANING_MAINTENANCE_HATCH)
+                .arg('B', new MaterialEntry(plateDouble, RhodiumPlatedPalladium))
+                .arg('C', CustomTags.LuV_CIRCUITS)
+                .arg('D', SFTMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
+                .output(SFTMachines.CONFIGURABLE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .save(provider);
     }
 }

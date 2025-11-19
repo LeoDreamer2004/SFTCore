@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import net.minecraft.network.chat.Component;
@@ -16,6 +18,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.api.registry.SFTTooltips;
 
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +49,8 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
             return false;
         }
 
-        if (machine.getDefinition() instanceof MultiblockMachineDefinition mmd && mmd.isGenerator()) {
+        GTRecipe recipe = logic.getLastOriginRecipe();
+        if (recipe == null || recipe.getOutputEUt().getTotalEU() > 0) {
             return false;
         }
 
@@ -71,6 +75,6 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         tooltipComponents.add(Component.translatable("item.sftcore.time_bottle.tooltip"));
-        tooltipComponents.add(Component.translatable("sftcore.texture_come_from", "Time In a Bottle"));
+        tooltipComponents.add(SFTTooltips.textureComeFrom("Time In a Bottle"));
     }
 }

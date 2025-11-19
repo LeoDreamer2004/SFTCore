@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import net.minecraft.network.chat.Component;
+import org.leodreamer.sftcore.api.registry.SFTTooltips;
 
 import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_EXPORT_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_IMPORT_HATCH;
@@ -32,7 +33,7 @@ public class GTMultimachineTweaks {
                     hatch.getTooltipBuilder().andThen((itemStack, components) -> {
                                 components.remove(components.size() - 1); // sharing disabled
                                 components.add(Component.translatable("gtceu.part_sharing.enabled"));
-                                components.add(Component.translatable("sftcore.machine.modified_by_sft"));
+                                components.add(SFTTooltips.modifiedBySFT());
                             }
                     )
             );
@@ -58,7 +59,7 @@ public class GTMultimachineTweaks {
                                             DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
                                                     tier)));
                                     components.add(shareEnabled);
-                                    components.add(Component.translatable("sftcore.machine.modified_by_sft"));
+                                    components.add(SFTTooltips.modifiedBySFT());
                                 }
                         )
                 );
@@ -91,7 +92,7 @@ public class GTMultimachineTweaks {
                                 Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1")
                         );
                         components.add(
-                                Component.translatable("sftcore.machine.modified_by_sft")
+                                SFTTooltips.modifiedBySFT()
                         );
                     })
             );
@@ -141,9 +142,9 @@ public class GTMultimachineTweaks {
         for (var machine : machines) {
             machine.setRecipeModifier(
                     new RecipeModifierList(
+                            GTRecipeModifiers.PARALLEL_HATCH,
                             OC_HALF_PERFECT_SUBTICK,
                             GCYM_MACHINE_REDUCE,
-                            GTRecipeModifiers.PARALLEL_HATCH,
                             GTRecipeModifiers.BATCH_MODE
                     )
             );
@@ -163,7 +164,7 @@ public class GTMultimachineTweaks {
                                 Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1")
                         );
                         components.add(
-                                Component.translatable("sftcore.machine.modified_by_sft")
+                                SFTTooltips.modifiedBySFT()
                         );
                     })
             );
@@ -174,10 +175,10 @@ public class GTMultimachineTweaks {
         MEGA_BLAST_FURNACE.setRecipeModifier(
                 new RecipeModifierList(
                         GTRecipeModifiers.PARALLEL_HATCH,
-                        GTRecipeModifiers.BATCH_MODE,
                         GTRecipeModifiers::ebfOverclock,
                         GCYM_MACHINE_REDUCE,
-                        MEGA_COIL_MACHINE_REDUCE
+                        MEGA_COIL_MACHINE_REDUCE,
+                        GTRecipeModifiers.BATCH_MODE
                 )
         );
 
@@ -196,7 +197,7 @@ public class GTMultimachineTweaks {
                             Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1")
                     );
                     components.add(
-                            Component.translatable("sftcore.machine.modified_by_sft")
+                            SFTTooltips.modifiedBySFT()
                     );
                 })
         );

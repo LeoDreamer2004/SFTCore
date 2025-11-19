@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ParallelHatchPartMachine.class)
-public abstract class GTParallelHatchMixin {
+public abstract class ParallelHatchMixin {
     @Mutable
     @Final
     @Shadow(remap = false)

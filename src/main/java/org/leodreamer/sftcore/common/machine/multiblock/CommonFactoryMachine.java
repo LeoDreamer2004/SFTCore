@@ -14,7 +14,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.common.api.feature.IMachineAdjustment;
+import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
 
 import java.util.List;
 

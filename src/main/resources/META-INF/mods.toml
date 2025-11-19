@@ -9,6 +9,9 @@ displayName = "${mod_name}"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
 
+[[mods.mixinConfigs]]
+config = "sftcore.mixins.json"
+
 [[dependencies."${mod_id}"]]
 modId = "forge"
 mandatory = true

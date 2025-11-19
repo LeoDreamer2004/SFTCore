@@ -80,6 +80,10 @@ public class SFTVanillaRecipeHelper {
     }
 
     public static ShapedRecipeBuilder addShapedRecipe(String id) {
-        return new ShapedRecipeBuilder(SFTCore.id(id));
+        return addShapedRecipe(SFTCore.id(id));
+    }
+
+    public static ShapedRecipeBuilder addShapedRecipe(ResourceLocation id) {
+        return new ShapedRecipeBuilder(id);
     }
 }

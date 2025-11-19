@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.api.feature;
+package org.leodreamer.sftcore.api.feature;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;

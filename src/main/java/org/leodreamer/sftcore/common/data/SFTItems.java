@@ -2,9 +2,11 @@ package org.leodreamer.sftcore.common.data;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.Item;
+import org.leodreamer.sftcore.api.registry.SFTTooltips;
 import org.leodreamer.sftcore.common.item.SelectStickItem;
 import org.leodreamer.sftcore.common.item.behavior.TimeBottleBehavior;
 
@@ -31,7 +33,7 @@ public final class SFTItems {
             REGISTRATE.item("incomplete_uu_matter", Item::new).lang("Incomplete UU Matter").register();
 
     @SuppressWarnings("unchecked")
-    public static final ItemEntry<Item>[] UNIVERSAL_CIRCUITS = new ItemEntry[]{
+    public static final ItemEntry<ComponentItem>[] UNIVERSAL_CIRCUITS = new ItemEntry[]{
             registerUniversalCircuit(GTValues.ULV),
             registerUniversalCircuit(GTValues.LV),
             registerUniversalCircuit(GTValues.MV),
@@ -44,11 +46,13 @@ public final class SFTItems {
             registerUniversalCircuit(GTValues.UHV)
     };
 
-    private static ItemEntry<Item> registerUniversalCircuit(int tier) {
+    private static ItemEntry<ComponentItem> registerUniversalCircuit(int tier) {
         var name = GTValues.VN[tier].toLowerCase();
-        return REGISTRATE.item("%s_universal_circuit".formatted(name), Item::new)
+        return REGISTRATE.item("%s_universal_circuit".formatted(name), ComponentItem::create)
                 .lang("%s §rUniversal Circuit".formatted(GTValues.VNF[tier]))
-                .tag(CustomTags.CIRCUITS_ARRAY[tier]).register();
+                .tag(CustomTags.CIRCUITS_ARRAY[tier])
+                .onRegister(attach(new TooltipBehavior(lines -> lines.add(SFTTooltips.textureComeFrom("GregTech New Horizon")))))
+                .register();
     }
 
     public static void init() {

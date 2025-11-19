@@ -76,12 +76,14 @@ public class SFTLangHandler extends LangHandler {
         // blocks and items
         provider.add("sftcore.texture_come_from", "Textures come from: %s");
         provider.add("sftcore.structure_come_from", "Structures come from: %s");
+        provider.add("sftcore.modified_by_sft", "* Modified By SFT *");
 
         provider.add("item.sftcore.time_bottle.tooltip", "Right click on a machine and finish the current recipe instantly with the wireless energy.");
         provider.add("item.sftcore.time_bottle.energy_lack", "Your wireless energy DOES NOT support the machine acceleration.");
         provider.add("item.sftcore.time_bottle.accelerate", "Using %s EU, accelerate the machine with %d ticks");
 
         // recipe modifiers
+        provider.add("sftcore.multiblock.configurable_maintenance.duration_multiplier", "Recipe Duration Multiplier: %s");
         provider.add("sftcore.multiblock.half_perfect_overclock.tooltip", "§do §lHalf Perfect Overclock§r");
         provider.add("sftcore.multiblock.half_perfect_overclock.tooltip.1", "§7§o   Process 3 times faster when overclocked with 4 times power§r");
         provider.add("sftcore.multiblock.perfect_overclock.tooltip", "§6o §lPerfect Overclock§r");
@@ -90,11 +92,10 @@ public class SFTLangHandler extends LangHandler {
         provider.add("sftcore.multiblock.time_multiplier.tooltip", "§9- §lTime Multiplier§r§9: %f§r");
         provider.add("sftcore.multiblock.mega_reduce_with_coil", "§co §lCoil Discount§r");
         provider.add("sftcore.multiblock.mega_reduce_with_coil.1", "§7§o   For every §d%dK§7§o above coil temperature, recipe energy is multiplied by §a%f§r§7§o and time by §9%f§r");
-        provider.add("sftcore.machine.modified_by_sft", "§b§n§o* Modified By SFT §r§r§r§b§n *§r§r");
 
         // machines
-        provider.add("sftcore.machine.allow_laser", "§eo §lLaser Hatch: §a✔§r");
-        provider.add("sftcore.machine.allow_laser.1", "§7§o   Laser hatch can provide huge energy, and must be used together with a normal energy hatch.");
+        provider.add("sftcore.multiblock.allow_laser", "§eo §lLaser Hatch: §a✔§r");
+        provider.add("sftcore.multiblock.allow_laser.1", "§7§o   Laser hatch can provide huge energy, and must be used together with a normal energy hatch.");
         provider.add("sftcore.machine.ore_replicator.tooltip", "Place it under an ore block and it will generate ores.");
         provider.add("sftcore.machine.desulfurizer.tooltip", "Desulfurize oil efficiently.");
         provider.add("sftcore.machine.oil_drilling_rig.tooltip", "Oh, It's not so environmental friendly...");
@@ -112,5 +113,8 @@ public class SFTLangHandler extends LangHandler {
                 "- §7For every 1 level above §6Cupronickel§7, the machine gets 4 extra parallels§r"
         );
         provider.add("sftcore.machine.common_factory.voltage_invalid", "The voltage of energy hatch and machine don't match!");
+
+        // integration
+        provider.add("config.jade.plugin_sftcore.configurable_maintenance_hatch", "Configurable Maintenance Hatch");
     }
 }

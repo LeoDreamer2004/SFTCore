@@ -24,6 +24,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.registry.SFTTooltips;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
@@ -134,8 +135,8 @@ public final class SFTMultiMachines {
             .recipeModifiers(OC_PERFECT_SUBTICK, BATCH_MODE)
             .tooltips(Component.translatable("sftcore.multiblock.perfect_overclock.tooltip"),
                     Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"),
-                    Component.translatable("sftcore.machine.allow_laser"),
-                    Component.translatable("sftcore.machine.allow_laser.1"))
+                    Component.translatable("sftcore.multiblock.allow_laser"),
+                    Component.translatable("sftcore.multiblock.allow_laser.1"))
             .appearanceBlock(GeneratorsBlocks.FUSION_REACTOR_FRAME::getBlock)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -206,7 +207,7 @@ public final class SFTMultiMachines {
                     Component.translatable("sftcore.machine.common_factory.tooltip.2"),
                     Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", 0.9),
                     Component.translatable("sftcore.multiblock.time_multiplier.tooltip", 0.8),
-                    Component.translatable("sftcore.structure_come_from", "GregTech Leisure")
+                    SFTTooltips.structureComeFrom("GregTech Leisure")
             )
             .recipeModifiers(
                     SFTRecipeModifiers::commonFactoryParallel,
@@ -512,12 +513,14 @@ public final class SFTMultiMachines {
     public static final MachineDefinition CHEMICAL_FACTORY = REGISTRATE.multiblock("chemical_factory", CoilWorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.ALL)
             .recipeType(LARGE_CHEMICAL_RECIPES)
-            .recipeModifiers(DEFAULT_ENVIRONMENT_REQUIREMENT,
-                    OC_PERFECT_SUBTICK,
+            .recipeModifiers(
                     PARALLEL_HATCH,
+                    OC_PERFECT_SUBTICK,
+                    DEFAULT_ENVIRONMENT_REQUIREMENT,
                     BATCH_MODE,
                     MEGA_COIL_MACHINE_REDUCE)
             .tooltips(
+                    Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
                     Component.translatable(
                             "gtceu.machine.available_recipe_map_1.tooltip",
                             Component.translatable("gtceu.large_chemical_reactor")
@@ -526,8 +529,8 @@ public final class SFTMultiMachines {
                     Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1"),
                     Component.translatable("sftcore.multiblock.perfect_overclock.tooltip"),
                     Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"),
-                    Component.translatable("sftcore.machine.allow_laser"),
-                    Component.translatable("sftcore.machine.allow_laser.1")
+                    Component.translatable("sftcore.multiblock.allow_laser"),
+                    Component.translatable("sftcore.multiblock.allow_laser.1")
             )
             .appearanceBlock(CASING_PTFE_INERT)
             .pattern(definition ->
@@ -541,7 +544,7 @@ public final class SFTMultiMachines {
                             .where("N", controller(blocks(definition.getBlock())))
                             .where("A", blocks(CASING_PTFE_INERT.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
-                                    .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                    .or(autoAbilities(true, false, true))
                                     .or(abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(1)))
                             .where("C", blocks(CASING_LAMINATED_GLASS.get()))
                             .where("B", blocks(CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
@@ -592,8 +595,8 @@ public final class SFTMultiMachines {
                     ),
                     Component.translatable("sftcore.multiblock.mega_reduce_with_coil"),
                     Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1"),
-                    Component.translatable("sftcore.machine.allow_laser"),
-                    Component.translatable("sftcore.machine.allow_laser.1")
+                    Component.translatable("sftcore.multiblock.allow_laser"),
+                    Component.translatable("sftcore.multiblock.allow_laser.1")
             )
             .appearanceBlock(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition ->

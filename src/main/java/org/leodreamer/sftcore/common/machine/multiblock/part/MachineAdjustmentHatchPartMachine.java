@@ -18,7 +18,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.common.api.feature.IMachineAdjustment;
+import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
 
 import java.util.function.Consumer;
 

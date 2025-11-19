@@ -1,9 +1,10 @@
-// 1.20.1	2025-08-19T19:12:42.07563693	Registrate Provider for sftcore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2025-11-13T22:36:58.168295641	Registrate Provider for sftcore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 bf246669aaf876441016cacf1449710cfe73f109 assets/sftcore/blockstates/certus_quartz_charger.json
 b6cf69088eb8fb4bdea6d079f74a6ce88c2aa65f assets/sftcore/blockstates/chemical_factory.json
 e2739c053b7160761e7cd841a7aa04d3c6212ed4 assets/sftcore/blockstates/common_factory.json
 60a99ee906f6cba9a9d94bd6c3b095f6aab98371 assets/sftcore/blockstates/common_mekanism_process_factory.json
 0f1c010c9a7fdad1647f048a6be684b5a3aa9b11 assets/sftcore/blockstates/configurable_auto_maintenance_hatch.json
+ba63bd4b9e18299a440743d7bd732e72145326f5 assets/sftcore/blockstates/configurable_cleaning_maintenance_hatch.json
 f47e14557fc672656fa958a895dbad54e634668b assets/sftcore/blockstates/desulfurizer.json
 e9101b6d049aed70df61cc72c667b07b6ea34269 assets/sftcore/blockstates/ev_dual_input_hatch.json
 91df159c62fcc484cb9dc59c6ca183af230fd6f3 assets/sftcore/blockstates/ev_dual_output_hatch.json
@@ -29,13 +30,14 @@ c84470bf97ca54603d78fe23c5533215ea9be74f assets/sftcore/blockstates/mv_dual_outp
 7936981358786f88f096ca3bde7d0e30de515702 assets/sftcore/blockstates/oil_drilling_rig.json
 874a09e6afd7384bf7538e890de209b8ec25ae23 assets/sftcore/blockstates/ore_replicator.json
 ae0b283ec0b46996a81b55c816395cbe93265cc5 assets/sftcore/blockstates/semiconductor_blast_furnace.json
-f998430243fb348339289c83c375e2dcbb57f4fc assets/sftcore/lang/en_ud.json
-1e69e984878725dc83daa2f7c731f1343a6e37f4 assets/sftcore/lang/en_us.json
+36c7fe4e5087eb36700ea65534e92a33b5cd3724 assets/sftcore/lang/en_ud.json
+f7df1272f651ee0068256d90ef5bf5c649fc0982 assets/sftcore/lang/en_us.json
 eb2522f1b05c40b9b02586eb467bb6e5ab73db96 assets/sftcore/models/block/machine/certus_quartz_charger.json
 7b4609460a701619cfe37b675cce18f947557c1c assets/sftcore/models/block/machine/chemical_factory.json
 5227918c08d698b73080358442d05d4abd27151c assets/sftcore/models/block/machine/common_factory.json
 e5537740d51e3263f9a25f932a7fa2b806543aba assets/sftcore/models/block/machine/common_mekanism_process_factory.json
 29f495570c7c2688b833f64bbc5abdf44db5f372 assets/sftcore/models/block/machine/configurable_auto_maintenance_hatch.json
+1c248f5cc5752041e6af6ceba17249c85e8e5c3f assets/sftcore/models/block/machine/configurable_cleaning_maintenance_hatch.json
 23d5249ff35eb5ef627eeddd3b64fc2783c601ff assets/sftcore/models/block/machine/desulfurizer.json
 250bf1103e4dd1ef39a25887ba464786e35ac92f assets/sftcore/models/block/machine/ev_dual_input_hatch.json
 6e931764f290fd3b8150b7bdafd8b6204e1b9b78 assets/sftcore/models/block/machine/ev_dual_output_hatch.json
@@ -66,6 +68,7 @@ b27c8059327595840b83b87501389fd178ae1a48 assets/sftcore/models/item/chemical_fac
 444b3fdd7c0a3aa79198ad84f63f37ebe4f03ba0 assets/sftcore/models/item/common_factory.json
 e471c3840686def51d26738658c58a4ab186cbd0 assets/sftcore/models/item/common_mekanism_process_factory.json
 18dd1c6abe7cc525925f0f95bed2e2c2354126d7 assets/sftcore/models/item/configurable_auto_maintenance_hatch.json
+182a72ecf1e55a2ce6aba7786fbc77183283c498 assets/sftcore/models/item/configurable_cleaning_maintenance_hatch.json
 013a5abcfda147dadc1b741bb8028f8ca27ff1d2 assets/sftcore/models/item/desulfurizer.json
 74387902987b3fd85a02f79d05c73ceeaabd07a6 assets/sftcore/models/item/ev_dual_input_hatch.json
 058dee6f9ab7292c3bcf9377602668b1ebda4ebc assets/sftcore/models/item/ev_dual_output_hatch.json
