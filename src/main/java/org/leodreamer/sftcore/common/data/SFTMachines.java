@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import net.minecraft.network.chat.Component;
-import org.leodreamer.sftcore.api.registry.SFTTooltips;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.data.machine.GTMultimachineTweaks;
 import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
 import org.leodreamer.sftcore.common.machine.OreReplicatorMachine;
@@ -20,12 +20,15 @@ import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHa
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.OUT;
+import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.*;
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
 public final class SFTMachines {
 
     public static final MachineDefinition ORE_REPLICATOR = REGISTRATE.machine("ore_replicator", OreReplicatorMachine::new)
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Place it under an ore block and it will generate ores."))
             .langValue("Ore Replicator")
             .rotationState(RotationState.NONE)
             .register();
@@ -33,7 +36,8 @@ public final class SFTMachines {
     public static final MachineDefinition CONFIGURABLE_AUTO_MAINTENANCE_HATCH = REGISTRATE.machine("configurable_auto_maintenance_hatch", ConfigurableAutoMaintenanceHatchPartMachine::new)
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
-            .tooltips(Component.translatable("gtceu.part_sharing.disabled"))
+            .modelProperty(IS_FORMED, false)
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder).disableSharing())
             .overlayTieredHullModel(GTCEu.id("block/machine/part/auto_maintenance_hatch"))
             .tier(IV)
             .register();
@@ -42,7 +46,8 @@ public final class SFTMachines {
                     (holder) -> new ConfigurableCleaningMaintenanceHatchPartMachine(holder, CleanroomType.CLEANROOM))
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
-            .tooltips(Component.translatable("gtceu.part_sharing.disabled"))
+            .modelProperty(IS_FORMED, false)
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder).disableSharing())
             .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
             .tier(LuV)
             .register();
@@ -75,9 +80,8 @@ public final class SFTMachines {
                                     tier,
                                     DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
                                             tier)),
-                            Component.translatable("gtceu.part_sharing.enabled"),
-                            SFTTooltips.modifiedBySFT()
-                    )
+                            Component.translatable("gtceu.part_sharing.enabled"))
+                    .tooltips(SFTTooltipsBuilder.of().modifiedBySFT().all())
                     .register(),
             GTValues.tiersBetween(LV, IV));
 
@@ -99,9 +103,8 @@ public final class SFTMachines {
                                     "gtceu.universal.tooltip.fluid_storage_capacity_mult",
                                     tier,
                                     DualHatchPartMachine.getTankCapacity(
-                                            DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
-                            Component.translatable("gtceu.part_sharing.enabled"),
-                            SFTTooltips.modifiedBySFT())
+                                            DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)))
+                    .tooltips(SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().all())
                     .register(),
             GTValues.tiersBetween(LV, IV));
 

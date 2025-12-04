@@ -198,7 +198,7 @@ public final class ControllerRecipes {
                 .inputItems(Objects.requireNonNull(SFTRecipes.getItemById(Mekanism.MODID, "rotary_condensentrator")))
                 .inputFluids(Glue.getFluid(8000))
                 .outputItems(COMMON_MEKANISM_PROCESS_FACTORY)
-                .duration(600)
+                .duration(1800)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -220,7 +220,7 @@ public final class ControllerRecipes {
                 .inputItems(ROBOT_ARM_IV, 2)
                 .inputItems(cableGtDouble, NiobiumTitanium, 8)
                 .inputFluids(Polybenzimidazole.getFluid(16 * L))
-                .duration(400)
+                .duration(1200)
                 .EUt(VA[IV])
                 .save(provider);
     }

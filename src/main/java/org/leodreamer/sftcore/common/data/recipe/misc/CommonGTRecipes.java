@@ -125,7 +125,7 @@ public final class CommonGTRecipes {
                 .inputFluids(input.getFluid(32000))
                 .outputItems(dust, Sulfur, 32)
                 .outputFluids(output.getFluid(40000))
-                .duration(300)
+                .duration(900)
                 .EUt(VA[HV])
 
                 .save(provider);
@@ -144,7 +144,7 @@ public final class CommonGTRecipes {
                 .chancedOutput(dust, Oilsands, 1000, 1000)
                 .inputFluids(Lubricant.getFluid(200))
                 .circuitMeta(circuit)
-                .duration(40)
+                .duration(120)
                 .EUt(VA[MV])
                 .save(provider);
     }
@@ -251,7 +251,7 @@ public final class CommonGTRecipes {
                 .circuitMeta(boost ? 2 : 1)
                 .notConsumable(input)
                 .inputFluids(Water.getFluid(1000))
-                .duration(boost ? 100 : 200)
+                .duration(boost ? 300 : 600)
                 .EUt(VA[MV]);
 
         for (int i = 0; i < outputs.length; i += 2) {
@@ -283,7 +283,7 @@ public final class CommonGTRecipes {
                     .inputItems(tag)
                     .outputItems(circuit)
                     .EUt(VA[ULV])
-                    .duration(20)
+                    .duration(60)
                     .save(provider);
         }
     }
@@ -301,7 +301,7 @@ public final class CommonGTRecipes {
         var builder = LARGE_GAS_COLLECTOR_RECIPES.recipeBuilder(id)
                 .notConsumable(input)
                 .outputFluids(output.getFluid(100000))
-                .duration(freeze ? 700 : 600)
+                .duration(freeze ? 2000 : 1800)
                 .EUt(VA[tier]);
         if (freeze)
             builder.notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack());
@@ -330,7 +330,7 @@ public final class CommonGTRecipes {
                         .circuitMeta(1)
                         .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
                         .outputItems(machine)
-                        .duration(100)
+                        .duration(300)
                         .EUt(VA[tier])
                         .save(provider);
             }
@@ -352,7 +352,7 @@ public final class CommonGTRecipes {
                         .circuitMeta(2)
                         .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
                         .outputItems(machine)
-                        .duration(100)
+                        .duration(300)
                         .EUt(VA[tier])
                         .save(provider);
             }

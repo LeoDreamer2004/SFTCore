@@ -14,12 +14,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
 
 import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 
+@DataGenScanned
 public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine {
 
     public static final GTRecipeType[] AVAILABLE_RECIPES = {
@@ -129,6 +132,9 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
             sideTabs.attachSubTab(directionalConfigurator);
     }
 
+    @RegisterLanguage("The voltage of energy hatch and machine don't match!")
+    static String VOLTAGE_INVALID = "sftcore.machine.common_factory.voltage_invalid";
+
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
@@ -143,8 +149,7 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
             textList.add(component);
         }
         if (!isVoltageValid() && recipeType != DUMMY_RECIPES) {
-            textList.add(Component.translatable("sftcore.machine.common_factory.voltage_invalid")
-                    .withStyle(ChatFormatting.RED));
+            textList.add(Component.translatable(VOLTAGE_INVALID).withStyle(ChatFormatting.RED));
         }
         getDefinition().getAdditionalDisplay().accept(this, textList);
     }

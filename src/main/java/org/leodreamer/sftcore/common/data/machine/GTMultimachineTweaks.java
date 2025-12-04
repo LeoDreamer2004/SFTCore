@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import net.minecraft.network.chat.Component;
-import org.leodreamer.sftcore.api.registry.SFTTooltips;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 
 import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_EXPORT_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_IMPORT_HATCH;
@@ -31,9 +31,8 @@ public class GTMultimachineTweaks {
             if (hatch == null) continue;
             hatch.setTooltipBuilder(
                     hatch.getTooltipBuilder().andThen((itemStack, components) -> {
-                                components.remove(components.size() - 1); // sharing disabled
-                                components.add(Component.translatable("gtceu.part_sharing.enabled"));
-                                components.add(SFTTooltips.modifiedBySFT());
+                                components.removeLast();
+                                components.addAll(SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().all());
                             }
                     )
             );
@@ -47,9 +46,9 @@ public class GTMultimachineTweaks {
                 if (hatch == null) continue;
                 hatch.setTooltipBuilder(
                         hatch.getTooltipBuilder().andThen((itemStack, components) -> {
-                                    var shareEnabled = components.remove(components.size() - 1);
-                                    components.remove(components.size() - 1); // fluid storage
-                                    components.remove(components.size() - 1); // item storage
+                                    var shareEnabled = components.removeLast();
+                                    components.removeLast(); // fluid storage
+                                    components.removeLast(); // item storage
                                     components.add(Component.translatable(
                                             "gtceu.universal.tooltip.item_storage_capacity",
                                             (int) Math.pow(tier, 2)));
@@ -59,7 +58,7 @@ public class GTMultimachineTweaks {
                                             DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
                                                     tier)));
                                     components.add(shareEnabled);
-                                    components.add(SFTTooltips.modifiedBySFT());
+                                    components.addAll(SFTTooltipsBuilder.of().modifiedBySFT().all());
                                 }
                         )
                 );
@@ -84,17 +83,7 @@ public class GTMultimachineTweaks {
             );
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> {
-                        components.add(
-                                Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip")
-                        );
-                        components.add(
-                                Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1")
-                        );
-                        components.add(
-                                SFTTooltips.modifiedBySFT()
-                        );
-                    })
+                    machine.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().halfPerfectOverlock().all()))
             );
         }
 
@@ -102,14 +91,7 @@ public class GTMultimachineTweaks {
 
     public static void GTPerfectTweaks() {
         LARGE_CHEMICAL_REACTOR.setTooltipBuilder(
-                LARGE_CHEMICAL_REACTOR.getTooltipBuilder().andThen((stack, components) -> {
-                    components.add(
-                            Component.translatable("sftcore.multiblock.perfect_overclock.tooltip")
-                    );
-                    components.add(
-                            Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1")
-                    );
-                })
+                LARGE_CHEMICAL_REACTOR.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().perfectOverlock().all()))
         );
     }
 
@@ -150,23 +132,11 @@ public class GTMultimachineTweaks {
             );
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> {
-                        components.add(
-                                Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", GCYM_EUT_MULTIPLIER)
-                        );
-                        components.add(
-                                Component.translatable("sftcore.multiblock.time_multiplier.tooltip", GCYM_DURATION_MULTIPLIER)
-                        );
-                        components.add(
-                                Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip")
-                        );
-                        components.add(
-                                Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1")
-                        );
-                        components.add(
-                                SFTTooltips.modifiedBySFT()
-                        );
-                    })
+                    machine.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of()
+                            .energyMultiplier(GCYM_EUT_MULTIPLIER)
+                            .timeMultiplier(GCYM_DURATION_MULTIPLIER)
+                            .halfPerfectOverlock()
+                            .modifiedBySFT().all()))
             );
         }
     }
@@ -183,23 +153,12 @@ public class GTMultimachineTweaks {
         );
 
         MEGA_BLAST_FURNACE.setTooltipBuilder(
-                MEGA_BLAST_FURNACE.getTooltipBuilder().andThen((stack, components) -> {
-                    components.add(
-                            Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", GCYM_EUT_MULTIPLIER)
-                    );
-                    components.add(
-                            Component.translatable("sftcore.multiblock.time_multiplier.tooltip", GCYM_DURATION_MULTIPLIER)
-                    );
-                    components.add(
-                            Component.translatable("sftcore.multiblock.mega_reduce_with_coil")
-                    );
-                    components.add(
-                            Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1")
-                    );
-                    components.add(
-                            SFTTooltips.modifiedBySFT()
-                    );
-                })
+                MEGA_BLAST_FURNACE.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of()
+                        .energyMultiplier(GCYM_EUT_MULTIPLIER)
+                        .timeMultiplier(GCYM_DURATION_MULTIPLIER)
+                        .megaReduceWithCoil()
+                        .modifiedBySFT().all()
+                ))
         );
     }
 }

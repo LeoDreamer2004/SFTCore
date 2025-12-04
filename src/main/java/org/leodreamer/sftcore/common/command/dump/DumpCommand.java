@@ -16,6 +16,8 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.leodreamer.sftcore.Config;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.command.dump.loggers.BlockDump;
 import org.leodreamer.sftcore.common.command.dump.loggers.FluidDump;
 import org.leodreamer.sftcore.common.command.dump.loggers.IDump;
@@ -26,6 +28,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+@DataGenScanned
 public class DumpCommand {
 
     public static final String FOLDER = "dumps";
@@ -34,6 +37,15 @@ public class DumpCommand {
     private static final Dynamic2CommandExceptionType ERROR_AREA_TOO_LARGE =
             new Dynamic2CommandExceptionType((limit, actual) -> Component.translatable(
                     "commands.fill.toobig", limit, actual));
+
+    @RegisterLanguage("Start dumping...")
+    static String START = "commands.sftcore.dump.start";
+    @RegisterLanguage("Dump finished.")
+    static String SUCCESS = "commands.sftcore.dump.success";
+    @RegisterLanguage("[Open the file]")
+    static String LINK = "commands.sftcore.dump.success.link";
+    @RegisterLanguage("Dump failed.")
+    static String FAILURE = "commands.sftcore.dump.failure";
 
     public static void
     register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -74,18 +86,18 @@ public class DumpCommand {
         if (!file.exists())
             file.mkdirs();
         String filePath = FOLDER + File.separator + filename;
-        stack.sendSystemMessage(Component.translatable("commands.sftcore.dump.start"));
+        stack.sendSystemMessage(Component.translatable(START));
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(content);
-            Component component = Component.translatable("commands.sftcore.dump.success.link")
+            Component component = Component.translatable(LINK)
                     .withStyle(ChatFormatting.UNDERLINE)
                     .withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, filePath)));
-            stack.sendSuccess(() -> Component.translatable("commands.sftcore.dump.success")
+            stack.sendSuccess(() -> Component.translatable(SUCCESS)
                     .append(Component.literal(" "))
                     .append(component), true);
             return 1;
         } catch (IOException e) {
-            stack.sendFailure(Component.translatable("commands.sftcore.dump.failure"));
+            stack.sendFailure(Component.translatable(FAILURE));
             return 0;
         }
     }

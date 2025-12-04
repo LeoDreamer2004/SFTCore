@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.Item;
-import org.leodreamer.sftcore.api.registry.SFTTooltips;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.item.SelectStickItem;
 import org.leodreamer.sftcore.common.item.behavior.TimeBottleBehavior;
 
@@ -51,7 +51,7 @@ public final class SFTItems {
         return REGISTRATE.item("%s_universal_circuit".formatted(name), ComponentItem::create)
                 .lang("%s §rUniversal Circuit".formatted(GTValues.VNF[tier]))
                 .tag(CustomTags.CIRCUITS_ARRAY[tier])
-                .onRegister(attach(new TooltipBehavior(lines -> lines.add(SFTTooltips.textureComeFrom("GregTech New Horizon")))))
+                .onRegister(attach(new TooltipBehavior(lines -> lines.addAll(SFTTooltipsBuilder.of().textureComeFrom("GregTech New Horizon").all()))))
                 .register();
     }
 

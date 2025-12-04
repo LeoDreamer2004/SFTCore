@@ -35,7 +35,7 @@ public final class CustomGTRecipes {
                 .outputItems(SFTItems.UU_MATTER)
                 .inputItems(Items.COBBLESTONE, 2)
                 .inputFluids(Lava.getFluid(100))
-                .duration(20)
+                .duration(40)
                 .EUt(VA[ULV])
                 .save(provider);
 
@@ -46,7 +46,7 @@ public final class CustomGTRecipes {
                     .inputItems(MekanismItems.ANTIMATTER_PELLET)
                     .inputItems(Items.TORCH, 64)
                     .inputFluids(AquaRegia.getFluid(8000))
-                    .duration(1200)
+                    .duration(3000)
                     .EUt(VA[HV])
                     .save(provider);
 
@@ -56,7 +56,7 @@ public final class CustomGTRecipes {
                     .inputItems(GTBlocks.INDUSTRIAL_TNT, 64)
                     .inputFluids(Polyethylene.getFluid(L * 32))
                     .inputFluids(SFTMaterials.FilteredPolonium.getFluid(1000))
-                    .duration(2000)
+                    .duration(6000)
                     .EUt(VA[EV])
                     .save(provider);
         }
@@ -74,7 +74,7 @@ public final class CustomGTRecipes {
                     .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(8000))
                     .inputFluids(MekanismFluids.SULFURIC_ACID.getFluidStack(8000))
                     .inputFluids(MekanismFluids.ETHENE.getFluidStack(8000))
-                    .duration(1000)
+                    .duration(3000)
                     .EUt(VA[LV])
                     .save(provider);
         }
@@ -85,7 +85,7 @@ public final class CustomGTRecipes {
                 .inputItems(MekanismItems.ULTIMATE_CONTROL_CIRCUIT, 4)
                 .inputItems(Items.SMOOTH_STONE)
                 .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(4000))
-                .duration(100)
+                .duration(300)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -95,7 +95,7 @@ public final class CustomGTRecipes {
                 .inputItems(MekanismItems.ULTIMATE_CONTROL_CIRCUIT, 4)
                 .inputItems(Items.SMOOTH_STONE)
                 .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(4000))
-                .duration(40)
+                .duration(150)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -114,9 +114,9 @@ public final class CustomGTRecipes {
                 .inputFluids(Lubricant.getFluid(4000))
                 .scannerResearch(b -> b
                         .researchStack(AUTO_MAINTENANCE_HATCH.asStack())
-                        .duration(800)
+                        .duration(1500)
                         .EUt(VA[IV]))
-                .duration(300)
+                .duration(800)
                 .EUt(VA[LuV])
                 .save(provider);
 

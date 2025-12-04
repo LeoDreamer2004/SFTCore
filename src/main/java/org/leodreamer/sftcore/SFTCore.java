@@ -85,4 +85,5 @@ public class SFTCore {
     public void registerMaterialRegistry(MaterialRegistryEvent event) {
         GTCEuAPI.materialManager.createRegistry(MOD_ID);
     }
+
 }

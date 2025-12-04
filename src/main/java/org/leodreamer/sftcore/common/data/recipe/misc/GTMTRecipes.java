@@ -53,7 +53,7 @@ public final class GTMTRecipes {
                     .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier))
                     .circuitMeta(1)
                     .outputItems(wirelessHatch)
-                    .duration(100)
+                    .duration(300)
                     .EUt(GTValues.VA[tier])
                     .save(provider);
         }
@@ -69,7 +69,7 @@ public final class GTMTRecipes {
                     .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier))
                     .circuitMeta(1)
                     .outputItems(wirelessHatch)
-                    .duration(100)
+                    .duration(300)
                     .EUt(GTValues.VA[tier])
                     .save(provider);
         }
@@ -88,7 +88,7 @@ public final class GTMTRecipes {
                     .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER)
                     .circuitMeta(2)
                     .outputItems(wirelessHatch)
-                    .duration(100)
+                    .duration(300)
                     .EUt(GTValues.VA[tier])
                     .save(provider);
         }
@@ -107,7 +107,7 @@ public final class GTMTRecipes {
                     .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER)
                     .circuitMeta(2)
                     .outputItems(wirelessHatch)
-                    .duration(100)
+                    .duration(300)
                     .EUt(GTValues.VA[tier])
                     .save(provider);
         }
@@ -126,7 +126,7 @@ public final class GTMTRecipes {
                     .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER)
                     .circuitMeta(3)
                     .outputItems(wirelessHatch)
-                    .duration(100)
+                    .duration(300)
                     .EUt(GTValues.VA[tier])
                     .save(provider);
         }
@@ -145,7 +145,7 @@ public final class GTMTRecipes {
                     .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER)
                     .circuitMeta(3)
                     .outputItems(wirelessHatch)
-                    .duration(100)
+                    .duration(300)
                     .EUt(GTValues.VA[tier])
                     .save(provider);
         }

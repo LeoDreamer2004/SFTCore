@@ -30,7 +30,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Iron, 4)
                 .inputItems(gem, Coal)
                 .circuitMeta(1)
-                .duration(20)
+                .duration(60)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -39,7 +39,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Osmium, 4)
                 .inputItems(dust, Redstone)
                 .circuitMeta(1)
-                .duration(10)
+                .duration(30)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -48,7 +48,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Iron, 8)
                 .inputItems(dust, Redstone)
                 .circuitMeta(1)
-                .duration(20)
+                .duration(60)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -57,7 +57,7 @@ public final class MekanismRecipes {
                 .inputItems(MekanismItems.INFUSED_ALLOY, 4)
                 .inputItems(gem, Diamond)
                 .circuitMeta(1)
-                .duration(10)
+                .duration(30)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -66,7 +66,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Obsidian, 8)
                 .inputItems(gem, Diamond)
                 .circuitMeta(1)
-                .duration(20)
+                .duration(60)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -75,7 +75,7 @@ public final class MekanismRecipes {
                 .inputItems(MekanismItems.REINFORCED_ALLOY, 2)
                 .inputItems(MekanismItems.REFINED_OBSIDIAN_DUST)
                 .circuitMeta(1)
-                .duration(5)
+                .duration(15)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -84,7 +84,7 @@ public final class MekanismRecipes {
                 .inputItems(block, Clay)
                 .inputItems(MekanismItems.BIO_FUEL, 8)
                 .circuitMeta(1)
-                .duration(5)
+                .duration(15)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -93,7 +93,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Clay)
                 .inputItems(MekanismItems.BIO_FUEL, 2)
                 .circuitMeta(1)
-                .duration(5)
+                .duration(15)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -102,7 +102,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Tin)
                 .inputItems(ingot, Copper, 24)
                 .circuitMeta(1)
-                .duration(20)
+                .duration(60)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -111,7 +111,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Tin)
                 .inputItems(ingot, Copper, 24)
                 .circuitMeta(1)
-                .duration(20)
+                .duration(60)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -120,7 +120,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Tin)
                 .inputItems(dust, Copper, 24)
                 .circuitMeta(1)
-                .duration(20)
+                .duration(60)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -129,7 +129,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Tin)
                 .inputItems(dust, Copper, 24)
                 .circuitMeta(1)
-                .duration(20)
+                .duration(60)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -138,7 +138,7 @@ public final class MekanismRecipes {
                 .inputItems(MekanismItems.REFINED_OBSIDIAN_DUST, 2)
                 .inputItems(ingot, Osmium)
                 .circuitMeta(2)
-                .duration(10)
+                .duration(30)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -147,7 +147,7 @@ public final class MekanismRecipes {
                 .inputItems(dust, Glowstone, 2)
                 .inputItems(ingot, Osmium)
                 .circuitMeta(2)
-                .duration(10)
+                .duration(30)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -155,7 +155,7 @@ public final class MekanismRecipes {
                 .outputItems(MekanismItems.OBSIDIAN_DUST, 4)
                 .inputItems(Blocks.OBSIDIAN.asItem())
                 .circuitMeta(3)
-                .duration(5)
+                .duration(15)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -163,7 +163,7 @@ public final class MekanismRecipes {
                 .outputItems(Items.GRAVEL)
                 .inputItems(gem, Flint)
                 .circuitMeta(3)
-                .duration(5)
+                .duration(15)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -171,7 +171,7 @@ public final class MekanismRecipes {
                 .outputItems(MekanismItems.POLONIUM_PELLET)
                 .inputFluids(FilteredPolonium.getFluid(10))
                 .circuitMeta(4)
-                .duration(40)
+                .duration(120)
                 .EUt(VA[HV])
                 .save(provider);
 
@@ -179,7 +179,7 @@ public final class MekanismRecipes {
                 .outputItems(MekanismItems.PLUTONIUM_PELLET)
                 .inputFluids(FilteredPlutonium.getFluid(10))
                 .circuitMeta(4)
-                .duration(40)
+                .duration(120)
                 .EUt(VA[HV])
                 .save(provider);
 
@@ -187,7 +187,7 @@ public final class MekanismRecipes {
                 .outputItems(MekanismItems.ANTIMATTER_PELLET)
                 .inputFluids(FilteredPolonium.getFluid(10000))
                 .circuitMeta(5)
-                .duration(100)
+                .duration(300)
                 .EUt(VA[HV])
                 .save(provider);
 
@@ -195,7 +195,7 @@ public final class MekanismRecipes {
                 .outputItems(Items.GUNPOWDER)
                 .inputItems(gem, Flint)
                 .circuitMeta(6)
-                .duration(5)
+                .duration(15)
                 .EUt(VA[LV])
                 .save(provider);
 
@@ -216,7 +216,7 @@ public final class MekanismRecipes {
                 .outputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(2000))
                 .inputFluids(LowPurityDeuterium.getFluid(1000))
                 .inputFluids(LowPurityTritium.getFluid(1000))
-                .duration(200)
+                .duration(600)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -224,7 +224,7 @@ public final class MekanismRecipes {
                 .outputFluids(LowPurityDeuterium.getFluid(100))
                 .inputFluids(DistilledWater.getFluid(1000))
                 .circuitMeta(1)
-                .duration(50)
+                .duration(150)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -232,7 +232,7 @@ public final class MekanismRecipes {
                 .outputFluids(LowPurityTritium.getFluid(100))
                 .outputFluids(LowPurityDeuterium.getFluid(500))
                 .inputFluids(LowPurityDeuterium.getFluid(1000))
-                .duration(200)
+                .duration(600)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -240,7 +240,7 @@ public final class MekanismRecipes {
                 .outputFluids(EnergeticFissileFuel.getFluid(8000))
                 .inputFluids(UraniumHexafluoride.getFluid(8000))
                 .notConsumable(MekanismItems.ANTIMATTER_PELLET)
-                .duration(100)
+                .duration(300)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -250,7 +250,7 @@ public final class MekanismRecipes {
                 .inputItems(ingot, Uranium238, 2)
                 .inputFluids(Oxygen.getFluid(200))
                 .inputFluids(SulfuricAcid.getFluid(100))
-                .duration(100)
+                .duration(300)
                 .EUt(VA[MV])
                 .save(provider);
 

@@ -20,7 +20,7 @@ public final class SemiconductorRecipes {
                 .outputItems(SILICON_BOULE, 2)
                 .circuitMeta(2)
                 .blastFurnaceTemp(1784)
-                .duration(1000)
+                .duration(6000)
                 .EUt(VA[MV])
                 .save(provider);
 
@@ -31,7 +31,7 @@ public final class SemiconductorRecipes {
                 .inputFluids(Nitrogen.getFluid(8000))
                 .outputItems(PHOSPHORUS_BOULE, 2)
                 .blastFurnaceTemp(2484)
-                .duration(1300)
+                .duration(8000)
                 .EUt(VA[HV])
                 .save(provider);
 
@@ -42,7 +42,7 @@ public final class SemiconductorRecipes {
                 .inputFluids(Argon.getFluid(8000))
                 .outputItems(NAQUADAH_BOULE, 2)
                 .blastFurnaceTemp(5400)
-                .duration(1700)
+                .duration(10000)
                 .EUt(VA[EV])
                 .save(provider);
 
@@ -53,7 +53,7 @@ public final class SemiconductorRecipes {
                 .inputItems(Xenon.getFluid(8000))
                 .outputItems(NEUTRONIUM_BOULE, 2)
                 .blastFurnaceTemp(6484)
-                .duration(2000)
+                .duration(20000)
                 .EUt(VA[IV])
                 .save(provider);
     }

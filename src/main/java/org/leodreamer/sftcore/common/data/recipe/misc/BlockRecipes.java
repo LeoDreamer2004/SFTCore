@@ -36,7 +36,7 @@ public final class BlockRecipes {
                 .inputItems(frameGt, Aluminium, 1)
                 .inputItems(ROBOT_ARM_MV)
                 .circuitMeta(6)
-                .duration(30)
+                .duration(90)
                 .EUt(VA[MV])
                 .save(provider);
 

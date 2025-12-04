@@ -24,7 +24,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.registry.SFTTooltips;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
@@ -32,10 +32,8 @@ import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.*;
-import static com.gregtechceu.gtceu.common.data.GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.LARGE_CHEMICAL_RECIPES;
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 import static org.leodreamer.sftcore.common.data.SFTBlocks.MULTI_FUNCTIONAL_CASING;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers.*;
@@ -75,7 +73,9 @@ public final class SFTMultiMachines {
 
     public static final MachineDefinition CERTUS_QUARTZ_CHARGER = REGISTRATE.multiblock("certus_quartz_charger", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Release the power of Certus Quartz.")
+                    .parallelizable())
             .appearanceBlock(CASING_STEEL_SOLID)
             .recipeType(SFTRecipeTypes.CERTUS_QUARTZ_CHARGE_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT)
@@ -100,7 +100,9 @@ public final class SFTMultiMachines {
     public static final MachineDefinition LARGE_INSCRIBER = REGISTRATE.multiblock("large_inscriber",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("A large inscriber for advanced circuits.")
+                    .parallelizable())
             .recipeType(SFTRecipeTypes.LARGE_INSCRIBER)
             .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT)
             .appearanceBlock(CASING_STEEL_SOLID)
@@ -133,10 +135,9 @@ public final class SFTMultiMachines {
             .generator(true)
             .recipeType(SFTRecipeTypes.MEKANISM_NUCLEAR_REACTION_RECIPES)
             .recipeModifiers(OC_PERFECT_SUBTICK, BATCH_MODE)
-            .tooltips(Component.translatable("sftcore.multiblock.perfect_overclock.tooltip"),
-                    Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"),
-                    Component.translatable("sftcore.multiblock.allow_laser"),
-                    Component.translatable("sftcore.multiblock.allow_laser.1"))
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Extract energy from fuel thoroughly.")
+                    .perfectOverlock().allowLaser())
             .appearanceBlock(GeneratorsBlocks.FUSION_REACTOR_FRAME::getBlock)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -201,14 +202,11 @@ public final class SFTMultiMachines {
     public static final MachineDefinition COMMON_FACTORY = REGISTRATE.multiblock("common_factory", CommonFactoryMachine::new)
             .rotationState(RotationState.ALL)
             .recipeTypes(CommonFactoryMachine.AVAILABLE_RECIPES)
-            .tooltips(
-                    Component.translatable("sftcore.machine.common_factory.tooltip.0"),
-                    Component.translatable("sftcore.machine.common_factory.tooltip.1"),
-                    Component.translatable("sftcore.machine.common_factory.tooltip.2"),
-                    Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", 0.9),
-                    Component.translatable("sftcore.multiblock.time_multiplier.tooltip", 0.8),
-                    SFTTooltips.structureComeFrom("GregTech Leisure")
-            )
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .intro("- §7The simple machine in the§r machine adjustment hatch§7 limits the recipe type and voltage.§r",
+                            "- §7The voltage of energy hatch and machine must match, though it is allowed to use two energy hatch.§r",
+                            "- §7For every 1 level above §6Cupronickel§7, the machine gets 4 extra parallels§r")
+                    .energyMultiplier(0.9).timeMultiplier(0.8).structureComeFrom("GregTech Leisure"))
             .recipeModifiers(
                     SFTRecipeModifiers::commonFactoryParallel,
                     new SimpleMultiplierModifier(0.9, 0.8),
@@ -235,9 +233,10 @@ public final class SFTMultiMachines {
 
     public static final MachineDefinition DESULFURIZER = REGISTRATE.multiblock("desulfurizer",
                     WorkableElectricMultiblockMachine::new)
-            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
-                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip"),
-                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1"))
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Desulfurize oil efficiently.")
+                    .parallelizable()
+                    .halfPerfectOverlock())
             .rotationState(RotationState.ALL)
             .recipeType(SFTRecipeTypes.DESULFURIZE_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, OC_HALF_PERFECT)
@@ -291,6 +290,8 @@ public final class SFTMultiMachines {
     public static final MachineDefinition GREENHOUSE = REGISTRATE.multiblock("greenhouse",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Hope our plants can grow well."))
             .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
             .recipeModifiers(OC_NON_PERFECT, BATCH_MODE)
             .appearanceBlock(CASING_STEEL_SOLID)
@@ -322,15 +323,11 @@ public final class SFTMultiMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, GCYM_MACHINE_REDUCE, OC_HALF_PERFECT, BATCH_MODE)
-            .tooltips(
-                    Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
-                    Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
-                            Component.translatable("sftcore.greenhouse")),
-                    Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", GCYM_EUT_MULTIPLIER),
-                    Component.translatable("sftcore.multiblock.time_multiplier.tooltip", GCYM_DURATION_MULTIPLIER),
-                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip"),
-                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1")
-            )
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder).parallelizable()
+                    .availableTypes(SFTRecipeTypes.GREENHOUSE_RECIPES)
+                    .energyMultiplier(GCYM_EUT_MULTIPLIER)
+                    .timeMultiplier(GCYM_DURATION_MULTIPLIER)
+                    .halfPerfectOverlock())
             .appearanceBlock(CASING_STAINLESS_CLEAN)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -366,6 +363,8 @@ public final class SFTMultiMachines {
     public static final MachineDefinition OIL_DRILLING_RIG = REGISTRATE.multiblock("oil_drilling_rig",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Oh, It's not so environmental friendly..."))
             .recipeType(SFTRecipeTypes.OIL_DRILLING_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT, BATCH_MODE)
             .appearanceBlock(CASING_STEEL_SOLID)
@@ -390,7 +389,9 @@ public final class SFTMultiMachines {
             .recipeType(SFTRecipeTypes.LARGE_GAS_COLLECTOR_RECIPES)
             .recipeModifiers(SFTRecipeModifiers::gasCollectorParallel, OC_NON_PERFECT, BATCH_MODE)
             .appearanceBlock(CASING_STRESS_PROOF)
-            .tooltips(Component.translatable("sftcore.machine.large_gas_collector.tooltip.1"))
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Collect gas from the anywhere.")
+                    .intro("-§7 Has (nearly)§c§l infinite§7 parallels"))
             .pattern(definition ->
                     FactoryBlockPattern.start()
                             .aisle(" AAA   AAA ", " BBB   BBB ", " BBB   BBB ", " BBBCCCBBB ", " BBB   BBB ", " BBB   BBB ", " BBB   BBB ", "           ")
@@ -425,6 +426,9 @@ public final class SFTMultiMachines {
             .recipeType(SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, GTRecipeModifiers::ebfOverclock, BATCH_MODE)
             .appearanceBlock(CASING_HIGH_TEMPERATURE_SMELTING)
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .tip("Expert in producing semiconductor.")
+                    .parallelizable().ebf())
             .pattern(definition ->
                     FactoryBlockPattern.start()
                             .aisle("  AAAAA  ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "  BBBBB  ", "         ")
@@ -452,11 +456,9 @@ public final class SFTMultiMachines {
                             GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.dustTiny, GTMaterials.Ash).get()})
             .workableCasingModel(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
-            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
-                    Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.0"),
-                    Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.1"),
-                    Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.2"))
-            .additionalDisplay((controller, components) -> {
+            .additionalDisplay((controller, components) ->
+
+            {
                 if (controller instanceof CoilWorkableElectricMultiblockMachine coilMachine && controller.isFormed()) {
                     components.add(Component.translatable("gtceu.multiblock.blast_furnace.max_temperature",
                             Component.translatable(FormattingUtil.formatNumbers(coilMachine.getCoilType().getCoilTemperature() +
@@ -470,17 +472,13 @@ public final class SFTMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.CRACKING_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, BATCH_MODE, SFTRecipeModifiers::largeCrackerOverlock, OC_HALF_PERFECT, GCYM_MACHINE_REDUCE)
-            .tooltips(
-                    Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
-                    Component.translatable(
-                            "gtceu.machine.available_recipe_map_1.tooltip",
-                            Component.translatable("gtceu.cracker")
-                    ),
-                    Component.translatable("sftcore.machine.large_cracker.tooltip.1"),
-                    Component.translatable("sftcore.multiblock.energy_multiplier.tooltip", GCYM_EUT_MULTIPLIER),
-                    Component.translatable("sftcore.multiblock.time_multiplier.tooltip", GCYM_DURATION_MULTIPLIER),
-                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip"),
-                    Component.translatable("sftcore.multiblock.half_perfect_overclock.tooltip.1"))
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .parallelizable()
+                    .availableTypes(GTRecipeTypes.CRACKING_RECIPES)
+                    .intro("- §7For every 1 level above §6Cupronickel§7, recipe energy and time consumption are both reduced by 10%")
+                    .energyMultiplier(GCYM_EUT_MULTIPLIER)
+                    .timeMultiplier(GCYM_DURATION_MULTIPLIER)
+                    .halfPerfectOverlock())
             .appearanceBlock(CASING_STAINLESS_CLEAN)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -512,26 +510,19 @@ public final class SFTMultiMachines {
 
     public static final MachineDefinition CHEMICAL_FACTORY = REGISTRATE.multiblock("chemical_factory", CoilWorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.ALL)
-            .recipeType(LARGE_CHEMICAL_RECIPES)
+            .recipeType(GTRecipeTypes.LARGE_CHEMICAL_RECIPES)
             .recipeModifiers(
                     PARALLEL_HATCH,
                     OC_PERFECT_SUBTICK,
                     DEFAULT_ENVIRONMENT_REQUIREMENT,
                     BATCH_MODE,
                     MEGA_COIL_MACHINE_REDUCE)
-            .tooltips(
-                    Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
-                    Component.translatable(
-                            "gtceu.machine.available_recipe_map_1.tooltip",
-                            Component.translatable("gtceu.large_chemical_reactor")
-                    ),
-                    Component.translatable("sftcore.multiblock.mega_reduce_with_coil"),
-                    Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1"),
-                    Component.translatable("sftcore.multiblock.perfect_overclock.tooltip"),
-                    Component.translatable("sftcore.multiblock.perfect_overclock.tooltip.1"),
-                    Component.translatable("sftcore.multiblock.allow_laser"),
-                    Component.translatable("sftcore.multiblock.allow_laser.1")
-            )
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .parallelizable()
+                    .availableTypes(GTRecipeTypes.LARGE_CHEMICAL_RECIPES)
+                    .megaReduceWithCoil()
+                    .perfectOverlock()
+                    .allowLaser())
             .appearanceBlock(CASING_PTFE_INERT)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -578,26 +569,15 @@ public final class SFTMultiMachines {
                     GTRecipeModifiers::ebfOverclock,
                     GCYM_MACHINE_REDUCE,
                     MEGA_COIL_MACHINE_REDUCE)
-            .recipeType(ALLOY_BLAST_RECIPES)
-            .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"),
-                    Component.translatable(
-                            "gtceu.machine.available_recipe_map_1.tooltip",
-                            Component.translatable("gtceu.alloy_blast_smelter")
-                    ),
-                    Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.0"),
-                    Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.1"),
-                    Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.2"),
-                    Component.translatable(
-                            "sftcore.multiblock.energy_multiplier.tooltip", 0.8
-                    ),
-                    Component.translatable(
-                            "sftcore.multiblock.time_multiplier.tooltip", 0.6
-                    ),
-                    Component.translatable("sftcore.multiblock.mega_reduce_with_coil"),
-                    Component.translatable("sftcore.multiblock.mega_reduce_with_coil.1"),
-                    Component.translatable("sftcore.multiblock.allow_laser"),
-                    Component.translatable("sftcore.multiblock.allow_laser.1")
-            )
+            .recipeType(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
+            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+                    .parallelizable()
+                    .availableTypes(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
+                    .ebf()
+                    .energyMultiplier(GCYM_EUT_MULTIPLIER)
+                    .timeMultiplier(GCYM_DURATION_MULTIPLIER)
+                    .megaReduceWithCoil()
+                    .allowLaser())
             .appearanceBlock(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition ->
                     FactoryBlockPattern.start()

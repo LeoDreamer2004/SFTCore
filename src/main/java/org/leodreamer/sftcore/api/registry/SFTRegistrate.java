@@ -1,15 +1,40 @@
 package org.leodreamer.sftcore.api.registry;
 
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import org.leodreamer.sftcore.api.registry.registrate.SFTMachineBuilder;
+import org.leodreamer.sftcore.api.registry.registrate.SFTMultiblockMachineBuilder;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.function.Function;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class SFTRegistrate extends GTRegistrate {
     protected SFTRegistrate(String modId) {
         super(modId);
     }
 
-    @NotNull
-    public static SFTRegistrate create(@NotNull String modId) {
+    public static SFTRegistrate create(String modId) {
         return new SFTRegistrate(modId);
+    }
+
+    @Override
+    public SFTMultiblockMachineBuilder multiblock(String name, Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
+        return new SFTMultiblockMachineBuilder(this, name, metaMachine,
+                MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::new);
+    }
+
+    @Override
+    public SFTMachineBuilder<MachineDefinition> machine(String name, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+        return new SFTMachineBuilder<>(this, name, MachineDefinition::new, metaMachine,
+                MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::new);
     }
 }
