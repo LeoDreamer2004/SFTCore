@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
 import org.leodreamer.sftcore.common.data.*;
+import org.leodreamer.sftcore.common.data.SFTMachines;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 
 
@@ -27,24 +28,22 @@ public class SFTCore {
     public static final String NAME = "SFTCore";
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 
-    @SuppressWarnings("removal")
-    public SFTCore() {
+    public SFTCore(FMLJavaModLoadingContext context) {
         SFTDataGen.init();
 
         REGISTRATE.registerRegistrate();
-        var bus = FMLJavaModLoadingContext.get().getModEventBus();
+        var bus = context.getModEventBus();
         bus.register(this);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
         bus.addGenericListener(CoverDefinition.class, this::registerCovers);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> SFTClient::init);
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> SFTClient::init);
     }
 
     public static ResourceLocation id(String path) {
-        final ResourceLocation TEMPLATE_LOCATION = ResourceLocation.fromNamespaceAndPath(MOD_ID, "");
         if (path.isBlank()) {
-            return TEMPLATE_LOCATION;
+            return ResourceLocation.fromNamespaceAndPath(MOD_ID, "");
         }
         int i = path.indexOf(':');
         if (i > 0) {
@@ -56,7 +55,7 @@ public class SFTCore {
         if (FormattingUtil.hasUpperCase(path)) {
             path = FormattingUtil.toLowerCaseUnderscore(path);
         }
-        return TEMPLATE_LOCATION.withPath(path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     @SubscribeEvent

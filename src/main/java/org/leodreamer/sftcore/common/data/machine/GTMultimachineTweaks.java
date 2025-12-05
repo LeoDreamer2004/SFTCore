@@ -32,7 +32,7 @@ public class GTMultimachineTweaks {
             hatch.setTooltipBuilder(
                     hatch.getTooltipBuilder().andThen((itemStack, components) -> {
                                 components.removeLast();
-                                components.addAll(SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().all());
+                                components.addAll(SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().list());
                             }
                     )
             );
@@ -58,7 +58,7 @@ public class GTMultimachineTweaks {
                                             DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
                                                     tier)));
                                     components.add(shareEnabled);
-                                    components.addAll(SFTTooltipsBuilder.of().modifiedBySFT().all());
+                                    components.addAll(SFTTooltipsBuilder.of().modifiedBySFT().list());
                                 }
                         )
                 );
@@ -83,7 +83,7 @@ public class GTMultimachineTweaks {
             );
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().halfPerfectOverlock().all()))
+                    machine.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().halfPerfectOverlock().list()))
             );
         }
 
@@ -91,7 +91,7 @@ public class GTMultimachineTweaks {
 
     public static void GTPerfectTweaks() {
         LARGE_CHEMICAL_REACTOR.setTooltipBuilder(
-                LARGE_CHEMICAL_REACTOR.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().perfectOverlock().all()))
+                LARGE_CHEMICAL_REACTOR.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().perfectOverlock().list()))
         );
     }
 
@@ -136,7 +136,7 @@ public class GTMultimachineTweaks {
                             .energyMultiplier(GCYM_EUT_MULTIPLIER)
                             .timeMultiplier(GCYM_DURATION_MULTIPLIER)
                             .halfPerfectOverlock()
-                            .modifiedBySFT().all()))
+                            .modifiedBySFT().list()))
             );
         }
     }
@@ -157,7 +157,7 @@ public class GTMultimachineTweaks {
                         .energyMultiplier(GCYM_EUT_MULTIPLIER)
                         .timeMultiplier(GCYM_DURATION_MULTIPLIER)
                         .megaReduceWithCoil()
-                        .modifiedBySFT().all()
+                        .modifiedBySFT().list()
                 ))
         );
     }

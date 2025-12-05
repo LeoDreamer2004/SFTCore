@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "sftcore:block/void_portal"
+    }
+  }
+}

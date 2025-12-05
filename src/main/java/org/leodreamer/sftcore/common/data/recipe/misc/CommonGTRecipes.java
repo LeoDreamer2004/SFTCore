@@ -17,7 +17,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.data.SFTMachines;
+import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.Locale;
@@ -314,7 +314,7 @@ public final class CommonGTRecipes {
         Material[] fluidMap = new Material[]{GTMaterials.Glue, GTMaterials.Polyethylene,
                 GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole};
 
-        for (var machine : SFTMachines.DUAL_IMPORT_HATCH) {
+        for (var machine : SFTPartMachines.DUAL_IMPORT_HATCH) {
             if (machine == null) continue;
             int tier = machine.getTier();
             int j = Math.min(fluidMap.length - 1, tier / 2);
@@ -336,7 +336,7 @@ public final class CommonGTRecipes {
             }
         }
 
-        for (var machine : SFTMachines.DUAL_EXPORT_HATCH) {
+        for (var machine : SFTPartMachines.DUAL_EXPORT_HATCH) {
             if (machine == null) continue;
             int tier = machine.getTier();
             int j = Math.min(fluidMap.length - 1, tier / 2);

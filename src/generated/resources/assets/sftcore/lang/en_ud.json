@@ -30,6 +30,7 @@
   "block.sftcore.oil_drilling_rig": "bıᴚ buıןןıɹᗡ ןıO",
   "block.sftcore.ore_replicator": "ɹoʇɐɔıןdǝᴚ ǝɹO",
   "block.sftcore.semiconductor_blast_furnace": "ǝɔɐuɹnℲ ʇsɐןᗺ ɹoʇɔnpuoɔıɯǝS",
+  "block.sftcore.void_portal": "ןɐʇɹoԀ pıoΛ",
   "commands.sftcore.dump.failure": "˙pǝןıɐɟ dɯnᗡ",
   "commands.sftcore.dump.start": "˙˙˙buıdɯnp ʇɹɐʇS",
   "commands.sftcore.dump.success": "˙pǝɥsıuıɟ dɯnᗡ",
@@ -133,5 +134,6 @@
   "sftcore.oil_drilling_rig": "bıᴚ buıןןıɹᗡ ןıO",
   "sftcore.semiconductor_blast_furnace": "ǝɔɐuɹnℲ ʇsɐןᗺ ɹoʇɔnpuoɔıɯǝS",
   "sftcore.structure_come_from": "%s :ɯoɹɟ ǝɯoɔ sǝɹnʇɔnɹʇS",
-  "sftcore.texture_come_from": "%s :ɯoɹɟ ǝɯoɔ sǝɹnʇxǝ⟘"
+  "sftcore.texture_come_from": "%s :ɯoɹɟ ǝɯoɔ sǝɹnʇxǝ⟘",
+  "sftcore.void_portal.tooltip": "uǝddɐɥ ןןıʍ ʇɐɥʍ ǝǝs puɐ ʞɔıןɔ ʇɥbıᴚ"
 }

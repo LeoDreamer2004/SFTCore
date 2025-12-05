@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
@@ -17,7 +18,6 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.HULL;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static org.leodreamer.sftcore.common.data.SFTBlocks.MULTI_FUNCTIONAL_CASING;
-import static org.leodreamer.sftcore.common.data.SFTMachines.MACHINE_ADJUSTMENT;
 
 public final class BlockRecipes {
 
@@ -45,7 +45,7 @@ public final class BlockRecipes {
                 .arg('A', Items.CHEST)
                 .arg('B', HULL[LV])
                 .arg('C', ELECTRIC_MOTOR_MV)
-                .output(MACHINE_ADJUSTMENT.asStack())
+                .output(SFTPartMachines.MACHINE_ADJUSTMENT.asStack())
                 .save(provider);
     }
 }

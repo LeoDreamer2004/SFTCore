@@ -51,7 +51,7 @@ public final class SFTItems {
         return REGISTRATE.item("%s_universal_circuit".formatted(name), ComponentItem::create)
                 .lang("%s §rUniversal Circuit".formatted(GTValues.VNF[tier]))
                 .tag(CustomTags.CIRCUITS_ARRAY[tier])
-                .onRegister(attach(new TooltipBehavior(lines -> lines.addAll(SFTTooltipsBuilder.of().textureComeFrom("GregTech New Horizon").all()))))
+                .onRegister(attach(new TooltipBehavior(lines -> lines.addAll(SFTTooltipsBuilder.of().textureComeFrom("GregTech New Horizon").list()))))
                 .register();
     }
 

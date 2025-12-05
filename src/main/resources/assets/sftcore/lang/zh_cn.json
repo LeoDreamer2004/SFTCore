@@ -30,10 +30,12 @@
   "block.sftcore.oil_drilling_rig": "石油钻机",
   "block.sftcore.ore_replicator": "矿石发生器",
   "block.sftcore.semiconductor_blast_furnace": "半导体烧结炉",
+  "block.sftcore.void_portal": "虚空传送门",
   "commands.sftcore.dump.failure": "导出失败",
   "commands.sftcore.dump.start": "开始导出...",
   "commands.sftcore.dump.success": "导出完成",
   "commands.sftcore.dump.success.link": "[打开文件]",
+  "config.jade.plugin_sftcore.configurable_maintenance_hatch": "可配置自动维护仓",
   "gtceu.dummy": "无",
   "gtceu.machine.available_recipe_map_1.tooltip": "§5Δ §l配方类型：%s",
   "gtceu.machine.available_recipe_map_2.tooltip": "§5Δ §l配方类型：%s，%s",
@@ -108,9 +110,9 @@
   "sftcore.machine.common_factory.voltage_invalid": "能源仓和小机器电压不匹配！",
   "sftcore.machine.desulfurizer.tooltip": "高效地从油中脱硫",
   "sftcore.machine.greenhouse.tooltip": "希望我们的植物能茁壮成长",
-  "sftcore.machine.large_cracker.tooltip.1": "- §7线圈等级每高于§6白铜§7一级，配方耗能和耗时均减免§r10%",
+  "sftcore.machine.large_cracker.tooltip.0": "- §7线圈等级每高于§6白铜§7一级，配方耗能和耗时均减免§r10%",
   "sftcore.machine.large_gas_collector.tooltip": "收集无论何处的气体",
-  "sftcore.machine.large_gas_collector.tooltip.1": "-§7 具有（几乎）§c§l无限§7的并行",
+  "sftcore.machine.large_gas_collector.tooltip.0": "-§7 具有（几乎）§c§l无限§7的并行",
   "sftcore.machine.large_inscriber.tooltip": "高级电路的印刷者",
   "sftcore.machine.large_mekanism_nuclear_reactor.tooltip": "彻底汲取燃料中的能量",
   "sftcore.machine.oil_drilling_rig.tooltip": "哦，这可不怎么环保...",
@@ -132,5 +134,6 @@
   "sftcore.oil_drilling_rig": "石油钻机",
   "sftcore.semiconductor_blast_furnace": "半导体锻炉",
   "sftcore.structure_come_from": "结构来源：%s",
-  "sftcore.texture_come_from": "纹理来源：%s"
+  "sftcore.texture_come_from": "纹理来源：%s",
+  "sftcore.void_portal.tooltip": "右击它，看看会发生什么"
 }

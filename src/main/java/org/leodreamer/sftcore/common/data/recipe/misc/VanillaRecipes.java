@@ -5,8 +5,8 @@ import com.simibubi.create.AllItems;
 import mekanism.common.Mekanism;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.leodreamer.sftcore.common.data.SFTBlocks;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public final class VanillaRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         vanillaRecipes(provider);
-        uuMatterRecipes(provider);
+        SFTRecipes(provider);
     }
 
     private static void vanillaRecipes(Consumer<FinishedRecipe> provider) {
@@ -25,7 +25,17 @@ public final class VanillaRecipes {
                 .pattern("HHH", "SSS", " S ")
                 .arg('H', Items.WITHER_SKELETON_SKULL)
                 .arg('S', Items.SOUL_SAND)
-                .output(new ItemStack(Items.NETHER_STAR))
+                .output(Items.NETHER_STAR)
+                .save(provider);
+    }
+
+    private static void SFTRecipes(Consumer<FinishedRecipe> provider) {
+        uuMatterRecipes(provider);
+        SFTVanillaRecipeHelper.addShapedRecipe("void_portal")
+                .pattern("GGG", "GDG", "GGG")
+                .arg('G', Items.GOLD_BLOCK)
+                .arg('D', Items.DIAMOND_BLOCK)
+                .output(SFTBlocks.VOID_PORTAL)
                 .save(provider);
     }
 
@@ -64,7 +74,7 @@ public final class VanillaRecipes {
         SFTVanillaRecipeHelper.addShapedRecipe("uu/" + name)
                 .pattern(pattern)
                 .arg('U', SFTItems.UU_MATTER)
-                .output(new ItemStack(output, amount))
+                .output(output, amount)
                 .save(provider);
     }
 }

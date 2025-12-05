@@ -12,9 +12,10 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.data.SFTMachines;
 import org.leodreamer.sftcore.common.data.SFTMaterials;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
+import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
+import org.leodreamer.sftcore.common.data.machine.SFTSingleMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
@@ -80,7 +81,7 @@ public final class CustomGTRecipes {
         }
 
         FISHBIG_MAKER_RECIPES.recipeBuilder(SFTCore.id("ore_generator"))
-                .outputItems(SFTMachines.ORE_REPLICATOR.asStack())
+                .outputItems(SFTSingleMachines.ORE_REPLICATOR.asStack())
                 .notConsumable(EPPItemAndBlock.FISHBIG.asItem())
                 .inputItems(MekanismItems.ULTIMATE_CONTROL_CIRCUIT, 4)
                 .inputItems(Items.SMOOTH_STONE)
@@ -90,7 +91,7 @@ public final class CustomGTRecipes {
                 .save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("ore_generator"))
-                .outputItems(SFTMachines.ORE_REPLICATOR.asStack())
+                .outputItems(SFTSingleMachines.ORE_REPLICATOR.asStack())
                 .notConsumable(EPPItemAndBlock.FISHBIG.asItem())
                 .inputItems(MekanismItems.ULTIMATE_CONTROL_CIRCUIT, 4)
                 .inputItems(Items.SMOOTH_STONE)
@@ -100,7 +101,7 @@ public final class CustomGTRecipes {
                 .save(provider);
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id("configurable_auto_maintenance_hatch"))
-                .outputItems(SFTMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
+                .outputItems(SFTPartMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
                 .inputItems(frameGt, HastelloyX)
                 .inputItems(AUTO_MAINTENANCE_HATCH)
                 .inputItems(CONFIGURABLE_MAINTENANCE_HATCH, 4)
@@ -125,8 +126,8 @@ public final class CustomGTRecipes {
                 .arg('A', CLEANING_MAINTENANCE_HATCH)
                 .arg('B', new MaterialEntry(plateDouble, RhodiumPlatedPalladium))
                 .arg('C', CustomTags.LuV_CIRCUITS)
-                .arg('D', SFTMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
-                .output(SFTMachines.CONFIGURABLE_CLEANING_MAINTENANCE_HATCH.asStack())
+                .arg('D', SFTPartMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
+                .output(SFTPartMachines.CONFIGURABLE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .save(provider);
     }
 }

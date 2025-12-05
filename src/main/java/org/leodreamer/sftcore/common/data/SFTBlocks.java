@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.api.wrapper.TooltipedBlockItem;
+import org.leodreamer.sftcore.common.block.VoidPortalBlock;
 
 import java.util.function.Supplier;
 
@@ -21,10 +22,17 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
 public final class SFTBlocks {
 
+    public static final BlockEntry<VoidPortalBlock> VOID_PORTAL =
+            REGISTRATE.block("void_portal", VoidPortalBlock::new)
+                    .initialProperties(() -> Blocks.OBSIDIAN)
+                    .item()
+                    .build()
+                    .register();
+
     public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock(
             "multi_functional_casing",
             SFTCore.id("block/casings/solid/multi_functional_casing"),
-            SFTTooltipsBuilder.of().textureComeFrom("GregTech Odyssey").all().toArray(new Component[0])
+            SFTTooltipsBuilder.of().textureComeFrom("GregTech Odyssey").array()
     );
 
     public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture, Component... tooltips) {

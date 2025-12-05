@@ -68,7 +68,7 @@ public final class AE2Recipes {
                 .arg('B', AEItems.WIRELESS_RECEIVER)
                 .arg('C', ConventionTags.SMART_DENSE_CABLE)
                 .arg('D', HULL[MV])
-                .output(new ItemStack(EPPItemAndBlock.WIRELESS_CONNECTOR, 4))
+                .output(EPPItemAndBlock.WIRELESS_CONNECTOR, 4)
                 .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("reaction_chamber")
@@ -78,14 +78,14 @@ public final class AE2Recipes {
                 .arg('C', AEBlocks.VIBRATION_CHAMBER)
                 .arg('D', Items.GLOWSTONE)
                 .arg('E', Items.BUCKET)
-                .output(AAEBlocks.REACTION_CHAMBER.stack())
+                .output(AAEBlocks.REACTION_CHAMBER)
                 .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("creative_energy_cell")
                 .pattern(" A ", "ABA", " A ")
                 .arg('A', MEGABlocks.MEGA_ENERGY_CELL)
                 .arg('B', MEGAItems.ACCUMULATION_PROCESSOR)
-                .output(AEBlocks.CREATIVE_ENERGY_CELL.stack())
+                .output(AEBlocks.CREATIVE_ENERGY_CELL)
                 .save(provider);
 
         inscribe(provider, "calculation", AEItems.CERTUS_QUARTZ_CRYSTAL.asItem(), AEItems.CALCULATION_PROCESSOR.asItem());

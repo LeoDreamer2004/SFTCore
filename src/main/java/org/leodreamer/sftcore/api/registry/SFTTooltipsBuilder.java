@@ -40,8 +40,12 @@ public class SFTTooltipsBuilder {
         return this;
     }
 
-    public List<Component> all() {
+    public List<Component> list() {
         return this.tooltips;
+    }
+
+    public Component[] array() {
+        return this.tooltips.toArray(new Component[0]);
     }
 
     public SFTTooltipsBuilder with(MachineBuilder<?> definition) {
@@ -55,8 +59,7 @@ public class SFTTooltipsBuilder {
         }
         var id = this.definition.id;
         var key = id.getNamespace() + ".machine." + id.getPath() + ".tooltip";
-        TOOLTIPS_REGISTRATE.put(key, tooltip);
-        // this.tooltips.add(Component.translatable(key)); // skip, as the tooltip is auto-shown
+        TOOLTIPS_REGISTRATE.put(key, tooltip); // the tooltip is auto-shown
 
         return this;
     }

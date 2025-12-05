@@ -30,6 +30,7 @@
   "block.sftcore.oil_drilling_rig": "Oil Drilling Rig",
   "block.sftcore.ore_replicator": "Ore Replicator",
   "block.sftcore.semiconductor_blast_furnace": "Semiconductor Blast Furnace",
+  "block.sftcore.void_portal": "Void Portal",
   "commands.sftcore.dump.failure": "Dump failed.",
   "commands.sftcore.dump.start": "Start dumping...",
   "commands.sftcore.dump.success": "Dump finished.",
@@ -133,5 +134,6 @@
   "sftcore.oil_drilling_rig": "Oil Drilling Rig",
   "sftcore.semiconductor_blast_furnace": "Semiconductor Blast Furnace",
   "sftcore.structure_come_from": "Structures come from: %s",
-  "sftcore.texture_come_from": "Textures come from: %s"
+  "sftcore.texture_come_from": "Textures come from: %s",
+  "sftcore.void_portal.tooltip": "Right click and see what will happen"
 }

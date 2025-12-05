@@ -70,6 +70,14 @@ public class SFTVanillaRecipeHelper {
             return this;
         }
 
+        public ShapedRecipeBuilder output(ItemLike item) {
+            return output(new ItemStack(item));
+        }
+
+        public ShapedRecipeBuilder output(ItemLike item, int amount) {
+            return output(new ItemStack(item, amount));
+        }
+
         public void save(Consumer<FinishedRecipe> provider) {
             if (id == null) {
                 SFTCore.LOGGER.warn("Recipe ID is not set for {}", output);

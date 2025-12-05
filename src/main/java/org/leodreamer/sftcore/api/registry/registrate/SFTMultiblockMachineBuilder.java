@@ -59,7 +59,7 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     public SFTMultiblockMachineBuilder tooltips(Function<SFTMultiblockMachineBuilder, SFTTooltipsBuilder> tooltipsBuilder) {
-        return this.tooltips(tooltipsBuilder.apply(this).all());
+        return this.tooltips(tooltipsBuilder.apply(this).list());
     }
 
     /// COPIED METHODS

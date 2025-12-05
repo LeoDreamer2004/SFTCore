@@ -36,7 +36,7 @@ public class SFTMachineBuilder<DEFINITION extends MachineDefinition> extends Mac
     }
 
     public SFTMachineBuilder<DEFINITION> tooltips(Function<SFTMachineBuilder<DEFINITION>, SFTTooltipsBuilder> tooltipsBuilder) {
-        return this.tooltips(tooltipsBuilder.apply(this).all());
+        return this.tooltips(tooltipsBuilder.apply(this).list());
     }
 
     /// COPIED METHODS
