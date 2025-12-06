@@ -206,6 +206,10 @@ repositories {
     maven { // Extended Crafting
         url 'https://maven.blakesmods.com'
     }
+    maven { // libX
+        name = 'ModdingX Maven'
+        url = 'https://maven.moddingx.org/'
+    }
     mavenLocal()
 }
 
@@ -235,6 +239,9 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:6855440")
     implementation fg.deobf("com.blakebr0.cucumber:Cucumber:${minecraft_version}-${cucumber_version}")
     implementation fg.deobf("com.blakebr0.extendedcrafting:ExtendedCrafting:${minecraft_version}-${extended_crafting_version}")
+    implementation fg.deobf("curse.maven:travel-anchors-413234:4683662")
+    annotationProcessor fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
+    implementation fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
     implementation("com.eliotlash.mclib:mclib:20")
     implementation 'org.projectlombok:lombok:1.18.30'
 

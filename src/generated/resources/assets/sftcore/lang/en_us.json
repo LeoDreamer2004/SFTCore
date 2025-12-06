@@ -119,6 +119,7 @@
   "sftcore.machine.ore_replicator.tooltip": "Place it under an ore block and it will generate ores.",
   "sftcore.machine.semiconductor_blast_furnace.tooltip": "Expert in producing semiconductor.",
   "sftcore.mekanism_nuclear_reaction": "Mekanism Nuclear Reaction",
+  "sftcore.mixin.travel_anchor.travel_staff.tooltip": "Do not have cooldown",
   "sftcore.modified_by_sft": "* Modified By SFT *",
   "sftcore.multiblock.allow_laser": "§eo §lLaser Hatch: §a✔§r",
   "sftcore.multiblock.allow_laser.1": "§7§o   Laser hatch can provide huge energy, and must be used together with a normal energy hatch.",

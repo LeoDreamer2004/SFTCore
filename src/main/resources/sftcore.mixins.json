@@ -8,7 +8,9 @@
     "gregtech.CleaningMaintenanceMixin",
     "gregtech.DualHatchMixin",
     "gregtech.ParallelHatchMixin",
-    "gregtech.RecipeDurationMixin"
+    "gregtech.RecipeDurationMixin",
+    "travelarchor.EventListenerMixin",
+    "travelarchor.TravelStaffMixin"
   ],
   "client": [],
   "server": [],

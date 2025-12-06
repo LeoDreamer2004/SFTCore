@@ -119,6 +119,7 @@
   "sftcore.machine.ore_replicator.tooltip": "把它放在矿石方块下就会生成矿石",
   "sftcore.machine.semiconductor_blast_furnace.tooltip": "半导体领域的专家",
   "sftcore.mekanism_nuclear_reaction": "通用机械核反应",
+  "sftcore.mixin.travel_anchor.travel_staff.tooltip": "没有冷却时间",
   "sftcore.modified_by_sft": "* 由 SFT 修改 *",
   "sftcore.multiblock.allow_laser": "§eo §l激光仓：§a✔§r",
   "sftcore.multiblock.allow_laser.1": "§7§o   激光仓可以提供巨大的能量，且必须和一般能源仓共同使用",
