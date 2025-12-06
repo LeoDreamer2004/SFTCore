@@ -34,7 +34,7 @@ public class VoidPortalBlock extends Block {
         super(properties);
     }
 
-    public static final BlockPos VOID_SPAWN_POINT = new BlockPos(0, 50, 0);
+    public static final BlockPos VOID_SPAWN_POINT = new BlockPos(0, 80, 0);
 
     @Override
     @SuppressWarnings("deprecation")

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:potin_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:potin_plate"
+    }
+  ]
+}

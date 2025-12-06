@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:gallium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:gallium_plate"
+    }
+  ]
+}

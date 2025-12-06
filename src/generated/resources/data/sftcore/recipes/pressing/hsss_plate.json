@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:hsss_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:hsss_plate"
+    }
+  ]
+}

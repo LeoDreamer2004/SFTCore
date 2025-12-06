@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:niobium_titanium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:niobium_titanium_plate"
+    }
+  ]
+}

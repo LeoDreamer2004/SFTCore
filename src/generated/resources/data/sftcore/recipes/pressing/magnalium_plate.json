@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:magnalium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:magnalium_plate"
+    }
+  ]
+}

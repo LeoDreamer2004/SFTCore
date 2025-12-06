@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:rhodium_plated_palladium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:rhodium_plated_palladium_plate"
+    }
+  ]
+}

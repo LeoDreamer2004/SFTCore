@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:epoxy_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:epoxy_plate"
+    }
+  ]
+}

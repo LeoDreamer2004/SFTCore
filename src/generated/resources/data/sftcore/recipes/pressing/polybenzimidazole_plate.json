@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:polybenzimidazole_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polybenzimidazole_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:polyethylene_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polyethylene_plate"
+    }
+  ]
+}

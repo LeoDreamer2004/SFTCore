@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:bismuth_bronze_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:bismuth_bronze_plate"
+    }
+  ]
+}

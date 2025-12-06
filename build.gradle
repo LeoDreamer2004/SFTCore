@@ -203,6 +203,9 @@ repositories {
             includeGroup("com.eliotlash.mclib")
         }
     }
+    maven { // Extended Crafting
+        url 'https://maven.blakesmods.com'
+    }
     mavenLocal()
 }
 
@@ -230,6 +233,8 @@ dependencies {
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
     implementation fg.deobf("curse.maven:gtmthings-1104310:6843500")
     implementation fg.deobf("curse.maven:jade-324717:6855440")
+    implementation fg.deobf("com.blakebr0.cucumber:Cucumber:${minecraft_version}-${cucumber_version}")
+    implementation fg.deobf("com.blakebr0.extendedcrafting:ExtendedCrafting:${minecraft_version}-${extended_crafting_version}")
     implementation("com.eliotlash.mclib:mclib:20")
     implementation 'org.projectlombok:lombok:1.18.30'
 

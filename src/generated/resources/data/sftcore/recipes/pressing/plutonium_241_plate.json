@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:plutonium_241_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:plutonium_241_plate"
+    }
+  ]
+}

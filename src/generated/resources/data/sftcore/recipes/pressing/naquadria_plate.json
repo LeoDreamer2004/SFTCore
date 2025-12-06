@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:naquadria_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:naquadria_plate"
+    }
+  ]
+}

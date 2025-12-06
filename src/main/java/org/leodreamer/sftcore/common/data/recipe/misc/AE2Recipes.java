@@ -18,8 +18,9 @@ import net.minecraft.world.item.Items;
 import net.pedroksl.advanced_ae.common.definitions.AAEBlocks;
 import net.pedroksl.advanced_ae.common.definitions.AAEItems;
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.data.SFTRecipes;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
+import org.leodreamer.sftcore.integration.IntegrateMods;
+import org.leodreamer.sftcore.integration.IntegrateUtils;
 
 import java.util.function.Consumer;
 
@@ -94,7 +95,7 @@ public final class AE2Recipes {
         inscribe(provider, "accumulation", MEGAItems.SKY_STEEL_INGOT.asItem(), MEGAItems.ACCUMULATION_PROCESSOR.asItem());
         inscribe(provider, "quantum", AAEItems.QUANTUM_ALLOY.asItem(), AAEItems.QUANTUM_PROCESSOR.asItem());
 
-        var sink = SFTRecipes.getItemById("cookingforblockheads", "sink");
+        var sink = IntegrateUtils.getItemById(IntegrateMods.COOK, "sink");
 
         if (sink != null) {
             var waterCell = getInfinityCell('f', "minecraft:water");

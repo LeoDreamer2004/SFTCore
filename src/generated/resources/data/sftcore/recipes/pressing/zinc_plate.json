@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:zinc_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:zinc_plate"
+    }
+  ]
+}

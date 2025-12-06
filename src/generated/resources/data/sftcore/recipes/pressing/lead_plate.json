@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:lead_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:lead_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:uranium_rhodium_dinaquadide_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:uranium_rhodium_dinaquadide_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:nichrome_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:nichrome_plate"
+    }
+  ]
+}

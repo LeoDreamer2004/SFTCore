@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:enriched_naquadah_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:enriched_naquadah_plate"
+    }
+  ]
+}

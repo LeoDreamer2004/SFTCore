@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:styrene_butadiene_rubber_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:styrene_butadiene_rubber_plate"
+    }
+  ]
+}

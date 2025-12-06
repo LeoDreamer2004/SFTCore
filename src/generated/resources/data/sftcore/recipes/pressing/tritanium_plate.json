@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:tritanium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tritanium_plate"
+    }
+  ]
+}

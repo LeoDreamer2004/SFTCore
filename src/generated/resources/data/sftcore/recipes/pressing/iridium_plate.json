@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:iridium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:iridium_plate"
+    }
+  ]
+}

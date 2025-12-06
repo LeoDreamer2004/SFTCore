@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:kanthal_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:kanthal_plate"
+    }
+  ]
+}

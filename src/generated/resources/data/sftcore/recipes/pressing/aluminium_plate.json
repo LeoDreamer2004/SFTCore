@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:aluminium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:aluminium_plate"
+    }
+  ]
+}

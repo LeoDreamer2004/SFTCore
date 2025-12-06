@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
+import com.blakebr0.extendedcrafting.init.ModBlocks;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -13,10 +14,11 @@ import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTMaterials;
-import org.leodreamer.sftcore.common.data.SFTRecipes;
 import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.machine.SFTSingleMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
+import org.leodreamer.sftcore.integration.IntegrateMods;
+import org.leodreamer.sftcore.integration.IntegrateUtils;
 
 import java.util.function.Consumer;
 
@@ -40,7 +42,7 @@ public final class CustomGTRecipes {
                 .EUt(VA[ULV])
                 .save(provider);
 
-        var torcherino = SFTRecipes.getItemById("torcherino", "torcherino");
+        var torcherino = IntegrateUtils.getItemById(IntegrateMods.TORCHERINO, "torcherino");
         if (torcherino != null) {
             HURRY_UP_RECIPES.recipeBuilder(SFTCore.id("hurry_up"))
                     .outputItems(torcherino, 2)
@@ -62,23 +64,19 @@ public final class CustomGTRecipes {
                     .save(provider);
         }
 
-        var netherStarBlock = SFTRecipes.getItemById("extendedcrafting", "nether_star_block");
-
-        if (netherStarBlock != null) {
-            FISHBIG_MAKER_RECIPES.recipeBuilder(SFTCore.id("fishbig"))
-                    .outputItems(EPPItemAndBlock.FISHBIG.asItem())
-                    .inputItems(MekanismItems.SUPERMASSIVE_QIO_DRIVE)
-                    .inputItems(Items.LIGHT_BLUE_WOOL, 64)
-                    .inputItems(AllItems.PRECISION_MECHANISM.get(), 64)
-                    .inputItems(AllItems.BAR_OF_CHOCOLATE, 64)
-                    .inputItems(netherStarBlock, 64)
-                    .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(8000))
-                    .inputFluids(MekanismFluids.SULFURIC_ACID.getFluidStack(8000))
-                    .inputFluids(MekanismFluids.ETHENE.getFluidStack(8000))
-                    .duration(3000)
-                    .EUt(VA[LV])
-                    .save(provider);
-        }
+        FISHBIG_MAKER_RECIPES.recipeBuilder(SFTCore.id("fishbig"))
+                .outputItems(EPPItemAndBlock.FISHBIG.asItem())
+                .inputItems(MekanismItems.SUPERMASSIVE_QIO_DRIVE)
+                .inputItems(Items.LIGHT_BLUE_WOOL, 64)
+                .inputItems(AllItems.PRECISION_MECHANISM.get(), 64)
+                .inputItems(AllItems.BAR_OF_CHOCOLATE, 64)
+                .inputItems(ModBlocks.NETHER_STAR_BLOCK, 64)
+                .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(8000))
+                .inputFluids(MekanismFluids.SULFURIC_ACID.getFluidStack(8000))
+                .inputFluids(MekanismFluids.ETHENE.getFluidStack(8000))
+                .duration(3000)
+                .EUt(VA[LV])
+                .save(provider);
 
         FISHBIG_MAKER_RECIPES.recipeBuilder(SFTCore.id("ore_generator"))
                 .outputItems(SFTSingleMachines.ORE_REPLICATOR.asStack())

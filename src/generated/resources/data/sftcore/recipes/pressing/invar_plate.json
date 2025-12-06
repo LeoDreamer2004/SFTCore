@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:invar_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:invar_plate"
+    }
+  ]
+}

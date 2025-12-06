@@ -1,0 +1,77 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:cobblestone"
+  },
+  "loops": 1,
+  "results": [
+    {
+      "item": "sftcore:uu_matter"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        },
+        {
+          "item": "minecraft:cobblestone"
+        }
+      ],
+      "results": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        }
+      ]
+    },
+    {
+      "type": "create:cutting",
+      "ingredients": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        }
+      ],
+      "results": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        }
+      ],
+      "results": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        },
+        {
+          "amount": 100,
+          "fluid": "minecraft:lava",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "sftcore:incomplete_uu_matter"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "sftcore:incomplete_uu_matter"
+  }
+}

@@ -1,7 +1,10 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
+import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismFluids;
 import mekanism.common.registries.MekanismItems;
+import mekanism.common.tags.MekanismTags;
+import mekanism.generators.common.registries.GeneratorsBlocks;
 import mekanism.generators.common.registries.GeneratorsFluids;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
@@ -10,6 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -25,6 +29,13 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.MEKANISM_
 
 public final class MekanismRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
+        SFTVanillaRecipeHelper.addShapedRecipe("turbine_casing")
+                .pattern(" S ", "STS", " S ")
+                .arg('S', MekanismTags.Items.INGOTS_STEEL)
+                .arg('T', AllItems.STURDY_SHEET)
+                .output(GeneratorsBlocks.TURBINE_CASING)
+                .save(provider);
+
         MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/steel"))
                 .outputItems(MekanismItems.STEEL_INGOT, 4)
                 .inputItems(ingot, Iron, 4)

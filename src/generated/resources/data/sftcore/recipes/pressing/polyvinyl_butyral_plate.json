@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:polyvinyl_butyral_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polyvinyl_butyral_plate"
+    }
+  ]
+}

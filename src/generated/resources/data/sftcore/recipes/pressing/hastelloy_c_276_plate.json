@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:hastelloy_c_276_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:hastelloy_c_276_plate"
+    }
+  ]
+}

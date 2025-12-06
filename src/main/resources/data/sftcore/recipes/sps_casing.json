@@ -1,0 +1,38 @@
+{
+  "type": "extendedcrafting:shaped_table",
+  "pattern": [
+    "   SSS   ",
+    "  SHHHS  ",
+    " SHPLPHS ",
+    "SHPPUPPHS",
+    "SHLUTULHS",
+    "SHPPUPPHS",
+    " SHPLPHS ",
+    "  SHHHS  ",
+    "   SSS   "
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:ingots/steel"
+    },
+    "H": {
+      "item": "mekanism:hdpe_sheet"
+    },
+    "P": {
+      "item": "mekanism:pellet_polonium"
+    },
+    "L": {
+      "item": "mekanism:pellet_plutonium"
+    },
+    "U": {
+      "item": "mekanism:ultimate_control_circuit"
+    },
+    "T": {
+      "item": "mekanism:teleportation_core"
+    }
+  },
+  "result": {
+    "item": "mekanism:sps_casing",
+    "count": 3
+  }
+}

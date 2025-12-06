@@ -1,0 +1,17 @@
+{
+  "type": "create:deploying",
+  "ingredients": [
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:obsidian"
+    }
+  ],
+  "keepHeldItem": true,
+  "results": [
+    {
+      "item": "fluxnetworks:flux_dust"
+    }
+  ]
+}

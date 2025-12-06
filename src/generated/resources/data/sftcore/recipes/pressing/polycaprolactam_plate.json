@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:polycaprolactam_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polycaprolactam_plate"
+    }
+  ]
+}

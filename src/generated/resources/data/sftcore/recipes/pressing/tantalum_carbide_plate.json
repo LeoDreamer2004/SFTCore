@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:tantalum_carbide_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tantalum_carbide_plate"
+    }
+  ]
+}

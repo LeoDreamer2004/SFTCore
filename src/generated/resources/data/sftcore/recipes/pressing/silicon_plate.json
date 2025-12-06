@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:silicon_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:silicon_plate"
+    }
+  ]
+}

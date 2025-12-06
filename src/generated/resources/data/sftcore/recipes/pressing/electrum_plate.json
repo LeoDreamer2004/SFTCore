@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:electrum_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:electrum_plate"
+    }
+  ]
+}

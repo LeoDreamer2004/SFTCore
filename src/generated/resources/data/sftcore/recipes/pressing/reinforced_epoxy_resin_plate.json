@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:reinforced_epoxy_resin_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:reinforced_epoxy_resin_plate"
+    }
+  ]
+}

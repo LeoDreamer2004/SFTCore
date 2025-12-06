@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:thorium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:thorium_plate"
+    }
+  ]
+}

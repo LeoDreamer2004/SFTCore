@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:manganese_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:manganese_plate"
+    }
+  ]
+}

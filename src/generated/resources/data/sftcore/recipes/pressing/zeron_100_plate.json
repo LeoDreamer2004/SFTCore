@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:zeron_100_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:zeron_100_plate"
+    }
+  ]
+}

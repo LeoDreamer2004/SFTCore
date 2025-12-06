@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:ruridit_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:ruridit_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:maraging_steel_300_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:maraging_steel_300_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:titanium_tungsten_carbide_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:titanium_tungsten_carbide_plate"
+    }
+  ]
+}

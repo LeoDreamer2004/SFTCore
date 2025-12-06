@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:yttrium_barium_cuprate_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:yttrium_barium_cuprate_plate"
+    }
+  ]
+}

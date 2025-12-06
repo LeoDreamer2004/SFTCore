@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:osmium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:osmium_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:silver_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:silver_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:chromium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:chromium_plate"
+    }
+  ]
+}

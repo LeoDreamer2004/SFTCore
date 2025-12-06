@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:neutronium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:neutronium_plate"
+    }
+  ]
+}

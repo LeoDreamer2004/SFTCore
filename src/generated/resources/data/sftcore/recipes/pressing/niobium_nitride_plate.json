@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:niobium_nitride_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:niobium_nitride_plate"
+    }
+  ]
+}

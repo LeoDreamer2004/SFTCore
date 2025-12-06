@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:magnetic_steel_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:magnetic_steel_plate"
+    }
+  ]
+}

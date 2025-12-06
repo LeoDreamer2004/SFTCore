@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:annealed_copper_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:annealed_copper_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:polyphenylene_sulfide_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polyphenylene_sulfide_plate"
+    }
+  ]
+}

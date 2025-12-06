@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:incoloy_ma_956_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:incoloy_ma_956_plate"
+    }
+  ]
+}

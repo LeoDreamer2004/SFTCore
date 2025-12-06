@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:graphene_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:graphene_plate"
+    }
+  ]
+}

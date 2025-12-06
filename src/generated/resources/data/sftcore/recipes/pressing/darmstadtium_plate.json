@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:darmstadtium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:darmstadtium_plate"
+    }
+  ]
+}

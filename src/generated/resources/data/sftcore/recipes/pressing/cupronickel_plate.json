@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:cupronickel_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:cupronickel_plate"
+    }
+  ]
+}

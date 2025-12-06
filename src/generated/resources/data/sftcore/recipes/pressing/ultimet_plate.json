@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:ultimet_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:ultimet_plate"
+    }
+  ]
+}

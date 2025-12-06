@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:tin_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tin_plate"
+    }
+  ]
+}

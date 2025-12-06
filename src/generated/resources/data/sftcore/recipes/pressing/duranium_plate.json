@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:duranium_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:duranium_plate"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:cobalt_brass_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:cobalt_brass_plate"
+    }
+  ]
+}

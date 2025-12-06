@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:stainless_steel_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:stainless_steel_plate"
+    }
+  ]
+}

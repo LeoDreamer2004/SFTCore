@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:polyvinyl_chloride_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polyvinyl_chloride_plate"
+    }
+  ]
+}

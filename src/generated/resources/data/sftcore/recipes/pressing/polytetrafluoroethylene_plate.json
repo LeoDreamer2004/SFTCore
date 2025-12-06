@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:polytetrafluoroethylene_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polytetrafluoroethylene_plate"
+    }
+  ]
+}

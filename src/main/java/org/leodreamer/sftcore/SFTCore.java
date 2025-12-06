@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -17,8 +18,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
 import org.leodreamer.sftcore.common.data.*;
-import org.leodreamer.sftcore.common.data.SFTMachines;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
+import org.leodreamer.sftcore.integration.create.SFTCreateDataGen;
 
 
 @Mod(SFTCore.MOD_ID)
@@ -37,6 +38,7 @@ public class SFTCore {
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
         bus.addGenericListener(CoverDefinition.class, this::registerCovers);
+        bus.addListener(EventPriority.LOWEST, SFTCreateDataGen::gatherData);
 
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> SFTClient::init);
     }

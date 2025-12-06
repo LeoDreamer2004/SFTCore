@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "gtceu:nickel_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:nickel_plate"
+    }
+  ]
+}
