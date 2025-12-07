@@ -12,7 +12,9 @@
     "travelarchor.EventListenerMixin",
     "travelarchor.TravelStaffMixin"
   ],
-  "client": [],
+  "client": [
+    "vanilla.ChangeVanillaTitle"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

@@ -81,8 +81,8 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        tooltipComponents.add(Component.translatable(TOOLTIP));
-        tooltipComponents.addAll(SFTTooltipsBuilder.of().textureComeFrom("Time In a Bottle").list());
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
+        SFTTooltipsBuilder.of().insert(Component.translatable(TOOLTIP))
+                .textureComeFrom("Time In a Bottle").addTo(components);
     }
 }

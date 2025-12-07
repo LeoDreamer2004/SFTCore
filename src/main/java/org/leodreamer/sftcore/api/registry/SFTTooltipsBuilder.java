@@ -23,7 +23,7 @@ public class SFTTooltipsBuilder {
     public static Object2ObjectArrayMap<String, String> TOOLTIPS_REGISTRATE = new Object2ObjectArrayMap<>();
 
     SFTTooltipsBuilder() {
-        this.tooltips = new ArrayList<>();
+        tooltips = new ArrayList<>();
     }
 
     public static SFTTooltipsBuilder of() {
@@ -31,21 +31,25 @@ public class SFTTooltipsBuilder {
     }
 
     public SFTTooltipsBuilder insert(Component component) {
-        this.tooltips.add(component);
+        tooltips.add(component);
         return this;
     }
 
     public SFTTooltipsBuilder insert(Component... component) {
-        this.tooltips.addAll(Arrays.asList(component));
+        tooltips.addAll(Arrays.asList(component));
         return this;
     }
 
     public List<Component> list() {
-        return this.tooltips;
+        return tooltips;
+    }
+
+    public void addTo(List<Component> components) {
+        components.addAll(tooltips);
     }
 
     public Component[] array() {
-        return this.tooltips.toArray(new Component[0]);
+        return tooltips.toArray(new Component[0]);
     }
 
     public SFTTooltipsBuilder with(MachineBuilder<?> definition) {
@@ -77,7 +81,7 @@ public class SFTTooltipsBuilder {
             TOOLTIPS_REGISTRATE.put(key, contents[i]);
             keys.add(key);
         }
-        this.tooltips.addAll(keys.stream().map(Component::translatable).toList());
+        tooltips.addAll(keys.stream().map(Component::translatable).toList());
 
         return this;
     }

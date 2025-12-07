@@ -270,9 +270,9 @@ public final class CommonGTRecipes {
     }
 
     private static void universalCircuitRecipes(Consumer<FinishedRecipe> provider) {
-        for (var voltage : new int[]{ULV, LV, MV, HV, EV, IV, LuV, ZPM, UV, UHV}) {
+        for (var voltage : GTValues.tiersBetween(ULV, UHV)) {
             var tag = CustomTags.CIRCUITS_ARRAY[voltage];
-            var circuit = SFTItems.UNIVERSAL_CIRCUITS[voltage];
+            var circuit = SFTItems.UNIVERSAL_CIRCUITS.get(voltage);
             var name = VN[voltage] + "_universal_circuit";
 
             // crafting

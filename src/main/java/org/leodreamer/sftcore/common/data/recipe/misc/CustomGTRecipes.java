@@ -1,10 +1,12 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
+import appeng.core.definitions.AEItems;
 import com.blakebr0.extendedcrafting.init.ModBlocks;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismFluids;
 import mekanism.common.registries.MekanismItems;
@@ -24,8 +26,7 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.common.data.GTItems.FIELD_GENERATOR_IV;
-import static com.gregtechceu.gtceu.common.data.GTItems.ROBOT_ARM_IV;
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
@@ -127,5 +128,42 @@ public final class CustomGTRecipes {
                 .arg('D', SFTPartMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
                 .output(SFTPartMachines.CONFIGURABLE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .save(provider);
+
+        for (int tier : tiersBetween(LV, EV)) {
+            ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
+                    .outputItems(SFTItems.COVER_ACCELERATES[tier])
+                    .inputItems(AEItems.SPEED_CARD, 1 << tier)
+                    .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 4)
+                    .inputItems(MekanismItems.SPEED_UPGRADE, 1 << tier)
+                    .inputItems(COVER_ENERGY_DETECTOR, tier * 2)
+                    .inputItems(GTCraftingComponents.CABLE_DOUBLE.get(tier + 1), 2 + tier * 2)
+                    .inputItems(GTCraftingComponents.ROBOT_ARM.get(tier), 4)
+                    .inputItems(GTCraftingComponents.FIELD_GENERATOR.get(tier), tier / 2 + 1)
+                    .inputFluids(tier <= MV ? Glue.getFluid(1500 << tier) : Polyethylene.getFluid(L * 2 << tier))
+                    .duration(1000)
+                    .EUt(VA[tier + 1])
+                    .save(provider);
+        }
+
+        for (int tier : tiersBetween(IV, LuV)) {
+            ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
+                    .outputItems(SFTItems.COVER_ACCELERATES[tier])
+                    .inputItems(AEItems.SPEED_CARD, 1 << tier)
+                    .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 8)
+                    .inputItems(MekanismItems.SPEED_UPGRADE, 1 << tier)
+                    .inputItems(COVER_ENERGY_DETECTOR_ADVANCED, (tier - EV) * 4)
+                    .inputItems(GTCraftingComponents.CABLE_QUAD.get(tier + 1), 16)
+                    .inputItems(GTCraftingComponents.EMITTER.get(tier), 4)
+                    .inputItems(GTCraftingComponents.ROBOT_ARM.get(tier), 8)
+                    .inputItems(GTCraftingComponents.FIELD_GENERATOR.get(tier), 4)
+                    .inputFluids(Polybenzimidazole.getFluid(L * 2 << tier))
+                    .scannerResearch(b -> b
+                            .researchStack(SFTItems.COVER_ACCELERATES[tier - 1].asStack())
+                            .duration(2000)
+                            .EUt(VA[tier]))
+                    .duration(1200)
+                    .EUt(VA[tier + 1])
+                    .save(provider);
+        }
     }
 }

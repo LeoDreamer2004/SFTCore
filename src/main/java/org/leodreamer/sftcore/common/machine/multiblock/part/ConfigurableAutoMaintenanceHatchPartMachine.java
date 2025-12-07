@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -11,11 +12,13 @@ import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 
 public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachine implements IMaintenanceMachine {
     @Getter
@@ -26,6 +29,7 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
     private static final float MIN_DURATION_MULTIPLIER = 0.2f;
     private static final float DURATION_ACTION_AMOUNT = 0.2f;
 
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ConfigurableAutoMaintenanceHatchPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
     public ConfigurableAutoMaintenanceHatchPartMachine(IMachineBlockEntity holder) {
         super(holder, GTValues.IV);
@@ -94,6 +98,11 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
                 })));
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
+    }
+
+    @Override
+    public @NotNull ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 
     private Component getTimeWidget() {

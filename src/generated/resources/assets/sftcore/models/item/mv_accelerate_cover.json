@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sftcore:item/mv_accelerate_cover"
+  }
+}

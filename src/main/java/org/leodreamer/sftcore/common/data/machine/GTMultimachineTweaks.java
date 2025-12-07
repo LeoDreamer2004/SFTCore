@@ -32,7 +32,7 @@ public class GTMultimachineTweaks {
             hatch.setTooltipBuilder(
                     hatch.getTooltipBuilder().andThen((itemStack, components) -> {
                                 components.removeLast();
-                                components.addAll(SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().list());
+                                SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().addTo(components);
                             }
                     )
             );
@@ -58,7 +58,7 @@ public class GTMultimachineTweaks {
                                             DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
                                                     tier)));
                                     components.add(shareEnabled);
-                                    components.addAll(SFTTooltipsBuilder.of().modifiedBySFT().list());
+                                    SFTTooltipsBuilder.of().modifiedBySFT().addTo(components);
                                 }
                         )
                 );
@@ -83,7 +83,7 @@ public class GTMultimachineTweaks {
             );
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().halfPerfectOverlock().list()))
+                    machine.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of().halfPerfectOverlock().addTo(components))
             );
         }
 
@@ -91,7 +91,7 @@ public class GTMultimachineTweaks {
 
     public static void GTPerfectTweaks() {
         LARGE_CHEMICAL_REACTOR.setTooltipBuilder(
-                LARGE_CHEMICAL_REACTOR.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of().perfectOverlock().list()))
+                LARGE_CHEMICAL_REACTOR.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of().perfectOverlock().addTo(components))
         );
     }
 
@@ -132,11 +132,11 @@ public class GTMultimachineTweaks {
             );
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of()
+                    machine.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of()
                             .energyMultiplier(GCYM_EUT_MULTIPLIER)
                             .timeMultiplier(GCYM_DURATION_MULTIPLIER)
                             .halfPerfectOverlock()
-                            .modifiedBySFT().list()))
+                            .modifiedBySFT().addTo(components))
             );
         }
     }
@@ -153,12 +153,12 @@ public class GTMultimachineTweaks {
         );
 
         MEGA_BLAST_FURNACE.setTooltipBuilder(
-                MEGA_BLAST_FURNACE.getTooltipBuilder().andThen((stack, components) -> components.addAll(SFTTooltipsBuilder.of()
+                MEGA_BLAST_FURNACE.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of()
                         .energyMultiplier(GCYM_EUT_MULTIPLIER)
                         .timeMultiplier(GCYM_DURATION_MULTIPLIER)
                         .megaReduceWithCoil()
-                        .modifiedBySFT().list()
-                ))
+                        .modifiedBySFT().addTo(components)
+                )
         );
     }
 }
