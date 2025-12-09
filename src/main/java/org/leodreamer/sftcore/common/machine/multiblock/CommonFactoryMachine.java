@@ -133,7 +133,7 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
     }
 
     @RegisterLanguage("The voltage of energy hatch and machine don't match!")
-    static String VOLTAGE_INVALID = "sftcore.machine.common_factory.voltage_invalid";
+    static final String VOLTAGE_INVALID = "sftcore.machine.common_factory.voltage_invalid";
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {

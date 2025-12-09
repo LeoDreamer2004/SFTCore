@@ -5,14 +5,18 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "sftcore.refmap.json",
   "mixins": [
+    "ae2.CraftingEncodingPanelMixin",
+    "ae2.PatternEncodingTerminalPartMixin",
+    "ae2.PatternEncodingTermMenuMixin",
+    "ae2.StyleManagerMixin",
     "gregtech.CleaningMaintenanceMixin",
     "gregtech.DualHatchMixin",
     "gregtech.ParallelHatchMixin",
     "gregtech.RecipeDurationMixin",
-    "travelarchor.EventListenerMixin",
-    "travelarchor.TravelStaffMixin"
+    "travelarchor.EventListenerMixin"
   ],
   "client": [
+    "ae2.PatternEncodingTermScreenMixin",
     "vanilla.ChangeVanillaTitle"
   ],
   "server": [],

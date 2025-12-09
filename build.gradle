@@ -244,7 +244,11 @@ dependencies {
     implementation fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
     implementation("com.eliotlash.mclib:mclib:20")
     implementation 'org.projectlombok:lombok:1.18.30'
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {
+        jarJar.ranged(it, "[0.5.0,)")
+    }
 
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
     compileOnly 'org.projectlombok:lombok:1.18.30'
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")

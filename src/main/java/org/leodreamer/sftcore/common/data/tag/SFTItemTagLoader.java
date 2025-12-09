@@ -14,7 +14,7 @@ public class SFTItemTagLoader {
                 .add(Items.COAL);
         provider.addTag(Tags.Items.DYES_BLUE)
                 .add(Items.LAPIS_LAZULI);
-        provider.addTag(Tags.Items.DYES_GREEN)
+        provider.addTag(Tags.Items.DYES_LIME)
                 .add(Items.EMERALD);
         provider.addTag(Tags.Items.DYES_RED)
                 .add(Items.REDSTONE);
@@ -22,6 +22,8 @@ public class SFTItemTagLoader {
                 .add(Items.COPPER_INGOT);
         provider.addTag(Tags.Items.DYES_WHITE)
                 .add(Items.QUARTZ);
+        provider.addTag(Tags.Items.DYES_LIGHT_BLUE)
+                .add(Items.DIAMOND);
 
         provider.addTag(CustomTags.ULV_CIRCUITS)
                 .add(MekanismItems.ADVANCED_CONTROL_CIRCUIT.asItem());

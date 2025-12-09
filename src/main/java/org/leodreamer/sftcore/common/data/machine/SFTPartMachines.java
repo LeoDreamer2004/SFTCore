@@ -27,7 +27,7 @@ public class SFTPartMachines {
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(IS_FORMED, false)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder).disableSharing())
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id).disableSharing())
             .overlayTieredHullModel(GTCEu.id("block/machine/part/auto_maintenance_hatch"))
             .tier(IV)
             .register();
@@ -37,7 +37,7 @@ public class SFTPartMachines {
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(IS_FORMED, false)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder).disableSharing())
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id).disableSharing())
             .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
             .tier(LuV)
             .register();

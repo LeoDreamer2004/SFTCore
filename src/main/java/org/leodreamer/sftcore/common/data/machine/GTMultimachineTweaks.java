@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import net.minecraft.network.chat.Component;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 
 import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_EXPORT_HATCH;
@@ -14,6 +16,7 @@ import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers.*;
 
+@DataGenScanned
 public class GTMultimachineTweaks {
 
     public static void init() {
@@ -24,6 +27,15 @@ public class GTMultimachineTweaks {
         GCYMTweaks();
         GTMegaTweaks();
     }
+
+    @RegisterLanguage("Allows to run up to 64 recipes in parallel.")
+    static final String PARALLEL_MK5 = "gtceu.machine.parallel_hatch_mk5.tooltip";
+    @RegisterLanguage("Allows to run up to 256 recipes in parallel.")
+    static final String PARALLEL_MK6 = "gtceu.machine.parallel_hatch_mk6.tooltip";
+    @RegisterLanguage("Allows to run up to 1024 recipes in parallel.")
+    static final String PARALLEL_MK7 = "gtceu.machine.parallel_hatch_mk7.tooltip";
+    @RegisterLanguage("Allows to run up to 4096 recipes in parallel.")
+    static final String PARALLEL_MK8 = "gtceu.machine.parallel_hatch_mk8.tooltip";
 
     public static void ParallelHatchTweaks() {
         for (var hatch : PARALLEL_HATCH) {

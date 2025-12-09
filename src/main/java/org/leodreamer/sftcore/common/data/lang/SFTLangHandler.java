@@ -53,12 +53,5 @@ public class SFTLangHandler extends LangHandler {
         // machines
         provider.add("gtceu.dummy", "Null");
         provider.add("gtceu.machine.cracker.tooltip.1", "- §7For every 1 level above §6Cupronickel§7, recipe energy consumption is reduced by 10%%");
-
-        // mixin
-        provider.add("gtceu.machine.parallel_hatch_mk5.tooltip", "Allows to run up to 64 recipes in parallel.");
-        provider.add("gtceu.machine.parallel_hatch_mk6.tooltip", "Allows to run up to 256 recipes in parallel.");
-        provider.add("gtceu.machine.parallel_hatch_mk7.tooltip", "Allows to run up to 1024 recipes in parallel.");
-        provider.add("gtceu.machine.parallel_hatch_mk8.tooltip", "Allows to run up to 4096 recipes in parallel.");
-        provider.add("sftcore.mixin.travel_anchor.travel_staff.tooltip", "Do not have cooldown");
     }
 }

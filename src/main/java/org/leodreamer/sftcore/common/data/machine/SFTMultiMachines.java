@@ -73,7 +73,7 @@ public final class SFTMultiMachines {
 
     public static final MachineDefinition CERTUS_QUARTZ_CHARGER = REGISTRATE.multiblock("certus_quartz_charger", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("Release the power of Certus Quartz.")
                     .parallelizable())
             .appearanceBlock(CASING_STEEL_SOLID)
@@ -100,7 +100,7 @@ public final class SFTMultiMachines {
     public static final MachineDefinition LARGE_INSCRIBER = REGISTRATE.multiblock("large_inscriber",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("A large inscriber for advanced circuits.")
                     .parallelizable())
             .recipeType(SFTRecipeTypes.LARGE_INSCRIBER)
@@ -135,7 +135,7 @@ public final class SFTMultiMachines {
             .generator(true)
             .recipeType(SFTRecipeTypes.MEKANISM_NUCLEAR_REACTION_RECIPES)
             .recipeModifiers(OC_PERFECT_SUBTICK, BATCH_MODE)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("Extract energy from fuel thoroughly.")
                     .perfectOverlock().allowLaser())
             .appearanceBlock(GeneratorsBlocks.FUSION_REACTOR_FRAME::getBlock)
@@ -202,7 +202,7 @@ public final class SFTMultiMachines {
     public static final MachineDefinition COMMON_FACTORY = REGISTRATE.multiblock("common_factory", CommonFactoryMachine::new)
             .rotationState(RotationState.ALL)
             .recipeTypes(CommonFactoryMachine.AVAILABLE_RECIPES)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .intro("- §7The simple machine in the§r machine adjustment hatch§7 limits the recipe type and voltage.§r",
                             "- §7The voltage of energy hatch and machine must match, though it is allowed to use two energy hatch.§r",
                             "- §7For every 1 level above §6Cupronickel§7, the machine gets 4 extra parallels§r")
@@ -233,7 +233,7 @@ public final class SFTMultiMachines {
 
     public static final MachineDefinition DESULFURIZER = REGISTRATE.multiblock("desulfurizer",
                     WorkableElectricMultiblockMachine::new)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("Desulfurize oil efficiently.")
                     .parallelizable()
                     .halfPerfectOverlock())
@@ -290,7 +290,7 @@ public final class SFTMultiMachines {
     public static final MachineDefinition GREENHOUSE = REGISTRATE.multiblock("greenhouse",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("Hope our plants can grow well."))
             .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
             .recipeModifiers(OC_NON_PERFECT, BATCH_MODE)
@@ -323,7 +323,7 @@ public final class SFTMultiMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, GCYM_MACHINE_REDUCE, OC_HALF_PERFECT, BATCH_MODE)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder).parallelizable()
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id).parallelizable()
                     .availableTypes(SFTRecipeTypes.GREENHOUSE_RECIPES)
                     .energyMultiplier(GCYM_EUT_MULTIPLIER)
                     .timeMultiplier(GCYM_DURATION_MULTIPLIER)
@@ -363,7 +363,7 @@ public final class SFTMultiMachines {
     public static final MachineDefinition OIL_DRILLING_RIG = REGISTRATE.multiblock("oil_drilling_rig",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("Oh, It's not so environmental friendly..."))
             .recipeType(SFTRecipeTypes.OIL_DRILLING_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT, BATCH_MODE)
@@ -389,7 +389,7 @@ public final class SFTMultiMachines {
             .recipeType(SFTRecipeTypes.LARGE_GAS_COLLECTOR_RECIPES)
             .recipeModifiers(SFTRecipeModifiers::gasCollectorParallel, OC_NON_PERFECT, BATCH_MODE)
             .appearanceBlock(CASING_STRESS_PROOF)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("Collect gas from the anywhere.")
                     .intro("-§7 Has (nearly)§c§l infinite§7 parallels"))
             .pattern(definition ->
@@ -426,7 +426,7 @@ public final class SFTMultiMachines {
             .recipeType(SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, GTRecipeModifiers::ebfOverclock, BATCH_MODE)
             .appearanceBlock(CASING_HIGH_TEMPERATURE_SMELTING)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .tip("Expert in producing semiconductor.")
                     .parallelizable().ebf())
             .pattern(definition ->
@@ -472,7 +472,7 @@ public final class SFTMultiMachines {
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.CRACKING_RECIPES)
             .recipeModifiers(PARALLEL_HATCH, BATCH_MODE, SFTRecipeModifiers::largeCrackerOverlock, OC_HALF_PERFECT, GCYM_MACHINE_REDUCE)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .parallelizable()
                     .availableTypes(GTRecipeTypes.CRACKING_RECIPES)
                     .intro("- §7For every 1 level above §6Cupronickel§7, recipe energy and time consumption are both reduced by 10%")
@@ -517,7 +517,7 @@ public final class SFTMultiMachines {
                     DEFAULT_ENVIRONMENT_REQUIREMENT,
                     BATCH_MODE,
                     MEGA_COIL_MACHINE_REDUCE)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .parallelizable()
                     .availableTypes(GTRecipeTypes.LARGE_CHEMICAL_RECIPES)
                     .megaReduceWithCoil()
@@ -570,7 +570,7 @@ public final class SFTMultiMachines {
                     GCYM_MACHINE_REDUCE,
                     MEGA_COIL_MACHINE_REDUCE)
             .recipeType(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
-            .tooltips(builder -> SFTTooltipsBuilder.of().with(builder)
+            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
                     .parallelizable()
                     .availableTypes(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
                     .ebf()

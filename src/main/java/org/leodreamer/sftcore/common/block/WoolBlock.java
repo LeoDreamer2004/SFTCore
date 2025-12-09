@@ -74,12 +74,12 @@ public class WoolBlock {
     }
 
     @RegisterLanguage("Right click wool blocks to get string")
-    static String STRING_TOOLTIP = "sftcore.wool_to_string.tooltip";
+    static final String STRING_TOOLTIP = "sftcore.wool_to_string.tooltip";
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
         if (event.getItemStack().getItem() == Items.STRING) {
-            event.getToolTip().add(Component.literal(STRING_TOOLTIP).withStyle(ChatFormatting.GOLD));
+            event.getToolTip().add(Component.translatable(STRING_TOOLTIP).withStyle(ChatFormatting.GOLD));
         }
     }
 }

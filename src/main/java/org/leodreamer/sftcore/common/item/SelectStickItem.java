@@ -16,9 +16,9 @@ import org.leodreamer.sftcore.common.command.dump.DumpCommand;
 public class SelectStickItem extends Item {
 
     @RegisterLanguage("Select the first point at %s")
-    static String selectFirst = "item.sftcore.dump.select_stick.first";
+    static final String selectFirst = "item.sftcore.dump.select_stick.first";
     @RegisterLanguage("Select the second point at %s")
-    static String selectSecond = "item.sftcore.dump.select_stick.second";
+    static final String selectSecond = "item.sftcore.dump.select_stick.second";
 
     public SelectStickItem() {
         super(new Properties().rarity(Rarity.EPIC));

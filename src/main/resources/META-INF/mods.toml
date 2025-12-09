@@ -34,7 +34,7 @@ side = "BOTH"
 modId = "ae2"
 mandatory = true
 versionRange = "[15.0.0,)"
-ordering = "NONE"
+ordering = "AFTER"
 side = "BOTH"
 [[dependencies."${mod_id}"]]
 modId="create"

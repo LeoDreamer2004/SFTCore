@@ -24,10 +24,10 @@ public class ConfigurableMaintenanceHatchProvider implements IBlockComponentProv
     private static final String DURATION_MULTIPLIER = "duration_multiplier";
 
     @RegisterLanguage("Recipe Duration Multiplier: %s")
-    static String TOOLTIP_MULTIPLIER = "sftcore.multiblock.configurable_maintenance.duration_multiplier";
+    static final String TOOLTIP_MULTIPLIER = "sftcore.multiblock.configurable_maintenance.duration_multiplier";
 
     @RegisterLanguage("Configurable Maintenance Hatch")
-    static String JADE_CONFIG = "config.jade.plugin_sftcore.configurable_maintenance_hatch";
+    static final String JADE_CONFIG = "config.jade.plugin_sftcore.configurable_maintenance_hatch";
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {

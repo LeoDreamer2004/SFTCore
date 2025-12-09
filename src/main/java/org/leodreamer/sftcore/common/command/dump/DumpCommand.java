@@ -39,13 +39,13 @@ public class DumpCommand {
                     "commands.fill.toobig", limit, actual));
 
     @RegisterLanguage("Start dumping...")
-    static String START = "commands.sftcore.dump.start";
+    static final String START = "commands.sftcore.dump.start";
     @RegisterLanguage("Dump finished.")
-    static String SUCCESS = "commands.sftcore.dump.success";
+    static final String SUCCESS = "commands.sftcore.dump.success";
     @RegisterLanguage("[Open the file]")
-    static String LINK = "commands.sftcore.dump.success.link";
+    static final String LINK = "commands.sftcore.dump.success.link";
     @RegisterLanguage("Dump failed.")
-    static String FAILURE = "commands.sftcore.dump.failure";
+    static final String FAILURE = "commands.sftcore.dump.failure";
 
     public static void
     register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -102,7 +102,7 @@ public class DumpCommand {
         }
     }
 
-    private static String getJSONString(Mode mode) {
+    private static final String getJSONString(Mode mode) {
         Map<String, Map<String, List<String>>> res = new LinkedHashMap<>();
         // Everything in Minecraft
         List<IDump> dumps = new ArrayList<>();
@@ -149,7 +149,7 @@ public class DumpCommand {
         return sb.append("}").toString();
     }
 
-    private static String getMultiblockString(CommandSourceStack stack, BoundingBox box) {
+    private static final String getMultiblockString(CommandSourceStack stack, BoundingBox box) {
         // alias map: name -> a letter
         Map<String, Character> aliasMap = new HashMap<>();
         char[][][] blocks = new char[box.getXSpan()][box.getYSpan()][box.getZSpan()];

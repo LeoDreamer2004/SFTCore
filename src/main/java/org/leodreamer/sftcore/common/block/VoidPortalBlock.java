@@ -98,7 +98,7 @@ public class VoidPortalBlock extends Block {
     }
 
     @RegisterLanguage("Right click and see what will happen")
-    static String TOOLTIP = "sftcore.void_portal.tooltip";
+    static final String TOOLTIP = "sftcore.void_portal.tooltip";
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable BlockGetter

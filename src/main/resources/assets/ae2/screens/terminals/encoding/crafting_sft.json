@@ -1,0 +1,9 @@
+{
+  "$schema": "../../schema.json",
+  "widgets": {
+    "craftingAutoTransfer": {
+      "left": 104,
+      "bottom": 163
+    }
+  }
+}
