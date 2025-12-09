@@ -16,7 +16,7 @@ import java.util.List;
 
 @Mixin(PatternEncodingTerminalPart.class)
 public class PatternEncodingTerminalPartMixin extends AbstractTerminalPart {
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private PatternEncodingLogic logic;
 
@@ -24,7 +24,7 @@ public class PatternEncodingTerminalPartMixin extends AbstractTerminalPart {
         super(partItem);
     }
 
-    @Inject(method = "addAdditionalDrops", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addAdditionalDrops", at = @At("HEAD"), cancellable = true, remap = false)
     private void removeBlankPatternDrop(List<ItemStack> drops, boolean wrenched, CallbackInfo ci) {
         super.addAdditionalDrops(drops, wrenched);
 

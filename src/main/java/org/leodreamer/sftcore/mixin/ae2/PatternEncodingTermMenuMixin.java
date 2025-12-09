@@ -43,6 +43,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Final
     private RestrictedInputSlot encodedPatternSlot;
 
+    @Unique
+    private static final String TRANSFER_TO_MATRIX = "transferToMatrix";
+
     public PatternEncodingTermMenuMixin(MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
         super(menuType, id, ip, host);
     }
@@ -53,6 +56,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private void initPattern(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host, boolean bindInventory, CallbackInfo ci) {
         blankPatternSlot.setAllowEdit(false);
         blankPatternSlot.setStackLimit(Integer.MAX_VALUE);
+        registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
     }
 
     @Inject(method = "broadcastChanges", at = @At("TAIL"))
@@ -62,6 +66,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
     @Unique
     private void sftcore$updateSlot() {
+        System.out.println("current" + sftcore$transferToMatrix);
+
         var host = getHost();
         if (host == null) {
             blankPatternSlot.set(ItemStack.EMPTY);
@@ -93,6 +99,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
     private void transferPatternToMatrixAfterEncoding(CallbackInfo ci) {
+        System.out.println("Trying encode when" + sftcore$transferToMatrix);
         if (!sftcore$transferToMatrix) {
             return;
         }
@@ -107,9 +114,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         for (var mat : node.getGrid().getMachines(TileAssemblerMatrixPattern.class)) {
             var inv = mat.getPatternInventory();
             if (!pattern.isEmpty()) {
-                for (var a: inv) {
-                    System.out.println(a.getTag());
-                }
                 pattern = inv.addItems(pattern); // overflow, try on
             }
             if (pattern.isEmpty()) {
@@ -153,6 +157,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Override
     @Unique
     public void sftcore$setTransferToMatrix(boolean transferToMatrix) {
-        sftcore$transferToMatrix = transferToMatrix;
+        if (isClientSide()) {
+            sendClientAction(TRANSFER_TO_MATRIX, transferToMatrix);
+        } else {
+            sftcore$transferToMatrix = transferToMatrix;
+        }
     }
 }
