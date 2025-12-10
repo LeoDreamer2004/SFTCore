@@ -26,8 +26,8 @@ public class PatternEncodingTermScreenMixin<C extends MEStorageMenu> extends MES
     }
 
     @Inject(method = "renderSlot", at = @At("HEAD"), cancellable = true)
-    private void renderBlankPatternSlotWithSmallFont(GuiGraphics guiGraphics, Slot s, CallbackInfo ci) {
-        if (menu.getSlotSemantic(s) == SlotSemantics.BLANK_PATTERN && !s.getItem().isEmpty()) {
+    private void renderBlankPatternWithSmallFontAndCraftable(GuiGraphics guiGraphics, Slot s, CallbackInfo ci) {
+        if (menu.getSlotSemantic(s) == SlotSemantics.BLANK_PATTERN && s.hasItem()) {
             AEItemKey what = AEItemKey.of(AEItems.BLANK_PATTERN);
             long storedAmount = s.getItem().getCount();
             AEKeyRendering.drawInGui(minecraft, guiGraphics, s.x, s.y, what);
@@ -36,6 +36,15 @@ public class PatternEncodingTermScreenMixin<C extends MEStorageMenu> extends MES
             AmountFormat format = useLargeFonts ? AmountFormat.SLOT_LARGE_FONT : AmountFormat.SLOT;
             String text = what.formatAmount(storedAmount, format);
             StackSizeRenderer.renderSizeLabel(guiGraphics, this.font, s.x, s.y, text, useLargeFonts);
+
+            if (repo.isCraftable(what)) {
+                var poseStack = guiGraphics.pose();
+                poseStack.pushPose();
+                poseStack.translate(0, 0, 100); // Items are rendered with offset of 100, offset text too.
+                StackSizeRenderer.renderSizeLabel(guiGraphics, this.font, s.x - 11, s.y - 11, "+", false);
+                poseStack.popPose();
+            }
+
             ci.cancel();
         }
     }

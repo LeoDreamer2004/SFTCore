@@ -77,7 +77,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         }
 
         int left = (int) inventory.getAvailableStacks().get(sftcore$key);
-        if (left == 0) return;
+        if (left == 0) {
+            blankPatternSlot.set(ItemStack.EMPTY);
+            return;
+        }
         var stack = blankPatternSlot.getItem();
         if (stack.isEmpty()) {
             blankPatternSlot.set(new ItemStack(AEItems.BLANK_PATTERN, left));

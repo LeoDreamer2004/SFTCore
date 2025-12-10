@@ -78,7 +78,7 @@ public final class CustomGTRecipes {
                 .inputFluids(MekanismFluids.ETHENE.getFluidStack(8000))
                 .duration(3000)
                 .rpm(64)
-                .inputStress(131072)
+                .inputStress(204800)
                 .save(provider);
 
         SFTRecipeBuilder.of(SFTCore.id("ore_generator"), FISHBIG_MAKER_RECIPES)

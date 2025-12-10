@@ -60,7 +60,7 @@ public final class SFTMultiMachines {
                             .where("U", controller(blocks(definition.get())))
                             .where("A", blocks(AllBlocks.RAILWAY_CASING.get())
                                     .or(autoAbilities(definition.getRecipeTypes()))
-                                    .or(abilities(SFTPartAbility.INPUT_KINETIC).setExactLimit(1)))
+                                    .or(abilities(SFTPartAbility.INPUT_KINETIC).setMaxGlobalLimited(2).setMinGlobalLimited(1)))
                             .where("B", blocks(MekanismBlocks.INDUCTION_CASING.getBlock()))
                             .where("C", blocks(MekanismBlocks.TELEPORTER_FRAME.getBlock()))
                             .where("E", blocks(MekanismBlocks.DYNAMIC_TANK.getBlock()))
