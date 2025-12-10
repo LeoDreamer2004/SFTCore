@@ -11,7 +11,6 @@ import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -127,12 +126,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                 || AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern);
     }
 
-    @Inject(method = "encode",
+    @Redirect(method = "encode",
             at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V",
-                    remap = false),
-            remap = false)
-    private void extractPatternFromStorage(CallbackInfo ci, @Local(ordinal = 1) ItemStack blankPattern) {
+                    target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V"))
+    private void extractPatternFromStorage(ItemStack instance, int pDecrement) {
         if (storage != null) {
             storage.extract(sftcore$key, 1, Actionable.MODULATE, getActionSource());
         }

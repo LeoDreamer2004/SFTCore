@@ -226,7 +226,7 @@ dependencies {
     implementation fg.deobf("curse.maven:mega-cells-622112:6175008")
     implementation(fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false })
     implementation(fg.deobf("net.createmod.ponder:Ponder-Forge-${minecraft_version}:${ponder_version}"))
-    implementation("io.github.llamalad7:mixinextras-forge:0.4.1")
+//    implementation("io.github.llamalad7:mixinextras-forge:0.4.1")
     implementation fg.deobf("curse.maven:glodium-957920:5226922")
     implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
     implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
