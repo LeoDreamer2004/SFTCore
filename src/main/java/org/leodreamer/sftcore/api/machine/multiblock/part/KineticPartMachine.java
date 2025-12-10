@@ -13,7 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
-import org.leodreamer.sftcore.api.machine.multiblock.KineticMultiblockMachine;
+import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
 import org.leodreamer.sftcore.common.machine.trait.NotifiableStressTrait;
 
@@ -88,7 +88,7 @@ public class KineticPartMachine extends TieredIOPartMachine implements IKineticM
     @Override
     public void onChanged() {
         super.onChanged();
-        if (!getControllers().isEmpty() && getControllers().first() instanceof KineticMultiblockMachine kineticMultiblockMachine) {
+        if (!getControllers().isEmpty() && getControllers().first() instanceof WorkableKineticMultiblockMachine kineticMultiblockMachine) {
             kineticMultiblockMachine.onChanged();
         }
     }

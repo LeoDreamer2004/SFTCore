@@ -10,7 +10,9 @@ public class StyleManagerMixin {
 
     @ModifyVariable(method = "loadStyleDoc", at = @At("HEAD"), argsOnly = true, remap = false)
     private static String loadStyleDocHooks(String path) {
-        if (path.contains("pattern_encoding_terminal.json")) {
+        if (path.contains("wireless_pattern_encoding_terminal.json")) {
+            return "/screens/wtlib/wireless_pattern_encoding_terminal_sft.json";
+        } else if (path.contains("pattern_encoding_terminal.json")) {
             return "/screens/terminals/pattern_encoding_terminal_sft.json";
         }
         return path;

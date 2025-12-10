@@ -43,8 +43,7 @@ public final class SFTMultiMachines {
     public static void init() {
     }
 
-    public static final MachineDefinition FISHBIG_MAKER = REGISTRATE.multiblock("fishbig_maker",
-                    WorkableKineticMultiblockMachine::new)
+    public static final MachineDefinition FISHBIG_MAKER = REGISTRATE.multiblock("fishbig_maker", WorkableKineticMultiblockMachine::new)
             .rotationState(RotationState.ALL)
             .recipeType(SFTRecipeTypes.FISHBIG_MAKER_RECIPES)
             .appearanceBlock(CASING_STEEL_SOLID)
@@ -69,6 +68,7 @@ public final class SFTMultiMachines {
                             .build())
             .workableCasingModel(SFTCore.id("block/casings/solid/create_railway_casing"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
+
             .register();
 
     public static final MachineDefinition CERTUS_QUARTZ_CHARGER = REGISTRATE.multiblock("certus_quartz_charger", WorkableElectricMultiblockMachine::new)
