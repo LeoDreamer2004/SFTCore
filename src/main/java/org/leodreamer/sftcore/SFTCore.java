@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,6 +38,7 @@ public class SFTCore {
         bus.register(this);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
         bus.addGenericListener(CoverDefinition.class, this::registerCovers);
         bus.addListener(EventPriority.LOWEST, SFTCreateDataGen::gatherData);
 
@@ -68,6 +70,11 @@ public class SFTCore {
     @SubscribeEvent
     public void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         SFTMachines.init();
+    }
+
+    @SubscribeEvent
+    public void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {
+        SFTRecipeConditions.init();
     }
 
     @SubscribeEvent

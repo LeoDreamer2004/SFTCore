@@ -18,6 +18,7 @@ import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTMaterials;
 import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.machine.SFTSingleMachines;
+import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import org.leodreamer.sftcore.integration.IntegrateMods;
 import org.leodreamer.sftcore.integration.IntegrateUtils;
@@ -65,28 +66,30 @@ public final class CustomGTRecipes {
                     .save(provider);
         }
 
-        FISHBIG_MAKER_RECIPES.recipeBuilder(SFTCore.id("fishbig"))
+        SFTRecipeBuilder.of(SFTCore.id("fishbig"), FISHBIG_MAKER_RECIPES)
                 .outputItems(EPPItemAndBlock.FISHBIG.asItem())
                 .inputItems(MekanismItems.SUPERMASSIVE_QIO_DRIVE)
                 .inputItems(Items.LIGHT_BLUE_WOOL, 64)
                 .inputItems(AllItems.PRECISION_MECHANISM.get(), 64)
                 .inputItems(AllItems.BAR_OF_CHOCOLATE, 64)
-                .inputItems(ModBlocks.NETHER_STAR_BLOCK, 64)
+                .inputItems(ModBlocks.NETHER_STAR_BLOCK.get().asItem(), 32)
                 .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(8000))
                 .inputFluids(MekanismFluids.SULFURIC_ACID.getFluidStack(8000))
                 .inputFluids(MekanismFluids.ETHENE.getFluidStack(8000))
                 .duration(3000)
-                .EUt(VA[LV])
+                .rpm(64)
+                .inputStress(131072)
                 .save(provider);
 
-        FISHBIG_MAKER_RECIPES.recipeBuilder(SFTCore.id("ore_generator"))
+        SFTRecipeBuilder.of(SFTCore.id("ore_generator"), FISHBIG_MAKER_RECIPES)
                 .outputItems(SFTSingleMachines.ORE_REPLICATOR.asStack())
                 .notConsumable(EPPItemAndBlock.FISHBIG.asItem())
                 .inputItems(MekanismItems.ULTIMATE_CONTROL_CIRCUIT, 4)
                 .inputItems(Items.SMOOTH_STONE)
                 .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(4000))
                 .duration(300)
-                .EUt(VA[LV])
+                .rpm(256)
+                .inputStress(131072)
                 .save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("ore_generator"))

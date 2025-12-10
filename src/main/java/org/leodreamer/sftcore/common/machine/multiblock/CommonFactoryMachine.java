@@ -143,7 +143,7 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         }
 
         if (!recipeLogic.isActive()) {
-            var component = textList.remove(textList.size() - 1); // idle
+            var component = textList.removeLast(); // idle
             MultiblockDisplayText.builder(textList, isFormed())
                     .addParallelsLine(getMaxParallels());
             textList.add(component);

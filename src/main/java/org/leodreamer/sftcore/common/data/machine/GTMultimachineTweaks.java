@@ -17,7 +17,7 @@ import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers.*;
 
 @DataGenScanned
-public class GTMultimachineTweaks {
+public final class GTMultimachineTweaks {
 
     public static void init() {
         ParallelHatchTweaks();

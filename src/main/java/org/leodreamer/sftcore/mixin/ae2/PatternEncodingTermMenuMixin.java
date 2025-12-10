@@ -66,8 +66,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
     @Unique
     private void sftcore$updateSlot() {
-        System.out.println("current" + sftcore$transferToMatrix);
-
         var host = getHost();
         if (host == null) {
             blankPatternSlot.set(ItemStack.EMPTY);
@@ -99,7 +97,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
     private void transferPatternToMatrixAfterEncoding(CallbackInfo ci) {
-        System.out.println("Trying encode when" + sftcore$transferToMatrix);
         if (!sftcore$transferToMatrix) {
             return;
         }

@@ -24,6 +24,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
@@ -43,10 +44,9 @@ public final class SFTMultiMachines {
     }
 
     public static final MachineDefinition FISHBIG_MAKER = REGISTRATE.multiblock("fishbig_maker",
-                    WorkableElectricMultiblockMachine::new)
+                    WorkableKineticMultiblockMachine::new)
             .rotationState(RotationState.ALL)
             .recipeType(SFTRecipeTypes.FISHBIG_MAKER_RECIPES)
-            .recipeModifiers(OC_NON_PERFECT)
             .appearanceBlock(CASING_STEEL_SOLID)
             .pattern(definition ->
                     FactoryBlockPattern.start()
@@ -59,7 +59,8 @@ public final class SFTMultiMachines {
                             .aisle("AAAUAAA", "ABCCCBA", "ABC CBA", "ABC CBA", "ABCCCBA", "AAAAAAA")
                             .where("U", controller(blocks(definition.get())))
                             .where("A", blocks(AllBlocks.RAILWAY_CASING.get())
-                                    .or(autoAbilities(definition.getRecipeTypes())))
+                                    .or(autoAbilities(definition.getRecipeTypes()))
+                                    .or(abilities(SFTPartAbility.INPUT_KINETIC).setExactLimit(1)))
                             .where("B", blocks(MekanismBlocks.INDUCTION_CASING.getBlock()))
                             .where("C", blocks(MekanismBlocks.TELEPORTER_FRAME.getBlock()))
                             .where("E", blocks(MekanismBlocks.DYNAMIC_TANK.getBlock()))
@@ -69,7 +70,6 @@ public final class SFTMultiMachines {
             .workableCasingModel(SFTCore.id("block/casings/solid/create_railway_casing"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
             .register();
-
 
     public static final MachineDefinition CERTUS_QUARTZ_CHARGER = REGISTRATE.multiblock("certus_quartz_charger", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
@@ -128,8 +128,7 @@ public final class SFTMultiMachines {
             )
             .register();
 
-    public static final MachineDefinition LARGE_MEKANISM_NUCLEAR_REACTOR = REGISTRATE.multiblock(
-                    "large_mekanism_nuclear_reactor",
+    public static final MachineDefinition LARGE_MEKANISM_NUCLEAR_REACTOR = REGISTRATE.multiblock("large_mekanism_nuclear_reactor",
                     WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .generator(true)

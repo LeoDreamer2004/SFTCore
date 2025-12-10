@@ -7,7 +7,7 @@ import org.leodreamer.sftcore.common.machine.OreReplicatorMachine;
 
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
-public class SFTSingleMachines {
+public final class SFTSingleMachines {
 
     public static final MachineDefinition ORE_REPLICATOR = REGISTRATE.machine("ore_replicator", OreReplicatorMachine::new)
             .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)

@@ -47,13 +47,6 @@ public final class CommonGTRecipes {
     }
 
     private static void transitionStageRecipes(Consumer<FinishedRecipe> provider) {
-        SFTVanillaRecipeHelper.addShapedRecipe("ulv_energy_input_hatch")
-                .pattern("AAA", "ABA", "AAA")
-                .arg('A', new MaterialEntry(block, Lead))
-                .arg('B', MekanismBlocks.ULTIMATE_ENERGY_CUBE)
-                .output(ENERGY_INPUT_HATCH[ULV].asStack())
-                .save(provider);
-
         SFTVanillaRecipeHelper.addShapedRecipe("ulv_input_bus")
                 .pattern("ABA", "ACA", "AAA")
                 .arg('A', new MaterialEntry(block, Lead))

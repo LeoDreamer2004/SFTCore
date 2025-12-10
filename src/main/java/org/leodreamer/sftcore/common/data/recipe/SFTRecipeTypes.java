@@ -7,32 +7,54 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.utils.CycleItemStackHandler;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.simibubi.create.AllBlocks;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
+import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
 
 import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.GENERATOR;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.MULTIBLOCK;
 
+@DataGenScanned
 public final class SFTRecipeTypes {
+    public static final String KINETIC = "kinetic";
+
     public static void init() {
     }
 
+    @RegisterLanguage("Acquire Stress: %dsu")
+    private static final String ACQUIRE_STRESS = "sftcore.recipe.input_stress";
+
     // create integration
-    public static final GTRecipeType FISHBIG_MAKER_RECIPES = register("fishbig_maker", MULTIBLOCK)
-            .setEUIO(IO.IN)
+    public static final GTRecipeType FISHBIG_MAKER_RECIPES = register("fishbig_maker", KINETIC)
             .setMaxIOSize(9, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.CHEMICAL);
+            .setSound(GTSoundEntries.CHEMICAL)
+            .setMaxTooltips(4)
+            .addDataInfo(data -> {
+                int stress = data.getInt(SFTRecipeBuilder.INPUT_STRESS);
+                return LocalizationUtils.format(ACQUIRE_STRESS, stress);
+            })
+            .setUiBuilder((recipe, group) -> {
+                if (!recipe.conditions.isEmpty() && recipe.conditions.getFirst() instanceof RPMCondition) {
+                    var handler = new CustomItemStackHandler(AllBlocks.SHAFT.asStack());
+                    group.addWidget(new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(handler, 0, group.getSize().width - 30, group.getSize().height - 30, false, false));
+                }
+            });
 
     // ae2 integration
     public static final GTRecipeType CERTUS_QUARTZ_CHARGE_RECIPES = register("certus_quartz_charge", MULTIBLOCK)

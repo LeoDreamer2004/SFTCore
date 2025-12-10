@@ -6,7 +6,7 @@ import mekanism.common.registries.MekanismItems;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
-public class SFTItemTagLoader {
+public final class SFTItemTagLoader {
     public static void init(RegistrateItemTagsProvider provider) {
         provider.addTag(Tags.Items.DYES_YELLOW)
                 .add(Items.GOLD_INGOT);

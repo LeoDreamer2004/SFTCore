@@ -9,6 +9,7 @@
     "ae2.PatternEncodingTerminalPartMixin",
     "ae2.PatternEncodingTermMenuMixin",
     "ae2.StyleManagerMixin",
+    "create.RotationPropagatorMixin",
     "gregtech.CleaningMaintenanceMixin",
     "gregtech.DualHatchMixin",
     "gregtech.ParallelHatchMixin",

@@ -25,8 +25,7 @@ public final class SFTBlocks {
     public static final BlockEntry<VoidPortalBlock> VOID_PORTAL =
             REGISTRATE.block("void_portal", VoidPortalBlock::new)
                     .initialProperties(() -> Blocks.OBSIDIAN)
-                    .item()
-                    .build()
+                    .simpleItem()
                     .register();
 
     public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock(
