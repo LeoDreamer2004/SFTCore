@@ -20,8 +20,8 @@ public class SelectStickItem extends Item {
     @RegisterLanguage("Select the second point at %s")
     static final String selectSecond = "item.sftcore.dump.select_stick.second";
 
-    public SelectStickItem() {
-        super(new Properties().rarity(Rarity.EPIC));
+    public SelectStickItem(Properties properties) {
+        super(properties.rarity(Rarity.EPIC));
     }
 
     @Override

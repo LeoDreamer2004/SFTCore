@@ -6,12 +6,14 @@ import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import mekanism.api.Upgrade;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.item.SelectStickItem;
 import org.leodreamer.sftcore.common.item.behavior.TimeBottleBehavior;
+import org.leodreamer.sftcore.integration.mek.SuperUpgradeItem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +24,7 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 public final class SFTItems {
 
     public static final ItemEntry<SelectStickItem> SELECT_STICK =
-            REGISTRATE.item("select_stick", (p) -> new SelectStickItem())
+            REGISTRATE.item("select_stick", SelectStickItem::new)
                     .lang("Select Stick")
                     .register();
 
@@ -33,12 +35,32 @@ public final class SFTItems {
                     .onRegister(attach(new TimeBottleBehavior()))
                     .register();
 
+    public static final ItemEntry<SuperUpgradeItem> SPEED_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.SPEED);
+    public static final ItemEntry<SuperUpgradeItem> ENERGY_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.ENERGY);
+    public static final ItemEntry<SuperUpgradeItem> FILTER_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.FILTER);
+    public static final ItemEntry<SuperUpgradeItem> GAS_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.GAS);
+    public static final ItemEntry<SuperUpgradeItem> MUFFLING_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.MUFFLING);
+    public static final ItemEntry<SuperUpgradeItem> ANCHOR_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.ANCHOR);
+    public static final ItemEntry<SuperUpgradeItem> STONE_GENERATOR_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.STONE_GENERATOR);
+
     public static final ItemEntry<Item> UU_MATTER =
             REGISTRATE.item("uu_matter", Item::new).lang("UU Matter").register();
+
     public static final ItemEntry<Item> INCOMPLETE_UU_MATTER =
             REGISTRATE.item("incomplete_uu_matter", Item::new).lang("Incomplete UU Matter").register();
 
     public static final ItemEntry<ComponentItem>[] COVER_ACCELERATES = registerAccelerateCovers();
+
+    public static final List<ItemEntry<ComponentItem>> UNIVERSAL_CIRCUITS =
+            Arrays.stream(GTValues.tiersBetween(GTValues.ULV, GTValues.UHV))
+                    .mapToObj(SFTItems::registerUniversalCircuit)
+                    .toList();
+
+    private static ItemEntry<SuperUpgradeItem> registerSuperUpgrade(Upgrade upgrade) {
+        return REGISTRATE.item("super_upgrade_" + upgrade.getRawName(),
+                        (p) -> new SuperUpgradeItem(p, upgrade))
+                .register();
+    }
 
     private static ItemEntry<ComponentItem>[] registerAccelerateCovers() {
         ItemEntry<ComponentItem>[] entries = new ItemEntry[GTValues.TIER_COUNT];
@@ -58,11 +80,6 @@ public final class SFTItems {
 
         return entries;
     }
-
-    public static final List<ItemEntry<ComponentItem>> UNIVERSAL_CIRCUITS =
-            Arrays.stream(GTValues.tiersBetween(GTValues.ULV, GTValues.UHV))
-                    .mapToObj(SFTItems::registerUniversalCircuit)
-                    .toList();
 
     private static ItemEntry<ComponentItem> registerUniversalCircuit(int tier) {
         var name = GTValues.VN[tier].toLowerCase();
