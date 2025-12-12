@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.blockentity;
+package org.leodreamer.sftcore.api.blockentity;
 
 import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import net.createmod.catnip.data.Couple;

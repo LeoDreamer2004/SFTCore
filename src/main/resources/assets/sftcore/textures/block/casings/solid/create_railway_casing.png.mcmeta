@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "sftcore:block/casings/solid/create_railway_casing_ctm"
+    }
+}

@@ -40,7 +40,6 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.common.blockentity.BlockStressValues;
 import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
 import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
 
