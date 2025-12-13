@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
 import org.leodreamer.sftcore.common.data.*;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
-import org.leodreamer.sftcore.integration.create.SFTCreateDataGen;
 
 
 @Mod(SFTCore.MOD_ID)
@@ -31,7 +30,6 @@ public class SFTCore {
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 
     public SFTCore(FMLJavaModLoadingContext context) {
-        SFTDataGen.init();
 
         REGISTRATE.registerRegistrate();
         var bus = context.getModEventBus();
@@ -40,7 +38,7 @@ public class SFTCore {
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
         bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
         bus.addGenericListener(CoverDefinition.class, this::registerCovers);
-        bus.addListener(EventPriority.LOWEST, SFTCreateDataGen::gatherData);
+        bus.addListener(EventPriority.LOWEST, SFTDataGen::gatherData);
 
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> SFTClient::init);
     }

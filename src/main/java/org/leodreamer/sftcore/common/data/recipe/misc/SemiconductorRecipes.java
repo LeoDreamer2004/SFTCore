@@ -53,7 +53,7 @@ public final class SemiconductorRecipes {
                 .inputItems(Xenon.getFluid(8000))
                 .outputItems(NEUTRONIUM_BOULE, 2)
                 .blastFurnaceTemp(6484)
-                .duration(20000)
+                .duration(12000)
                 .EUt(VA[IV])
                 .save(provider);
     }

@@ -3,8 +3,10 @@ package org.leodreamer.sftcore.common.data.lang;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.data.lang.LangHandler;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
+import net.createmod.ponder.foundation.PonderIndex;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.integration.ponder.SFTPonderPlugin;
 
 public class SFTLangHandler extends LangHandler {
     public static void init(RegistrateLangProvider provider) {
@@ -22,6 +24,9 @@ public class SFTLangHandler extends LangHandler {
         }
 
         LanguageScanner.scan(provider);
+
+        PonderIndex.addPlugin(new SFTPonderPlugin());
+        PonderIndex.getLangAccess().provideLang(SFTCore.MOD_ID, provider::add);
 
         //// Cover the tooltip of GTCEu ////
 

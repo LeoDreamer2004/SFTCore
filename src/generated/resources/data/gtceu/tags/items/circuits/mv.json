@@ -1,5 +1,6 @@
 {
   "values": [
+    "sftcore:mv_universal_circuit",
     "mekanism:ultimate_control_circuit"
   ]
 }
