@@ -102,7 +102,7 @@ public class DumpCommand {
         }
     }
 
-    private static final String getJSONString(Mode mode) {
+    private static String getJSONString(Mode mode) {
         Map<String, Map<String, List<String>>> res = new LinkedHashMap<>();
         // Everything in Minecraft
         List<IDump> dumps = new ArrayList<>();
@@ -149,7 +149,7 @@ public class DumpCommand {
         return sb.append("}").toString();
     }
 
-    private static final String getMultiblockString(CommandSourceStack stack, BoundingBox box) {
+    private static String getMultiblockString(CommandSourceStack stack, BoundingBox box) {
         // alias map: name -> a letter
         Map<String, Character> aliasMap = new HashMap<>();
         char[][][] blocks = new char[box.getXSpan()][box.getYSpan()][box.getZSpan()];

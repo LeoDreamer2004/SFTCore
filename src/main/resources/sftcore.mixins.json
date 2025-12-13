@@ -15,7 +15,8 @@
     "gregtech.DualHatchMixin",
     "gregtech.ParallelHatchMixin",
     "gregtech.RecipeDurationMixin",
-    "travelarchor.EventListenerMixin"
+    "travelarchor.EventListenerMixin",
+    "vanilla.RecipeManagerMixin"
   ],
   "client": [
     "ae2.PatternEncodingTermScreenMixin",

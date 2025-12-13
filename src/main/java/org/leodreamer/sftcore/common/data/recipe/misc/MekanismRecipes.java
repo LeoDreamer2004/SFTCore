@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
+import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismFluids;
 import mekanism.common.registries.MekanismItems;
@@ -33,7 +34,7 @@ public final class MekanismRecipes {
                 .pattern(" S ", "STS", " S ")
                 .arg('S', MekanismTags.Items.INGOTS_STEEL)
                 .arg('T', AllItems.STURDY_SHEET)
-                .output(GeneratorsBlocks.TURBINE_CASING)
+                .output(GeneratorsBlocks.TURBINE_CASING, 4)
                 .save(provider);
 
         MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/steel"))

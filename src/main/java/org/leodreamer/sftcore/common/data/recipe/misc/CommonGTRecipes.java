@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
+import com.hepdd.gtmthings.data.CustomItems;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.registries.MekanismItems;
@@ -102,6 +103,14 @@ public final class CommonGTRecipes {
                 .arg('A', AllItems.PRECISION_MECHANISM)
                 .arg('B', AEParts.TERMINAL)
                 .output(GTItems.TERMINAL.asStack())
+                .save(provider);
+
+        SFTVanillaRecipeHelper.addShapedRecipe("advanced_terminal")
+                .pattern("AAA", "CBC", "AAA")
+                .arg('A', DIAMOND_BLOCK)
+                .arg('B', GTItems.TERMINAL)
+                .arg('C', CustomTags.MV_CIRCUITS)
+                .output(CustomItems.ADVANCED_TERMINAL.asStack())
                 .save(provider);
     }
 
