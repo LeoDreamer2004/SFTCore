@@ -15,10 +15,9 @@ import org.leodreamer.sftcore.api.recipe.remove.RecipeFilter;
 
 import java.util.function.Consumer;
 
-import static org.leodreamer.sftcore.api.recipe.remove.RecipeFilters.mod;
-import static org.leodreamer.sftcore.api.recipe.remove.RecipeFilters.output;
+import static org.leodreamer.sftcore.api.recipe.remove.RecipeFilters.*;
 import static org.leodreamer.sftcore.integration.IntegrateMods.*;
-import static org.leodreamer.sftcore.integration.IntegrateUtils.getItemById;
+import static org.leodreamer.sftcore.integration.RLUtils.getItemById;
 
 public final class SFTRecipeRemovals {
 
@@ -27,7 +26,6 @@ public final class SFTRecipeRemovals {
                 GTMachines.HULL[GTValues.LV].getItem(),
                 GTMachines.CLEANING_MAINTENANCE_HATCH.getItem(),
                 GTItems.TERMINAL,
-                CustomItems.ADVANCED_TERMINAL,
                 GTItems.NAQUADAH_BOULE,
                 GTItems.NEUTRONIUM_BOULE
         };
@@ -35,6 +33,9 @@ public final class SFTRecipeRemovals {
         for (ItemLike item : GT_ITEMS) {
             registry.accept(output(item).and(mod(GTM)));
         }
+
+        registry.accept(input(GTItems.NAN_CERTIFICATE));
+        registry.accept(output(CustomItems.ADVANCED_TERMINAL).and(mod(GTMT)));
 
         ItemLike[] EPP_ITEMS = new ItemLike[]{
                 EPPItemAndBlock.INFINITY_CELL,

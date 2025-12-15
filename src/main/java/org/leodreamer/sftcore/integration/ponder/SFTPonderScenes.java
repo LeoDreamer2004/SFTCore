@@ -4,24 +4,26 @@ import appeng.core.definitions.AEParts;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.leodreamer.sftcore.integration.RLUtils;
 import org.leodreamer.sftcore.integration.ponder.api.SFTGeneralStoryBoard;
 import org.leodreamer.sftcore.integration.ponder.api.SFTStoryBoard;
 import org.leodreamer.sftcore.integration.ponder.scene.AEAutomationScenes;
 
+import static org.leodreamer.sftcore.integration.ponder.SFTPonderGroups.*;
+
 public class SFTPonderScenes {
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
-        PonderSceneRegistrationHelper<ItemLike> HELPER = helper.withKeyFunction((item) -> ForgeRegistries.ITEMS.getKey(item.asItem()));
+        PonderSceneRegistrationHelper<ItemLike> HELPER = helper.withKeyFunction(RLUtils::getItemRL);
 
         add(
-                HELPER, SFTPonderGroups.CPU,
+                HELPER, CPU,
                 "ponder_crafting_processing_unit",
                 AEAutomationScenes::craftingCPU,
                 SFTPonderTags.AE_AUTOMATION
         );
 
         add(
-                HELPER, SFTPonderGroups.INTERFACE,
+                HELPER, INTERFACE,
                 "ponder_ae_interface",
                 AEAutomationScenes::interfaceBasic,
                 SFTPonderTags.AE_AUTOMATION
@@ -38,6 +40,13 @@ public class SFTPonderScenes {
                 HELPER, new ItemLike[]{AEParts.ANNIHILATION_PLANE},
                 "ponder_annihilation_plane_filter",
                 AEAutomationScenes::annihilationPlaneFilter,
+                SFTPonderTags.AE_AUTOMATION
+        );
+
+        add(
+                HELPER, concat(PATTERN_PROVIDER, concat(CPU, MOLECULAR_ASSEMBLER)),
+                "ae_crafting_system",
+                AEAutomationScenes::craftingSystem,
                 SFTPonderTags.AE_AUTOMATION
         );
     }

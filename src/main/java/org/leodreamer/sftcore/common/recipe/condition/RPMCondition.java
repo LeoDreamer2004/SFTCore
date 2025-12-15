@@ -38,7 +38,7 @@ public class RPMCondition extends RecipeCondition {
         return SFTRecipeConditions.RPM;
     }
 
-    @RegisterLanguage("Requires Minimum RPM of %d")
+    @RegisterLanguage("Requires Minimum RPM: %d")
     static final String TOOLTIP = "sftcore.recipe.condition.rpm";
 
     @Override

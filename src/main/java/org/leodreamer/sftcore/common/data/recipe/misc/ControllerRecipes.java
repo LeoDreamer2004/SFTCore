@@ -15,7 +15,7 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import org.leodreamer.sftcore.integration.IntegrateMods;
-import org.leodreamer.sftcore.integration.IntegrateUtils;
+import org.leodreamer.sftcore.integration.RLUtils;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -187,15 +187,15 @@ public final class ControllerRecipes {
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("common_mekanism_process_factory"))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "ultimate_infusing_factory")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "ultimate_enriching_factory")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "ultimate_smelting_factory")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "pressurized_reaction_chamber")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "chemical_dissolution_chamber")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "electrolytic_separator")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "solar_neutron_activator")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "isotopic_centrifuge")))
-                .inputItems(Objects.requireNonNull(IntegrateUtils.getItemById(IntegrateMods.MEK, "rotary_condensentrator")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "ultimate_infusing_factory")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "ultimate_enriching_factory")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "ultimate_smelting_factory")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "pressurized_reaction_chamber")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "chemical_dissolution_chamber")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "electrolytic_separator")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "solar_neutron_activator")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "isotopic_centrifuge")))
+                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "rotary_condensentrator")))
                 .inputFluids(Glue.getFluid(8000))
                 .outputItems(COMMON_MEKANISM_PROCESS_FACTORY)
                 .duration(1800)

@@ -61,7 +61,6 @@ public final class SFTMultiMachines {
                             .build())
             .workableCasingModel(SFTCore.id("block/casings/solid/create_railway_casing"),
                     GTCEu.id("block/multiblock/gcym/large_mixer"))
-
             .register();
 
     public static final MachineDefinition CERTUS_QUARTZ_CHARGER = REGISTRATE.multiblock("certus_quartz_charger", WorkableElectricMultiblockMachine::new)

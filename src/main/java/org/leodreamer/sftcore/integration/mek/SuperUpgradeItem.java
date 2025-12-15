@@ -56,7 +56,7 @@ public class SuperUpgradeItem extends Item {
         return InteractionResult.PASS;
     }
 
-    @RegisterLanguage("Can be used infinitely")
+    @RegisterLanguage("Can be used infinitely. Press shift and right click the machine to install the update")
     static final String TOOLTIP = "sftcore.item.super_upgrade.tooltip";
 
     @Override

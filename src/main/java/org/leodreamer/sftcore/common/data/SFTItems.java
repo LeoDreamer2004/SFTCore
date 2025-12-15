@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.item.SelectStickItem;
+import org.leodreamer.sftcore.common.item.behavior.OrderBehavior;
 import org.leodreamer.sftcore.common.item.behavior.TimeBottleBehavior;
 import org.leodreamer.sftcore.integration.mek.SuperUpgradeItem;
 
@@ -34,6 +35,12 @@ public final class SFTItems {
                     .properties(p -> p.stacksTo(1))
                     .onRegister(attach(new TimeBottleBehavior()))
                     .register();
+
+    public static final ItemEntry<ComponentItem> ORDER = REGISTRATE.item("order", ComponentItem::create)
+            .lang("%s Order")
+            .properties(p -> p.stacksTo(1))
+            .onRegister(attach(new OrderBehavior()))
+            .register();
 
     public static final ItemEntry<SuperUpgradeItem> SPEED_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.SPEED);
     public static final ItemEntry<SuperUpgradeItem> ENERGY_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.ENERGY);

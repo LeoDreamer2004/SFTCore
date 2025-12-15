@@ -43,7 +43,6 @@ public abstract class MEStorageScreenMixin<C extends MEStorageMenu>
             var item = AEItems.BLANK_PATTERN.asItem();
             for (var entry : repo.getAllEntries()) {
                 var what = entry.getWhat();
-                System.out.println(what);
                 if (what instanceof AEItemKey itemWhat && itemWhat.getItem() == item) {
                     handleGridInventoryEntryMouseClick(entry, mouseButton, clickType);
                     break;

@@ -7,9 +7,9 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.integration.RLUtils;
 
 import java.util.function.Consumer;
 
@@ -23,7 +23,7 @@ public interface IMachineAdjustment extends IMultiPart {
             return null;
         }
         var item = stack.getItem();
-        var rl = ForgeRegistries.ITEMS.getKey(item);
+        var rl = RLUtils.getItemRL(item);
         var def = GTRegistries.MACHINES.get(rl);
         if (def == null || def instanceof MultiblockMachineDefinition
                 || def.getRecipeTypes().length == 0)

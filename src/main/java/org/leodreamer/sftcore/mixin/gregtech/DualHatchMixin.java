@@ -17,12 +17,12 @@ public abstract class DualHatchMixin extends ItemBusPartMachine {
     }
 
     @Inject(method = "getInventorySize", at = @At("HEAD"), cancellable = true, remap = false)
-    private void dualHatch$inventorySize(CallbackInfoReturnable<Integer> cir) {
+    private void sftcore$inventorySize(CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue((int) Math.pow((getTier()), 2));
     }
 
     @Inject(method = "getTankCapacity", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void dualHatch$getTankCapacity(int initialCapacity, int tier, CallbackInfoReturnable<Integer> cir) {
+    private static void sftcore$getTankCapacity(int initialCapacity, int tier, CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue((initialCapacity / 2) * (1 << (tier - 1)));
     }
 }

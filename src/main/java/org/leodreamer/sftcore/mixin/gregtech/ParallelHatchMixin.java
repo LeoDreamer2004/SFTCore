@@ -19,7 +19,7 @@ public abstract class ParallelHatchMixin {
     private int maxParallel;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void parallelHatch$modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
+    private void sftcore$modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
         this.maxParallel *= 16;
         this.setCurrentParallel(this.maxParallel);
     }
@@ -28,7 +28,7 @@ public abstract class ParallelHatchMixin {
     public abstract void setCurrentParallel(int parallelAmount);
 
     @Inject(method = "canShared", at = @At("HEAD"), cancellable = true, remap = false)
-    private void parallelHatch$canShared(CallbackInfoReturnable<Boolean> cir) {
+    private void sftcore$canShared(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }
 }

@@ -37,7 +37,7 @@ public class SFTCreateRecipeGen {
         List<GeneratedRecipe> GT_PLATES = GTCEuAPI.materialManager.getRegisteredMaterials()
                 .stream()
                 .filter(material -> material.shouldGenerateRecipesFor(TagPrefix.plate) && !ChemicalHelper.get(TagPrefix.ingot, material).isEmpty())
-                .map(material -> create(material.getName() + "_plate", b -> b.require(ChemicalHelper.get(TagPrefix.ingot, material).getItem())
+                .map(material -> create(material.getName() + "_plate", b -> b.require(ChemicalHelper.getTag(TagPrefix.ingot, material))
                         .output(ChemicalHelper.get(TagPrefix.plate, material)))
                 )
                 .toList();

@@ -18,6 +18,7 @@ import java.util.function.Supplier;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class SFTRecipeBuilder extends GTRecipeBuilder {
+
     public static final String INPUT_STRESS = "input_stress";
 
     public SFTRecipeBuilder(ResourceLocation id, GTRecipeType recipeType) {

@@ -9,7 +9,7 @@ import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.common.data.SFTBlocks;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
-import org.leodreamer.sftcore.integration.IntegrateUtils;
+import org.leodreamer.sftcore.integration.RLUtils;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -55,15 +55,15 @@ public final class VanillaRecipes {
         uu(provider, AllItems.ZINC_INGOT.asItem(), 3, "U  ", " U ", "  U");
 
         var mek = Mekanism.MODID;
-        uu(provider, Objects.requireNonNull(IntegrateUtils.getItemById(mek, "ingot_osmium")), 3,
+        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_osmium")), 3,
                 " U ", "  U", "U  ");
-        uu(provider, Objects.requireNonNull(IntegrateUtils.getItemById(mek, "ingot_lead")), 3,
+        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_lead")), 3,
                 "   ", " U ", "U U");
-        uu(provider, Objects.requireNonNull(IntegrateUtils.getItemById(mek, "ingot_tin")), 4,
+        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_tin")), 4,
                 "   ", "U U", " U ");
-        uu(provider, Objects.requireNonNull(IntegrateUtils.getItemById(mek, "ingot_uranium")), 10,
+        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_uranium")), 10,
                 " U ", "UUU", "   ");
-        uu(provider, Objects.requireNonNull(IntegrateUtils.getItemById(mek, "fluorite_gem")), 8,
+        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "fluorite_gem")), 8,
                 "   ", "UUU", " U ");
 
         uu(provider, AEItems.SKY_DUST.asItem(), 6, "  U", " U ", "  U");

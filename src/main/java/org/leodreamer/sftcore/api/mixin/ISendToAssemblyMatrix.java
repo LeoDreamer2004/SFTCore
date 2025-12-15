@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.feature;
+package org.leodreamer.sftcore.api.mixin;
 
 public interface ISendToAssemblyMatrix {
     boolean sftcore$getTransferToMatrix();

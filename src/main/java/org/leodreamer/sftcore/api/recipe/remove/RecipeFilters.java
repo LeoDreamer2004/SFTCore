@@ -12,7 +12,12 @@ public class RecipeFilters {
         return new ModFilter(mod);
     }
 
+    public static InputFilter input(ItemLike item) {
+        return new InputFilter(item);
+    }
+
     public static OutputFilter output(ItemLike item) {
         return new OutputFilter(item);
     }
+
 }

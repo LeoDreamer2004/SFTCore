@@ -7,7 +7,7 @@ import appeng.client.gui.me.items.EncodingModePanel;
 import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.client.gui.widgets.ToggleButton;
 import net.minecraft.network.chat.Component;
-import org.leodreamer.sftcore.api.feature.ISendToAssemblyMatrix;
+import org.leodreamer.sftcore.api.mixin.ISendToAssemblyMatrix;
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

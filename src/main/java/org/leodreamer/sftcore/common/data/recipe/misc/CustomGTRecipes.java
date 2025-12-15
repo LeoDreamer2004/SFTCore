@@ -21,7 +21,7 @@ import org.leodreamer.sftcore.common.data.machine.SFTSingleMachines;
 import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import org.leodreamer.sftcore.integration.IntegrateMods;
-import org.leodreamer.sftcore.integration.IntegrateUtils;
+import org.leodreamer.sftcore.integration.RLUtils;
 
 import java.util.function.Consumer;
 
@@ -44,7 +44,7 @@ public final class CustomGTRecipes {
                 .EUt(VA[ULV])
                 .save(provider);
 
-        var torcherino = IntegrateUtils.getItemById(IntegrateMods.TORCHERINO, "torcherino");
+        var torcherino = RLUtils.getItemById(IntegrateMods.TORCHERINO, "torcherino");
         if (torcherino != null) {
             HURRY_UP_RECIPES.recipeBuilder(SFTCore.id("hurry_up"))
                     .outputItems(torcherino, 2)
