@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:ruthenium_ingot"
+      "tag": "forge:ingots/ruthenium"
     }
   ],
   "results": [

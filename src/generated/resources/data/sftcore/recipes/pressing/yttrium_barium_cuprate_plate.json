@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:yttrium_barium_cuprate_ingot"
+      "tag": "forge:ingots/yttrium_barium_cuprate"
     }
   ],
   "results": [

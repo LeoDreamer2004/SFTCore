@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:rhodium_plated_palladium_ingot"
+      "tag": "forge:ingots/rhodium_plated_palladium"
     }
   ],
   "results": [

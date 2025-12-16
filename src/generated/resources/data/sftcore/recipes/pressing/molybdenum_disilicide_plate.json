@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:molybdenum_disilicide_ingot"
+      "tag": "forge:ingots/molybdenum_disilicide"
     }
   ],
   "results": [

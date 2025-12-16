@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:electrum_ingot"
+      "tag": "forge:ingots/electrum"
     }
   ],
   "results": [

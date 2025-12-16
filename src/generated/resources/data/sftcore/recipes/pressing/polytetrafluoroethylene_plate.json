@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:polytetrafluoroethylene_ingot"
+      "tag": "forge:ingots/polytetrafluoroethylene"
     }
   ],
   "results": [

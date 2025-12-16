@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:hsla_steel_ingot"
+      "tag": "forge:ingots/hsla_steel"
     }
   ],
   "results": [

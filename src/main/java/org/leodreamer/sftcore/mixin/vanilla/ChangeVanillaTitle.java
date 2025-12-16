@@ -15,7 +15,7 @@ public final class ChangeVanillaTitle {
     @Final
     private Window window;
 
-    @Inject(method = "updateTitle()V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateTitle", at = @At("HEAD"), cancellable = true)
     private void updateTitle(final CallbackInfo info) {
         info.cancel();
         this.window.setTitle("Starter For Technology");

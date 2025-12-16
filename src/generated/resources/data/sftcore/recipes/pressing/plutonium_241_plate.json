@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:plutonium_241_ingot"
+      "tag": "forge:ingots/plutonium_241"
     }
   ],
   "results": [

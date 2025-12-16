@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:indium_gallium_phosphide_ingot"
+      "tag": "forge:ingots/indium_gallium_phosphide"
     }
   ],
   "results": [

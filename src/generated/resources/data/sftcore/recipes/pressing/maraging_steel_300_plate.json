@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:maraging_steel_300_ingot"
+      "tag": "forge:ingots/maraging_steel_300"
     }
   ],
   "results": [

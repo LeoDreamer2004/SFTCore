@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "sftcore.refmap.json",
   "mixins": [
+    "ae2.CraftingCpuLogicMixin",
     "ae2.CraftingEncodingPanelMixin",
     "ae2.MEStorageScreenMixin",
     "ae2.PatternEncodingTerminalPartMixin",

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:kanthal_ingot"
+      "tag": "forge:ingots/kanthal"
     }
   ],
   "results": [

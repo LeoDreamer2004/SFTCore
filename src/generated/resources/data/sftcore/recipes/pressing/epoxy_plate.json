@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:epoxy_ingot"
+      "tag": "forge:ingots/epoxy"
     }
   ],
   "results": [

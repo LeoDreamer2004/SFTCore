@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:enriched_naquadah_trinium_europium_duranide_ingot"
+      "tag": "forge:ingots/enriched_naquadah_trinium_europium_duranide"
     }
   ],
   "results": [

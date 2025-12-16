@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:stellite_100_ingot"
+      "tag": "forge:ingots/stellite_100"
     }
   ],
   "results": [

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:invar_ingot"
+      "tag": "forge:ingots/invar"
     }
   ],
   "results": [

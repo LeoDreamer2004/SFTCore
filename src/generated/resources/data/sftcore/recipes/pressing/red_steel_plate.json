@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:red_steel_ingot"
+      "tag": "forge:ingots/red_steel"
     }
   ],
   "results": [

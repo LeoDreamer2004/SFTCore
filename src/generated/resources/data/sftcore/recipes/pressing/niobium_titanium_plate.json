@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:niobium_titanium_ingot"
+      "tag": "forge:ingots/niobium_titanium"
     }
   ],
   "results": [

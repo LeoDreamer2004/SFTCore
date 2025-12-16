@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:tungsten_carbide_ingot"
+      "tag": "forge:ingots/tungsten_carbide"
     }
   ],
   "results": [

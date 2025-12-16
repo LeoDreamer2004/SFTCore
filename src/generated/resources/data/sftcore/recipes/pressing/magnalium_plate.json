@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:magnalium_ingot"
+      "tag": "forge:ingots/magnalium"
     }
   ],
   "results": [

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:bismuth_bronze_ingot"
+      "tag": "forge:ingots/bismuth_bronze"
     }
   ],
   "results": [

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:hastelloy_c_276_ingot"
+      "tag": "forge:ingots/hastelloy_c_276"
     }
   ],
   "results": [

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:tantalum_carbide_ingot"
+      "tag": "forge:ingots/tantalum_carbide"
     }
   ],
   "results": [

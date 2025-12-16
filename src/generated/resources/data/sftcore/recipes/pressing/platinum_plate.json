@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:platinum_ingot"
+      "tag": "forge:ingots/platinum"
     }
   ],
   "results": [

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:stainless_steel_ingot"
+      "tag": "forge:ingots/stainless_steel"
     }
   ],
   "results": [

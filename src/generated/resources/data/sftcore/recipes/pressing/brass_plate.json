@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:brass_ingot"
+      "tag": "forge:ingots/brass"
     }
   ],
   "results": [

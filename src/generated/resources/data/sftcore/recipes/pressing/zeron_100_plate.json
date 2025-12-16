@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:zeron_100_ingot"
+      "tag": "forge:ingots/zeron_100"
     }
   ],
   "results": [

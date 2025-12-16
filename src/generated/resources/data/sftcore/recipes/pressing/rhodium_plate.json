@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:rhodium_ingot"
+      "tag": "forge:ingots/rhodium"
     }
   ],
   "results": [

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:incoloy_ma_956_ingot"
+      "tag": "forge:ingots/incoloy_ma_956"
     }
   ],
   "results": [

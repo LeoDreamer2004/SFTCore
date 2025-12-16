@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:naquadah_alloy_ingot"
+      "tag": "forge:ingots/naquadah_alloy"
     }
   ],
   "results": [

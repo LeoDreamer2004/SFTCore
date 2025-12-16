@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:vanadium_gallium_ingot"
+      "tag": "forge:ingots/vanadium_gallium"
     }
   ],
   "results": [

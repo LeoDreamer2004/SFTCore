@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:cupronickel_ingot"
+      "tag": "forge:ingots/cupronickel"
     }
   ],
   "results": [

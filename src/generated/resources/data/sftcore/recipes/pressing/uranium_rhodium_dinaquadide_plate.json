@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:uranium_rhodium_dinaquadide_ingot"
+      "tag": "forge:ingots/uranium_rhodium_dinaquadide"
     }
   ],
   "results": [

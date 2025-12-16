@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:rose_gold_ingot"
+      "tag": "forge:ingots/rose_gold"
     }
   ],
   "results": [

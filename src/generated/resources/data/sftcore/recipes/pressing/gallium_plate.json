@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:gallium_ingot"
+      "tag": "forge:ingots/gallium"
     }
   ],
   "results": [

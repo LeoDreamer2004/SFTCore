@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:beryllium_ingot"
+      "tag": "forge:ingots/beryllium"
     }
   ],
   "results": [

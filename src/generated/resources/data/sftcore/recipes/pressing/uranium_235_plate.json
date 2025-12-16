@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:uranium_235_ingot"
+      "tag": "forge:ingots/uranium_235"
     }
   ],
   "results": [

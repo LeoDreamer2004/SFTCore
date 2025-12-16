@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:niobium_nitride_ingot"
+      "tag": "forge:ingots/niobium_nitride"
     }
   ],
   "results": [

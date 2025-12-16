@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:hsse_ingot"
+      "tag": "forge:ingots/hsse"
     }
   ],
   "results": [

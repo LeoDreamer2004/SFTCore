@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:annealed_copper_ingot"
+      "tag": "forge:ingots/annealed_copper"
     }
   ],
   "results": [

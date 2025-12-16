@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:americium_ingot"
+      "tag": "forge:ingots/americium"
     }
   ],
   "results": [

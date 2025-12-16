@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:polyphenylene_sulfide_ingot"
+      "tag": "forge:ingots/polyphenylene_sulfide"
     }
   ],
   "results": [

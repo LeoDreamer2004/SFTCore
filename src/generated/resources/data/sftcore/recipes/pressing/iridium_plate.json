@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:iridium_ingot"
+      "tag": "forge:ingots/iridium"
     }
   ],
   "results": [

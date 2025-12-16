@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:battery_alloy_ingot"
+      "tag": "forge:ingots/battery_alloy"
     }
   ],
   "results": [

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "gtceu:tin_alloy_ingot"
+      "tag": "forge:ingots/tin_alloy"
     }
   ],
   "results": [
