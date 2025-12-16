@@ -9,7 +9,7 @@ import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.common.data.SFTBlocks;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
-import org.leodreamer.sftcore.integration.RLUtils;
+import org.leodreamer.sftcore.util.RLUtils;
 
 import java.util.Objects;
 import java.util.function.Consumer;

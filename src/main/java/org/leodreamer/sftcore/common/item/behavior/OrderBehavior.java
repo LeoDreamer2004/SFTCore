@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.integration.RLUtils;
+import org.leodreamer.sftcore.util.RLUtils;
 
 import java.util.List;
 import java.util.Objects;

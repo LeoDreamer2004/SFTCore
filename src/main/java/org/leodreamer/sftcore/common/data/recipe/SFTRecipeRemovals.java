@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 import static org.leodreamer.sftcore.api.recipe.remove.RecipeFilters.*;
 import static org.leodreamer.sftcore.integration.IntegrateMods.*;
-import static org.leodreamer.sftcore.integration.RLUtils.getItemById;
+import static org.leodreamer.sftcore.util.RLUtils.getItemById;
 
 public final class SFTRecipeRemovals {
 

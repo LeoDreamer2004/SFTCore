@@ -4,7 +4,7 @@ import appeng.core.definitions.AEParts;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import org.leodreamer.sftcore.integration.RLUtils;
+import org.leodreamer.sftcore.util.RLUtils;
 import org.leodreamer.sftcore.integration.ponder.api.SFTGeneralStoryBoard;
 import org.leodreamer.sftcore.integration.ponder.api.SFTStoryBoard;
 import org.leodreamer.sftcore.integration.ponder.scene.AEAutomationScenes;

@@ -15,7 +15,7 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import org.leodreamer.sftcore.integration.IntegrateMods;
-import org.leodreamer.sftcore.integration.RLUtils;
+import org.leodreamer.sftcore.util.RLUtils;
 
 import java.util.Objects;
 import java.util.function.Consumer;

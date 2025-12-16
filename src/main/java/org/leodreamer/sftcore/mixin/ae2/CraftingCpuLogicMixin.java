@@ -13,9 +13,11 @@ import appeng.me.service.CraftingService;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.spongepowered.asm.mixin.*;
-
-import java.lang.reflect.Field;
+import org.leodreamer.sftcore.util.ReflectUtils;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(CraftingCpuLogic.class)
 public abstract class CraftingCpuLogicMixin {
@@ -76,7 +78,7 @@ public abstract class CraftingCpuLogicMixin {
             return;
         }
 
-        CraftingLink link = sftcore$getFieldValue(job, "link", CraftingLink.class);
+        CraftingLink link = ReflectUtils.getFieldValue(job, "link", CraftingLink.class);
         // Check if the job was canceled.
         if (link.isCanceled()) {
             cancel();
@@ -118,16 +120,5 @@ public abstract class CraftingCpuLogicMixin {
         this.usedOps[2] = this.usedOps[1];
         this.usedOps[1] = this.usedOps[0];
         this.usedOps[0] = started - remainingOperations;
-    }
-
-    @Unique
-    private <T> T sftcore$getFieldValue(Object obj, String fieldName, Class<T> fieldType) {
-        try {
-            Field field = obj.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return fieldType.cast(field.get(obj));
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to get field value: " + fieldName, e);
-        }
     }
 }

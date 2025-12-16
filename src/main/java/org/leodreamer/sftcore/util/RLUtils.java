@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.integration;
+package org.leodreamer.sftcore.util;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
