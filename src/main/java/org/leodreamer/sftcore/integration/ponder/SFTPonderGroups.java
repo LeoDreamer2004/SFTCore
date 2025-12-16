@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.integration.ponder;
 
 import appeng.core.definitions.AEBlocks;
+import appeng.core.definitions.AEItems;
 import appeng.core.definitions.AEParts;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import gripe._90.megacells.definition.MEGABlocks;
@@ -39,6 +40,15 @@ public class SFTPonderGroups {
             MEGABlocks.CRAFTING_STORAGE_64M,
             MEGABlocks.CRAFTING_STORAGE_256M,
     }, QUANTUM_COMPUTER);
+
+    public static final ItemLike[] PATTERN = new ItemLike[]{
+            AEItems.BLANK_PATTERN,
+            AEItems.CRAFTING_PATTERN,
+            AEItems.PROCESSING_PATTERN,
+            AEItems.STONECUTTING_PATTERN,
+            AEItems.SMITHING_TABLE_PATTERN,
+            AAEItems.ADV_PATTERN_ENCODER
+    };
 
     public static final ItemLike[] PATTERN_PROVIDER = new ItemLike[]{
             AEBlocks.PATTERN_PROVIDER,
