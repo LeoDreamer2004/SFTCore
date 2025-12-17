@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/green_sapphire"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:green_sapphire_dust"
+    }
+  ]
+}

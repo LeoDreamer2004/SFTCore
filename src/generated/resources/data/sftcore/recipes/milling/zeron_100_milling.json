@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/zeron_100"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:zeron_100_dust"
+    }
+  ]
+}

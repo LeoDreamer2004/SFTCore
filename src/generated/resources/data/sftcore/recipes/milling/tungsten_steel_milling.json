@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/tungsten_steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tungsten_steel_dust"
+    }
+  ]
+}

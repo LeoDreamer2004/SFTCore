@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/rose_gold"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:rose_gold_dust"
+    }
+  ]
+}

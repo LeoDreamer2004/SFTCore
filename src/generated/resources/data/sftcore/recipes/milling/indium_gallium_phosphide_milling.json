@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/indium_gallium_phosphide"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:indium_gallium_phosphide_dust"
+    }
+  ]
+}

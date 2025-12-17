@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/silicone_rubber"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:silicone_rubber_dust"
+    }
+  ]
+}

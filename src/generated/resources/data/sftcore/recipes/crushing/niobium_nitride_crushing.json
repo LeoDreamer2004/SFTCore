@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/niobium_nitride"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:niobium_nitride_dust"
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import mekanism.common.registries.MekanismFluids;
 import mekanism.common.registries.MekanismItems;
 import mekanism.generators.common.registries.GeneratorsFluids;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
@@ -168,5 +169,12 @@ public final class CustomGTRecipes {
                     .EUt(VA[tier + 1])
                     .save(provider);
         }
+
+        SFTVanillaRecipeHelper.addShapedRecipe("order")
+                .pattern(" A ", " B ", " C ")
+                .arg('A', new MaterialEntry(ingot, Aluminium))
+                .arg('B', Items.PAPER)
+                .arg('C', ItemTags.PLANKS)
+                .output(SFTItems.ORDER);
     }
 }

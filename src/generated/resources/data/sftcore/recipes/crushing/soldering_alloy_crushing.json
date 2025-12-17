@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/soldering_alloy"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:soldering_alloy_dust"
+    }
+  ]
+}

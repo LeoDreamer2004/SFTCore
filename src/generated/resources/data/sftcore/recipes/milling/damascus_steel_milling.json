@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/damascus_steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:damascus_steel_dust"
+    }
+  ]
+}

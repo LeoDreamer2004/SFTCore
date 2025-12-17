@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/black_bronze"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:black_bronze_dust"
+    }
+  ]
+}

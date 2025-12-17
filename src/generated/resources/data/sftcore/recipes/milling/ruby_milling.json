@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/ruby"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:ruby_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/almandine"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:almandine_dust"
+    }
+  ]
+}

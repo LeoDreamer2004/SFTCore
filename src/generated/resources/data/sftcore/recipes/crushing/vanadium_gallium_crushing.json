@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/vanadium_gallium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:vanadium_gallium_dust"
+    }
+  ]
+}

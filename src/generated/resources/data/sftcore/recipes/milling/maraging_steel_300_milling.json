@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/maraging_steel_300"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:maraging_steel_300_dust"
+    }
+  ]
+}

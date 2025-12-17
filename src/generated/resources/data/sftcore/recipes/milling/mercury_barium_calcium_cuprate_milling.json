@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/mercury_barium_calcium_cuprate"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:mercury_barium_calcium_cuprate_dust"
+    }
+  ]
+}

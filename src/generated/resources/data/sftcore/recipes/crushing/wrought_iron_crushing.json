@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/wrought_iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:wrought_iron_dust"
+    }
+  ]
+}

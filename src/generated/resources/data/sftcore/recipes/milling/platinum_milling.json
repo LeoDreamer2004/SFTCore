@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/platinum"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:platinum_dust"
+    }
+  ]
+}

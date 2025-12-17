@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/ender_pearl"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:ender_pearl_dust"
+    }
+  ]
+}

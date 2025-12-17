@@ -2,16 +2,16 @@ package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import appeng.core.definitions.AEItems;
 import com.simibubi.create.AllItems;
-import mekanism.common.Mekanism;
+import mekanism.common.registries.MekanismItems;
+import mekanism.common.resource.PrimaryResource;
+import mekanism.common.resource.ResourceType;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.common.data.SFTBlocks;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
-import org.leodreamer.sftcore.util.RLUtils;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 
 public final class VanillaRecipes {
@@ -39,6 +39,7 @@ public final class VanillaRecipes {
                 .save(provider);
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static void uuMatterRecipes(Consumer<FinishedRecipe> provider) {
         uu(provider, Items.COAL, 2, "   ", " U ", "   ");
         uu(provider, Items.IRON_INGOT, 3, " U ", " U ", " U ");
@@ -54,16 +55,16 @@ public final class VanillaRecipes {
 
         uu(provider, AllItems.ZINC_INGOT.asItem(), 3, "U  ", " U ", "  U");
 
-        var mek = Mekanism.MODID;
-        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_osmium")), 3,
+        var mek = MekanismItems.PROCESSED_RESOURCES;
+        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.OSMIUM).asItem(), 3,
                 " U ", "  U", "U  ");
-        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_lead")), 3,
+        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.LEAD).asItem(), 3,
                 "   ", " U ", "U U");
-        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_tin")), 4,
+        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.TIN).asItem(), 4,
                 "   ", "U U", " U ");
-        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "ingot_uranium")), 10,
+        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.URANIUM).asItem(), 10,
                 " U ", "UUU", "   ");
-        uu(provider, Objects.requireNonNull(RLUtils.getItemById(mek, "fluorite_gem")), 8,
+        uu(provider, MekanismItems.FLUORITE_GEM.asItem(), 8,
                 "   ", "UUU", " U ");
 
         uu(provider, AEItems.SKY_DUST.asItem(), 6, "  U", " U ", "  U");

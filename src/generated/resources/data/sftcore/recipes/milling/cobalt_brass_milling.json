@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/cobalt_brass"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:cobalt_brass_dust"
+    }
+  ]
+}

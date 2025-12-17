@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/brick"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:brick_dust"
+    }
+  ]
+}

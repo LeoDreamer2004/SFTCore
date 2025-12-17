@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/charcoal"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:charcoal_dust"
+    }
+  ]
+}

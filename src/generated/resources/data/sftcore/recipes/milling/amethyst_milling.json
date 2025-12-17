@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/amethyst"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:amethyst_dust"
+    }
+  ]
+}

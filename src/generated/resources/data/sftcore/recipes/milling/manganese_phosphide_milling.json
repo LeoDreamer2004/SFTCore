@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/manganese_phosphide"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:manganese_phosphide_dust"
+    }
+  ]
+}

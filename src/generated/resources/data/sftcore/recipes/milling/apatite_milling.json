@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/apatite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:apatite_dust"
+    }
+  ]
+}

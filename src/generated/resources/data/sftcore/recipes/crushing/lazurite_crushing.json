@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/lazurite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:lazurite_dust"
+    }
+  ]
+}

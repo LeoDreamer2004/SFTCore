@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/cobalt"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:cobalt_dust"
+    }
+  ]
+}

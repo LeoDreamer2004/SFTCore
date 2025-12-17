@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/grossular"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:grossular_dust"
+    }
+  ]
+}

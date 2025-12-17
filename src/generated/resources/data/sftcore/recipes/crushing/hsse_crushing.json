@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/hsse"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:hsse_dust"
+    }
+  ]
+}

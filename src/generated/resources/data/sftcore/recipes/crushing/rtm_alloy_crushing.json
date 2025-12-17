@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/rtm_alloy"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:rtm_alloy_dust"
+    }
+  ]
+}

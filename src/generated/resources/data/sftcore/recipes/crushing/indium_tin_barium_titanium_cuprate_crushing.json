@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/indium_tin_barium_titanium_cuprate"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:indium_tin_barium_titanium_cuprate_dust"
+    }
+  ]
+}

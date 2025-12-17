@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/andradite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:andradite_dust"
+    }
+  ]
+}

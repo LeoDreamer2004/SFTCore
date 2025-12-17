@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/rutile"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:rutile_dust"
+    }
+  ]
+}

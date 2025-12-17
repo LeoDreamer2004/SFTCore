@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/yellow_garnet"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:yellow_garnet_dust"
+    }
+  ]
+}

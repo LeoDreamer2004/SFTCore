@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/naquadah_alloy"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:naquadah_alloy_dust"
+    }
+  ]
+}

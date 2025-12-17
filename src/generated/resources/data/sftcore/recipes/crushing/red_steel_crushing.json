@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/red_steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:red_steel_dust"
+    }
+  ]
+}

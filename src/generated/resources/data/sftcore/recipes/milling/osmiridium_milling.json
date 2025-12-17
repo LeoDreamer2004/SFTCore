@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/osmiridium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:osmiridium_dust"
+    }
+  ]
+}

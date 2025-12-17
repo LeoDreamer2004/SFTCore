@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/yttrium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:yttrium_dust"
+    }
+  ]
+}

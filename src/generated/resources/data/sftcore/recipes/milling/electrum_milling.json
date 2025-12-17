@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/electrum"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:electrum_dust"
+    }
+  ]
+}

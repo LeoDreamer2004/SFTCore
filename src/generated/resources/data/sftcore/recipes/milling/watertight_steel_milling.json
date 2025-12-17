@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/watertight_steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:watertight_steel_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/titanium_carbide"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:titanium_carbide_dust"
+    }
+  ]
+}

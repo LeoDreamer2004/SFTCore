@@ -6,13 +6,13 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.api.data.recipe.DeployingRecipeGen;
-import com.simibubi.create.api.data.recipe.PressingRecipeGen;
-import com.simibubi.create.api.data.recipe.SequencedAssemblyRecipeGen;
+import com.simibubi.create.api.data.recipe.*;
 import com.simibubi.create.content.fluids.transfer.FillingRecipe;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
 import com.simibubi.create.content.kinetics.saw.CuttingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +25,8 @@ import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.integration.IntegrateMods;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.UnaryOperator;
 
 @SuppressWarnings("unused")
 public class SFTCreateRecipeGen {
@@ -34,13 +36,7 @@ public class SFTCreateRecipeGen {
             super(output, SFTCore.MOD_ID);
         }
 
-        List<GeneratedRecipe> GT_PLATES = GTCEuAPI.materialManager.getRegisteredMaterials()
-                .stream()
-                .filter(material -> material.shouldGenerateRecipesFor(TagPrefix.plate) && !ChemicalHelper.get(TagPrefix.ingot, material).isEmpty())
-                .map(material -> create(material.getName() + "_plate", b -> b.require(ChemicalHelper.getTag(TagPrefix.ingot, material))
-                        .output(ChemicalHelper.get(TagPrefix.plate, material)))
-                )
-                .toList();
+        List<GeneratedRecipe> GT_PLATES = genGTTransform("plate", TagPrefix.ingot, TagPrefix.plate, this::create);
 
         GeneratedRecipe BLACK_IRON = create("black_iron", b -> b
                 .require(ModItems.BLACK_IRON_INGOT.get())
@@ -57,6 +53,26 @@ public class SFTCreateRecipeGen {
                 .require(Items.OBSIDIAN)
                 .toolNotConsumed()
                 .output(ResourceLocation.fromNamespaceAndPath(IntegrateMods.FLUX, "flux_dust")));
+    }
+
+    static class Milling extends MillingRecipeGen {
+        public Milling(PackOutput output) {
+            super(output, SFTCore.MOD_ID);
+        }
+
+        List<GeneratedRecipe> GT_INGOT_DUSTS = genGTTransform("milling", TagPrefix.ingot, TagPrefix.dust, this::create);
+
+        List<GeneratedRecipe> GT_GEM_DUSTS = genGTTransform("milling", TagPrefix.gem, TagPrefix.dust, this::create);
+    }
+
+    static class Crushing extends CrushingRecipeGen {
+        public Crushing(PackOutput output) {
+            super(output, SFTCore.MOD_ID);
+        }
+
+        List<GeneratedRecipe> GT_INGOT_DUSTS = genGTTransform("crushing", TagPrefix.ingot, TagPrefix.dust, this::create);
+
+        List<GeneratedRecipe> GT_GEM_DUSTS = genGTTransform("crushing", TagPrefix.gem, TagPrefix.dust, this::create);
     }
 
     static class SequencedAssembly extends SequencedAssemblyRecipeGen {
@@ -82,5 +98,17 @@ public class SFTCreateRecipeGen {
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllBlocks.COGWHEEL.get()))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(AllBlocks.LARGE_COGWHEEL.get()))
                 .addStep(DeployerApplicationRecipe::new, rb -> rb.require(Tags.Items.INGOTS_IRON)));
+    }
+
+    private static <T extends ProcessingRecipe<?>> List<BaseRecipeProvider.GeneratedRecipe> genGTTransform(
+            String idSuffix, TagPrefix from, TagPrefix to,
+            BiFunction<String, UnaryOperator<ProcessingRecipeBuilder<T>>, BaseRecipeProvider.GeneratedRecipe> createFactory) {
+        return GTCEuAPI.materialManager.getRegisteredMaterials()
+                .stream()
+                .filter(material -> material.shouldGenerateRecipesFor(to) && !ChemicalHelper.get(from, material).isEmpty())
+                .map(material -> createFactory.apply(material.getName() + "_" + idSuffix, b -> b.require(ChemicalHelper.getTag(from, material))
+                        .output(ChemicalHelper.get(to, material))))
+                .toList();
+
     }
 }

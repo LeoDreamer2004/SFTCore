@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/lapis"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:lapis_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/olivine"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:olivine_dust"
+    }
+  ]
+}

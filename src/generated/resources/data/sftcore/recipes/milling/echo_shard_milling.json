@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/echo_shard"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:echo_shard_dust"
+    }
+  ]
+}

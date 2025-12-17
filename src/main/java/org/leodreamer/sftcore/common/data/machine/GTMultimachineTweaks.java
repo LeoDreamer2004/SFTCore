@@ -144,9 +144,7 @@ public final class GTMultimachineTweaks {
             );
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of()
-                            .energyMultiplier(GCYM_EUT_MULTIPLIER)
-                            .timeMultiplier(GCYM_DURATION_MULTIPLIER)
+                    machine.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of().gcymReduce()
                             .halfPerfectOverlock()
                             .modifiedBySFT().addTo(components))
             );

@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/stainless_steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:stainless_steel_dust"
+    }
+  ]
+}

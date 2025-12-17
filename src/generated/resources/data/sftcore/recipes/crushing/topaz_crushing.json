@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/topaz"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:topaz_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/monazite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:monazite_dust"
+    }
+  ]
+}

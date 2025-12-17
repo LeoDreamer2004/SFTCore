@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/ender_eye"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:ender_eye_dust"
+    }
+  ]
+}

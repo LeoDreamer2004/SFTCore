@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/gallium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:gallium_dust"
+    }
+  ]
+}

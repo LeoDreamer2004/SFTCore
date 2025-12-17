@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/molybdenum_disilicide"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:molybdenum_disilicide_dust"
+    }
+  ]
+}

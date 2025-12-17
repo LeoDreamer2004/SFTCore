@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/red_garnet"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:red_garnet_dust"
+    }
+  ]
+}

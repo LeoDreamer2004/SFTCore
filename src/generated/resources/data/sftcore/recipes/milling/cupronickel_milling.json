@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/cupronickel"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:cupronickel_dust"
+    }
+  ]
+}

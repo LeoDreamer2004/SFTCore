@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/titanium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:titanium_dust"
+    }
+  ]
+}

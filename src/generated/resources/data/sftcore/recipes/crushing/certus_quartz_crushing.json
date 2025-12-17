@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/certus_quartz"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:certus_quartz_dust"
+    }
+  ]
+}

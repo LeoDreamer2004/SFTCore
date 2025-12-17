@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/opal"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:opal_dust"
+    }
+  ]
+}

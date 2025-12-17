@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/tritanium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tritanium_dust"
+    }
+  ]
+}

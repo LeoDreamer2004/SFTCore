@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/olivine"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:olivine_dust"
+    }
+  ]
+}

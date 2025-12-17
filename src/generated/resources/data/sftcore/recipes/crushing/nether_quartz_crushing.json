@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/nether_quartz"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:nether_quartz_dust"
+    }
+  ]
+}

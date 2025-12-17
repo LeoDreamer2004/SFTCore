@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/lapotron"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:lapotron_dust"
+    }
+  ]
+}

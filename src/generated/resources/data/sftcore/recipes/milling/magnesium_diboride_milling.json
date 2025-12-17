@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/magnesium_diboride"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:magnesium_diboride_dust"
+    }
+  ]
+}

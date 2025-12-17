@@ -10,7 +10,6 @@ import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
@@ -82,14 +81,10 @@ public class AEAutomationScenes {
         scene.idle(20);
 
         var item = AEItems.CERTUS_QUARTZ_CRYSTAL.stack();
-        var entity = scene.world().createItemEntity(
-                vec.of(3.5, 5, 2.5),
-                vec.of(0, 0, 0),
-                item
-        );
+        var entity = scene.world().createItemEntity(vec.of(3.5, 5, 2.5), item);
 
         scene.idle(15);
-        scene.world().modifyEntity(entity, Entity::kill);
+        scene.world().killEntity(entity);
         scene.idle(10);
         scene.text(60, "You can directly input items into the network from the ME Interface")
                 .pointAt(vec.of(3.5, 2, 2.5))
@@ -114,11 +109,7 @@ public class AEAutomationScenes {
                 .pointAt(vec.of(3.5, 2, 2.5))
                 .placeNearTarget();
         scene.world().flapFunnel(pos.at(3, 1, 1), true);
-        scene.world().createItemEntity(
-                vec.of(3.5, 1.25, 1.5),
-                vec.of(0, 0, 0),
-                item
-        );
+        scene.world().createItemEntity(vec.of(3.5, 1.25, 1.5), item);
         scene.idle(60);
     }
 
@@ -149,11 +140,9 @@ public class AEAutomationScenes {
         scene.overlay().showControls(vec.of(0.5, 2, 2.5), Pointing.DOWN, 40)
                 .withItem(item);
         scene.idle(60);
-        var elementLink = scene.world().createItemEntity(
-                vec.of(2.5, 5, 2.5),
-                vec.of(0, 0, 0), item);
+        var link = scene.world().createItemEntity(vec.of(2.5, 5, 2.5), item);
         scene.idle(10);
-        scene.world().modifyEntity(elementLink, Entity::kill);
+        scene.world().killEntity(link);
         scene.idle(20);
         scene.overlay().showControls(vec.of(0.5, 2, 2.5), Pointing.DOWN, 40)
                 .withItem(item);
@@ -229,7 +218,6 @@ public class AEAutomationScenes {
         var vec = util.vector();
 
         var drop = vec.of(3.5, 5, 1.5);
-        var motion = vec.of(0, 0, 0);
         var loc = vec.of(2.5, 1.5, 1.75);
 
         scene.showBasePlate();
@@ -244,9 +232,9 @@ public class AEAutomationScenes {
 
         var qb = AEBlocks.QUARTZ_BLOCK;
 
-        var item = scene.world().createItemEntity(drop, motion, qb.stack());
+        var item = scene.world().createItemEntity(drop, qb.stack());
         scene.idle(15);
-        scene.world().modifyEntity(item, Entity::kill);
+        scene.world().killEntity(item);
         scene.world().setBlocks(sel.position(2, 1, 1), qb.block().defaultBlockState(), false);
         scene.idle(20);
         scene.overlay().showOutlineWithText(sel.position(2, 1, 1), 60)
@@ -260,10 +248,10 @@ public class AEAutomationScenes {
         scene.text(60, "When in item entity mode...").attachKeyFrame();
         scene.idle(80);
 
-        item = scene.world().createItemEntity(drop, motion, qb.stack());
+        item = scene.world().createItemEntity(drop, qb.stack());
         scene.idle(15);
-        scene.world().modifyEntity(item, Entity::kill);
-        scene.world().createItemEntity(loc, motion, qb.stack());
+        scene.world().killEntity(item);
+        scene.world().createItemEntity(loc, qb.stack());
 
         scene.overlay().showOutlineWithText(sel.position(2, 1, 1), 60)
                 .colored(PonderPalette.GREEN)
@@ -279,16 +267,16 @@ public class AEAutomationScenes {
         scene.overlay().showControls(loc, Pointing.RIGHT, 40)
                 .withItem(qc.stack());
         scene.idle(20);
-        item = scene.world().createItemEntity(drop, motion, qb.stack());
+        item = scene.world().createItemEntity(drop, qb.stack());
         scene.idle(15);
-        scene.world().modifyEntity(item, Entity::kill);
+        scene.world().killEntity(item);
 
         scene.idle(40);
 
-        item = scene.world().createItemEntity(drop, motion, qc.stack());
+        item = scene.world().createItemEntity(drop, qc.stack());
         scene.idle(15);
-        scene.world().modifyEntity(item, Entity::kill);
-        scene.world().createItemEntity(loc, motion, qc.stack());
+        scene.world().killEntity(item);
+        scene.world().createItemEntity(loc, qc.stack());
     }
 
     public static void molecularAssembler(SFTSceneBuilder scene, SceneBuildingUtil util) {
@@ -530,11 +518,7 @@ public class AEAutomationScenes {
                 .showControls(vec.of(1.5, 1.5, 1.5), Pointing.DOWN, 40)
                 .withItem(crystal);
         scene.idle(40);
-        scene.world().createItemEntity(
-                vec.of(4.5, 1.5, 1.5),
-                vec.of(0, 0, 0),
-                crystal
-        );
+        scene.world().createItemEntity(vec.of(4.5, 1.5, 1.5), crystal);
         scene.idle(20);
         scene.text(60, "The Pattern Provider will directly input the ingredients into the network where the ME Interface is located");
         scene.idle(80);

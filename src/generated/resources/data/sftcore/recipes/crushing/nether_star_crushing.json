@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/nether_star"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:nether_star_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/lazurite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:lazurite_dust"
+    }
+  ]
+}

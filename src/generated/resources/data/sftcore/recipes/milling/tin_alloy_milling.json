@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/tin_alloy"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tin_alloy_dust"
+    }
+  ]
+}

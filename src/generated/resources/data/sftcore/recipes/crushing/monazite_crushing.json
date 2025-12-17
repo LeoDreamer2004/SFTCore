@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/monazite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:monazite_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/sugar"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:sugar"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/rock_salt"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:rock_salt_dust"
+    }
+  ]
+}

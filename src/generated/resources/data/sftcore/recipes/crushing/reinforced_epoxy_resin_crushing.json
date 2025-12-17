@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/reinforced_epoxy_resin"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:reinforced_epoxy_resin_dust"
+    }
+  ]
+}

@@ -12,6 +12,10 @@ import net.pedroksl.advanced_ae.common.definitions.AAEItems;
 import java.util.Arrays;
 
 public class SFTPonderGroups {
+    public static final ItemLike[] CONTROLLER = new ItemLike[]{
+            AEBlocks.CONTROLLER
+    };
+
     public static final ItemLike[] QUANTUM_COMPUTER = new ItemLike[]{
             AAEBlocks.QUANTUM_ACCELERATOR,
             AAEBlocks.QUANTUM_CORE,
@@ -86,7 +90,47 @@ public class SFTPonderGroups {
             MEGABlocks.MEGA_INTERFACE
     };
 
-    public static <T> T[] concat(T[] first, T[] second) {
+    public static final ItemLike[] IMPORT_BUS = new ItemLike[]{
+            AEParts.IMPORT_BUS,
+            EPPItemAndBlock.EX_IMPORT_BUS,
+    };
+
+    public static final ItemLike[] EXPORT_BUS = new ItemLike[]{
+            AEParts.EXPORT_BUS,
+            EPPItemAndBlock.EX_EXPORT_BUS,
+            EPPItemAndBlock.MOD_EXPORT_BUS,
+            EPPItemAndBlock.TAG_EXPORT_BUS,
+            EPPItemAndBlock.PRECISE_EXPORT_BUS,
+            EPPItemAndBlock.THRESHOLD_EXPORT_BUS
+    };
+
+    public static final ItemLike[] STORAGE_BUS = new ItemLike[]{
+            AEParts.STORAGE_BUS,
+            EPPItemAndBlock.TAG_STORAGE_BUS,
+            EPPItemAndBlock.MOD_STORAGE_BUS,
+            EPPItemAndBlock.PRECISE_STORAGE_BUS
+    };
+
+    public static final ItemLike[] ANNIHILATION_PLANE = new ItemLike[]{
+            AEParts.ANNIHILATION_PLANE,
+    };
+
+    public static final ItemLike[] FORMATION_PLANE = new ItemLike[]{
+            AEParts.FORMATION_PLANE,
+            EPPItemAndBlock.ACTIVE_FORMATION_PLANE
+    };
+
+    public static final ItemLike[] QUANTUM_BRIDGE = new ItemLike[]{
+            AEBlocks.QUANTUM_RING,
+            AEBlocks.QUANTUM_LINK
+    };
+
+    public static final ItemLike[] IO_PORT = new ItemLike[]{
+            AEBlocks.IO_PORT,
+            EPPItemAndBlock.EX_IO_PORT
+    };
+
+    private static <T> T[] concat(T[] first, T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);
         System.arraycopy(second, 0, result, first.length, second.length);
         return result;

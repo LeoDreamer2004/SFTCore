@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/incoloy_ma_956"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:incoloy_ma_956_dust"
+    }
+  ]
+}

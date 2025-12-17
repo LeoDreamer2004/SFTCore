@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/antimony"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:antimony_dust"
+    }
+  ]
+}

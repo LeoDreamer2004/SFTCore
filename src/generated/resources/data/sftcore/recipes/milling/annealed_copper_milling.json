@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/annealed_copper"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:annealed_copper_dust"
+    }
+  ]
+}

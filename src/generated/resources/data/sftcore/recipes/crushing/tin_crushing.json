@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/tin"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tin_dust"
+    }
+  ]
+}

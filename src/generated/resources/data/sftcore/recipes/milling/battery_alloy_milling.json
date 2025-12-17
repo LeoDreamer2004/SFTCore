@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/battery_alloy"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:battery_alloy_dust"
+    }
+  ]
+}

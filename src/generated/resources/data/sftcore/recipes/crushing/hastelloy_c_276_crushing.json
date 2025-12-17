@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/hastelloy_c_276"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:hastelloy_c_276_dust"
+    }
+  ]
+}

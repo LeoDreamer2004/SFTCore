@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/pyrope"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:pyrope_dust"
+    }
+  ]
+}

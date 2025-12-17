@@ -6,18 +6,17 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import mekanism.common.content.blocktype.FactoryType;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.registries.MekanismItems;
+import mekanism.common.tier.FactoryTier;
 import mekanism.generators.common.registries.GeneratorsBlocks;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
-import org.leodreamer.sftcore.integration.IntegrateMods;
-import org.leodreamer.sftcore.util.RLUtils;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -187,15 +186,15 @@ public final class ControllerRecipes {
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("common_mekanism_process_factory"))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "ultimate_infusing_factory")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "ultimate_enriching_factory")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "ultimate_smelting_factory")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "pressurized_reaction_chamber")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "chemical_dissolution_chamber")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "electrolytic_separator")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "solar_neutron_activator")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "isotopic_centrifuge")))
-                .inputItems(Objects.requireNonNull(RLUtils.getItemById(IntegrateMods.MEK, "rotary_condensentrator")))
+                .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.INFUSING).asItem())
+                .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.ENRICHING).asItem())
+                .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.SMELTING).asItem())
+                .inputItems(MekanismBlocks.PRESSURIZED_REACTION_CHAMBER.asItem())
+                .inputItems(MekanismBlocks.CHEMICAL_DISSOLUTION_CHAMBER.asItem())
+                .inputItems(MekanismBlocks.ELECTROLYTIC_SEPARATOR.asItem())
+                .inputItems(MekanismBlocks.SOLAR_NEUTRON_ACTIVATOR.asItem())
+                .inputItems(MekanismBlocks.ISOTOPIC_CENTRIFUGE.asItem())
+                .inputItems(MekanismBlocks.ROTARY_CONDENSENTRATOR.asItem())
                 .inputFluids(Glue.getFluid(8000))
                 .outputItems(COMMON_MEKANISM_PROCESS_FACTORY)
                 .duration(1800)

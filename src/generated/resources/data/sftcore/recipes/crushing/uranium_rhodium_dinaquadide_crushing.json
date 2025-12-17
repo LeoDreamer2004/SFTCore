@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/uranium_rhodium_dinaquadide"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:uranium_rhodium_dinaquadide_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/netherite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:netherite_dust"
+    }
+  ]
+}

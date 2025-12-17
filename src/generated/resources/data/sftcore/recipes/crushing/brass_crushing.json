@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/brass"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:brass_dust"
+    }
+  ]
+}

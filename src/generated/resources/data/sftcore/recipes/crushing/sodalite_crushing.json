@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/sodalite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:sodalite_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/rubber"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:rubber_dust"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.hepdd.gtmthings.data.CustomItems;
 import gripe._90.megacells.definition.MEGAItems;
 import mekanism.common.registries.MekanismBlocks;
@@ -25,6 +26,8 @@ public final class SFTRecipeRemovals {
         ItemLike[] GT_ITEMS = new ItemLike[]{
                 GTMachines.HULL[GTValues.LV].getItem(),
                 GTMachines.CLEANING_MAINTENANCE_HATCH.getItem(),
+                GCYMMachines.MEGA_BLAST_FURNACE.getItem(),
+                GCYMMachines.MEGA_VACUUM_FREEZER.getItem(),
                 GTItems.TERMINAL,
                 GTItems.NAQUADAH_BOULE,
                 GTItems.NEUTRONIUM_BOULE

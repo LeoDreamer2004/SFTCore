@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/tantalum_carbide"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:tantalum_carbide_dust"
+    }
+  ]
+}

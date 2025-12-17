@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/epoxy"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:epoxy_dust"
+    }
+  ]
+}

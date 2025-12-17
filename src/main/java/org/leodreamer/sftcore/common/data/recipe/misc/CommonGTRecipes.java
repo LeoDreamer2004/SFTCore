@@ -267,8 +267,8 @@ public final class CommonGTRecipes {
 
         if (boost)
             builder.inputItems(BONE_MEAL, 4);
-        builder
-                .save(provider);
+
+        builder.save(provider);
     }
 
     private static void universalCircuitRecipes(Consumer<FinishedRecipe> provider) {

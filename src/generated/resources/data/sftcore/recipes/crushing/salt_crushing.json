@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/salt"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:salt_dust"
+    }
+  ]
+}

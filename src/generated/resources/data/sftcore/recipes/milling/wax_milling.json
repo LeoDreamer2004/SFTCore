@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/wax"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:wax_dust"
+    }
+  ]
+}

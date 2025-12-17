@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/rhodium_plated_palladium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:rhodium_plated_palladium_dust"
+    }
+  ]
+}

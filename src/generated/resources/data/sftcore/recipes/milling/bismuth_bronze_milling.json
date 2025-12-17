@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/bismuth_bronze"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:bismuth_bronze_dust"
+    }
+  ]
+}

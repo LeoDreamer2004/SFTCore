@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/blue_alloy"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:blue_alloy_dust"
+    }
+  ]
+}

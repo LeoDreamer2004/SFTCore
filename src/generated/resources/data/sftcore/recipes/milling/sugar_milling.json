@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/sugar"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:sugar"
+    }
+  ]
+}

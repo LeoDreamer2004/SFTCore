@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/diamond"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:diamond_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/magnalium"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:magnalium_dust"
+    }
+  ]
+}

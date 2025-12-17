@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/graphene"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:graphene_dust"
+    }
+  ]
+}

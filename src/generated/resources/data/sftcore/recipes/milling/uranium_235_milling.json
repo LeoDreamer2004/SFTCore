@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/uranium_235"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:uranium_235_dust"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/almandine"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:almandine_dust"
+    }
+  ]
+}

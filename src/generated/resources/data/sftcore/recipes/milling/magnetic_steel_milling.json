@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/magnetic_steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:magnetic_steel_dust"
+    }
+  ]
+}

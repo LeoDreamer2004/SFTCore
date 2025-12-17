@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/uranium_triplatinum"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:uranium_triplatinum_dust"
+    }
+  ]
+}

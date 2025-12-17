@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/polytetrafluoroethylene"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:polytetrafluoroethylene_dust"
+    }
+  ]
+}

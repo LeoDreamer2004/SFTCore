@@ -57,7 +57,7 @@ public final class SFTRecipeModifiers {
 
     public static final int MEGA_COIL_TEMP_LEVEL = 1200;
     public static final double MEGA_COIL_EUT_MULTIPLIER = 0.9;
-    public static final double MEGA_COIL_DURATION_MULTIPLIER = 0.75;
+    public static final double MEGA_COIL_DURATION_MULTIPLIER = 0.85;
     public static final RecipeModifier MEGA_COIL_MACHINE_REDUCE =
             new CoilReductionModifier(MEGA_COIL_TEMP_LEVEL, MEGA_COIL_EUT_MULTIPLIER, MEGA_COIL_DURATION_MULTIPLIER);
 

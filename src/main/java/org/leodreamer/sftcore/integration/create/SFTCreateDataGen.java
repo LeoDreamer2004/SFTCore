@@ -16,6 +16,8 @@ public class SFTCreateDataGen {
 
         generator.addProvider(run, new Pressing(output));
         generator.addProvider(run, new Deploying(output));
+        generator.addProvider(run, new Milling(output));
+        generator.addProvider(run, new Crushing(output));
         generator.addProvider(run, new SequencedAssembly(output));
     }
 }

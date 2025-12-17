@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/nickel_zinc_ferrite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:nickel_zinc_ferrite_dust"
+    }
+  ]
+}

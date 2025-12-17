@@ -1,12 +1,14 @@
 package org.leodreamer.sftcore.api.registry;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -120,18 +122,18 @@ public class SFTTooltipsBuilder {
         return this.insert(Component.translatable(DISABLE_SHARING));
     }
 
-    @RegisterLanguage("§a- §lEnergy Multiplier§r§a: %f§r")
+    @RegisterLanguage("§a- §lEnergy Multiplier§r§a: %s§r")
     static final String ENERGY_MULTIPLIER = "sftcore.multiblock.energy_multiplier.tooltip";
 
     public SFTTooltipsBuilder energyMultiplier(double multiplier) {
-        return this.insert(Component.translatable(ENERGY_MULTIPLIER, multiplier));
+        return this.insert(Component.translatable(ENERGY_MULTIPLIER, FormattingUtil.formatNumbers(multiplier)));
     }
 
-    @RegisterLanguage("§9- §lTime Multiplier§r§9: %f§r")
+    @RegisterLanguage("§9- §lTime Multiplier§r§9: %s§r")
     static final String TIME_MULTIPLIER = "sftcore.multiblock.time_multiplier.tooltip";
 
     public SFTTooltipsBuilder timeMultiplier(double multiplier) {
-        return this.insert(Component.translatable(TIME_MULTIPLIER, multiplier));
+        return this.insert(Component.translatable(TIME_MULTIPLIER, FormattingUtil.formatNumbers(multiplier)));
     }
 
     @RegisterLanguage("§6o §lPerfect Overclock§r")
@@ -140,8 +142,7 @@ public class SFTTooltipsBuilder {
     static final String PERFECT_OVERLOCK_1 = "sftcore.multiblock.perfect_overclock.tooltip.1";
 
     public SFTTooltipsBuilder perfectOverlock() {
-        return this.insert(
-                Component.translatable(PERFECT_OVERLOCK),
+        return this.insert(Component.translatable(PERFECT_OVERLOCK),
                 Component.translatable(PERFECT_OVERLOCK_1));
     }
 
@@ -165,14 +166,22 @@ public class SFTTooltipsBuilder {
                 Component.translatable(ALLOW_LASER_1));
     }
 
+    public SFTTooltipsBuilder gcymReduce() {
+        return this.energyMultiplier(SFTRecipeModifiers.GCYM_EUT_MULTIPLIER)
+                .timeMultiplier(SFTRecipeModifiers.GCYM_DURATION_MULTIPLIER);
+    }
+
     @RegisterLanguage("§co §lCoil Discount§r")
     static final String MEGA_REDUCE_WITH_COIL = "sftcore.multiblock.mega_reduce_with_coil";
-    @RegisterLanguage("§7§o   For every §d%dK§7§o above coil temperature, recipe energy is multiplied by §a%f§r§7§o and time by §9%f§r")
+    @RegisterLanguage("§7§o   For every §d%dK§7§o above coil temperature, recipe energy is multiplied by §a%s§r§7§o and time by §9%s§r")
     static final String MEGA_REDUCE_WITH_COIL_1 = "sftcore.multiblock.mega_reduce_with_coil.1";
 
     public SFTTooltipsBuilder megaReduceWithCoil() {
         return this.insert(Component.translatable(MEGA_REDUCE_WITH_COIL),
-                Component.translatable(MEGA_REDUCE_WITH_COIL_1));
+                Component.translatable(MEGA_REDUCE_WITH_COIL_1,
+                        SFTRecipeModifiers.MEGA_COIL_TEMP_LEVEL,
+                        FormattingUtil.formatNumbers(SFTRecipeModifiers.MEGA_COIL_DURATION_MULTIPLIER),
+                        FormattingUtil.formatNumbers(SFTRecipeModifiers.MEGA_COIL_EUT_MULTIPLIER)));
     }
 
     @RegisterLanguage("§5Δ §lRecipe Types: %s")

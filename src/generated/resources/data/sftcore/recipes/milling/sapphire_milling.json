@@ -1,0 +1,13 @@
+{
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "tag": "forge:gems/sapphire"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:sapphire_dust"
+    }
+  ]
+}

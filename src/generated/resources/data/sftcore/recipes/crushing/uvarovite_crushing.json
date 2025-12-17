@@ -1,0 +1,13 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "tag": "forge:gems/uvarovite"
+    }
+  ],
+  "results": [
+    {
+      "item": "gtceu:uvarovite_dust"
+    }
+  ]
+}
