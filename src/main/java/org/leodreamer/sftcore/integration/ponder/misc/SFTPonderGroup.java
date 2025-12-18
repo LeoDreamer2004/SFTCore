@@ -9,6 +9,8 @@ import lombok.Getter;
 import mekanism.common.content.blocktype.FactoryType;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.tier.FactoryTier;
+import mekanism.generators.common.registries.GeneratorsBlocks;
+import mekanism.generators.common.registries.GeneratorsItems;
 import net.minecraft.world.level.ItemLike;
 import net.pedroksl.advanced_ae.common.definitions.AAEBlocks;
 import net.pedroksl.advanced_ae.common.definitions.AAEItems;
@@ -142,6 +144,35 @@ public enum SFTPonderGroup {
             MekanismBlocks.getFactory(FactoryTier.ADVANCED, FactoryType.INFUSING),
             MekanismBlocks.getFactory(FactoryTier.ELITE, FactoryType.INFUSING),
             MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.INFUSING)
+    ),
+
+    TURBINE(
+            GeneratorsBlocks.TURBINE_CASING,
+            GeneratorsBlocks.TURBINE_ROTOR,
+            GeneratorsBlocks.TURBINE_VENT,
+            GeneratorsBlocks.TURBINE_VALVE,
+            MekanismBlocks.PRESSURE_DISPERSER,
+            GeneratorsItems.TURBINE_BLADE,
+            GeneratorsBlocks.ROTATIONAL_COMPLEX,
+            GeneratorsBlocks.ELECTROMAGNETIC_COIL,
+            MekanismBlocks.STRUCTURAL_GLASS,
+            GeneratorsBlocks.SATURATING_CONDENSER
+    ),
+
+    FISSION_FACTOR(
+            GeneratorsBlocks.FISSION_REACTOR_CASING,
+            GeneratorsBlocks.FISSION_REACTOR_PORT,
+            GeneratorsBlocks.FISSION_FUEL_ASSEMBLY,
+            GeneratorsBlocks.CONTROL_ROD_ASSEMBLY,
+            GeneratorsBlocks.FISSION_REACTOR_LOGIC_ADAPTER,
+            GeneratorsBlocks.REACTOR_GLASS
+    ),
+
+    SPS(
+            MekanismBlocks.SPS_CASING,
+            MekanismBlocks.SPS_PORT,
+            MekanismBlocks.SUPERCHARGED_COIL,
+            MekanismBlocks.STRUCTURAL_GLASS
     );
 
     private final ItemLike[] components;

@@ -3,7 +3,9 @@ package org.leodreamer.sftcore.integration.ponder.misc;
 import appeng.api.util.AEColor;
 import appeng.core.definitions.*;
 import lombok.Getter;
+import mekanism.api.providers.IItemProvider;
 import mekanism.common.registries.MekanismBlocks;
+import mekanism.generators.common.registries.GeneratorsBlocks;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
 import net.minecraft.resources.ResourceLocation;
 import org.leodreamer.sftcore.SFTCore;
@@ -14,7 +16,8 @@ public enum SFTPonderTag {
     AE_NETWORK("ae2_network"),
     AE_STORAGE("ae_storage"),
     AE_AUTOMATION("ae2_automation"),
-    AE_AUTOMATION_EXAMPLES("ae2_automation_examples");
+    AE_AUTOMATION_EXAMPLES("ae2_automation_examples"),
+    MEK_MULTIBLOCK("mek_multiblock");
 
     private final ResourceLocation rl;
 
@@ -26,6 +29,7 @@ public enum SFTPonderTag {
 
         PonderTagRegistrationHelper<ItemDefinition<?>> iHelper = helper.withKeyFunction(ItemDefinition::id);
         PonderTagRegistrationHelper<ColoredItemDefinition<?>> cHelper = helper.withKeyFunction((a) -> a.id(AEColor.TRANSPARENT));
+        PonderTagRegistrationHelper<IItemProvider> miHelper = helper.withKeyFunction(IItemProvider::getRegistryName);
 
         helper.registerTag(AE_NETWORK.rl)
                 .addToIndex()
@@ -86,7 +90,23 @@ public enum SFTPonderTag {
                 .description("To master AE2 automation")
                 .register();
 
-        helper.addToTag(AE_AUTOMATION_EXAMPLES.rl)
-                .add(MekanismBlocks.METALLURGIC_INFUSER.getRegistryName());
+        miHelper.addToTag(AE_AUTOMATION_EXAMPLES.rl)
+                .add(MekanismBlocks.METALLURGIC_INFUSER);
+
+        helper.registerTag(MEK_MULTIBLOCK.rl)
+                .addToIndex()
+                .item(MekanismBlocks.THERMAL_EVAPORATION_CONTROLLER, true, false)
+                .title("Mekanism Multiblock Structures")
+                .description("Build and play with multiblock structures!")
+                .register();
+
+        miHelper.addToTag(MEK_MULTIBLOCK.rl)
+                .add(MekanismBlocks.THERMAL_EVAPORATION_CONTROLLER)
+                .add(MekanismBlocks.BOILER_CASING)
+                .add(MekanismBlocks.INDUCTION_CASING)
+                .add(GeneratorsBlocks.TURBINE_CASING)
+                .add(GeneratorsBlocks.FISSION_REACTOR_CASING)
+                .add(GeneratorsBlocks.FUSION_REACTOR_CONTROLLER)
+                .add(MekanismBlocks.SPS_CASING);
     }
 }

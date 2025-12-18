@@ -31,7 +31,7 @@ public class AENetworkScenes {
         scene.configureBasePlate(0, 0, 9);
         scene.world().showSection(sel.fromTo(0, 0, 0, 9, 0, 9), Direction.UP);
         scene.world().setBlocks(sel.position(8, 1, 1),
-                AEBlocks.CONTROLLER.block().defaultBlockState(), false);
+                AEBlocks.CONTROLLER.block().defaultBlockState());
         scene.idle(20);
         scene.world().showSection(sel.fromTo(0, 1, 1, 1, 1, 1), Direction.DOWN);
         scene.idle(20);
@@ -60,26 +60,22 @@ public class AENetworkScenes {
         scene.world().modifyBlocks(
                 sel.fromTo(8, 1, 1, 1, 1, 1),
                 (state) -> state.setValue(ControllerBlock.CONTROLLER_STATE,
-                        ControllerBlock.ControllerBlockState.conflicted),
-                false
+                        ControllerBlock.ControllerBlockState.conflicted)
         );
         scene.world().modifyBlocks(
                 sel.fromTo(1, 8, 1, 1, 1, 1),
                 (state) -> state.setValue(ControllerBlock.CONTROLLER_STATE,
-                        ControllerBlock.ControllerBlockState.conflicted),
-                false
+                        ControllerBlock.ControllerBlockState.conflicted)
         );
         scene.world().modifyBlocks(
                 sel.fromTo(1, 1, 8, 1, 1, 1),
                 (state) -> state.setValue(ControllerBlock.CONTROLLER_STATE,
-                        ControllerBlock.ControllerBlockState.conflicted),
-                false
+                        ControllerBlock.ControllerBlockState.conflicted)
         );
         scene.world().modifyBlock(
                 pos.at(7, 1, 1),
                 (state) -> state.setValue(ControllerBlock.CONTROLLER_TYPE,
-                        ControllerBlock.ControllerRenderType.column_x),
-                false
+                        ControllerBlock.ControllerRenderType.column_x)
         );
         scene.text(60, "Controllers will turn red and become unusable if they exceed the 7-block limit");
         scene.rotateCameraY(180);
@@ -114,8 +110,7 @@ public class AENetworkScenes {
             for (int j = 0; j < 3; j++) {
                 scene.world().modifyBlock(
                         pos.at(i, j + 1, 0),
-                        (state) -> state.setValue(QuantumBaseBlock.FORMED, false),
-                        false
+                        (state) -> state.setValue(QuantumBaseBlock.FORMED, false)
                 );
                 if (i != 1 || j != 1) {
                     scene.world().showSection(sel.position(i, j + 1, 0), Direction.DOWN);
@@ -131,8 +126,7 @@ public class AENetworkScenes {
                 if (i == 1 || j == 1)
                     scene.world().modifyBlock(
                             pos.at(i, j + 1, 0),
-                            (state) -> state.setValue(QuantumBaseBlock.FORMED, true),
-                            false
+                            (state) -> state.setValue(QuantumBaseBlock.FORMED, true)
                     );
             }
         }
@@ -158,8 +152,7 @@ public class AENetworkScenes {
                 if (i != 1 && j != 1)
                     scene.world().modifyBlock(
                             pos.at(i + 6, j + 1, 8),
-                            (state) -> state.setValue(QuantumBaseBlock.FORMED, true),
-                            false
+                            (state) -> state.setValue(QuantumBaseBlock.FORMED, true)
                     );
                 scene.world().showSection(sel.position(i + 6, j + 1, 8), Direction.DOWN);
                 scene.idle(5);

@@ -7,8 +7,8 @@ import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
 
@@ -101,7 +101,7 @@ public class AEStorageScenes {
 
     @PonderScene(groups = IO_PORT, file = "ponder_io_port")
     public static void ioPort(SFTSceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("io_port", "使用IO端口整理存储");
+        scene.title("io_port", "Use IO Ports to Organize Storage");
         var sel = util.select();
         var vec = util.vector();
 
@@ -111,11 +111,11 @@ public class AEStorageScenes {
         scene.idle(20);
         scene.overlay().showOutlineWithText(sel.position(4, 1, 4), 80)
                 .colored(PonderPalette.GREEN)
-                .text("IO端口能够将其中的存储元件内的东西导入到网络，或者将网络内的存储内容导入元件")
+                .text("IO Ports can import items from storage cells inside them into the network, or export stored contents from the network into the cells")
                 .pointAt(vec.of(4.5, 2, 4.5));
         scene.idle(100);
         scene.world().showSection(sel.fromTo(0, 1, 0, 4, 1, 3), Direction.DOWN);
-        scene.text(60, "你可以使用它将网络内的物品导出到存储元件")
+        scene.text(60, "You can use it to export items from the network into storage cells")
                 .attachKeyFrame();
         scene.idle(60);
 
@@ -125,14 +125,14 @@ public class AEStorageScenes {
         scene.idle(20);
         scene.world().showSection(sel.fromTo(4, 1, 5, 6, 1, 8), Direction.DOWN);
         scene.idle(20);
-        scene.text(60, "你还可以用IO端口来整理驱动器中存储元件的内容")
+        scene.text(60, "You can also use IO Ports to organize the contents of storage cells in drives")
                 .attachKeyFrame();
         scene.idle(60);
     }
 
     @PonderScene(groups = IO_PORT, file = "ponder_io_port_output")
     public static void ioPortOutput(SFTSceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("io_port_output", "使用IO端口输出大量物品");
+        scene.title("io_port_output", "Using IO Ports to Output Large Amounts of Items");
         var sel = util.select();
         var vec = util.vector();
 
@@ -140,11 +140,11 @@ public class AEStorageScenes {
         scene.idle(20);
         scene.world().showSection(sel.fromTo(1, 1, 4, 3, 1, 4), Direction.DOWN);
         scene.idle(20);
-        scene.text(60, "IO端口的输入与输出速度非常的快……");
+        scene.text(60, "IO Ports have very fast input and output speeds...");
         scene.rotateCameraY(180);
         scene.idle(80);
         scene.world().showSection(sel.fromTo(2, 1, 3, 2, 1, 2), Direction.DOWN);
-        scene.text(100, "因此如果有无限元件，你可以使用它来快速生产物质球和奇点");
+        scene.text(100, "The high speed makes IO Ports ideal for mass production of items like Singularity if Infinity Cells are available");
         scene.idle(20);
 
         scene.overlay().showControls(vec.of(2.5, 2, 4.5), Pointing.DOWN, 40)
