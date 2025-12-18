@@ -1,22 +1,28 @@
-package org.leodreamer.sftcore.integration.ponder;
+package org.leodreamer.sftcore.integration.ponder.misc;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import appeng.core.definitions.AEParts;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import gripe._90.megacells.definition.MEGABlocks;
+import lombok.Getter;
+import mekanism.common.content.blocktype.FactoryType;
+import mekanism.common.registries.MekanismBlocks;
+import mekanism.common.tier.FactoryTier;
 import net.minecraft.world.level.ItemLike;
 import net.pedroksl.advanced_ae.common.definitions.AAEBlocks;
 import net.pedroksl.advanced_ae.common.definitions.AAEItems;
 
 import java.util.Arrays;
 
-public class SFTPonderGroups {
-    public static final ItemLike[] CONTROLLER = new ItemLike[]{
-            AEBlocks.CONTROLLER
-    };
+@Getter
+public enum SFTPonderGroup {
 
-    public static final ItemLike[] QUANTUM_COMPUTER = new ItemLike[]{
+    CONTROLLER(
+            AEBlocks.CONTROLLER
+    ),
+
+    QUANTUM_COMPUTER(
             AAEBlocks.QUANTUM_ACCELERATOR,
             AAEBlocks.QUANTUM_CORE,
             AAEBlocks.QUANTUM_STRUCTURE,
@@ -24,9 +30,9 @@ public class SFTPonderGroups {
             AAEBlocks.DATA_ENTANGLER,
             AAEBlocks.QUANTUM_STORAGE_128M,
             AAEBlocks.QUANTUM_STORAGE_256M
-    };
+    ),
 
-    public static final ItemLike[] CPU = concat(new ItemLike[]{
+    CPU(QUANTUM_COMPUTER.merge(
             AEBlocks.CRAFTING_UNIT,
             AEBlocks.CRAFTING_MONITOR,
             AEBlocks.CRAFTING_ACCELERATOR,
@@ -42,19 +48,19 @@ public class SFTPonderGroups {
             MEGABlocks.CRAFTING_STORAGE_4M,
             MEGABlocks.CRAFTING_STORAGE_16M,
             MEGABlocks.CRAFTING_STORAGE_64M,
-            MEGABlocks.CRAFTING_STORAGE_256M,
-    }, QUANTUM_COMPUTER);
+            MEGABlocks.CRAFTING_STORAGE_256M
+    )),
 
-    public static final ItemLike[] PATTERN = new ItemLike[]{
+    PATTERN(
             AEItems.BLANK_PATTERN,
             AEItems.CRAFTING_PATTERN,
             AEItems.PROCESSING_PATTERN,
             AEItems.STONECUTTING_PATTERN,
             AEItems.SMITHING_TABLE_PATTERN,
             AAEItems.ADV_PATTERN_ENCODER
-    };
+    ),
 
-    public static final ItemLike[] PATTERN_PROVIDER = new ItemLike[]{
+    PATTERN_PROVIDER(
             AEBlocks.PATTERN_PROVIDER,
             AEParts.PATTERN_PROVIDER,
             EPPItemAndBlock.EX_PATTERN_PROVIDER,
@@ -64,23 +70,23 @@ public class SFTPonderGroups {
             AAEItems.SMALL_ADV_PATTERN_PROVIDER,
             AAEBlocks.ADV_PATTERN_PROVIDER,
             AAEItems.SMALL_ADV_PATTERN_PROVIDER
-    };
+    ),
 
-    public static final ItemLike[] ASSEMBLER_MATRIX = new ItemLike[]{
+    ASSEMBLER_MATRIX(
             EPPItemAndBlock.ASSEMBLER_MATRIX_WALL,
             EPPItemAndBlock.ASSEMBLER_MATRIX_FRAME,
             EPPItemAndBlock.ASSEMBLER_MATRIX_GLASS,
             EPPItemAndBlock.ASSEMBLER_MATRIX_PATTERN,
             EPPItemAndBlock.ASSEMBLER_MATRIX_SPEED,
             EPPItemAndBlock.ASSEMBLER_MATRIX_CRAFTER
-    };
+    ),
 
-    public static final ItemLike[] MOLECULAR_ASSEMBLER = concat(new ItemLike[]{
+    MOLECULAR_ASSEMBLER(ASSEMBLER_MATRIX.merge(
             AEBlocks.MOLECULAR_ASSEMBLER,
-            EPPItemAndBlock.EX_ASSEMBLER,
-    }, ASSEMBLER_MATRIX);
+            EPPItemAndBlock.EX_ASSEMBLER
+    )),
 
-    public static final ItemLike[] INTERFACE = new ItemLike[]{
+    INTERFACE(
             AEBlocks.INTERFACE,
             AEParts.INTERFACE,
             EPPItemAndBlock.EX_INTERFACE,
@@ -88,47 +94,65 @@ public class SFTPonderGroups {
             EPPItemAndBlock.OVERSIZE_INTERFACE,
             EPPItemAndBlock.EX_PATTERN_PROVIDER_PART,
             MEGABlocks.MEGA_INTERFACE
-    };
+    ),
 
-    public static final ItemLike[] IMPORT_BUS = new ItemLike[]{
+    IMPORT_BUS(
             AEParts.IMPORT_BUS,
-            EPPItemAndBlock.EX_IMPORT_BUS,
-    };
+            EPPItemAndBlock.EX_IMPORT_BUS
+    ),
 
-    public static final ItemLike[] EXPORT_BUS = new ItemLike[]{
+    EXPORT_BUS(
             AEParts.EXPORT_BUS,
             EPPItemAndBlock.EX_EXPORT_BUS,
             EPPItemAndBlock.MOD_EXPORT_BUS,
             EPPItemAndBlock.TAG_EXPORT_BUS,
             EPPItemAndBlock.PRECISE_EXPORT_BUS,
             EPPItemAndBlock.THRESHOLD_EXPORT_BUS
-    };
+    ),
 
-    public static final ItemLike[] STORAGE_BUS = new ItemLike[]{
+    STORAGE_BUS(
             AEParts.STORAGE_BUS,
             EPPItemAndBlock.TAG_STORAGE_BUS,
             EPPItemAndBlock.MOD_STORAGE_BUS,
             EPPItemAndBlock.PRECISE_STORAGE_BUS
-    };
+    ),
 
-    public static final ItemLike[] ANNIHILATION_PLANE = new ItemLike[]{
-            AEParts.ANNIHILATION_PLANE,
-    };
+    ANNIHILATION_PLANE(
+            AEParts.ANNIHILATION_PLANE
+    ),
 
-    public static final ItemLike[] FORMATION_PLANE = new ItemLike[]{
+    FORMATION_PLANE(
             AEParts.FORMATION_PLANE,
             EPPItemAndBlock.ACTIVE_FORMATION_PLANE
-    };
+    ),
 
-    public static final ItemLike[] QUANTUM_BRIDGE = new ItemLike[]{
+    QUANTUM_BRIDGE(
             AEBlocks.QUANTUM_RING,
             AEBlocks.QUANTUM_LINK
-    };
+    ),
 
-    public static final ItemLike[] IO_PORT = new ItemLike[]{
+    IO_PORT(
             AEBlocks.IO_PORT,
             EPPItemAndBlock.EX_IO_PORT
-    };
+    ),
+
+    INFUSING_FACTORY(
+            MekanismBlocks.METALLURGIC_INFUSER,
+            MekanismBlocks.getFactory(FactoryTier.BASIC, FactoryType.INFUSING),
+            MekanismBlocks.getFactory(FactoryTier.ADVANCED, FactoryType.INFUSING),
+            MekanismBlocks.getFactory(FactoryTier.ELITE, FactoryType.INFUSING),
+            MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.INFUSING)
+    );
+
+    private final ItemLike[] components;
+
+    SFTPonderGroup(ItemLike... components) {
+        this.components = components;
+    }
+
+    private ItemLike[] merge(ItemLike... others) {
+        return concat(this.components, others);
+    }
 
     private static <T> T[] concat(T[] first, T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);

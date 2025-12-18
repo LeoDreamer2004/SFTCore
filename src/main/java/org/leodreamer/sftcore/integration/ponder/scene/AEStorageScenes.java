@@ -7,10 +7,19 @@ import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
 
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.*;
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.AE_STORAGE;
+
+@PonderSceneScanned
+@WithTags(AE_STORAGE)
 public class AEStorageScenes {
 
+    @PonderScene(groups = {IMPORT_BUS, EXPORT_BUS}, file = "ponder_import_export_bus")
     public static void portBuses(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("import_export_bus", "The Import and Export of Storage");
         var sel = util.select();
@@ -90,6 +99,7 @@ public class AEStorageScenes {
         scene.idle(20);
     }
 
+    @PonderScene(groups = IO_PORT, file = "ponder_io_port")
     public static void ioPort(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("io_port", "使用IO端口整理存储");
         var sel = util.select();
@@ -120,6 +130,7 @@ public class AEStorageScenes {
         scene.idle(60);
     }
 
+    @PonderScene(groups = IO_PORT, file = "ponder_io_port_output")
     public static void ioPortOutput(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("io_port_output", "使用IO端口输出大量物品");
         var sel = util.select();
@@ -145,6 +156,7 @@ public class AEStorageScenes {
         scene.idle(40);
     }
 
+    @PonderScene(groups = STORAGE_BUS, file = "ponder_storage_bus")
     public static void storageBus(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("storage_bus", "The Use of Storage Bus");
         var sel = util.select();
@@ -171,6 +183,7 @@ public class AEStorageScenes {
                 .withItem(crystal);
     }
 
+    @PonderScene(groups = {STORAGE_BUS, INTERFACE}, file = "ponder_storag_bus_interface_interaction")
     public static void subnetwork(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("storage_subnetwork", "Build a Recursive Subnetwork");
         var sel = util.select();

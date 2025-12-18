@@ -13,8 +13,18 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
 
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.*;
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.AE_AUTOMATION;
+
+@PonderSceneScanned
+@WithTags(AE_AUTOMATION)
 public class AEAutomationScenes {
+
+    @PonderScene(groups = CPU, file = "ponder_me_controller")
     public static void craftingCPU(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("crafting_cpu", "Constructing a Crafting CPU");
         var sel = util.select();
@@ -58,6 +68,7 @@ public class AEAutomationScenes {
         scene.idle(80);
     }
 
+    @PonderScene(groups = INTERFACE, file = "ponder_ae_interface")
     public static void interfaceBasic(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("interface", "The Interface to Communicate with Outside World");
         var sel = util.select();
@@ -113,6 +124,7 @@ public class AEAutomationScenes {
         scene.idle(60);
     }
 
+    @PonderScene(groups = ANNIHILATION_PLANE, file = "ponder_annihilation_plane")
     public static void annihilationPlane(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("annihilation_plane", "The Usage for Annihilation Plane");
         var sel = util.select();
@@ -149,6 +161,7 @@ public class AEAutomationScenes {
         scene.idle(60);
     }
 
+    @PonderScene(groups = ANNIHILATION_PLANE, file = "ponder_annihilation_plane_filter")
     public static void annihilationPlaneFilter(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("annihilation_plane_filter", "Break or Collect Special Items with Annihilation Plane");
         var sel = util.select();
@@ -212,6 +225,7 @@ public class AEAutomationScenes {
         scene.idle(60);
     }
 
+    @PonderScene(groups = FORMATION_PLANE, file = "ponder_formation_plane")
     public static void formationPlane(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("formation_plane", "The Usage for Formation Plane");
         var sel = util.select();
@@ -279,6 +293,7 @@ public class AEAutomationScenes {
         scene.world().createItemEntity(loc, qc.stack());
     }
 
+    @PonderScene(groups = MOLECULAR_ASSEMBLER, file = "ponder_molecular_assembler")
     public static void molecularAssembler(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("molecular_assembler", "Molecular Assembling");
         var sel = util.select();
@@ -308,41 +323,7 @@ public class AEAutomationScenes {
         scene.idle(80);
     }
 
-    public static void craftingSystem(SFTSceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("ae_crafting_system", "The Crafting System in AE2");
-        var sel = util.select();
-        var vec = util.vector();
-
-        scene.showBasePlate();
-        scene.idle(20);
-        scene.world().showSection(sel.fromTo(2, 1, 1, 2, 1, 3), Direction.DOWN);
-        scene.idle(20);
-        scene.text(40, "To set up an automated crafting system...");
-        scene.idle(60);
-        scene.world().showSection(sel.fromTo(0, 1, 1, 1, 1, 3), Direction.DOWN);
-        scene.idle(20);
-        scene.text(40, "You need a Crafting CPU multiblock")
-                .pointAt(vec.of(0.5, 2, 2.5));
-        scene.overlay().showOutline(PonderPalette.GREEN, new Object(),
-                sel.fromTo(0, 1, 1, 0, 1, 3), 40);
-        scene.idle(60);
-        scene.world().showSection(sel.fromTo(4, 1, 2, 3, 1, 0), Direction.DOWN);
-        scene.idle(20);
-        scene.text(40, "as well as a Pattern Provider and an Output Destination")
-                .pointAt(vec.of(4.5, 2, 1));
-        scene.overlay().showOutline(PonderPalette.GREEN, new Object(),
-                sel.fromTo(4, 1, 0, 4, 1, 1), 40);
-        scene.idle(80);
-        scene.text(80, "By writing patterns with the Pattern Encoding Terminal and placing them into the Pattern Provider, you can start ordering crafts")
-                .pointAt(vec.of(4, 2.5, 1))
-                .attachKeyFrame();
-        scene.overlay()
-                .showControls(vec.of(4, 2.5, 1), Pointing.DOWN, 40)
-                .rightClick()
-                .withItem(AEItems.BLANK_PATTERN.stack());
-        scene.idle(100);
-    }
-
+    @PonderScene(groups = {PATTERN, PATTERN_PROVIDER}, file = "ponder_pattern_provider")
     public static void craftingPrinciple(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("crafting_principle", "Crafting Principles");
         var sel = util.select();
@@ -419,6 +400,43 @@ public class AEAutomationScenes {
         scene.idle(120);
     }
 
+    @PonderScene(groups = {PATTERN_PROVIDER, CPU, MOLECULAR_ASSEMBLER}, file = "ponder_ae_crafting_system")
+    public static void craftingSystem(SFTSceneBuilder scene, SceneBuildingUtil util) {
+        scene.title("ae_crafting_system", "The Crafting System in AE2");
+        var sel = util.select();
+        var vec = util.vector();
+
+        scene.showBasePlate();
+        scene.idle(20);
+        scene.world().showSection(sel.fromTo(2, 1, 1, 2, 1, 3), Direction.DOWN);
+        scene.idle(20);
+        scene.text(40, "To set up an automated crafting system...");
+        scene.idle(60);
+        scene.world().showSection(sel.fromTo(0, 1, 1, 1, 1, 3), Direction.DOWN);
+        scene.idle(20);
+        scene.text(40, "You need a Crafting CPU multiblock")
+                .pointAt(vec.of(0.5, 2, 2.5));
+        scene.overlay().showOutline(PonderPalette.GREEN, new Object(),
+                sel.fromTo(0, 1, 1, 0, 1, 3), 40);
+        scene.idle(60);
+        scene.world().showSection(sel.fromTo(4, 1, 2, 3, 1, 0), Direction.DOWN);
+        scene.idle(20);
+        scene.text(40, "as well as a Pattern Provider and an Output Destination")
+                .pointAt(vec.of(4.5, 2, 1));
+        scene.overlay().showOutline(PonderPalette.GREEN, new Object(),
+                sel.fromTo(4, 1, 0, 4, 1, 1), 40);
+        scene.idle(80);
+        scene.text(80, "By writing patterns with the Pattern Encoding Terminal and placing them into the Pattern Provider, you can start ordering crafts")
+                .pointAt(vec.of(4, 2.5, 1))
+                .attachKeyFrame();
+        scene.overlay()
+                .showControls(vec.of(4, 2.5, 1), Pointing.DOWN, 40)
+                .rightClick()
+                .withItem(AEItems.BLANK_PATTERN.stack());
+        scene.idle(100);
+    }
+
+    @PonderScene(groups = {PATTERN, PATTERN_PROVIDER}, file = "ponder_ae_crafting_parallel")
     public static void craftingParallel(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("crafting_parallel", "Crafting Parallel");
         var sel = util.select();
@@ -496,6 +514,7 @@ public class AEAutomationScenes {
         scene.idle(40);
     }
 
+    @PonderScene(groups = {PATTERN_PROVIDER, INTERFACE}, file = "ponder_pattern_provider_interaction")
     public static void providerSubnetwork(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("pattern_provider_interaction", "Subnetwork Assigning");
         var sel = util.select();

@@ -5,8 +5,11 @@ import com.gregtechceu.gtceu.data.lang.LangHandler;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import net.createmod.ponder.foundation.PonderIndex;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.integration.ponder.SFTPonderPlugin;
+import org.leodreamer.sftcore.util.ReflectUtils;
 
 public class SFTLangHandler extends LangHandler {
     public static void init(RegistrateLangProvider provider) {
@@ -23,7 +26,14 @@ public class SFTLangHandler extends LangHandler {
             provider.add(entry.getKey(), entry.getValue());
         }
 
-        LanguageScanner.scan(provider);
+        for (var clazz : ReflectUtils.getClassesWithAnnotation(DataGenScanned.class)) {
+            var langMap = ReflectUtils.getStaticFieldsWithAnnotation(clazz, RegisterLanguage.class, String.class);
+            for (var entry : langMap.entrySet()) {
+                String key = entry.getValue();
+                String translation = entry.getKey().value();
+                provider.add(key, translation);
+            }
+        }
 
         PonderIndex.addPlugin(new SFTPonderPlugin());
         PonderIndex.getLangAccess().provideLang(SFTCore.MOD_ID, provider::add);

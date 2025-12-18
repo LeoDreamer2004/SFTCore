@@ -9,9 +9,19 @@ import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.minecraft.core.Direction;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
 
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.CONTROLLER;
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.QUANTUM_BRIDGE;
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.AE_NETWORK;
+
+@PonderSceneScanned
+@WithTags(AE_NETWORK)
 public class AENetworkScenes {
 
+    @PonderScene(groups = CONTROLLER, file = "ponder_me_controller")
     public static void controller(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("me_controller_scene", "The Placement of ME Controller");
         var sel = util.select();
@@ -87,6 +97,7 @@ public class AENetworkScenes {
         scene.idle(80);
     }
 
+    @PonderScene(groups = QUANTUM_BRIDGE, file = "ponder_quantum_network_bridge")
     public static void quantumBridge(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("quantum_network_bridge", "Use Quantum Bridge for Remote Network Transmission");
         var sel = util.select();

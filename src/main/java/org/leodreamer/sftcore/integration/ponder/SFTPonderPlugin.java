@@ -6,6 +6,7 @@ import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -19,7 +20,7 @@ public class SFTPonderPlugin implements PonderPlugin {
 
     @Override
     public void registerTags(PonderTagRegistrationHelper<ResourceLocation> helper) {
-        SFTPonderTags.register(helper);
+        SFTPonderTag.register(helper);
     }
 
     @Override

@@ -12,9 +12,18 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
 
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.INFUSING_FACTORY;
+import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.AE_AUTOMATION_EXAMPLES;
+
+@PonderSceneScanned
+@WithTags(AE_AUTOMATION_EXAMPLES)
 public class AEAutomationExamplesScenes {
 
+    @PonderScene(groups = INFUSING_FACTORY, file = "ponder_infusion_automation")
     public static void metallurgicInfuser(SFTSceneBuilder scene, SceneBuildingUtil util) {
         scene.title("automation_metallurgic_infuser", "The Automation of Metallurgic Infuser");
         var sel = util.select();
@@ -28,7 +37,7 @@ public class AEAutomationExamplesScenes {
 
         scene.idle(20);
 
-        scene.overlay().showOutlineWithText(sel.position(2, 1, 2), 6)
+        scene.overlay().showOutlineWithText(sel.position(2, 1, 2), 60)
                 .colored(PonderPalette.GREEN)
                 .text("The most challenging part of automating the Metallurgic Infuser is how to get the materials and infusing items into the correct slots")
                 .pointAt(vec.of(2.5, 2, 2.5));
@@ -44,15 +53,10 @@ public class AEAutomationExamplesScenes {
         scene.idle(80);
 
         scene.world().showSection(sel.position(2, 2, 2), Direction.WEST);
-        scene.idle(10);
-        scene.idle(20);
-
+        scene.idle(40);
         scene.world().showSection(sel.fromTo(2, 1, 3, 2, 2, 3), Direction.NORTH);
 
-        scene.idle(10);
-
-        scene.idle(20);
-
+        scene.idle(40);
         scene.text(60, "Don't forget to power the subnetwork with Quartz Fiber")
                 .pointAt(vec.of(1.2, 0.5, 2.5))
                 .placeNearTarget();
