@@ -33,13 +33,12 @@ public class MEKMultiblockScenes {
 
         scene.setSceneOffsetY(-1.5F);
         scene.scaleSceneView(0.5F);
-        scene.removeShadow();
         scene.showBasePlate();
-        scene.text(30, "要建造一个蒸汽涡轮……");
+        scene.text(30, "To build a Steam Turbine...");
         scene.idle(50);
 
         scene.world().showSection(sel.layer(1), Direction.DOWN);
-        scene.text(80, "你需要先用涡轮外壳搭建一个边长为奇数的底座，最大为17");
+        scene.text(80, "First, build a base with Turbine Casing with an odd length, up to 17");
         scene.idle(80);
 
         for (int h = 2; h <= 6; h++) {
@@ -50,12 +49,12 @@ public class MEKMultiblockScenes {
         scene.idle(40);
         scene.overlay().showOutlineWithText(sel.fromTo(4, 2, 4, 4, 6, 4), 60)
                 .colored(PonderPalette.BLUE)
-                .text("然后在中心竖直方向放置涡轮转子")
+                .text("Place Turbine Rotors vertically in the center")
                 .pointAt(vec.of(4, 4.5, 4))
                 .placeNearTarget();
         scene.idle(60);
 
-        scene.text(60, "手持涡轮叶片，右键涡轮转子安装叶片，每个转子需要两个叶片");
+        scene.text(60, "Hold a Turbine Blade and right-click the Turbine Rotor to install blades, two blades are required for each rotor");
         scene.idle(30);
         scene.overlay().showControls(vec.of(4, 2.5, 4), Pointing.RIGHT, 60)
                 .rightClick()
@@ -75,7 +74,7 @@ public class MEKMultiblockScenes {
 
         scene.overlay().showOutlineWithText(complex, 60)
                 .colored(PonderPalette.GREEN)
-                .text("在转子顶部放置复杂装置")
+                .text("Place a Rotation Complex on top of the rotors")
                 .pointAt(vec.of(4, 7.5, 4))
                 .placeNearTarget()
                 .attachKeyFrame();
@@ -102,7 +101,7 @@ public class MEKMultiblockScenes {
         }
         scene.overlay().showOutlineWithText(sel.fromTo(2, 7, 2, 6, 7, 6), 60)
                 .colored(PonderPalette.BLUE)
-                .text("用分压元件填满复杂旋钮一层")
+                .text("Fill the layer of the Rotation Complex with Pressure Dispersers")
                 .placeNearTarget();
         scene.idle(60);
 
@@ -110,7 +109,7 @@ public class MEKMultiblockScenes {
         scene.idle(20);
         scene.overlay().showOutlineWithText(sel.fromTo(4, 8, 3, 4, 8, 5), 100)
                 .colored(PonderPalette.BLUE)
-                .text("紧贴着复杂旋钮上方放置电磁线圈，必须相连且数量不低于转子的一半")
+                .text("Place Electromagnetic Coils directly above the Rotation Complex, connected and at least half the number of rotors")
                 .pointAt(vec.of(4, 8.5, 4))
                 .placeNearTarget()
                 .attachKeyFrame();
@@ -127,7 +126,7 @@ public class MEKMultiblockScenes {
 
         scene.overlay().showOutlineWithText(sel.fromTo(1, 7, 1, 7, 8, 7), 80)
                 .colored(PonderPalette.GREEN)
-                .text("在分压元件及其上的层，用尽可能多的涡轮排气口来替代涡轮外壳")
+                .text("Replace Turbine Casing around and above the Pressure Dispersers with as many Turbine Vanes as possible")
                 .pointAt(vec.of(3, 7.5, 3));
         scene.idle(80);
 
@@ -140,7 +139,7 @@ public class MEKMultiblockScenes {
                 scene.idle(2);
             }
         }
-        scene.text(60, "如果需要回收水，还可以在上半的夹层内放入若干饱和冷凝器");
+        scene.text(60, "If needed, you can also place several Saturated Condensers in the upper layer to recycle water");
         scene.idle(60);
 
         scene.world().setBlocks(sel.fromTo(2, 8, 2, 3, 8, 6),
@@ -152,16 +151,17 @@ public class MEKMultiblockScenes {
 
         scene.world().showSection(sel.layer(9), Direction.DOWN);
         scene.idle(20);
-        scene.text(40, "最后用涡轮外壳和结构玻璃封顶").attachKeyFrame();
+        scene.text(40, "Finally, cap it off with Turbine Casing and Structure Glass")
+                .attachKeyFrame();
         scene.idle(80);
 
         scene.world().setBlocks(sel.fromTo(3, 2, 1, 5, 2, 1), GeneratorsBlocks.TURBINE_VALVE.getBlock().defaultBlockState(), true);
         scene.idle(10);
-        scene.text(60, "用涡轮阀门替代涡轮外壳和结构玻璃以进行输入输出")
+        scene.text(60, "Replace Turbine Casing and Structure Glass with Turbine Valves for input and output")
                 .pointAt(vec.of(4, 2.5, 1))
                 .placeNearTarget();
         scene.idle(60);
-        scene.text(60, "输入蒸汽，你就能获得大量的电力！");
+        scene.text(60, "Input steam, and you will get a large amount of power!");
         scene.idle(80);
     }
 
@@ -245,8 +245,6 @@ public class MEKMultiblockScenes {
         scene.scaleSceneView(0.6F);
         scene.showBasePlate();
         scene.idle(25);
-        scene.addKeyframe();
-        scene.idle(5);
 
         scene.world().showSection(sel.fromTo(0, 2, 0, 8, 2, 8), Direction.DOWN);
         scene.idle(15);
