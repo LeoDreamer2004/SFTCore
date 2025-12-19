@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schema.json",
+  "widgets": {
+    "x2Pattern": {
+      "left": 82,
+      "bottom": 153
+    },
+    "x64Pattern": {
+      "left": 82,
+      "bottom": 143
+    },
+    "halfPattern": {
+      "left": 82,
+      "bottom": 133
+    }
+  }
+}

@@ -2,6 +2,7 @@
   "$schema": "../schema.json",
   "includes": [
     "pattern_encoding_terminal.json",
-    "encoding/crafting_sft.json"
+    "encoding/crafting_sft.json",
+    "encoding/processing_sft.json"
   ]
 }

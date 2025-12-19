@@ -28,8 +28,17 @@ public class MixinTooltips {
     @RegisterLanguage("- Can automatically transfer encoded pattern to assembly matrix")
     public static final String PATTERN_ENCODER_1 = "sftcore.mixin.ae2.pattern_encoder.tooltip.1";
 
-    @RegisterLanguage("Do not have the cooldown time")
-    public static final String TRAVELER_ANCHOR = "sftcore.mixin.travel_anchor.travel_staff.tooltip";
+    @RegisterLanguage("- Can multiply the number of items processed by patterns")
+    public static final String PATTERN_ENCODER_2 = "sftcore.mixin.ae2.pattern_encoder.tooltip.2";
+
+    @RegisterLanguage("Change the pattern")
+    public static final String CHANGE_PATTERN = "sftcore.mixin.ae2.pattern_encoding.change_pattern";
+
+    @RegisterLanguage("Multiply the pattern by %d. This will increase the item assigning speed when CPU does not have enough accelerators, and be more performance friendly for large amount processing.")
+    public static final String MULTIPLY_PATTERN = "sftcore.mixin.ae2.pattern_encoding.multiply_pattern";
+
+    @RegisterLanguage("Divide the pattern by %d.")
+    public static final String DIVIDE_PATTERN = "sftcore.mixin.ae2.pattern_encoding.divide_pattern";
 
     @RegisterLanguage("Send to Assembly Matrix Enabled")
     public static final String SEND_TO_ASSEMBLY_MATRIX_ON = "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_enabled";
@@ -43,12 +52,16 @@ public class MixinTooltips {
     @RegisterLanguage("The encoded pattern will not be automatically sent to the assembly matrix")
     public static final String SEND_TO_ASSEMBLY_MATRIX_DESC_DISABLED = "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_disabled.tooltip";
 
+    @RegisterLanguage("Do not have the cooldown time")
+    public static final String TRAVELER_ANCHOR = "sftcore.mixin.travel_anchor.travel_staff.tooltip";
+
     private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
     static {
         TOOLTIPS.put(AEParts.PATTERN_ENCODING_TERMINAL.asItem(), SFTTooltipsBuilder.of()
                 .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
                 .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
+                .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
                 .modifiedBySFT()::addTo);
 
         TOOLTIPS.put(ModItems.travelStaff.asItem(), SFTTooltipsBuilder.of()

@@ -2,6 +2,7 @@ package org.leodreamer.sftcore.mixin.ae2;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.GenericStack;
 import appeng.api.storage.ITerminalHost;
 import appeng.core.definitions.AEItems;
 import appeng.helpers.IMenuCraftingPacket;
@@ -10,11 +11,13 @@ import appeng.menu.guisync.GuiSync;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
+import appeng.util.ConfigInventory;
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import org.leodreamer.sftcore.api.mixin.ISendToAssemblyMatrix;
+import org.leodreamer.sftcore.api.ae2.feature.IPatternMultiply;
+import org.leodreamer.sftcore.api.ae2.feature.ISendToAssemblyMatrix;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PatternEncodingTermMenu.class)
-public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, ISendToAssemblyMatrix {
+public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, ISendToAssemblyMatrix, IPatternMultiply {
 
     @Unique
     private static final AEItemKey sftcore$key = AEItemKey.of(AEItems.BLANK_PATTERN);
@@ -42,8 +45,19 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Final
     private RestrictedInputSlot encodedPatternSlot;
 
+    @Shadow(remap = false)
+    @Final
+    private ConfigInventory encodedInputsInv;
+
+    @Shadow(remap = false)
+    @Final
+    private ConfigInventory encodedOutputsInv;
+
     @Unique
     private static final String TRANSFER_TO_MATRIX = "transferToMatrix";
+
+    @Unique
+    private static final String MULTIPLY_PATTERN = "multiplyPattern";
 
     public PatternEncodingTermMenuMixin(MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
         super(menuType, id, ip, host);
@@ -56,6 +70,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         blankPatternSlot.setAllowEdit(false);
         blankPatternSlot.setStackLimit(Integer.MAX_VALUE);
         registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
+        registerClientAction(MULTIPLY_PATTERN, Integer.class, this::sftcore$multiplyPattern);
     }
 
     @Inject(method = "broadcastChanges", at = @At("TAIL"))
@@ -158,6 +173,38 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             sendClientAction(TRANSFER_TO_MATRIX, transferToMatrix);
         } else {
             sftcore$transferToMatrix = transferToMatrix;
+        }
+    }
+
+    @Override
+    @Unique
+    public void sftcore$multiplyPattern(int multiplier) {
+        if (isClientSide()) {
+            sendClientAction(MULTIPLY_PATTERN, multiplier);
+            return;
+        }
+
+        sftcore$multiplySlotStack(encodedOutputsInv, multiplier);
+        sftcore$multiplySlotStack(encodedInputsInv, multiplier);
+    }
+
+    @Unique
+    private void sftcore$multiplySlotStack(ConfigInventory inv, int multiplier) {
+        for (int i = 0; i < inv.size(); i++) {
+            var stack = inv.getStack(i);
+            if (stack == null) continue;
+            var amount = stack.amount();
+            if (multiplier >= 0) {
+                amount *= multiplier;
+            } else {
+                amount /= -multiplier;
+                if (amount == 0)
+                    amount = 1;
+            }
+            if (amount > Integer.MAX_VALUE) {
+                amount = Integer.MAX_VALUE;
+            }
+            inv.setStack(i, new GenericStack(stack.what(), amount));
         }
     }
 }

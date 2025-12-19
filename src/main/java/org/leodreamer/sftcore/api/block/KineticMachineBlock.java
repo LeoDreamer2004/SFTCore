@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -20,7 +21,10 @@ import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
 import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
 import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
 
     public KineticMachineBlock(Properties properties, KineticMachineDefinition definition) {
