@@ -16,8 +16,10 @@
     "create.RotationPropagatorMixin",
     "gregtech.CleaningMaintenanceMixin",
     "gregtech.DualHatchMixin",
+    "gregtech.GTEmiRecipeMixin",
     "gregtech.ParallelHatchMixin",
     "gregtech.RecipeDurationMixin",
+    "emi.WidgetGroupMixin",
     "travelarchor.EventListenerMixin",
     "vanilla.RecipeManagerMixin"
   ],

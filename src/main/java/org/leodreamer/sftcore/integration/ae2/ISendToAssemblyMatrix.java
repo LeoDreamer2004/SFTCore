@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.ae2.feature;
+package org.leodreamer.sftcore.integration.ae2;
 
 public interface ISendToAssemblyMatrix {
     boolean sftcore$getTransferToMatrix();

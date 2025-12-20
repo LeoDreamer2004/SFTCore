@@ -159,6 +159,10 @@ repositories {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
     }
+    maven { // EMI
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
     maven { // Registrate
         url "https://maven.tterrag.com/"
     }
@@ -230,6 +234,7 @@ dependencies {
     implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
     implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
     implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    implementation fg.deobf("dev.emi:emi-forge:${emi_version}")
     implementation fg.deobf("curse.maven:ex-pattern-provider-892005:6677843")
     implementation fg.deobf("curse.maven:ae2addonlib-1366135:7159767")
     implementation fg.deobf("curse.maven:advancedae-1084104:7159779")
