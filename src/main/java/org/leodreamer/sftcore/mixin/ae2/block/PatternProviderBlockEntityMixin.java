@@ -45,7 +45,7 @@ public abstract class PatternProviderBlockEntityMixin
         this.setChanged();
     }
 
-    @Inject(method = "saveAdditional", at = @At("TAIL"), remap = false)
+    @Inject(method = "saveAdditional", at = @At("TAIL"))
     public void savePrompt(CompoundTag data, CallbackInfo ci) {
         if (!this.sftcore$prompt.isEmpty()) {
             data.putString(PROMPT_KEY, this.sftcore$prompt);
