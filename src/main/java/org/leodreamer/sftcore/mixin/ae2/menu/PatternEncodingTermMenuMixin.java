@@ -210,6 +210,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (node == null) return false;
         if (!sftcore$transferToMatrix) return false;
 
+
         var pattern = encodedPatternSlot.getItem();
         if (pattern.isEmpty()) return false;
 
@@ -261,6 +262,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                 }
             }
         }
+        SFTCore.LOGGER.info("Found {} machines to provide pattern", rows.size());
         return new AvailableGTMachinesPacket(rows);
     }
 

@@ -26,6 +26,7 @@
     "gregtech.machine.DualHatchMixin",
     "gregtech.machine.MEPatternBufferPartMachineMixin",
     "gregtech.machine.ParallelHatchMixin",
+    "gregtech.recipe.AE2PatternTerminalHandlerMixin",
     "gregtech.recipe.GTEmiRecipeMixin",
     "gregtech.recipe.RecipeDurationMixin",
     "travelarchor.EventListenerMixin",
