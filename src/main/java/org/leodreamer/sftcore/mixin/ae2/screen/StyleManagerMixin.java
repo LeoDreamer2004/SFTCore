@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2;
+package org.leodreamer.sftcore.mixin.ae2.screen;
 
 import appeng.client.gui.style.StyleManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,6 +14,8 @@ public class StyleManagerMixin {
             return "/screens/wtlib/wireless_pattern_encoding_terminal_sft.json";
         } else if (path.contains("pattern_encoding_terminal.json")) {
             return "/screens/terminals/pattern_encoding_terminal_sft.json";
+        } else if (path.contains("/screens/pattern_provider.json")) {
+            return "/screens/pattern_provider_sft.json";
         }
         return path;
     }

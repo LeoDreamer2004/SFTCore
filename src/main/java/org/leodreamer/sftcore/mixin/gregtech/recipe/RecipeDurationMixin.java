@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.gregtech;
+package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import org.spongepowered.asm.mixin.Mixin;

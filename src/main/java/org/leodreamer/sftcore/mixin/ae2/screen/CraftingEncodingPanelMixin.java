@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2;
+package org.leodreamer.sftcore.mixin.ae2.screen;
 
 import appeng.client.gui.Icon;
 import appeng.client.gui.WidgetContainer;
@@ -8,7 +8,7 @@ import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.client.gui.widgets.ToggleButton;
 import net.minecraft.network.chat.Component;
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
-import org.leodreamer.sftcore.integration.ae2.ISendToAssemblyMatrix;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToAssemblyMatrix;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

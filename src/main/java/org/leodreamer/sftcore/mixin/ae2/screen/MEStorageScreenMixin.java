@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2;
+package org.leodreamer.sftcore.mixin.ae2.screen;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.client.gui.AEBaseScreen;

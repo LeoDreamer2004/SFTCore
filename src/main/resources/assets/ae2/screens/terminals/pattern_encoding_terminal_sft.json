@@ -4,5 +4,11 @@
     "pattern_encoding_terminal.json",
     "encoding/crafting_sft.json",
     "encoding/processing_sft.json"
-  ]
+  ],
+  "widgets": {
+    "gtPanel": {
+      "right": -2,
+      "top": 104
+    }
+  }
 }

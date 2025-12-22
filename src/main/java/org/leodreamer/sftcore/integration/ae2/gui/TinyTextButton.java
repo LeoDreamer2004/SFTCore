@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.integration.ae2;
+package org.leodreamer.sftcore.integration.ae2.gui;
 
 import appeng.client.gui.Icon;
 import appeng.client.gui.widgets.ITooltip;

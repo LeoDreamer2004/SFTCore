@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.gregtech;
+package org.leodreamer.sftcore.mixin.gregtech.machine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;

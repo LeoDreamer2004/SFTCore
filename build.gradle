@@ -233,7 +233,7 @@ dependencies {
     implementation fg.deobf("curse.maven:glodium-957920:5226922")
     implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
     implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
-    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+//    implementation fg.deobf("mezz.jei:jei-${minecrafts_version}-forge:${jei_version}")
     implementation fg.deobf("dev.emi:emi-forge:${emi_version}")
     implementation fg.deobf("curse.maven:ex-pattern-provider-892005:6677843")
     implementation fg.deobf("curse.maven:ae2addonlib-1366135:7159767")
@@ -255,7 +255,7 @@ dependencies {
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
     compileOnly 'org.projectlombok:lombok:1.18.30'
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+//    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     compileOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${minecraft_version}:${flywheel_version}"))
 

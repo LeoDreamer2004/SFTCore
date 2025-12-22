@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2;
+package org.leodreamer.sftcore.mixin.ae2.menu;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
@@ -7,17 +7,27 @@ import appeng.api.storage.ITerminalHost;
 import appeng.core.definitions.AEItems;
 import appeng.helpers.IMenuCraftingPacket;
 import appeng.helpers.IPatternTerminalMenuHost;
+import appeng.helpers.patternprovider.PatternContainer;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import appeng.util.ConfigInventory;
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import org.leodreamer.sftcore.integration.ae2.IPatternMultiply;
-import org.leodreamer.sftcore.integration.ae2.ISendToAssemblyMatrix;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.integration.ae2.feature.IPatternMultiply;
+import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToAssemblyMatrix;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
+import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;
+import org.leodreamer.sftcore.integration.ae2.sync.AvailableGTMachinesPacket;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,8 +37,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
 @Mixin(PatternEncodingTermMenu.class)
-public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, ISendToAssemblyMatrix, IPatternMultiply {
+public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, ISendToGTMachine, ISendToAssemblyMatrix, IPatternMultiply {
 
     @Unique
     private static final AEItemKey sftcore$key = AEItemKey.of(AEItems.BLANK_PATTERN);
@@ -37,9 +51,17 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Final
     private RestrictedInputSlot blankPatternSlot;
 
+    // server side
+    @Unique
+    private final List<PatternContainer> sftcore$gtContainerTargets = new ArrayList<>();
+
     @Unique
     @GuiSync(150)
     public boolean sftcore$transferToMatrix = true;
+
+    @Unique
+    @Nullable
+    private GTRecipeType sftcore$curType = null;
 
     @Shadow(remap = false)
     @Final
@@ -57,6 +79,12 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private static final String TRANSFER_TO_MATRIX = "transferToMatrix";
 
     @Unique
+    private static final String SET_GT_TYPE = "setGTType";
+
+    @Unique
+    private static final String SEND_TO_GT_MACHINE = "sendToGTMachine";
+
+    @Unique
     private static final String MULTIPLY_PATTERN = "multiplyPattern";
 
     public PatternEncodingTermMenuMixin(MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
@@ -69,8 +97,65 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private void initPattern(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host, boolean bindInventory, CallbackInfo ci) {
         blankPatternSlot.setAllowEdit(false);
         blankPatternSlot.setStackLimit(Integer.MAX_VALUE);
+
         registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
+        registerClientAction(SET_GT_TYPE, ResourceLocation.class, (rl) -> this.sftcore$setGTType((GTRecipeType) ForgeRegistries.RECIPE_TYPES.getValue(rl)));
+        registerClientAction(SEND_TO_GT_MACHINE, Integer.class, this::sftcore$sendToGTMachine);
         registerClientAction(MULTIPLY_PATTERN, Integer.class, this::sftcore$multiplyPattern);
+    }
+
+    @Override
+    @Unique
+    public boolean sftcore$getTransferToMatrix() {
+        return sftcore$transferToMatrix;
+    }
+
+    @Override
+    @Unique
+    public void sftcore$setTransferToMatrix(boolean transferToMatrix) {
+        if (isClientSide()) {
+            sendClientAction(TRANSFER_TO_MATRIX, transferToMatrix);
+        } else {
+            sftcore$transferToMatrix = transferToMatrix;
+        }
+    }
+
+    @Override
+    @Unique
+    public void sftcore$setGTType(GTRecipeType type) {
+        if (isClientSide()) {
+            sendClientAction(SET_GT_TYPE, type.registryName);
+        } else {
+            sftcore$curType = type;
+        }
+    }
+
+    @Override
+    public void sftcore$sendToGTMachine(int chooseIndex) {
+        if (isClientSide()) {
+            sendClientAction(SEND_TO_GT_MACHINE, chooseIndex);
+            return;
+        }
+
+        var container = sftcore$gtContainerTargets.get(chooseIndex);
+        var inv = container.getTerminalPatternInventory();
+        var pattern = encodedPatternSlot.getItem();
+        if (pattern.isEmpty()) return;
+
+        var remainder = inv.addItems(pattern);
+        encodedPatternSlot.set(remainder);
+    }
+
+    @Override
+    @Unique
+    public void sftcore$multiplyPattern(int multiplier) {
+        if (isClientSide()) {
+            sendClientAction(MULTIPLY_PATTERN, multiplier);
+            return;
+        }
+
+        sftcore$multiplySlotStack(encodedOutputsInv, multiplier);
+        sftcore$multiplySlotStack(encodedInputsInv, multiplier);
     }
 
     @Inject(method = "broadcastChanges", at = @At("TAIL"))
@@ -104,7 +189,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         }
     }
 
-
     @Inject(method = "encode", at = @At("HEAD"), remap = false, cancellable = true)
     private void preventEncodingWhenDisconnected(CallbackInfo ci) {
         if (!isPowered()) {
@@ -113,35 +197,71 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     }
 
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
-    private void transferPatternToMatrixAfterEncoding(CallbackInfo ci) {
-        if (!sftcore$transferToMatrix) {
-            return;
-        }
+    private void AutoTransferAfterEncoding(CallbackInfo ci) {
+        sftcore$gtContainerTargets.clear();
+        var packet = sftcore$tryTransferToMatrix() ?
+                AvailableGTMachinesPacket.empty() : sftcore$checkAvailableGTMachine();
+        sendPacketToClient(packet);
+    }
 
+    @Unique
+    private boolean sftcore$tryTransferToMatrix() {
         var node = getNetworkNode();
-        if (node == null) return;
+        if (node == null) return false;
+        if (!sftcore$transferToMatrix) return false;
 
         var pattern = encodedPatternSlot.getItem();
-        // assembly matrix only accept crafting pattern
-        if (!sftcore$acceptedByMatrix(pattern)) return;
+        if (pattern.isEmpty()) return false;
 
-        for (var mat : node.getGrid().getMachines(TileAssemblerMatrixPattern.class)) {
+        // check pattern type
+        if (!AEItems.CRAFTING_PATTERN.isSameAs(pattern)
+                && !AEItems.STONECUTTING_PATTERN.isSameAs(pattern)
+                && !AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern)) return false;
+
+        for (var mat : node.getGrid().getActiveMachines(TileAssemblerMatrixPattern.class)) {
             var inv = mat.getPatternInventory();
             if (!pattern.isEmpty()) {
                 pattern = inv.addItems(pattern); // overflow, try on
             }
             if (pattern.isEmpty()) {
                 encodedPatternSlot.set(ItemStack.EMPTY);
-                break;
+                return true;
             }
         }
+
+        return false;
     }
 
     @Unique
-    private static boolean sftcore$acceptedByMatrix(ItemStack pattern) {
-        return AEItems.CRAFTING_PATTERN.isSameAs(pattern)
-                || AEItems.STONECUTTING_PATTERN.isSameAs(pattern)
-                || AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern);
+    private AvailableGTMachinesPacket sftcore$checkAvailableGTMachine() {
+        var node = getNetworkNode();
+        if (node == null) return AvailableGTMachinesPacket.empty();
+
+        var pattern = encodedPatternSlot.getItem();
+        if (pattern.isEmpty() || !AEItems.PROCESSING_PATTERN.isSameAs(pattern))
+            return AvailableGTMachinesPacket.empty();
+
+        SFTCore.LOGGER.info("Trying to check available GT machines to auto transfer");
+
+        List<AvailableGTRow> rows = new ArrayList<>();
+        for (var clazz : node.getGrid().getMachineClasses()) {
+            if (PatternContainer.class.isAssignableFrom(clazz)) {
+                @SuppressWarnings("unchecked")
+                var matClazz = (Class<? extends PatternContainer>) clazz;
+
+                for (var container : node.getGrid().getMachines(matClazz)) {
+                    var row = GTTransferLogic.tryBuild(container, sftcore$curType);
+                    row.ifPresent(r -> {
+                        if (container instanceof IPromptProvider promptProvider) {
+                            r = r.withPrompt(promptProvider.sftcore$getPrompt());
+                        }
+                        rows.add(r);
+                        sftcore$gtContainerTargets.add(container);
+                    });
+                }
+            }
+        }
+        return new AvailableGTMachinesPacket(rows);
     }
 
     @Redirect(method = "encode",
@@ -158,34 +278,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             remap = false)
     private boolean transferStack$skipBlankPattern(RestrictedInputSlot instance, ItemStack itemStack) {
         return instance.mayPlace(itemStack) && itemStack.getItem() != AEItems.BLANK_PATTERN.asItem();
-    }
-
-    @Override
-    @Unique
-    public boolean sftcore$getTransferToMatrix() {
-        return sftcore$transferToMatrix;
-    }
-
-    @Override
-    @Unique
-    public void sftcore$setTransferToMatrix(boolean transferToMatrix) {
-        if (isClientSide()) {
-            sendClientAction(TRANSFER_TO_MATRIX, transferToMatrix);
-        } else {
-            sftcore$transferToMatrix = transferToMatrix;
-        }
-    }
-
-    @Override
-    @Unique
-    public void sftcore$multiplyPattern(int multiplier) {
-        if (isClientSide()) {
-            sendClientAction(MULTIPLY_PATTERN, multiplier);
-            return;
-        }
-
-        sftcore$multiplySlotStack(encodedOutputsInv, multiplier);
-        sftcore$multiplySlotStack(encodedInputsInv, multiplier);
     }
 
     @Unique

@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2;
+package org.leodreamer.sftcore.mixin.ae2.block;
 
 import appeng.api.parts.IPartItem;
 import appeng.parts.encoding.PatternEncodingLogic;

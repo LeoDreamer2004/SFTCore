@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.gregtech;
+package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;

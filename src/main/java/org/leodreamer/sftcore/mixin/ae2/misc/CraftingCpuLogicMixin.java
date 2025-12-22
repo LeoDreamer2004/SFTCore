@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2;
+package org.leodreamer.sftcore.mixin.ae2.misc;
 
 import appeng.api.networking.energy.IEnergyService;
 import appeng.api.stacks.AEItemKey;

@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2;
+package org.leodreamer.sftcore.mixin.ae2.screen;
 
 import appeng.api.client.AEKeyRendering;
 import appeng.api.stacks.AEItemKey;
@@ -9,20 +9,38 @@ import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.core.definitions.AEItems;
 import appeng.menu.SlotSemantics;
-import appeng.menu.me.common.MEStorageMenu;
+import appeng.menu.me.items.PatternEncodingTermMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import org.leodreamer.sftcore.integration.ae2.feature.IGTTransferPanel;
+import org.leodreamer.sftcore.integration.ae2.gui.GTTransferPanel;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PatternEncodingTermScreen.class)
-public class PatternEncodingTermScreenMixin<C extends MEStorageMenu> extends MEStorageScreen<C> {
+public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu> extends MEStorageScreen<C> implements IGTTransferPanel {
+
+    @Unique
+    GTTransferPanel sftcore$gtPanel;
+
     public PatternEncodingTermScreenMixin(C menu, Inventory playerInventory, Component title, ScreenStyle style) {
         super(menu, playerInventory, title, style);
+    }
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void addGTPanel(PatternEncodingTermMenu menu, Inventory playerInventory, Component title, ScreenStyle style, CallbackInfo ci) {
+        sftcore$gtPanel = new GTTransferPanel(menu);
+        widgets.add("gtPanel", sftcore$gtPanel);
+    }
+
+    @Override
+    public GTTransferPanel sftcore$gtPanel() {
+        return sftcore$gtPanel;
     }
 
     @Inject(method = "renderSlot", at = @At("HEAD"), cancellable = true)
@@ -48,4 +66,5 @@ public class PatternEncodingTermScreenMixin<C extends MEStorageMenu> extends MES
             ci.cancel();
         }
     }
+
 }
