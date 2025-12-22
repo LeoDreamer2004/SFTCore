@@ -31,6 +31,9 @@ public class MixinTooltips {
     @RegisterLanguage("- Can multiply the number of items processed by patterns")
     public static final String PATTERN_ENCODER_2 = "sftcore.mixin.ae2.pattern_encoder.tooltip.2";
 
+    @RegisterLanguage("Prompt...")
+    public static final String PATTERN_ENCODER_PROMPT = "sftcore.mixin.ae2.pattern_encoder.prompt";
+
     @RegisterLanguage("Change the pattern")
     public static final String CHANGE_PATTERN = "sftcore.mixin.ae2.pattern_encoding.change_pattern";
 

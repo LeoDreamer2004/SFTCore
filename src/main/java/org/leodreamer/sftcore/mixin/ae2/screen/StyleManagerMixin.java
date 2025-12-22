@@ -14,7 +14,9 @@ public class StyleManagerMixin {
             return "/screens/wtlib/wireless_pattern_encoding_terminal_sft.json";
         } else if (path.contains("pattern_encoding_terminal.json")) {
             return "/screens/terminals/pattern_encoding_terminal_sft.json";
-        } else if (path.contains("/screens/pattern_provider.json")) {
+        } else if (path.contains("ex_pattern_provider.json")) {
+            return "/screens/ex_pattern_provider_sft.json";
+        } else if (path.contains("pattern_provider.json")) {
             return "/screens/pattern_provider_sft.json";
         }
         return path;

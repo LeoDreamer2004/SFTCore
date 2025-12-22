@@ -1,0 +1,14 @@
+{
+  "$schema": "./schema.json",
+  "includes": [
+    "ex_pattern_provider.json"
+  ],
+  "widgets": {
+    "prompt": {
+      "right": 95,
+      "top": 18,
+      "width": 89,
+      "height": 12
+    }
+  }
+}

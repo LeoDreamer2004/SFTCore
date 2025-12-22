@@ -8,6 +8,7 @@ import appeng.menu.implementations.PatternProviderMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProviderMenu;
 import org.leodreamer.sftcore.integration.ae2.feature.IReceivePrompt;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +30,7 @@ public class PatternProviderScreenMixin<C extends PatternProviderMenu> extends A
     @Inject(method = "<init>", at = @At("TAIL"))
     private void addPromptField(PatternProviderMenu menu, Inventory playerInventory, Component title, ScreenStyle style, CallbackInfo ci) {
         sftcore$prompt = widgets.addTextField("prompt");
-        sftcore$prompt.setPlaceholder(Component.literal("prompt..."));
+        sftcore$prompt.setPlaceholder(Component.translatable(MixinTooltips.PATTERN_ENCODER_PROMPT));
 
         var provider = ((IPromptProviderMenu) menu);
         sftcore$prompt.setValue(provider.sftcore$getPrompt());

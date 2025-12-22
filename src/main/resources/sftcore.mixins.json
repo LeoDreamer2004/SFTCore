@@ -8,6 +8,7 @@
     "ae2.block.PatternContainerGroupMixin",
     "ae2.block.PatternEncodingTerminalPartMixin",
     "ae2.block.PatternProviderBlockEntityMixin",
+    "ae2.block.PatternProviderPartMixin",
     "ae2.menu.PatternEncodingTermMenuMixin",
     "ae2.menu.PatternProviderMenuMixin",
     "ae2.misc.CraftingCpuLogicMixin",

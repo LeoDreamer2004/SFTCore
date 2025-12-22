@@ -110,8 +110,9 @@ public class GTTransferPanel implements ICompositeWidget {
         // draw the title
         guiGraphics.drawString(font,
                 Component.translatable(TITLE),
-                absX() + 3, absY() + 3,
-                Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()));
+                absX() + 9, absY() + 6,
+                Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
+                false);
 
         for (int i = 0; i < rows.size(); i++) {
             var row = rows.get(i);
