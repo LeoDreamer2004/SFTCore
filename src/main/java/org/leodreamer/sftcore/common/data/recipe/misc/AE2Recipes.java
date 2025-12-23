@@ -158,8 +158,7 @@ public final class AE2Recipes {
                 .save(provider);
     }
 
-    private static void inscribe(
-                                 Consumer<FinishedRecipe> provider, String id, Item ingredient, Item processor) {
+    private static void inscribe(Consumer<FinishedRecipe> provider, String id, Item ingredient, Item processor) {
         LARGE_INSCRIBER
                 .recipeBuilder(SFTCore.id("inscriber/" + id))
                 .inputItems(ingredient, 16)

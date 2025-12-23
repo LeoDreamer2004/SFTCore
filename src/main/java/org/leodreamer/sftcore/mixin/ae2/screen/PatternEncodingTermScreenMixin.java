@@ -37,11 +37,7 @@ public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu>
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addGTPanel(
-                            PatternEncodingTermMenu menu,
-                            Inventory playerInventory,
-                            Component title,
-                            ScreenStyle style,
+    private void addGTPanel(PatternEncodingTermMenu menu, Inventory playerInventory, Component title, ScreenStyle style,
                             CallbackInfo ci) {
         sftcore$gtPanel = new GTTransferPanel(menu);
         widgets.add("gtPanel", sftcore$gtPanel);
@@ -53,8 +49,7 @@ public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu>
     }
 
     @Inject(method = "renderSlot", at = @At("HEAD"), cancellable = true)
-    private void renderBlankPatternWithSmallFontAndCraftable(
-                                                             GuiGraphics guiGraphics, Slot s, CallbackInfo ci) {
+    private void renderBlankPatternWithSmallFontAndCraftable(GuiGraphics guiGraphics, Slot s, CallbackInfo ci) {
         if (menu.getSlotSemantic(s) == SlotSemantics.BLANK_PATTERN && s.hasItem()) {
             AEItemKey what = AEItemKey.of(AEItems.BLANK_PATTERN);
             long storedAmount = s.getItem().getCount();

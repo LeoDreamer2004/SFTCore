@@ -22,10 +22,7 @@ public class RecipeManagerMixin {
             remap = false,
             cancellable = true,
             at = @At("TAIL"))
-    private static void sftcore$removeRecipe(
-                                             ResourceLocation id,
-                                             JsonObject json,
-                                             ICondition.IContext context,
+    private static void sftcore$removeRecipe(ResourceLocation id, JsonObject json, ICondition.IContext context,
                                              CallbackInfoReturnable<Recipe<?>> cir) {
         var recipe = cir.getReturnValue();
         if (recipe == null) return;

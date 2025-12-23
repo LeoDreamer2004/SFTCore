@@ -117,11 +117,11 @@ public class SFTCreateRecipeGen {
                                 DeployerApplicationRecipe::new, rb -> rb.require(Tags.Items.INGOTS_IRON)));
     }
 
-    private static <T extends ProcessingRecipe<?>> List<BaseRecipeProvider.GeneratedRecipe> genGTTransform(
-                                                                                                           String idSuffix,
-                                                                                                           TagPrefix from,
-                                                                                                           TagPrefix to,
-                                                                                                           BiFunction<String, UnaryOperator<ProcessingRecipeBuilder<T>>, BaseRecipeProvider.GeneratedRecipe> createFactory) {
+    private static <
+            T extends ProcessingRecipe<?>> List<BaseRecipeProvider.GeneratedRecipe> genGTTransform(String idSuffix,
+                                                                                                   TagPrefix from,
+                                                                                                   TagPrefix to,
+                                                                                                   BiFunction<String, UnaryOperator<ProcessingRecipeBuilder<T>>, BaseRecipeProvider.GeneratedRecipe> createFactory) {
         return GTCEuAPI.materialManager.getRegisteredMaterials().stream()
                 .filter(
                         material -> material.shouldGenerateRecipesFor(to) &&

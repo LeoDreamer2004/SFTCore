@@ -30,8 +30,7 @@ public abstract class MEStorageScreenMixin<C extends MEStorageMenu> extends AEBa
     protected Repo repo;
 
     @Shadow(remap = false)
-    protected abstract void handleGridInventoryEntryMouseClick(
-                                                               @Nullable GridInventoryEntry entry, int mouseButton,
+    protected abstract void handleGridInventoryEntryMouseClick(@Nullable GridInventoryEntry entry, int mouseButton,
                                                                ClickType clickType);
 
     private MEStorageScreenMixin(
@@ -40,8 +39,7 @@ public abstract class MEStorageScreenMixin<C extends MEStorageMenu> extends AEBa
     }
 
     @Inject(method = "slotClicked", at = @At("HEAD"), cancellable = true)
-    private void letBlankPatternCraftable(
-                                          Slot slot, int slotIdx, int mouseButton, ClickType clickType,
+    private void letBlankPatternCraftable(Slot slot, int slotIdx, int mouseButton, ClickType clickType,
                                           CallbackInfo ci) {
         if (slot != null && slot.hasItem() && clickType == ClickType.CLONE &&
                 menu.getSlotSemantic(slot) == SlotSemantics.BLANK_PATTERN) {

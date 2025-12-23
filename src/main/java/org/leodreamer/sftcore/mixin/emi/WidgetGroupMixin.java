@@ -25,8 +25,7 @@ public abstract class WidgetGroupMixin {
     public List<Widget> widgets;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void emi$removeBackgroundForGT(
-                                           EmiRecipe recipe, int x, int y, int width, int height, CallbackInfo ci) {
+    private void emi$removeBackgroundForGT(EmiRecipe recipe, int x, int y, int width, int height, CallbackInfo ci) {
         if (recipe instanceof GTEmiRecipe gtEmiRecipe) {
             widgets.replaceAll(
                     widget -> {

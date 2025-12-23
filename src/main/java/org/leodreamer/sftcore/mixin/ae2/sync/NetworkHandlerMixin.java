@@ -15,8 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class NetworkHandlerMixin {
 
     @Inject(method = "deserializePacket", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void deserializePacketWithSFT(
-                                                 FriendlyByteBuf payload, CallbackInfoReturnable<BasePacket> cir) {
+    private static void deserializePacketWithSFT(FriendlyByteBuf payload, CallbackInfoReturnable<BasePacket> cir) {
         int packetId = payload.getInt(payload.readerIndex());
 
         if (SFTPacketHandler.PacketTypes.isSFTType(packetId)) {

@@ -76,20 +76,17 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
         this.renderState = getDefinition().defaultRenderState();
     }
 
-    public static KineticMachineBlockEntity create(
-                                                   BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
+    public static KineticMachineBlockEntity create(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
         return new KineticMachineBlockEntity(typeIn, pos, state);
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(
-                                                      @NotNull Capability<T> cap, @Nullable Direction side) {
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         var result = MetaMachineBlockEntity.getCapability(getMetaMachine(), cap, side);
         return result == null ? super.getCapability(cap, side) : result;
     }
 
-    public static void onBlockEntityRegister(
-                                             BlockEntityType blockEntityType,
+    public static void onBlockEntityRegister(BlockEntityType blockEntityType,
                                              NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
                                              boolean renderNormally) {
         if (visualFactory != null && LDLib.isClient()) {
@@ -163,15 +160,13 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
     }
 
     @Override
-    public boolean shouldRenderGrid(
-                                    Player player, BlockPos pos, BlockState state, ItemStack held,
+    public boolean shouldRenderGrid(Player player, BlockPos pos, BlockState state, ItemStack held,
                                     Set<GTToolType> toolTypes) {
         return metaMachine.shouldRenderGrid(player, pos, state, held, toolTypes);
     }
 
     @Override
-    public ResourceTexture sideTips(
-                                    Player player, BlockPos pos, BlockState state, Set<GTToolType> toolTypes,
+    public ResourceTexture sideTips(Player player, BlockPos pos, BlockState state, Set<GTToolType> toolTypes,
                                     Direction side) {
         return metaMachine.sideTips(player, pos, state, toolTypes, side);
     }

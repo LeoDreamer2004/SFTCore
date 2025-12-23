@@ -73,8 +73,7 @@ public class SFTCore {
     }
 
     @SubscribeEvent
-    public void registerRecipeConditions(
-                                         GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {
+    public void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {
         SFTRecipeConditions.init();
     }
 

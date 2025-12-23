@@ -44,8 +44,7 @@ public class OrderBehavior
     private InteractionHand hand;
 
     @Override
-    public InteractionResultHolder<ItemStack> use(
-                                                  Item item, Level level, Player player, InteractionHand usedHand) {
+    public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         this.hand = usedHand;
         return IItemUIFactory.super.use(item, level, player, usedHand);
     }
@@ -142,8 +141,7 @@ public class OrderBehavior
     static final String TOOLTIP_2 = "item.sftcore.order.tooltip.2";
 
     @Override
-    public void appendHoverText(
-                                ItemStack itemStack, @Nullable Level level, List<Component> list,
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list,
                                 TooltipFlag tooltipFlag) {
         list.add(Component.translatable(TOOLTIP_0));
         list.add(Component.translatable(TOOLTIP_1));
@@ -175,8 +173,7 @@ public class OrderBehavior
 
         @NotNull
         @Override
-        public ItemStack insertItem(
-                                    int slot, @NotNull ItemStack stack, boolean simulate, boolean notifyChanges) {
+        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate, boolean notifyChanges) {
             this.stack = stack;
             player.setItemInHand(hand, setTarget(player.getItemInHand(hand), stack));
             return stack;

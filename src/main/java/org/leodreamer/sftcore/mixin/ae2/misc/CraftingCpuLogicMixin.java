@@ -49,8 +49,7 @@ public abstract class CraftingCpuLogicMixin {
     private int[] usedOps;
 
     @Shadow(remap = false)
-    public abstract int executeCrafting(
-                                        int maxPatterns, CraftingService craftingService, IEnergyService energyService,
+    public abstract int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService,
                                         Level level);
 
     @Shadow(remap = false)

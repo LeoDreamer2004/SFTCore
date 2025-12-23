@@ -31,8 +31,7 @@ public class SFTRegistrate extends GTRegistrate {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder multiblock(
-                                                  String name,
+    public SFTMultiblockMachineBuilder multiblock(String name,
                                                   Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
         return new SFTMultiblockMachineBuilder(
                 this,
@@ -44,8 +43,7 @@ public class SFTRegistrate extends GTRegistrate {
     }
 
     @Override
-    public SFTMachineBuilder<MachineDefinition> machine(
-                                                        String name,
+    public SFTMachineBuilder<MachineDefinition> machine(String name,
                                                         Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         return new SFTMachineBuilder<>(
                 this,

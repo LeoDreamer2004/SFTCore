@@ -76,8 +76,7 @@ public class SFTMachineBuilder<DEFINITION extends MachineDefinition>
     }
 
     @Override
-    public <T extends Comparable<T>> SFTMachineBuilder<DEFINITION> modelProperty(
-                                                                                 Property<T> property,
+    public <T extends Comparable<T>> SFTMachineBuilder<DEFINITION> modelProperty(Property<T> property,
                                                                                  @Nullable T defaultValue) {
         return (SFTMachineBuilder<DEFINITION>) super.modelProperty(property, defaultValue);
     }

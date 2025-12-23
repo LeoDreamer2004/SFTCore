@@ -18,8 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EmiEncodePatternHandlerMixin<T extends PatternEncodingTermMenu> {
 
     @Inject(method = "craft", at = @At("HEAD"), remap = false)
-    private void rememberGTRecipeType(
-                                      EmiRecipe recipe, EmiCraftContext<T> context,
+    private void rememberGTRecipeType(EmiRecipe recipe, EmiCraftContext<T> context,
                                       CallbackInfoReturnable<Boolean> cir) {
         if (recipe instanceof GTEmiRecipe gtRecipe) {
             var menu = (ISendToGTMachine) context.getScreenHandler();

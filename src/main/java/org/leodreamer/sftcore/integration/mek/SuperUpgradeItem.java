@@ -64,8 +64,7 @@ public class SuperUpgradeItem extends Item {
     static final String TOOLTIP = "sftcore.item.super_upgrade.tooltip";
 
     @Override
-    public void appendHoverText(
-                                ItemStack stack, @Nullable Level level, List<Component> components,
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components,
                                 TooltipFlag isAdvanced) {
         super.appendHoverText(stack, level, components, isAdvanced);
         components.add(Component.translatable(TOOLTIP).withStyle(ChatFormatting.YELLOW));

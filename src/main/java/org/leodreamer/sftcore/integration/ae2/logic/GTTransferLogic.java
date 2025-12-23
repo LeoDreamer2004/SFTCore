@@ -11,8 +11,7 @@ import java.util.Optional;
 
 public class GTTransferLogic {
 
-    public static Optional<AvailableGTRow> tryBuild(
-                                                    PatternContainer container, GTRecipeType recipeType) {
+    public static Optional<AvailableGTRow> tryBuild(PatternContainer container, GTRecipeType recipeType) {
         var group = container.getTerminalGroup();
         var item = group.icon();
         if (item == null) return Optional.empty();

@@ -24,10 +24,7 @@ public class TooltipedBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(
-                                @NotNull ItemStack stack,
-                                @Nullable Level level,
-                                @NotNull List<Component> tooltip,
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip,
                                 @NotNull TooltipFlag flag) {
         tooltip.addAll(Arrays.asList(tooltips));
         super.appendHoverText(stack, level, tooltip, flag);

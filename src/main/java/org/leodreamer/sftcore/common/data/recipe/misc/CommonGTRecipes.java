@@ -125,8 +125,7 @@ public final class CommonGTRecipes {
         desulfurize(provider, "gas", SulfuricGas, RefineryGas);
     }
 
-    private static void desulfurize(
-                                    Consumer<FinishedRecipe> provider, String id, Material input, Material output) {
+    private static void desulfurize(Consumer<FinishedRecipe> provider, String id, Material input, Material output) {
         DESULFURIZE_RECIPES
                 .recipeBuilder(SFTCore.id(id))
                 .notConsumable(dust, ActivatedCarbon, 8)
@@ -145,8 +144,7 @@ public final class CommonGTRecipes {
         oilDrillingRig(provider, 4, OilLight);
     }
 
-    private static void oilDrillingRig(
-                                       Consumer<FinishedRecipe> provider, int circuit, Material output) {
+    private static void oilDrillingRig(Consumer<FinishedRecipe> provider, int circuit, Material output) {
         OIL_DRILLING_RECIPES
                 .recipeBuilder(SFTCore.id("oil_" + circuit))
                 .outputFluids(output.getFluid(2000))
@@ -299,8 +297,7 @@ public final class CommonGTRecipes {
         greenhouse(provider, "brown_mushroom", BROWN_MUSHROOM, false, BROWN_MUSHROOM, 12);
     }
 
-    private static void greenhouse(
-                                   Consumer<FinishedRecipe> provider, String id, Item input, boolean boost,
+    private static void greenhouse(Consumer<FinishedRecipe> provider, String id, Item input, boolean boost,
                                    Object... outputs) {
         if (outputs.length % 2 != 0) {
             SFTCore.LOGGER.error("outputs must be even, like item, amount, item, amount");
@@ -362,13 +359,8 @@ public final class CommonGTRecipes {
         gasCollector(provider, "liquid_ender_air", END_STONE, LiquidEnderAir, IV, true);
     }
 
-    private static void gasCollector(
-                                     Consumer<FinishedRecipe> provider,
-                                     String id,
-                                     Item input,
-                                     Material output,
-                                     int tier,
-                                     boolean freeze) {
+    private static void gasCollector(Consumer<FinishedRecipe> provider, String id, Item input, Material output,
+                                     int tier, boolean freeze) {
         var builder = LARGE_GAS_COLLECTOR_RECIPES
                 .recipeBuilder(id)
                 .notConsumable(input)

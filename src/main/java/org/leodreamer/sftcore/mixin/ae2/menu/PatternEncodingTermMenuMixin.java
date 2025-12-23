@@ -102,13 +102,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
             method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/IPatternTerminalMenuHost;Z)V",
             at = @At("TAIL"),
             remap = false)
-    private void initPattern(
-                             MenuType<?> menuType,
-                             int id,
-                             Inventory ip,
-                             IPatternTerminalMenuHost host,
-                             boolean bindInventory,
-                             CallbackInfo ci) {
+    private void initPattern(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host,
+                             boolean bindInventory, CallbackInfo ci) {
         blankPatternSlot.setAllowEdit(false);
         blankPatternSlot.setStackLimit(Integer.MAX_VALUE);
 
@@ -299,8 +294,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
                        target = "Lappeng/menu/slot/RestrictedInputSlot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z",
                        remap = true),
               remap = false)
-    private boolean transferStack$skipBlankPattern(
-                                                   RestrictedInputSlot instance, ItemStack itemStack) {
+    private boolean transferStack$skipBlankPattern(RestrictedInputSlot instance, ItemStack itemStack) {
         return instance.mayPlace(itemStack) && itemStack.getItem() != AEItems.BLANK_PATTERN.asItem();
     }
 

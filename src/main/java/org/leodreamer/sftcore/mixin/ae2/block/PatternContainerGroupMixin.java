@@ -28,10 +28,7 @@ import java.util.List;
 public class PatternContainerGroupMixin {
 
     @Inject(method = "fromMachine", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void createGroupForGTMachine(
-                                                Level level,
-                                                BlockPos pos,
-                                                Direction side,
+    private static void createGroupForGTMachine(Level level, BlockPos pos, Direction side,
                                                 CallbackInfoReturnable<PatternContainerGroup> cir) {
         var machine = MetaMachine.getMachine(level, pos);
         if (machine == null) return;

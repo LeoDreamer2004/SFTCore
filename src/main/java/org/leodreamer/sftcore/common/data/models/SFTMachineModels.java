@@ -15,8 +15,7 @@ import java.util.Locale;
 
 public final class SFTMachineModels {
 
-    public static MachineBuilder.ModelInitializer createWorkableTieredCustomMachineModel(
-                                                                                         ResourceLocation baseModel,
+    public static MachineBuilder.ModelInitializer createWorkableTieredCustomMachineModel(ResourceLocation baseModel,
                                                                                          ResourceLocation overlayDir) {
         return (ctx, prov, builder) -> {
             WorkableOverlays overlays = WorkableOverlays.get(overlayDir, prov.getExistingFileHelper());
@@ -34,8 +33,7 @@ public final class SFTMachineModels {
         };
     }
 
-    public static MachineBuilder.ModelInitializer createTieredCustomModel(
-                                                                          ResourceLocation baseModel) {
+    public static MachineBuilder.ModelInitializer createTieredCustomModel(ResourceLocation baseModel) {
         return (ctx, prov, builder) -> {
             ModelFile parentModel = prov.models().getExistingFile(baseModel);
 

@@ -38,11 +38,7 @@ public class PatternProviderMenuMixin extends AEBaseMenu implements IPromptProvi
             method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/patternprovider/PatternProviderLogicHost;)V",
             at = @At("TAIL"),
             remap = false)
-    private void addProvider(
-                             MenuType<?> menuType,
-                             int id,
-                             Inventory playerInventory,
-                             PatternProviderLogicHost host,
+    private void addProvider(MenuType<?> menuType, int id, Inventory playerInventory, PatternProviderLogicHost host,
                              CallbackInfo ci) {
         if (host instanceof IPromptProvider provider) {
             this.sftcore$provider = provider;

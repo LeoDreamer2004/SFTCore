@@ -33,8 +33,7 @@ public final class SFTRecipeModifiers {
             implements RecipeModifier {
 
         @Override
-        public @NotNull ModifierFunction getModifier(
-                                                     @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        public @NotNull ModifierFunction getModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
             return ModifierFunction.builder()
                     .eutMultiplier(eutMultiplier)
                     .durationMultiplier(durationMultiplier)
@@ -52,8 +51,7 @@ public final class SFTRecipeModifiers {
             implements RecipeModifier {
 
         @Override
-        public @NotNull ModifierFunction getModifier(
-                                                     @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        public @NotNull ModifierFunction getModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
             if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine))
                 return RecipeModifier.nullWrongType(CoilWorkableElectricMultiblockMachine.class, machine);
             var temp = coilMachine.getCoilType().getCoilTemperature();
@@ -73,8 +71,7 @@ public final class SFTRecipeModifiers {
             MEGA_COIL_TEMP_LEVEL, MEGA_COIL_EUT_MULTIPLIER, MEGA_COIL_DURATION_MULTIPLIER);
 
     @NotNull
-    public static ModifierFunction largeCrackerOverlock(
-                                                        @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction largeCrackerOverlock(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine)) {
             return RecipeModifier.nullWrongType(CoilWorkableElectricMultiblockMachine.class, machine);
         }
@@ -86,8 +83,7 @@ public final class SFTRecipeModifiers {
     }
 
     @NotNull
-    public static ModifierFunction commonFactoryParallel(
-                                                         @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction commonFactoryParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (!(machine instanceof CommonFactoryMachine cMachine)) {
             return RecipeModifier.nullWrongType(CommonFactoryMachine.class, machine);
         }
@@ -108,8 +104,7 @@ public final class SFTRecipeModifiers {
     }
 
     @NotNull
-    public static ModifierFunction gasCollectorParallel(
-                                                        @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction gasCollectorParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         int parallels = ParallelLogic.getParallelAmount(machine, recipe, Integer.MAX_VALUE);
         return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallels))

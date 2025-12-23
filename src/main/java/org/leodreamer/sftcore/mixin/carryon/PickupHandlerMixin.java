@@ -20,10 +20,7 @@ import java.util.function.BiFunction;
 public class PickupHandlerMixin {
 
     @Inject(method = "tryPickUpBlock", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void disableGTMultiblockController(
-                                                      ServerPlayer player,
-                                                      BlockPos pos,
-                                                      Level level,
+    private static void disableGTMultiblockController(ServerPlayer player, BlockPos pos, Level level,
                                                       BiFunction<BlockState, BlockPos, Boolean> pickupCallback,
                                                       CallbackInfoReturnable<Boolean> cir) {
         if (MetaMachine.getMachine(level, pos) instanceof MultiblockControllerMachine) {

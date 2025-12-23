@@ -30,8 +30,7 @@ public abstract class CraftingEncodingPanelMixin extends EncodingModePanel {
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void initWithNewBtn(
-                                PatternEncodingTermScreen<?> screen, WidgetContainer widgets, CallbackInfo ci) {
+    private void initWithNewBtn(PatternEncodingTermScreen<?> screen, WidgetContainer widgets, CallbackInfo ci) {
         var button = new ToggleButton(
                 Icon.PATTERN_TERMINAL_ALL,
                 Icon.PATTERN_TERMINAL_VISIBLE,

@@ -37,8 +37,7 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void initWithNewBtn(
-                                PatternEncodingTermScreen<?> screen, WidgetContainer widgets, CallbackInfo ci) {
+    private void initWithNewBtn(PatternEncodingTermScreen<?> screen, WidgetContainer widgets, CallbackInfo ci) {
         sftcore$x2Btn = sftcore$createMultiplyPatternBtn(Component.literal("x2"), 2);
         sftcore$x64Btn = sftcore$createMultiplyPatternBtn(Component.literal("x64"), 64);
         sftcore$halfBtn = sftcore$createMultiplyPatternBtn(Component.literal("÷2"), -2);

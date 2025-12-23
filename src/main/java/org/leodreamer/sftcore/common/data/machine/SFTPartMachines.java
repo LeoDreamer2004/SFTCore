@@ -148,14 +148,12 @@ public final class SFTPartMachines {
             false,
             GTValues.tiersBetween(LV, EV));
 
-    public static KineticMachineDefinition[] registerKineticTieredMachines(
-                                                                           String name,
+    public static KineticMachineDefinition[] registerKineticTieredMachines(String name,
                                                                            BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
                                                                            BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
                                                                            BiFunction<Integer, MachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
                                                                            NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
-                                                                           boolean renderNormally,
-                                                                           int[] tiers) {
+                                                                           boolean renderNormally, int[] tiers) {
         KineticMachineDefinition[] definitions = new KineticMachineDefinition[GTValues.TIER_COUNT];
         for (int tier : tiers) {
             var register = REGISTRATE

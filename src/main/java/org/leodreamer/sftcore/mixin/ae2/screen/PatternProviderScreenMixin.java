@@ -32,11 +32,7 @@ public class PatternProviderScreenMixin<C extends PatternProviderMenu> extends A
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addPromptField(
-                                PatternProviderMenu menu,
-                                Inventory playerInventory,
-                                Component title,
-                                ScreenStyle style,
+    private void addPromptField(PatternProviderMenu menu, Inventory playerInventory, Component title, ScreenStyle style,
                                 CallbackInfo ci) {
         sftcore$prompt = widgets.addTextField("prompt");
         sftcore$prompt.setPlaceholder(Component.translatable(MixinTooltips.PATTERN_ENCODER_PROMPT));
@@ -53,13 +49,7 @@ public class PatternProviderScreenMixin<C extends PatternProviderMenu> extends A
     }
 
     @Override
-    public void drawBG(
-                       GuiGraphics guiGraphics,
-                       int offsetX,
-                       int offsetY,
-                       int mouseX,
-                       int mouseY,
-                       float partialTicks) {
+    public void drawBG(GuiGraphics guiGraphics, int offsetX, int offsetY, int mouseX, int mouseY, float partialTicks) {
         super.drawBG(guiGraphics, offsetX, offsetY, mouseX, mouseY, partialTicks);
         sftcore$prompt.render(guiGraphics, mouseX, mouseY, partialTicks);
     }

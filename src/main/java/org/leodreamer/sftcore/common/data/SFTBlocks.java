@@ -36,19 +36,16 @@ public final class SFTBlocks {
             SFTCore.id("block/casings/solid/multi_functional_casing"),
             SFTTooltipsBuilder.of().textureComeFrom("GregTech Odyssey").array());
 
-    public static BlockEntry<Block> createCasingBlock(
-                                                      String name, ResourceLocation texture, Component... tooltips) {
+    public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture, Component... tooltips) {
         return createCasingBlock(
                 name, Block::new, texture, () -> Blocks.IRON_BLOCK, () -> RenderType::solid, tooltips);
     }
 
-    public static BlockEntry<Block> createCasingBlock(
-                                                      String name,
+    public static BlockEntry<Block> createCasingBlock(String name,
                                                       NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
                                                       ResourceLocation texture,
                                                       NonNullSupplier<? extends Block> properties,
-                                                      Supplier<Supplier<RenderType>> type,
-                                                      Component... tooltips) {
+                                                      Supplier<Supplier<RenderType>> type, Component... tooltips) {
         return REGISTRATE
                 .block(name, blockSupplier)
                 .initialProperties(properties)

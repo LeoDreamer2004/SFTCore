@@ -38,10 +38,8 @@ public class ReflectUtils {
         return classes;
     }
 
-    public static <A extends Annotation, F> Map<A, F> getStaticFieldsWithAnnotation(
-                                                                                    Class<?> clazz,
-                                                                                    Class<A> annotationType,
-                                                                                    Class<F> fieldType) {
+    public static <A extends Annotation,
+            F> Map<A, F> getStaticFieldsWithAnnotation(Class<?> clazz, Class<A> annotationType, Class<F> fieldType) {
         Map<A, F> result = new HashMap<>();
         for (var field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(annotationType)) {

@@ -20,8 +20,7 @@ public final class SFTCovers {
                             (a, b, c) -> new AccelerateCover(a, b, c, tier)))
             .toList();
 
-    public static CoverDefinition register(
-                                           String id, CoverDefinition.CoverBehaviourProvider behaviorCreator) {
+    public static CoverDefinition register(String id, CoverDefinition.CoverBehaviourProvider behaviorCreator) {
         var definition = new CoverDefinition(
                 SFTCore.id(id),
                 behaviorCreator,

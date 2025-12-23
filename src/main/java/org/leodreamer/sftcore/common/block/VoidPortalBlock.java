@@ -41,12 +41,7 @@ public class VoidPortalBlock extends Block {
 
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(
-                                 BlockState state,
-                                 Level level,
-                                 BlockPos pos,
-                                 Player pPlayer,
-                                 InteractionHand hand,
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player pPlayer, InteractionHand hand,
                                  BlockHitResult hit) {
         if (!level.isClientSide && hand == InteractionHand.MAIN_HAND) {
             var server = level.getServer();
@@ -107,8 +102,7 @@ public class VoidPortalBlock extends Block {
     static final String TOOLTIP = "sftcore.void_portal.tooltip";
 
     @Override
-    public void appendHoverText(
-                                ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip,
+    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip,
                                 TooltipFlag pFlag) {
         pTooltip.add(Component.translatable(TOOLTIP));
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);

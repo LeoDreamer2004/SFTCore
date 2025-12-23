@@ -35,8 +35,7 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public boolean hasShaftTowards(
-                                   LevelReader world, BlockPos pos, BlockState state, Direction face) {
+    public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         if (MetaMachine.getMachine(world, pos) instanceof IKineticMachine kineticMachine) {
             return kineticMachine.hasShaftTowards(face);
         }
@@ -55,8 +54,7 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public void onPlace(
-                        BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         // onBlockAdded is useless for init, as sometimes the TE gets re-instantiated
 
         // however, if a block change occurs that does not change kinetic connections,
@@ -87,8 +85,7 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public void updateIndirectNeighbourShapes(
-                                              BlockState stateIn, LevelAccessor worldIn, BlockPos pos, int flags,
+    public void updateIndirectNeighbourShapes(BlockState stateIn, LevelAccessor worldIn, BlockPos pos, int flags,
                                               int count) {
         if (worldIn.isClientSide()) return;
 
@@ -104,9 +101,9 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-                                                                            Level level, BlockState state,
-                                                                            BlockEntityType<T> blockEntityType) {
+    public @Nullable <
+            T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
+                                                                  BlockEntityType<T> blockEntityType) {
         if (blockEntityType == getDefinition().getBlockEntityType()) {
             if (!level.isClientSide) {
                 return (pLevel, pPos, pState, pTile) -> {

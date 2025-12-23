@@ -86,8 +86,7 @@ public final class VanillaRecipes {
         uu(provider, AEItems.SKY_DUST.asItem(), 6, "  U", " U ", "  U");
     }
 
-    private static void uu(
-                           Consumer<FinishedRecipe> provider, Item output, int amount, String... pattern) {
+    private static void uu(Consumer<FinishedRecipe> provider, Item output, int amount, String... pattern) {
         var name = output.getDescriptionId().replace('.', '_');
         SFTVanillaRecipeHelper.addShapedRecipe("uu/" + name)
                 .pattern(pattern)
