@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore;
 
+import org.leodreamer.sftcore.api.registry.SFTRegistrate;
+import org.leodreamer.sftcore.common.data.*;
+import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
@@ -8,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -15,22 +20,19 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.leodreamer.sftcore.api.registry.SFTRegistrate;
-import org.leodreamer.sftcore.common.data.*;
-import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
-
 
 @Mod(SFTCore.MOD_ID)
 public class SFTCore {
+
     public static final String MOD_ID = "sftcore";
     public static final SFTRegistrate REGISTRATE = SFTRegistrate.create(MOD_ID);
     public static final String NAME = "SFTCore";
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 
     public SFTCore(FMLJavaModLoadingContext context) {
-
         REGISTRATE.registerRegistrate();
         var bus = context.getModEventBus();
         bus.register(this);
@@ -71,7 +73,8 @@ public class SFTCore {
     }
 
     @SubscribeEvent
-    public void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {
+    public void registerRecipeConditions(
+                                         GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {
         SFTRecipeConditions.init();
     }
 

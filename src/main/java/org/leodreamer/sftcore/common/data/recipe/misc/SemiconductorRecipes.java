@@ -1,8 +1,9 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
+
+import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
 
@@ -14,7 +15,8 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 public final class SemiconductorRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES.recipeBuilder(SFTCore.id("semiconductor/boule"))
+        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES
+                .recipeBuilder(SFTCore.id("semiconductor/boule"))
                 .inputItems(dust, Silicon, 56)
                 .inputItems(dustSmall, GalliumArsenide)
                 .outputItems(SILICON_BOULE, 2)
@@ -24,7 +26,8 @@ public final class SemiconductorRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES.recipeBuilder(SFTCore.id("semiconductor/phosphorus_boule"))
+        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES
+                .recipeBuilder(SFTCore.id("semiconductor/phosphorus_boule"))
                 .inputItems(block, Silicon, 14)
                 .inputItems(dust, Phosphorus, 8)
                 .inputItems(dustSmall, GalliumArsenide, 2)
@@ -35,7 +38,8 @@ public final class SemiconductorRecipes {
                 .EUt(VA[HV])
                 .save(provider);
 
-        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES.recipeBuilder(SFTCore.id("semiconductor/naquadah_boule"))
+        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES
+                .recipeBuilder(SFTCore.id("semiconductor/naquadah_boule"))
                 .inputItems(block, Silicon, 28)
                 .inputItems(ingot, Naquadah)
                 .inputItems(dust, GalliumArsenide)
@@ -46,7 +50,8 @@ public final class SemiconductorRecipes {
                 .EUt(VA[EV])
                 .save(provider);
 
-        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES.recipeBuilder(SFTCore.id("semiconductor/neutronium_boule"))
+        SFTRecipeTypes.SEMICONDUCTOR_BLAST_RECIPES
+                .recipeBuilder(SFTCore.id("semiconductor/neutronium_boule"))
                 .inputItems(block, Silicon, 56)
                 .inputItems(ingot, Neutronium, 4)
                 .inputItems(dust, GalliumArsenide, 2)

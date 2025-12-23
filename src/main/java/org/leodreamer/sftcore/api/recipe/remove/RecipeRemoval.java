@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeRemoval {
+
     public static final RecipeRemoval INSTANCE = new RecipeRemoval();
     private final List<RecipeFilter> filters = new ArrayList<>();
 

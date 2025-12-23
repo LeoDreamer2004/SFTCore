@@ -1,26 +1,30 @@
 package org.leodreamer.sftcore.common.machine.trait;
 
+import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+
+import net.minecraft.util.Mth;
+
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
 
 import java.util.Collections;
 import java.util.List;
 
-public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> implements ICapabilityTrait {
+public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float>
+                                   implements ICapabilityTrait {
 
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(NotifiableStressTrait.class,
-            NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
+    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            NotifiableStressTrait.class, NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Setter
@@ -42,19 +46,19 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
     public void onMachineLoad() {
         super.onMachineLoad();
         if (machine instanceof IKineticMachine kineticMachine) {
-            machine.subscribeServerTick(() -> {
-                var speed = kineticMachine.getKineticHolder().getSpeed();
-                if (speed != lastSpeed) {
-                    lastSpeed = speed;
-                    notifyListeners();
-                }
-            });
+            machine.subscribeServerTick(
+                    () -> {
+                        var speed = kineticMachine.getKineticHolder().getSpeed();
+                        if (speed != lastSpeed) {
+                            lastSpeed = speed;
+                            notifyListeners();
+                        }
+                    });
         }
     }
 
     @Override
-    public List<Float> handleRecipeInner(IO io, GTRecipe recipe, List<Float> left,
-                                         boolean simulate) {
+    public List<Float> handleRecipeInner(IO io, GTRecipe recipe, List<Float> left, boolean simulate) {
         if (machine instanceof IKineticMachine kineticMachine) {
             float sum = left.stream().reduce(0f, Float::sum);
             var kineticDefinition = kineticMachine.getKineticDefinition();

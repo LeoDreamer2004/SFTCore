@@ -1,18 +1,21 @@
 package org.leodreamer.sftcore.common.data.recipe;
 
-import appeng.core.definitions.AEItems;
-import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import org.leodreamer.sftcore.api.recipe.remove.RecipeFilter;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
+
+import net.minecraft.world.level.ItemLike;
+
+import appeng.core.definitions.AEItems;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.hepdd.gtmthings.data.CustomItems;
 import gripe._90.megacells.definition.MEGAItems;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.generators.common.registries.GeneratorsBlocks;
-import net.minecraft.world.level.ItemLike;
 import net.pedroksl.advanced_ae.common.definitions.AAEBlocks;
-import org.leodreamer.sftcore.api.recipe.remove.RecipeFilter;
 
 import java.util.function.Consumer;
 
@@ -23,7 +26,7 @@ import static org.leodreamer.sftcore.util.RLUtils.getItemById;
 public final class SFTRecipeRemovals {
 
     public static void init(Consumer<RecipeFilter> registry) {
-        ItemLike[] GT_ITEMS = new ItemLike[]{
+        ItemLike[] GT_ITEMS = new ItemLike[] {
                 GTMachines.HULL[GTValues.LV].getItem(),
                 GTMachines.CLEANING_MAINTENANCE_HATCH.getItem(),
                 GCYMMachines.MEGA_BLAST_FURNACE.getItem(),
@@ -40,17 +43,15 @@ public final class SFTRecipeRemovals {
         registry.accept(input(GTItems.NAN_CERTIFICATE));
         registry.accept(output(CustomItems.ADVANCED_TERMINAL).and(mod(GTMT)));
 
-        ItemLike[] EPP_ITEMS = new ItemLike[]{
-                EPPItemAndBlock.INFINITY_CELL,
-                EPPItemAndBlock.WIRELESS_CONNECTOR,
-                EPPItemAndBlock.FISHBIG
+        ItemLike[] EPP_ITEMS = new ItemLike[] {
+                EPPItemAndBlock.INFINITY_CELL, EPPItemAndBlock.WIRELESS_CONNECTOR, EPPItemAndBlock.FISHBIG
         };
 
         for (ItemLike item : EPP_ITEMS) {
             registry.accept(output(item).and(mod(EAE)));
         }
 
-        ItemLike[] AAE_ITEMS = new ItemLike[]{
+        ItemLike[] AAE_ITEMS = new ItemLike[] {
                 AEItems.FLUIX_CRYSTAL,
                 MEGAItems.SKY_STEEL_INGOT,
                 AEItems.CERTUS_QUARTZ_CRYSTAL,

@@ -1,19 +1,17 @@
 package org.leodreamer.sftcore.common.item.behavior;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.util.RLUtils;
+
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.ICustomDescriptionId;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
-import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -24,30 +22,38 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
+import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
+import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.util.RLUtils;
 
 import java.util.List;
 import java.util.Objects;
 
 @DataGenScanned
-public class OrderBehavior implements IItemUIFactory, IFancyUIProvider, ICustomDescriptionId, IAddInformation {
+public class OrderBehavior
+                           implements IItemUIFactory, IFancyUIProvider, ICustomDescriptionId, IAddInformation {
 
     private InteractionHand hand;
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
+    public InteractionResultHolder<ItemStack> use(
+                                                  Item item, Level level, Player player, InteractionHand usedHand) {
         this.hand = usedHand;
         return IItemUIFactory.super.use(item, level, player, usedHand);
     }
 
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder heldItemHolder, Player player) {
-        return new ModularUI(176, 166, heldItemHolder, player).widget(new FancyMachineUIWidget(this, 176, 166));
+        return new ModularUI(176, 166, heldItemHolder, player)
+                .widget(new FancyMachineUIWidget(this, 176, 166));
     }
 
     public static ItemStack setTarget(ItemStack stack, ItemStack target) {
@@ -103,7 +109,8 @@ public class OrderBehavior implements IItemUIFactory, IFancyUIProvider, ICustomD
         if (ui.getGui() != null) {
             player = ui.getGui().entityPlayer;
         }
-        if (player != null) container.addWidget(new PhantomSlotWidget(new ItemHandler(hand, player), 0, 4, 4));
+        if (player != null)
+            container.addWidget(new PhantomSlotWidget(new ItemHandler(hand, player), 0, 4, 4));
         group.addWidget(container);
         return group;
     }
@@ -127,13 +134,17 @@ public class OrderBehavior implements IItemUIFactory, IFancyUIProvider, ICustomD
 
     @RegisterLanguage("Right click to put a virtual item")
     static final String TOOLTIP_0 = "item.sftcore.order.tooltip.0";
+
     @RegisterLanguage("Can be used as the product for AE2 automatic crafting")
     static final String TOOLTIP_1 = "item.sftcore.order.tooltip.1";
+
     @RegisterLanguage("When the crafting is completed, it will automatically cancel, no need to cancel manually")
     static final String TOOLTIP_2 = "item.sftcore.order.tooltip.2";
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+    public void appendHoverText(
+                                ItemStack itemStack, @Nullable Level level, List<Component> list,
+                                TooltipFlag tooltipFlag) {
         list.add(Component.translatable(TOOLTIP_0));
         list.add(Component.translatable(TOOLTIP_1));
         list.add(Component.translatable(TOOLTIP_2).withStyle(ChatFormatting.DARK_AQUA));
@@ -164,7 +175,8 @@ public class OrderBehavior implements IItemUIFactory, IFancyUIProvider, ICustomD
 
         @NotNull
         @Override
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate, boolean notifyChanges) {
+        public ItemStack insertItem(
+                                    int slot, @NotNull ItemStack stack, boolean simulate, boolean notifyChanges) {
             this.stack = stack;
             player.setItemInHand(hand, setTarget(player.getItemInHand(hand), stack));
             return stack;

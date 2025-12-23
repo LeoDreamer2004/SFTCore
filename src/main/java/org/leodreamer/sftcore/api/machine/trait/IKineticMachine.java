@@ -1,9 +1,11 @@
 package org.leodreamer.sftcore.api.machine.trait;
 
-import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
-import net.minecraft.core.Direction;
 import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
 import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
+
+import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
+
+import net.minecraft.core.Direction;
 
 public interface IKineticMachine extends IMachineFeature {
 

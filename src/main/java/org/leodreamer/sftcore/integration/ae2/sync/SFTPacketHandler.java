@@ -1,25 +1,30 @@
 package org.leodreamer.sftcore.integration.ae2.sync;
 
-import appeng.core.sync.BasePacket;
 import net.minecraft.network.FriendlyByteBuf;
 
-import javax.annotation.Nullable;
+import appeng.core.sync.BasePacket;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
+
 public class SFTPacketHandler {
+
     private static final int OFFSET = 500;
 
     private static final Map<Class<? extends BasePacket>, PacketTypes> REVERSE_LOOKUP = new HashMap<>();
 
     public enum PacketTypes {
+
         AVAILABLE_GT_MACHINES(AvailableGTMachinesPacket.class, AvailableGTMachinesPacket::new),
         PROMPT_SYNC(PromptSyncPacket.class, PromptSyncPacket::new);
 
         private final Function<FriendlyByteBuf, BasePacket> factory;
 
-        PacketTypes(Class<? extends BasePacket> packetClass, Function<FriendlyByteBuf, BasePacket> factory) {
+        PacketTypes(
+                    Class<? extends BasePacket> packetClass, Function<FriendlyByteBuf, BasePacket> factory) {
             this.factory = factory;
 
             REVERSE_LOOKUP.put(packetClass, this);

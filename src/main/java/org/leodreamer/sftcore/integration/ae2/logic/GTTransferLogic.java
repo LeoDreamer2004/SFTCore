@@ -1,14 +1,18 @@
 package org.leodreamer.sftcore.integration.ae2.logic;
 
-import appeng.helpers.patternprovider.PatternContainer;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+
 import net.minecraft.world.level.block.Block;
+
+import appeng.helpers.patternprovider.PatternContainer;
 
 import java.util.Optional;
 
 public class GTTransferLogic {
-    public static Optional<AvailableGTRow> tryBuild(PatternContainer container, GTRecipeType recipeType) {
+
+    public static Optional<AvailableGTRow> tryBuild(
+                                                    PatternContainer container, GTRecipeType recipeType) {
         var group = container.getTerminalGroup();
         var item = group.icon();
         if (item == null) return Optional.empty();

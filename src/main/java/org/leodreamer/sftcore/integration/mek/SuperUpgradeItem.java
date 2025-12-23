@@ -1,9 +1,8 @@
 package org.leodreamer.sftcore.integration.mek;
 
-import mekanism.api.Upgrade;
-import mekanism.common.tile.component.TileComponentUpgrade;
-import mekanism.common.tile.interfaces.IUpgradeTile;
-import mekanism.common.util.WorldUtils;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -16,17 +15,22 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import mekanism.api.Upgrade;
+import mekanism.common.tile.component.TileComponentUpgrade;
+import mekanism.common.tile.interfaces.IUpgradeTile;
+import mekanism.common.util.WorldUtils;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
+import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @DataGenScanned
 public class SuperUpgradeItem extends Item {
+
     private final Upgrade upgrade;
 
     public SuperUpgradeItem(Properties properties, Upgrade upgrade) {
@@ -60,7 +64,9 @@ public class SuperUpgradeItem extends Item {
     static final String TOOLTIP = "sftcore.item.super_upgrade.tooltip";
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
+    public void appendHoverText(
+                                ItemStack stack, @Nullable Level level, List<Component> components,
+                                TooltipFlag isAdvanced) {
         super.appendHoverText(stack, level, components, isAdvanced);
         components.add(Component.translatable(TOOLTIP).withStyle(ChatFormatting.YELLOW));
     }

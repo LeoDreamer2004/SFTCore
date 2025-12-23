@@ -1,13 +1,16 @@
 package org.leodreamer.sftcore.integration.ae2.sync;
 
-import appeng.core.sync.BasePacket;
-import io.netty.buffer.Unpooled;
+import org.leodreamer.sftcore.integration.ae2.feature.IReceivePrompt;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
-import org.leodreamer.sftcore.integration.ae2.feature.IReceivePrompt;
+
+import appeng.core.sync.BasePacket;
+import io.netty.buffer.Unpooled;
 
 public class PromptSyncPacket extends BasePacket {
+
     String prompt;
 
     public PromptSyncPacket(FriendlyByteBuf stream) {

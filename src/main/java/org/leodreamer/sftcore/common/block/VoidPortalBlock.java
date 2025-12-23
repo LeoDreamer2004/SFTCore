@@ -1,6 +1,10 @@
 package org.leodreamer.sftcore.common.block;
 
-import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.data.SFTBlocks;
+import org.leodreamer.sftcore.common.data.SFTDimensions;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -16,14 +20,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+
+import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.data.SFTBlocks;
-import org.leodreamer.sftcore.common.data.SFTDimensions;
+
+import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -38,8 +41,13 @@ public class VoidPortalBlock extends Block {
 
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player pPlayer, InteractionHand hand, BlockHitResult hit) {
-
+    public InteractionResult use(
+                                 BlockState state,
+                                 Level level,
+                                 BlockPos pos,
+                                 Player pPlayer,
+                                 InteractionHand hand,
+                                 BlockHitResult hit) {
         if (!level.isClientSide && hand == InteractionHand.MAIN_HAND) {
             var server = level.getServer();
             var player = (ServerPlayer) pPlayer;
@@ -59,8 +67,7 @@ public class VoidPortalBlock extends Block {
                         VOID_SPAWN_POINT.getY(),
                         VOID_SPAWN_POINT.getZ() + 0.5,
                         player.getYRot(),
-                        player.getXRot()
-                );
+                        player.getXRot());
                 makePlatform(target);
             } else if (dimension == SFTDimensions.VOID_DIMENSION) {
                 teleportToSpawnPoint(server, player);
@@ -93,16 +100,16 @@ public class VoidPortalBlock extends Block {
                 position.getY(),
                 position.getZ() + 0.5,
                 player.getYRot(),
-                player.getXRot()
-        );
+                player.getXRot());
     }
 
     @RegisterLanguage("Right click and see what will happen")
     static final String TOOLTIP = "sftcore.void_portal.tooltip";
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter
-            pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(
+                                ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip,
+                                TooltipFlag pFlag) {
         pTooltip.add(Component.translatable(TOOLTIP));
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
     }

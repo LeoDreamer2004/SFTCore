@@ -1,22 +1,26 @@
 package org.leodreamer.sftcore.common.data.recipe.utils;
 
+import org.leodreamer.sftcore.SFTCore;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import org.leodreamer.sftcore.SFTCore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class SFTVanillaRecipeHelper {
+
     public static class ShapedRecipeBuilder {
+
         private final ResourceLocation id;
         private boolean setMaterialInfoData = true;
         private final ArrayList<Object> recipe = new ArrayList<>();
@@ -33,7 +37,8 @@ public class SFTVanillaRecipeHelper {
 
         public ShapedRecipeBuilder pattern(String... patterns) {
             if (!recipe.isEmpty()) {
-                throw new IllegalArgumentException("Please define the pattern before adding any arguments to the recipe.");
+                throw new IllegalArgumentException(
+                        "Please define the pattern before adding any arguments to the recipe.");
             }
             recipe.addAll(Arrays.asList(patterns));
             return this;
@@ -83,7 +88,8 @@ public class SFTVanillaRecipeHelper {
                 SFTCore.LOGGER.warn("Recipe ID is not set for {}", output);
                 return;
             }
-            VanillaRecipeHelper.addShapedRecipe(provider, setMaterialInfoData, id, output, recipe.toArray());
+            VanillaRecipeHelper.addShapedRecipe(
+                    provider, setMaterialInfoData, id, output, recipe.toArray());
         }
     }
 

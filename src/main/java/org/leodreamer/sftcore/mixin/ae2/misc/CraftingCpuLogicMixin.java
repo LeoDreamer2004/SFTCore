@@ -1,5 +1,10 @@
 package org.leodreamer.sftcore.mixin.ae2.misc;
 
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.util.ReflectUtils;
+
+import net.minecraft.world.level.Level;
+
 import appeng.api.networking.energy.IEnergyService;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
@@ -10,10 +15,7 @@ import appeng.crafting.execution.ExecutingCraftingJob;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.util.ReflectUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -47,7 +49,9 @@ public abstract class CraftingCpuLogicMixin {
     private int[] usedOps;
 
     @Shadow(remap = false)
-    public abstract int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService, Level level);
+    public abstract int executeCrafting(
+                                        int maxPatterns, CraftingService craftingService, IEnergyService energyService,
+                                        Level level);
 
     @Shadow(remap = false)
     @Nullable
@@ -66,8 +70,7 @@ public abstract class CraftingCpuLogicMixin {
     @Overwrite(remap = false)
     public void tickCraftingLogic(IEnergyService eg, CraftingService cc) {
         // Don't tick if we're not active.
-        if (!cluster.isActive())
-            return;
+        if (!cluster.isActive()) return;
         cantStoreItems = false;
         // If we don't have a job, just try to dump our items.
         if (this.job == null) {
@@ -92,8 +95,8 @@ public abstract class CraftingCpuLogicMixin {
         AEItemKey orderKey = null;
         boolean isOrder = false;
 
-        if (finish != null && finish.what() instanceof AEItemKey finishKey
-                && finishKey.getItem() == SFTItems.ORDER.asItem()) {
+        if (finish != null && finish.what() instanceof AEItemKey finishKey &&
+                finishKey.getItem() == SFTItems.ORDER.asItem()) {
             isOrder = true;
             orderKey = finishKey;
         }

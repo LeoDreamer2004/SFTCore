@@ -1,14 +1,14 @@
 package org.leodreamer.sftcore.common.data.material;
 
+import org.leodreamer.sftcore.SFTCore;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import org.leodreamer.sftcore.SFTCore;
 
 import static org.leodreamer.sftcore.common.data.SFTMaterials.*;
 
 public class MekanismMaterials {
-    public static void register() {
 
+    public static void register() {
         EnergeticFissileFuel = new Material.Builder(SFTCore.id("energetic_fissile_fuel"))
                 .fluid()
                 .color(0x282c29)

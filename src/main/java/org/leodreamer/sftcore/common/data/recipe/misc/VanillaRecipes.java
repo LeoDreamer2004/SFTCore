@@ -1,20 +1,23 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
+import org.leodreamer.sftcore.common.data.SFTBlocks;
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+
 import appeng.core.definitions.AEItems;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismItems;
 import mekanism.common.resource.PrimaryResource;
 import mekanism.common.resource.ResourceType;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import org.leodreamer.sftcore.common.data.SFTBlocks;
-import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
 
 public final class VanillaRecipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
         vanillaRecipes(provider);
         SFTRecipes(provider);
@@ -56,21 +59,35 @@ public final class VanillaRecipes {
         uu(provider, AllItems.ZINC_INGOT.asItem(), 3, "U  ", " U ", "  U");
 
         var mek = MekanismItems.PROCESSED_RESOURCES;
-        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.OSMIUM).asItem(), 3,
-                " U ", "  U", "U  ");
-        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.LEAD).asItem(), 3,
-                "   ", " U ", "U U");
-        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.TIN).asItem(), 4,
-                "   ", "U U", " U ");
-        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.URANIUM).asItem(), 10,
-                " U ", "UUU", "   ");
-        uu(provider, MekanismItems.FLUORITE_GEM.asItem(), 8,
-                "   ", "UUU", " U ");
+        uu(
+                provider,
+                mek.get(ResourceType.INGOT, PrimaryResource.OSMIUM).asItem(),
+                3,
+                " U ",
+                "  U",
+                "U  ");
+        uu(
+                provider,
+                mek.get(ResourceType.INGOT, PrimaryResource.LEAD).asItem(),
+                3,
+                "   ",
+                " U ",
+                "U U");
+        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.TIN).asItem(), 4, "   ", "U U", " U ");
+        uu(
+                provider,
+                mek.get(ResourceType.INGOT, PrimaryResource.URANIUM).asItem(),
+                10,
+                " U ",
+                "UUU",
+                "   ");
+        uu(provider, MekanismItems.FLUORITE_GEM.asItem(), 8, "   ", "UUU", " U ");
 
         uu(provider, AEItems.SKY_DUST.asItem(), 6, "  U", " U ", "  U");
     }
 
-    private static void uu(Consumer<FinishedRecipe> provider, Item output, int amount, String... pattern) {
+    private static void uu(
+                           Consumer<FinishedRecipe> provider, Item output, int amount, String... pattern) {
         var name = output.getDescriptionId().replace('.', '_');
         SFTVanillaRecipeHelper.addShapedRecipe("uu/" + name)
                 .pattern(pattern)

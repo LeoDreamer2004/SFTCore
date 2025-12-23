@@ -1,13 +1,16 @@
 package org.leodreamer.sftcore.util;
 
+import org.leodreamer.sftcore.SFTCore;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
+
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.SFTCore;
 
 public class RLUtils {
+
     public static ResourceLocation getItemRL(ItemLike item) {
         return ForgeRegistries.ITEMS.getKey(item.asItem());
     }

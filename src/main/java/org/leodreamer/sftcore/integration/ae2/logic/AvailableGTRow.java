@@ -1,13 +1,15 @@
 package org.leodreamer.sftcore.integration.ae2.logic;
 
-import appeng.api.stacks.AEItemKey;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+
+import appeng.api.stacks.AEItemKey;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record AvailableGTRow(AEItemKey item, Component title, List<Component> tooltips, String prompt) {
+public record AvailableGTRow(
+                             AEItemKey item, Component title, List<Component> tooltips, String prompt) {
 
     public static AvailableGTRow of(AEItemKey item, Component title, List<Component> tooltips) {
         return new AvailableGTRow(item, title, tooltips, "");

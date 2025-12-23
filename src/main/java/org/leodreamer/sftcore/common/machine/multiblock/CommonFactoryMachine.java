@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore.common.machine.multiblock;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
+
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
@@ -8,15 +12,14 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblo
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import lombok.Getter;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
 
 import java.util.List;
 
@@ -120,7 +123,7 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         return 4 * (getCoilTier() + 1);
     }
 
-    ///  GUI  ///
+    /// GUI ///
 
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
@@ -128,8 +131,7 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         sideTabs.setMainTab(this);
 
         var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
-        if (directionalConfigurator != null)
-            sideTabs.attachSubTab(directionalConfigurator);
+        if (directionalConfigurator != null) sideTabs.attachSubTab(directionalConfigurator);
     }
 
     @RegisterLanguage("The voltage of energy hatch and machine don't match!")
@@ -144,8 +146,7 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
 
         if (!recipeLogic.isActive()) {
             var component = textList.removeLast(); // idle
-            MultiblockDisplayText.builder(textList, isFormed())
-                    .addParallelsLine(getMaxParallels());
+            MultiblockDisplayText.builder(textList, isFormed()).addParallelsLine(getMaxParallels());
             textList.add(component);
         }
         if (!isVoltageValid() && recipeType != DUMMY_RECIPES) {

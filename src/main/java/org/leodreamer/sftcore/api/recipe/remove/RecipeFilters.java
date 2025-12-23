@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 
 public class RecipeFilters {
+
     public static IDFilter id(ResourceLocation id) {
         return new IDFilter(id);
     }
@@ -19,5 +20,4 @@ public class RecipeFilters {
     public static OutputFilter output(ItemLike item) {
         return new OutputFilter(item);
     }
-
 }

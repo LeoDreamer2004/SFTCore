@@ -1,20 +1,21 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
-import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
+
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismFluids;
 import mekanism.common.registries.MekanismItems;
 import mekanism.common.tags.MekanismTags;
 import mekanism.generators.common.registries.GeneratorsBlocks;
 import mekanism.generators.common.registries.GeneratorsFluids;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -29,6 +30,7 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.MEKANISM_
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.MEKANISM_PROCESSING_RECIPES;
 
 public final class MekanismRecipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
         SFTVanillaRecipeHelper.addShapedRecipe("turbine_casing")
                 .pattern(" S ", "STS", " S ")
@@ -37,7 +39,8 @@ public final class MekanismRecipes {
                 .output(GeneratorsBlocks.TURBINE_CASING, 4)
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/steel"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/steel"))
                 .outputItems(MekanismItems.STEEL_INGOT, 4)
                 .inputItems(ingot, Iron, 4)
                 .inputItems(gem, Coal)
@@ -46,7 +49,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/basic_control_circuit"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/basic_control_circuit"))
                 .outputItems(MekanismItems.BASIC_CONTROL_CIRCUIT, 4)
                 .inputItems(ingot, Osmium, 4)
                 .inputItems(dust, Redstone)
@@ -55,7 +59,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/alloy_infused"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/alloy_infused"))
                 .outputItems(MekanismItems.INFUSED_ALLOY, 8)
                 .inputItems(ingot, Iron, 8)
                 .inputItems(dust, Redstone)
@@ -64,7 +69,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/alloy_reinforced"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/alloy_reinforced"))
                 .outputItems(MekanismItems.REINFORCED_ALLOY, 4)
                 .inputItems(MekanismItems.INFUSED_ALLOY, 4)
                 .inputItems(gem, Diamond)
@@ -73,7 +79,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/dust_refined_obsidian"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/dust_refined_obsidian"))
                 .outputItems(MekanismItems.REFINED_OBSIDIAN_DUST, 8)
                 .inputItems(dust, Obsidian, 8)
                 .inputItems(gem, Diamond)
@@ -82,7 +89,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/alloy_atomic"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/alloy_atomic"))
                 .outputItems(MekanismItems.ATOMIC_ALLOY, 2)
                 .inputItems(MekanismItems.REINFORCED_ALLOY, 2)
                 .inputItems(MekanismItems.REFINED_OBSIDIAN_DUST)
@@ -91,7 +99,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/slime_ball_1"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/slime_ball_1"))
                 .outputItems(Items.SLIME_BALL, 4)
                 .inputItems(block, Clay)
                 .inputItems(MekanismItems.BIO_FUEL, 8)
@@ -100,7 +109,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/slime_ball_2"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/slime_ball_2"))
                 .outputItems(Items.SLIME_BALL)
                 .inputItems(ingot, Clay)
                 .inputItems(MekanismItems.BIO_FUEL, 2)
@@ -109,7 +119,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/bronze_1"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/bronze_1"))
                 .outputItems(MekanismItems.BRONZE_INGOT, 32)
                 .inputItems(ingot, Tin)
                 .inputItems(ingot, Copper, 24)
@@ -118,7 +129,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/bronze_2"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/bronze_2"))
                 .outputItems(MekanismItems.BRONZE_INGOT, 32)
                 .inputItems(dust, Tin)
                 .inputItems(ingot, Copper, 24)
@@ -127,7 +139,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/bronze_3"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/bronze_3"))
                 .outputItems(MekanismItems.BRONZE_DUST, 32)
                 .inputItems(ingot, Tin)
                 .inputItems(dust, Copper, 24)
@@ -136,7 +149,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("infuse/bronze_4"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("infuse/bronze_4"))
                 .outputItems(MekanismItems.BRONZE_INGOT, 32)
                 .inputItems(dust, Tin)
                 .inputItems(dust, Copper, 24)
@@ -145,7 +159,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("compress/refined_obsidian"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("compress/refined_obsidian"))
                 .outputItems(MekanismItems.REFINED_OBSIDIAN_INGOT, 2)
                 .inputItems(MekanismItems.REFINED_OBSIDIAN_DUST, 2)
                 .inputItems(ingot, Osmium)
@@ -154,7 +169,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("compress/refined_glowstone"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("compress/refined_glowstone"))
                 .outputItems(MekanismItems.REFINED_GLOWSTONE_INGOT, 2)
                 .inputItems(dust, Glowstone, 2)
                 .inputItems(ingot, Osmium)
@@ -163,7 +179,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("enrich/obsidian"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("enrich/obsidian"))
                 .outputItems(MekanismItems.OBSIDIAN_DUST, 4)
                 .inputItems(Blocks.OBSIDIAN.asItem())
                 .circuitMeta(3)
@@ -171,7 +188,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("enrich/flint"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("enrich/flint"))
                 .outputItems(Items.GRAVEL)
                 .inputItems(gem, Flint)
                 .circuitMeta(3)
@@ -179,7 +197,8 @@ public final class MekanismRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("pellet/polonium"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("pellet/polonium"))
                 .outputItems(MekanismItems.POLONIUM_PELLET)
                 .inputFluids(FilteredPolonium.getFluid(10))
                 .circuitMeta(4)
@@ -187,7 +206,8 @@ public final class MekanismRecipes {
                 .EUt(VA[HV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("pellet/plutonium"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("pellet/plutonium"))
                 .outputItems(MekanismItems.PLUTONIUM_PELLET)
                 .inputFluids(FilteredPlutonium.getFluid(10))
                 .circuitMeta(4)
@@ -195,7 +215,8 @@ public final class MekanismRecipes {
                 .EUt(VA[HV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("pellet/antimatter"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("pellet/antimatter"))
                 .outputItems(MekanismItems.ANTIMATTER_PELLET)
                 .inputFluids(FilteredPolonium.getFluid(10000))
                 .circuitMeta(5)
@@ -203,7 +224,8 @@ public final class MekanismRecipes {
                 .EUt(VA[HV])
                 .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("crush/gunpowder"))
+        MEKANISM_PROCESSING_RECIPES
+                .recipeBuilder(SFTCore.id("crush/gunpowder"))
                 .outputItems(Items.GUNPOWDER)
                 .inputItems(gem, Flint)
                 .circuitMeta(6)
@@ -224,7 +246,8 @@ public final class MekanismRecipes {
         bioFuel.accept(Tags.Items.SEEDS, 2);
         bioFuel.accept(Tags.Items.CROPS, 5);
 
-        MIXER_RECIPES.recipeBuilder(SFTCore.id("fusion_fuel"))
+        MIXER_RECIPES
+                .recipeBuilder(SFTCore.id("fusion_fuel"))
                 .outputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(2000))
                 .inputFluids(LowPurityDeuterium.getFluid(1000))
                 .inputFluids(LowPurityTritium.getFluid(1000))
@@ -232,7 +255,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        DISTILLERY_RECIPES.recipeBuilder(SFTCore.id("low_purity_deuterium"))
+        DISTILLERY_RECIPES
+                .recipeBuilder(SFTCore.id("low_purity_deuterium"))
                 .outputFluids(LowPurityDeuterium.getFluid(100))
                 .inputFluids(DistilledWater.getFluid(1000))
                 .circuitMeta(1)
@@ -240,7 +264,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        CENTRIFUGE_RECIPES.recipeBuilder(SFTCore.id("low_purity_tritium"))
+        CENTRIFUGE_RECIPES
+                .recipeBuilder(SFTCore.id("low_purity_tritium"))
                 .outputFluids(LowPurityTritium.getFluid(100))
                 .outputFluids(LowPurityDeuterium.getFluid(500))
                 .inputFluids(LowPurityDeuterium.getFluid(1000))
@@ -248,7 +273,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        DISTILLERY_RECIPES.recipeBuilder(SFTCore.id("energetic_fissile_fuel"))
+        DISTILLERY_RECIPES
+                .recipeBuilder(SFTCore.id("energetic_fissile_fuel"))
                 .outputFluids(EnergeticFissileFuel.getFluid(8000))
                 .inputFluids(UraniumHexafluoride.getFluid(8000))
                 .notConsumable(MekanismItems.ANTIMATTER_PELLET)
@@ -256,7 +282,8 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        CHEMICAL_RECIPES.recipeBuilder(SFTCore.id("uranium_hexafluoride"))
+        CHEMICAL_RECIPES
+                .recipeBuilder(SFTCore.id("uranium_hexafluoride"))
                 .outputFluids(MekanismFluids.URANIUM_HEXAFLUORIDE.getFluidStack(2000))
                 .inputItems(MekanismItems.FLUORITE_GEM)
                 .inputItems(ingot, Uranium238, 2)
@@ -266,13 +293,15 @@ public final class MekanismRecipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fusion"))
+        MEKANISM_NUCLEAR_REACTION_RECIPES
+                .recipeBuilder(SFTCore.id("fusion"))
                 .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(1))
                 .duration(4000)
                 .EUt(-V[MV])
                 .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_1"))
+        MEKANISM_NUCLEAR_REACTION_RECIPES
+                .recipeBuilder(SFTCore.id("fission_1"))
                 .inputFluids(EnergeticFissileFuel.getFluid(700))
                 .outputFluids(FilteredPlutonium.getFluid(1))
                 .circuitMeta(1)
@@ -280,7 +309,8 @@ public final class MekanismRecipes {
                 .EUt(-V[MV])
                 .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_1_fast"))
+        MEKANISM_NUCLEAR_REACTION_RECIPES
+                .recipeBuilder(SFTCore.id("fission_1_fast"))
                 .inputFluids(EnergeticFissileFuel.getFluid(7000))
                 .outputFluids(FilteredPlutonium.getFluid(30))
                 .circuitMeta(4)
@@ -288,7 +318,8 @@ public final class MekanismRecipes {
                 .EUt(-V[MV])
                 .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_2"))
+        MEKANISM_NUCLEAR_REACTION_RECIPES
+                .recipeBuilder(SFTCore.id("fission_2"))
                 .inputFluids(EnergeticFissileFuel.getFluid(700))
                 .outputFluids(FilteredPolonium.getFluid(1))
                 .circuitMeta(2)
@@ -296,7 +327,8 @@ public final class MekanismRecipes {
                 .EUt(-V[MV])
                 .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_2_fast"))
+        MEKANISM_NUCLEAR_REACTION_RECIPES
+                .recipeBuilder(SFTCore.id("fission_2_fast"))
                 .inputFluids(EnergeticFissileFuel.getFluid(7000))
                 .outputFluids(FilteredPolonium.getFluid(30))
                 .circuitMeta(5)
@@ -304,7 +336,8 @@ public final class MekanismRecipes {
                 .EUt(-V[MV])
                 .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES.recipeBuilder(SFTCore.id("fission_3"))
+        MEKANISM_NUCLEAR_REACTION_RECIPES
+                .recipeBuilder(SFTCore.id("fission_3"))
                 .inputFluids(EnergeticFissileFuel.getFluid(700))
                 .outputFluids(EnergeticFissileFuel.getFluid(500))
                 .circuitMeta(3)
@@ -318,7 +351,8 @@ public final class MekanismRecipes {
 
         return (ingredient, amount) -> {
             id.getAndIncrement();
-            MEKANISM_PROCESSING_RECIPES.recipeBuilder(SFTCore.id("crush/bio_fuel_" + id))
+            MEKANISM_PROCESSING_RECIPES
+                    .recipeBuilder(SFTCore.id("crush/bio_fuel_" + id))
                     .outputItems(MekanismItems.BIO_FUEL, amount)
                     .inputItems(ingredient)
                     .circuitMeta(6)

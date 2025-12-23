@@ -1,5 +1,8 @@
 package org.leodreamer.sftcore.api.blockentity;
 
+import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
+import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
@@ -7,6 +10,23 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.client.model.machine.MachineRenderState;
 import com.gregtechceu.gtceu.common.registry.GTRegistration;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -23,25 +43,8 @@ import com.tterrag.registrate.util.OneTimeEventReceiver;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 import lombok.Getter;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
-import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
 
 import java.util.List;
 import java.util.Set;
@@ -73,22 +76,27 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
         this.renderState = getDefinition().defaultRenderState();
     }
 
-    public static KineticMachineBlockEntity create(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
+    public static KineticMachineBlockEntity create(
+                                                   BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {
         return new KineticMachineBlockEntity(typeIn, pos, state);
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+    public @NotNull <T> LazyOptional<T> getCapability(
+                                                      @NotNull Capability<T> cap, @Nullable Direction side) {
         var result = MetaMachineBlockEntity.getCapability(getMetaMachine(), cap, side);
         return result == null ? super.getCapability(cap, side) : result;
     }
 
-    public static void onBlockEntityRegister(BlockEntityType blockEntityType,
+    public static void onBlockEntityRegister(
+                                             BlockEntityType blockEntityType,
                                              NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
                                              boolean renderNormally) {
         if (visualFactory != null && LDLib.isClient()) {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                    () -> () -> OneTimeEventReceiver.addModListener(GTRegistration.REGISTRATE,
+            DistExecutor.unsafeRunWhenOn(
+                    Dist.CLIENT,
+                    () -> () -> OneTimeEventReceiver.addModListener(
+                            GTRegistration.REGISTRATE,
                             FMLClientSetupEvent.class,
                             ($) -> SimpleBlockEntityVisualizer.builder(blockEntityType)
                                     .factory(visualFactory.get())
@@ -155,13 +163,15 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
     }
 
     @Override
-    public boolean shouldRenderGrid(Player player, BlockPos pos, BlockState state, ItemStack held,
+    public boolean shouldRenderGrid(
+                                    Player player, BlockPos pos, BlockState state, ItemStack held,
                                     Set<GTToolType> toolTypes) {
         return metaMachine.shouldRenderGrid(player, pos, state, held, toolTypes);
     }
 
     @Override
-    public ResourceTexture sideTips(Player player, BlockPos pos, BlockState state, Set<GTToolType> toolTypes,
+    public ResourceTexture sideTips(
+                                    Player player, BlockPos pos, BlockState state, Set<GTToolType> toolTypes,
                                     Direction side) {
         return metaMachine.sideTips(player, pos, state, toolTypes, side);
     }
@@ -170,7 +180,6 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
     // ********* Create *********//
 
     /// ///////////////////////////////////
-
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
@@ -183,7 +192,9 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
 
     public float scheduleWorking(float su, boolean simulate) {
         if (getDefinition().isSource()) {
-            float speed = Math.min(AllConfigs.server().kinetics.maxRotationSpeed.get(), su / getDefinition().getTorque());
+            float speed = Math.min(
+                    AllConfigs.server().kinetics.maxRotationSpeed.get(),
+                    su / getDefinition().getTorque());
             if (!simulate) {
                 workingSpeed = speed;
                 updateGeneratedRotation();
@@ -252,7 +263,10 @@ public class KineticMachineBlockEntity extends KineticBlockEntity implements IMa
 
             speed = Math.abs(speed);
             float stressTotal = stressBase * speed;
-            CreateLang.number(stressTotal).translate("generic.unit.stress").style(ChatFormatting.AQUA).space()
+            CreateLang.number(stressTotal)
+                    .translate("generic.unit.stress")
+                    .style(ChatFormatting.AQUA)
+                    .space()
                     .add(CreateLang.translate("gui.goggles.at_current_speed").style(ChatFormatting.DARK_GRAY))
                     .forGoggles(tooltip, 1);
             added = true;

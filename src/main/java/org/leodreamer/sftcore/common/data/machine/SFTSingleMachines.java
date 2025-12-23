@@ -1,21 +1,23 @@
 package org.leodreamer.sftcore.common.data.machine;
 
-import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.machine.OreReplicatorMachine;
+
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
 public final class SFTSingleMachines {
 
-    public static final MachineDefinition ORE_REPLICATOR = REGISTRATE.machine("ore_replicator", OreReplicatorMachine::new)
-            .tooltips(builder -> SFTTooltipsBuilder.machine(builder.id)
-                    .tip("Place it under an ore block and it will generate ores."))
+    public static final MachineDefinition ORE_REPLICATOR = REGISTRATE
+            .machine("ore_replicator", OreReplicatorMachine::new)
+            .tooltips(
+                    builder -> SFTTooltipsBuilder.machine(builder.id)
+                            .tip("Place it under an ore block and it will generate ores."))
             .langValue("Ore Replicator")
             .rotationState(RotationState.NONE)
             .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }

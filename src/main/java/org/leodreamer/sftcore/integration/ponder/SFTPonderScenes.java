@@ -1,7 +1,5 @@
 package org.leodreamer.sftcore.integration.ponder;
 
-import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
-import net.minecraft.resources.ResourceLocation;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.integration.ponder.api.SFTGeneralStoryBoard;
 import org.leodreamer.sftcore.integration.ponder.api.SFTStoryBoard;
@@ -13,12 +11,17 @@ import org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag;
 import org.leodreamer.sftcore.util.RLUtils;
 import org.leodreamer.sftcore.util.ReflectUtils;
 
+import net.minecraft.resources.ResourceLocation;
+
+import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SFTPonderScenes {
+
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
         for (var clazz : ReflectUtils.getClassesWithAnnotation(PonderSceneScanned.class)) {
             var withTags = clazz.getAnnotation(WithTags.class);
@@ -36,16 +39,19 @@ public class SFTPonderScenes {
                 if (extraTags != null) {
                     tagsCopy.addAll(Arrays.asList(extraTags.value()));
                 }
-                var methodTags = tagsCopy.stream()
-                        .map(SFTPonderTag::getRl)
-                        .toArray(ResourceLocation[]::new);
+                var methodTags = tagsCopy.stream().map(SFTPonderTag::getRl).toArray(ResourceLocation[]::new);
 
                 SFTStoryBoard func = (builder, util) -> {
                     try {
                         method.invoke(null, builder, util);
                     } catch (IllegalAccessException | InvocationTargetException e) {
-                        SFTCore.LOGGER.error("Failed to invoke ponder scene method {} in class {}", method.getName(), clazz.getName(), e);
-                        SFTCore.LOGGER.error("Expected a static method BiConsumer<SFTSceneBuilder, SceneBuildingUtil>");
+                        SFTCore.LOGGER.error(
+                                "Failed to invoke ponder scene method {} in class {}",
+                                method.getName(),
+                                clazz.getName(),
+                                e);
+                        SFTCore.LOGGER.error(
+                                "Expected a static method BiConsumer<SFTSceneBuilder, SceneBuildingUtil>");
                     }
                 };
 
@@ -55,7 +61,8 @@ public class SFTPonderScenes {
                         .map(RLUtils::getItemRL)
                         .toList();
 
-                helper.forComponents(components)
+                helper
+                        .forComponents(components)
                         .addStoryBoard(schematic, new SFTGeneralStoryBoard(func, schematic), methodTags);
             }
         }

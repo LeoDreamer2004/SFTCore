@@ -1,10 +1,5 @@
 package org.leodreamer.sftcore.integration.ae2.gui;
 
-import appeng.client.gui.Icon;
-import appeng.client.gui.widgets.ITooltip;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.Tesselator;
-import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -14,12 +9,20 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import appeng.client.gui.Icon;
+import appeng.client.gui.widgets.ITooltip;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.Tesselator;
+import lombok.Setter;
+
 import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TinyTextButton extends Button implements ITooltip {
+
     @Setter
     private List<Component> tooltips;
 
@@ -34,7 +37,8 @@ public class TinyTextButton extends Button implements ITooltip {
             guiGraphics.fill(getX() - 1, getY() - 1, getX() + width + 1, getY(), 0xFFFFFFFF);
             guiGraphics.fill(getX() - 1, getY(), getX(), getY() + height, 0xFFFFFFFF);
             guiGraphics.fill(getX() + width, getY(), getX() + width + 1, getY() + height, 0xFFFFFFFF);
-            guiGraphics.fill(getX() - 1, getY() + height, getX() + width + 1, getY() + height + 1, 0xFFFFFFFF);
+            guiGraphics.fill(
+                    getX() - 1, getY() + height, getX() + width + 1, getY() + height + 1, 0xFFFFFFFF);
         }
 
         var pose = guiGraphics.pose();
@@ -56,7 +60,8 @@ public class TinyTextButton extends Button implements ITooltip {
         float X = (getX() + 4.0f) * 2 - font.width(getMessage().getVisualOrderText()) / 2.0f;
         float Y = (getY() + 2.0f) * 2;
         MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-        font.drawInBatch(getMessage(), X, Y, 0xffffff, true, matrix, buffer, Font.DisplayMode.NORMAL, 0, 15728880);
+        font.drawInBatch(
+                getMessage(), X, Y, 0xffffff, true, matrix, buffer, Font.DisplayMode.NORMAL, 0, 15728880);
         buffer.endBatch();
         RenderSystem.enableBlend();
 

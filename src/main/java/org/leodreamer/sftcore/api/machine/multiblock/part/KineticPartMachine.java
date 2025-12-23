@@ -1,21 +1,24 @@
 package org.leodreamer.sftcore.api.machine.multiblock.part;
 
+import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
+import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+import org.leodreamer.sftcore.common.machine.trait.NotifiableStressTrait;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import lombok.Getter;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
-import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
-import org.leodreamer.sftcore.common.machine.trait.NotifiableStressTrait;
+
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Getter;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -88,7 +91,8 @@ public class KineticPartMachine extends TieredIOPartMachine implements IKineticM
     @Override
     public void onChanged() {
         super.onChanged();
-        if (!getControllers().isEmpty() && getControllers().first() instanceof WorkableKineticMultiblockMachine kineticMultiblockMachine) {
+        if (!getControllers().isEmpty() &&
+                getControllers().first() instanceof WorkableKineticMultiblockMachine kineticMultiblockMachine) {
             kineticMultiblockMachine.onChanged();
         }
     }

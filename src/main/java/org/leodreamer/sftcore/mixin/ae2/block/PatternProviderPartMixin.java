@@ -1,8 +1,10 @@
 package org.leodreamer.sftcore.mixin.ae2.block;
 
-import appeng.parts.crafting.PatternProviderPart;
-import net.minecraft.nbt.CompoundTag;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
+
+import net.minecraft.nbt.CompoundTag;
+
+import appeng.parts.crafting.PatternProviderPart;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,4 +44,3 @@ public abstract class PatternProviderPartMixin implements IPromptProvider {
         this.sftcore$prompt = data.getString(PROMPT_KEY);
     }
 }
-

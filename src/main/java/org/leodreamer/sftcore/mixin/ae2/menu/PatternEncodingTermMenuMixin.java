@@ -1,5 +1,22 @@
 package org.leodreamer.sftcore.mixin.ae2.menu;
 
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.integration.ae2.feature.IPatternMultiply;
+import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToAssemblyMatrix;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
+import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;
+import org.leodreamer.sftcore.integration.ae2.sync.AvailableGTMachinesPacket;
+
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
+
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
@@ -14,20 +31,6 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import appeng.util.ConfigInventory;
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.integration.ae2.feature.IPatternMultiply;
-import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToAssemblyMatrix;
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
-import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
-import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;
-import org.leodreamer.sftcore.integration.ae2.sync.AvailableGTMachinesPacket;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,12 +40,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 @Mixin(PatternEncodingTermMenu.class)
-public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, ISendToGTMachine, ISendToAssemblyMatrix, IPatternMultiply {
+public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
+                                                   implements IMenuCraftingPacket, ISendToGTMachine,
+                                                   ISendToAssemblyMatrix, IPatternMultiply {
 
     @Unique
     private static final AEItemKey sftcore$key = AEItemKey.of(AEItems.BLANK_PATTERN);
@@ -87,19 +93,30 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Unique
     private static final String MULTIPLY_PATTERN = "multiplyPattern";
 
-    public PatternEncodingTermMenuMixin(MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
+    public PatternEncodingTermMenuMixin(
+                                        MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
         super(menuType, id, ip, host);
     }
 
-    @Inject(method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/IPatternTerminalMenuHost;Z)V",
+    @Inject(
+            method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/IPatternTerminalMenuHost;Z)V",
             at = @At("TAIL"),
             remap = false)
-    private void initPattern(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host, boolean bindInventory, CallbackInfo ci) {
+    private void initPattern(
+                             MenuType<?> menuType,
+                             int id,
+                             Inventory ip,
+                             IPatternTerminalMenuHost host,
+                             boolean bindInventory,
+                             CallbackInfo ci) {
         blankPatternSlot.setAllowEdit(false);
         blankPatternSlot.setStackLimit(Integer.MAX_VALUE);
 
         registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
-        registerClientAction(SET_GT_TYPE, ResourceLocation.class, (rl) -> this.sftcore$setGTType((GTRecipeType) ForgeRegistries.RECIPE_TYPES.getValue(rl)));
+        registerClientAction(
+                SET_GT_TYPE,
+                ResourceLocation.class,
+                (rl) -> this.sftcore$setGTType((GTRecipeType) ForgeRegistries.RECIPE_TYPES.getValue(rl)));
         registerClientAction(SEND_TO_GT_MACHINE, Integer.class, this::sftcore$sendToGTMachine);
         registerClientAction(MULTIPLY_PATTERN, Integer.class, this::sftcore$multiplyPattern);
     }
@@ -199,8 +216,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
     private void AutoTransferAfterEncoding(CallbackInfo ci) {
         sftcore$gtContainerTargets.clear();
-        var packet = sftcore$tryTransferToMatrix() ?
-                AvailableGTMachinesPacket.empty() : sftcore$checkAvailableGTMachine();
+        var packet = sftcore$tryTransferToMatrix() ? AvailableGTMachinesPacket.empty() :
+                sftcore$checkAvailableGTMachine();
         sendPacketToClient(packet);
     }
 
@@ -210,14 +227,13 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (node == null) return false;
         if (!sftcore$transferToMatrix) return false;
 
-
         var pattern = encodedPatternSlot.getItem();
         if (pattern.isEmpty()) return false;
 
         // check pattern type
-        if (!AEItems.CRAFTING_PATTERN.isSameAs(pattern)
-                && !AEItems.STONECUTTING_PATTERN.isSameAs(pattern)
-                && !AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern)) return false;
+        if (!AEItems.CRAFTING_PATTERN.isSameAs(pattern) && !AEItems.STONECUTTING_PATTERN.isSameAs(pattern) &&
+                !AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern))
+            return false;
 
         for (var mat : node.getGrid().getActiveMachines(TileAssemblerMatrixPattern.class)) {
             var inv = mat.getPatternInventory();
@@ -252,13 +268,14 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
                 for (var container : node.getGrid().getMachines(matClazz)) {
                     var row = GTTransferLogic.tryBuild(container, sftcore$curType);
-                    row.ifPresent(r -> {
-                        if (container instanceof IPromptProvider promptProvider) {
-                            r = r.withPrompt(promptProvider.sftcore$getPrompt());
-                        }
-                        rows.add(r);
-                        sftcore$gtContainerTargets.add(container);
-                    });
+                    row.ifPresent(
+                            r -> {
+                                if (container instanceof IPromptProvider promptProvider) {
+                                    r = r.withPrompt(promptProvider.sftcore$getPrompt());
+                                }
+                                rows.add(r);
+                                sftcore$gtContainerTargets.add(container);
+                            });
                 }
             }
         }
@@ -266,19 +283,24 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         return new AvailableGTMachinesPacket(rows);
     }
 
-    @Redirect(method = "encode",
-            at = @At(value = "INVOKE",
-                    target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V"))
+    @Redirect(
+              method = "encode",
+              at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V"))
     private void extractPatternFromStorage(ItemStack instance, int pDecrement) {
         if (storage != null) {
             storage.extract(sftcore$key, 1, Actionable.MODULATE, getActionSource());
         }
     }
 
-    @Redirect(method = "transferStackToMenu",
-            at = @At(value = "INVOKE", target = "Lappeng/menu/slot/RestrictedInputSlot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z", remap = true),
-            remap = false)
-    private boolean transferStack$skipBlankPattern(RestrictedInputSlot instance, ItemStack itemStack) {
+    @Redirect(
+              method = "transferStackToMenu",
+              at = @At(
+                       value = "INVOKE",
+                       target = "Lappeng/menu/slot/RestrictedInputSlot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z",
+                       remap = true),
+              remap = false)
+    private boolean transferStack$skipBlankPattern(
+                                                   RestrictedInputSlot instance, ItemStack itemStack) {
         return instance.mayPlace(itemStack) && itemStack.getItem() != AEItems.BLANK_PATTERN.asItem();
     }
 
@@ -292,8 +314,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                 amount *= multiplier;
             } else {
                 amount /= -multiplier;
-                if (amount == 0)
-                    amount = 1;
+                if (amount == 0) amount = 1;
             }
             if (amount > Integer.MAX_VALUE) {
                 amount = Integer.MAX_VALUE;

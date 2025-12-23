@@ -1,19 +1,21 @@
 package org.leodreamer.sftcore.common.data.lang;
 
-import appeng.core.definitions.AEParts;
-import de.castcrafter.travelanchors.ModItems;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+
+import appeng.core.definitions.AEParts;
+import de.castcrafter.travelanchors.ModItems;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -58,25 +60,34 @@ public class MixinTooltips {
     @RegisterLanguage("Do not have the cooldown time")
     public static final String TRAVELER_ANCHOR = "sftcore.mixin.travel_anchor.travel_staff.tooltip";
 
+    @RegisterLanguage("Also available in the void")
+    public static final String AVAILABLE_IN_VOID = "sftcore.mixin.gtceu.condition.demension.available_in_void";
+
+    @RegisterLanguage("Part From: ")
+    public static final String PART_FROM = "sftcore.mixin.ae2.pattern.gt_part_from";
+
     private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
     static {
-        TOOLTIPS.put(AEParts.PATTERN_ENCODING_TERMINAL.asItem(), SFTTooltipsBuilder.of()
-                .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
-                .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
-                .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
-                .modifiedBySFT()::addTo);
+        TOOLTIPS.put(
+                AEParts.PATTERN_ENCODING_TERMINAL.asItem(),
+                SFTTooltipsBuilder.of()
+                        .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
+                        .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
+                        .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
+                        .modifiedBySFT()::addTo);
 
-        TOOLTIPS.put(ModItems.travelStaff.asItem(), SFTTooltipsBuilder.of()
-                .insert(Component.translatable(TRAVELER_ANCHOR).withStyle(ChatFormatting.AQUA))
-                .modifiedBySFT()::addTo);
+        TOOLTIPS.put(
+                ModItems.travelStaff.asItem(),
+                SFTTooltipsBuilder.of()
+                        .insert(Component.translatable(TRAVELER_ANCHOR).withStyle(ChatFormatting.AQUA))
+                        .modifiedBySFT()::addTo);
     }
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
         var tooltip = event.getToolTip();
         var consumer = TOOLTIPS.get(event.getItemStack().getItem());
-        if (consumer != null)
-            consumer.accept(tooltip);
+        if (consumer != null) consumer.accept(tooltip);
     }
 }

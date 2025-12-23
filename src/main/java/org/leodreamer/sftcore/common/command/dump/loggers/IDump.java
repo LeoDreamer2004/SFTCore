@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IDump {
+
     String getTypeName();
 
     Map<String, List<String>> getIdentifierMap();

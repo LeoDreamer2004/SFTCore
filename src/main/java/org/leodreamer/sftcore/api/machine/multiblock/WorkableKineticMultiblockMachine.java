@@ -1,5 +1,13 @@
 package org.leodreamer.sftcore.api.machine.multiblock;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
+import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
+import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
+import org.leodreamer.sftcore.common.machine.trait.NotifiableStressTrait;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -11,6 +19,13 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.GTUtil;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.entity.BlockEntity;
+
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -22,31 +37,22 @@ import com.simibubi.create.infrastructure.config.AllConfigs;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.longs.LongSets;
 import lombok.Getter;
-import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
-import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
-import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
-import org.leodreamer.sftcore.common.machine.trait.NotifiableStressTrait;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @DataGenScanned
-public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine implements IDisplayUIMachine, ITieredMachine {
+public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
+                                              implements IDisplayUIMachine, ITieredMachine {
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WorkableKineticMultiblockMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
@@ -126,11 +132,13 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP).forEach(iRecipeHandler -> {
-            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
-                notifiableStressTrait.preWorking();
-            }
-        });
+        getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP)
+                .forEach(
+                        iRecipeHandler -> {
+                            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
+                                notifiableStressTrait.preWorking();
+                            }
+                        });
         boolean result = super.beforeWorking(recipe);
         previousSpeed = speed;
         if (speed != previousSpeed) {
@@ -140,19 +148,23 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
     }
 
     public void postWorking() {
-        getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP).forEach(iRecipeHandler -> {
-            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
-                notifiableStressTrait.postWorking();
-            }
-        });
+        getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP)
+                .forEach(
+                        iRecipeHandler -> {
+                            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
+                                notifiableStressTrait.postWorking();
+                            }
+                        });
     }
 
     public void preWorking() {
-        getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP).forEach(iRecipeHandler -> {
-            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
-                notifiableStressTrait.preWorking();
-            }
-        });
+        getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP)
+                .forEach(
+                        iRecipeHandler -> {
+                            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
+                                notifiableStressTrait.preWorking();
+                            }
+                        });
     }
 
     @Override
@@ -164,7 +176,8 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
     private void updateMachineSpeed() {
         speed = AllConfigs.server().kinetics.maxRotationSpeed.get();
         for (IMultiPart part : getParts()) {
-            if (part instanceof IKineticMachine kineticPart && inputPartsMax.contains(kineticPart.getKineticHolder().getBlockPos())) {
+            if (part instanceof IKineticMachine kineticPart &&
+                    inputPartsMax.contains(kineticPart.getKineticHolder().getBlockPos())) {
                 speed = Math.min(speed, Math.abs(kineticPart.getKineticHolder().getSpeed()));
             }
         }
@@ -207,7 +220,9 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
         }
     }
 
-    public void updateBlazeBlocks(boolean active) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void updateBlazeBlocks(boolean active)
+                                                  throws NoSuchMethodException, InvocationTargetException,
+                                                  IllegalAccessException {
         if (blazeBlocks != null) {
             for (Long pos : blazeBlocks) {
                 var blockPos = BlockPos.of(pos);
@@ -224,7 +239,8 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
                         }
                     }
                     if (blockEntity instanceof BlazeBurnerBlockEntity blazeBurnerBlockEntity) {
-                        Method method = BlazeBurnerBlockEntity.class.getDeclaredMethod("setBlockHeat", BlazeBurnerBlock.HeatLevel.class);
+                        Method method = BlazeBurnerBlockEntity.class.getDeclaredMethod(
+                                "setBlockHeat", BlazeBurnerBlock.HeatLevel.class);
                         method.setAccessible(true);
                         method.invoke(blazeBurnerBlockEntity, heat);
                     }
@@ -232,6 +248,7 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
             }
         }
     }
+
     //////////////////////////////////////
     // ********** GUI ***********//
     /// ///////////////////////////////////
@@ -242,7 +259,8 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
     @Override
     public void addDisplayText(List<Component> textList) {
         if (recipeLogic.isWaiting()) {
-            textList.add(Component.translatable("gtceu.multiblock.waiting").withStyle(ChatFormatting.RED));
+            textList.add(
+                    Component.translatable("gtceu.multiblock.waiting").withStyle(ChatFormatting.RED));
             for (var reason : recipeLogic.getFancyTooltip()) {
                 textList.add(Component.literal(" - " + reason.getString()));
             }
@@ -251,7 +269,9 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
                 .setWorkingStatus(recipeLogic.isWorkingEnabled(), recipeLogic.isActive())
                 .addMachineModeLine(getRecipeType(), getRecipeTypes().length > 1)
                 .addWorkingStatusLine()
-                .addProgressLine(recipeLogic.getProgress(), recipeLogic.getMaxProgress(),
+                .addProgressLine(
+                        recipeLogic.getProgress(),
+                        recipeLogic.getMaxProgress(),
                         recipeLogic.getProgressPercent())
                 .addOutputLines(recipeLogic.getLastRecipe());
         getDefinition().getAdditionalDisplay().accept(this, textList);

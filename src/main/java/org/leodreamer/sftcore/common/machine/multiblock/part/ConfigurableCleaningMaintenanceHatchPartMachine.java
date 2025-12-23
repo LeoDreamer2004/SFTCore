@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.DummyCleanroom;
+
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,19 +14,20 @@ import java.util.Collections;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
-public class ConfigurableCleaningMaintenanceHatchPartMachine extends ConfigurableAutoMaintenanceHatchPartMachine {
+public class ConfigurableCleaningMaintenanceHatchPartMachine
+                                                             extends ConfigurableAutoMaintenanceHatchPartMachine {
 
     private final ICleanroomProvider DUMMY_CLEANROOM;
 
     @Getter
     private final CleanroomType cleanroomType;
 
-    public ConfigurableCleaningMaintenanceHatchPartMachine(IMachineBlockEntity holder, CleanroomType cleanroomType) {
+    public ConfigurableCleaningMaintenanceHatchPartMachine(
+                                                           IMachineBlockEntity holder, CleanroomType cleanroomType) {
         super(holder);
         this.cleanroomType = cleanroomType;
         DUMMY_CLEANROOM = DummyCleanroom.createForTypes(Collections.singletonList(cleanroomType));
     }
-
 
     @Override
     public void addedToController(@NotNull IMultiController controller) {

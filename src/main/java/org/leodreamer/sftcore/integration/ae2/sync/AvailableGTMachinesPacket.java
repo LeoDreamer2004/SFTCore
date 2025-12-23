@@ -1,18 +1,21 @@
 package org.leodreamer.sftcore.integration.ae2.sync;
 
-import appeng.client.gui.me.items.PatternEncodingTermScreen;
-import appeng.core.sync.BasePacket;
-import io.netty.buffer.Unpooled;
+import org.leodreamer.sftcore.integration.ae2.feature.IGTTransferPanel;
+import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
-import org.leodreamer.sftcore.integration.ae2.feature.IGTTransferPanel;
-import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
+
+import appeng.client.gui.me.items.PatternEncodingTermScreen;
+import appeng.core.sync.BasePacket;
+import io.netty.buffer.Unpooled;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AvailableGTMachinesPacket extends BasePacket {
+
     private final List<AvailableGTRow> rows;
 
     public AvailableGTMachinesPacket(FriendlyByteBuf stream) {

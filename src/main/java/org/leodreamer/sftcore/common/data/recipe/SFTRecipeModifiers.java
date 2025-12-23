@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.common.data.recipe;
 
+import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
+
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -8,8 +10,8 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
 
 import static com.gregtechceu.gtceu.api.recipe.OverclockingLogic.STD_VOLTAGE_FACTOR;
 import static com.gregtechceu.gtceu.api.recipe.OverclockingLogic.create;
@@ -22,27 +24,36 @@ public final class SFTRecipeModifiers {
 
     public static double HALF_DURATION_FACTOR = 0.33;
 
-    public static final OverclockingLogic HALF_PERFECT_OVERCLOCK_SUBTICK = create(HALF_DURATION_FACTOR, STD_VOLTAGE_FACTOR, true);
-    public static final RecipeModifier OC_HALF_PERFECT_SUBTICK =
-            ELECTRIC_OVERCLOCK.apply(HALF_PERFECT_OVERCLOCK_SUBTICK);
+    public static final OverclockingLogic HALF_PERFECT_OVERCLOCK_SUBTICK = create(HALF_DURATION_FACTOR,
+            STD_VOLTAGE_FACTOR, true);
+    public static final RecipeModifier OC_HALF_PERFECT_SUBTICK = ELECTRIC_OVERCLOCK
+            .apply(HALF_PERFECT_OVERCLOCK_SUBTICK);
 
-    public record SimpleMultiplierModifier(double eutMultiplier,
-                                           double durationMultiplier) implements RecipeModifier {
+    public record SimpleMultiplierModifier(double eutMultiplier, double durationMultiplier)
+            implements RecipeModifier {
+
         @Override
-        public @NotNull ModifierFunction getModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
-            return ModifierFunction.builder().eutMultiplier(eutMultiplier).durationMultiplier(durationMultiplier).build();
+        public @NotNull ModifierFunction getModifier(
+                                                     @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+            return ModifierFunction.builder()
+                    .eutMultiplier(eutMultiplier)
+                    .durationMultiplier(durationMultiplier)
+                    .build();
         }
     }
 
     public static final double GCYM_EUT_MULTIPLIER = 0.8;
     public static final double GCYM_DURATION_MULTIPLIER = 0.6;
-    public static final RecipeModifier GCYM_MACHINE_REDUCE =
-            new SFTRecipeModifiers.SimpleMultiplierModifier(GCYM_EUT_MULTIPLIER, GCYM_DURATION_MULTIPLIER);
+    public static final RecipeModifier GCYM_MACHINE_REDUCE = new SFTRecipeModifiers.SimpleMultiplierModifier(
+            GCYM_EUT_MULTIPLIER, GCYM_DURATION_MULTIPLIER);
 
-    public record CoilReductionModifier(int coilTempLevel, double eutMultiplier,
-                                        double durationMultiplier) implements RecipeModifier {
+    public record CoilReductionModifier(
+                                        int coilTempLevel, double eutMultiplier, double durationMultiplier)
+            implements RecipeModifier {
+
         @Override
-        public @NotNull ModifierFunction getModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        public @NotNull ModifierFunction getModifier(
+                                                     @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
             if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine))
                 return RecipeModifier.nullWrongType(CoilWorkableElectricMultiblockMachine.class, machine);
             var temp = coilMachine.getCoilType().getCoilTemperature();
@@ -58,11 +69,12 @@ public final class SFTRecipeModifiers {
     public static final int MEGA_COIL_TEMP_LEVEL = 1200;
     public static final double MEGA_COIL_EUT_MULTIPLIER = 0.9;
     public static final double MEGA_COIL_DURATION_MULTIPLIER = 0.85;
-    public static final RecipeModifier MEGA_COIL_MACHINE_REDUCE =
-            new CoilReductionModifier(MEGA_COIL_TEMP_LEVEL, MEGA_COIL_EUT_MULTIPLIER, MEGA_COIL_DURATION_MULTIPLIER);
+    public static final RecipeModifier MEGA_COIL_MACHINE_REDUCE = new CoilReductionModifier(
+            MEGA_COIL_TEMP_LEVEL, MEGA_COIL_EUT_MULTIPLIER, MEGA_COIL_DURATION_MULTIPLIER);
 
     @NotNull
-    public static ModifierFunction largeCrackerOverlock(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction largeCrackerOverlock(
+                                                        @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine)) {
             return RecipeModifier.nullWrongType(CoilWorkableElectricMultiblockMachine.class, machine);
         }
@@ -74,7 +86,8 @@ public final class SFTRecipeModifiers {
     }
 
     @NotNull
-    public static ModifierFunction commonFactoryParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction commonFactoryParallel(
+                                                         @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (!(machine instanceof CommonFactoryMachine cMachine)) {
             return RecipeModifier.nullWrongType(CommonFactoryMachine.class, machine);
         }
@@ -95,7 +108,8 @@ public final class SFTRecipeModifiers {
     }
 
     @NotNull
-    public static ModifierFunction gasCollectorParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction gasCollectorParallel(
+                                                        @NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         int parallels = ParallelLogic.getParallelAmount(machine, recipe, Integer.MAX_VALUE);
         return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallels))

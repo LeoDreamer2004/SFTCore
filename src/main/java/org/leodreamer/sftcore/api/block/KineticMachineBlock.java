@@ -1,10 +1,13 @@
 package org.leodreamer.sftcore.api.block;
 
+import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
+import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
+import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,10 +19,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+
+import com.simibubi.create.content.kinetics.base.IRotate;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
-import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -32,7 +35,8 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
+    public boolean hasShaftTowards(
+                                   LevelReader world, BlockPos pos, BlockState state, Direction face) {
         if (MetaMachine.getMachine(world, pos) instanceof IKineticMachine kineticMachine) {
             return kineticMachine.hasShaftTowards(face);
         }
@@ -51,7 +55,8 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onPlace(
+                        BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         // onBlockAdded is useless for init, as sometimes the TE gets re-instantiated
 
         // however, if a block change occurs that does not change kinetic connections,
@@ -61,12 +66,9 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
         if (tileEntity instanceof KineticBlockEntity kineticTileEntity) {
             kineticTileEntity.preventSpeedUpdate = 0;
 
-            if (oldState.getBlock() != state.getBlock())
-                return;
-            if (state.hasBlockEntity() != oldState.hasBlockEntity())
-                return;
-            if (!areStatesKineticallyEquivalent(oldState, state))
-                return;
+            if (oldState.getBlock() != state.getBlock()) return;
+            if (state.hasBlockEntity() != oldState.hasBlockEntity()) return;
+            if (!areStatesKineticallyEquivalent(oldState, state)) return;
 
             kineticTileEntity.preventSpeedUpdate = 2;
         }
@@ -74,28 +76,26 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
 
     @Override
     public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(this.getRotationState().property,
+        return pState.setValue(
+                this.getRotationState().property,
                 pRotation.rotate(pState.getValue(this.getRotationState().property)));
     }
 
     public boolean areStatesKineticallyEquivalent(BlockState oldState, BlockState newState) {
-        if (oldState.getBlock() != newState.getBlock())
-            return false;
+        if (oldState.getBlock() != newState.getBlock()) return false;
         return getRotationAxis(newState) == getRotationAxis(oldState);
     }
 
     @Override
-    public void updateIndirectNeighbourShapes(BlockState stateIn, LevelAccessor worldIn, BlockPos pos, int flags,
+    public void updateIndirectNeighbourShapes(
+                                              BlockState stateIn, LevelAccessor worldIn, BlockPos pos, int flags,
                                               int count) {
-        if (worldIn.isClientSide())
-            return;
+        if (worldIn.isClientSide()) return;
 
         BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-        if (!(tileEntity instanceof KineticBlockEntity kte))
-            return;
+        if (!(tileEntity instanceof KineticBlockEntity kte)) return;
 
-        if (kte.preventSpeedUpdate > 0)
-            return;
+        if (kte.preventSpeedUpdate > 0) return;
 
         // Remove previous information when block is added
         kte.warnOfMovement();
@@ -104,7 +104,8 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+                                                                            Level level, BlockState state,
                                                                             BlockEntityType<T> blockEntityType) {
         if (blockEntityType == getDefinition().getBlockEntityType()) {
             if (!level.isClientSide) {

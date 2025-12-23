@@ -1,11 +1,13 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
+
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
 
@@ -30,7 +32,8 @@ public final class BlockRecipes {
                 .output(MULTI_FUNCTIONAL_CASING.asStack(3))
                 .save(provider);
 
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("multi_functional_casing_assembler"))
+        ASSEMBLER_RECIPES
+                .recipeBuilder(SFTCore.id("multi_functional_casing_assembler"))
                 .outputItems(MULTI_FUNCTIONAL_CASING, 3)
                 .inputItems(plateDouble, Aluminium, 6)
                 .inputItems(frameGt, Aluminium, 1)

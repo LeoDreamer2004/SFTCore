@@ -1,9 +1,17 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
-import appeng.core.definitions.AEBlocks;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Items;
+
+import appeng.core.definitions.AEBlocks;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import mekanism.common.content.blocktype.FactoryType;
@@ -11,11 +19,6 @@ import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.registries.MekanismItems;
 import mekanism.common.tier.FactoryTier;
 import mekanism.generators.common.registries.GeneratorsBlocks;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.Items;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
-import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
 
@@ -31,6 +34,7 @@ import static org.leodreamer.sftcore.common.data.SFTBlocks.MULTI_FUNCTIONAL_CASI
 import static org.leodreamer.sftcore.common.data.machine.SFTMultiMachines.*;
 
 public final class ControllerRecipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
         SFTVanillaRecipeHelper.addShapedRecipe("mega_blast_furnace")
                 .pattern("ABA", "CDC", "EFE")
@@ -185,7 +189,8 @@ public final class ControllerRecipes {
                 .output(LARGE_CRACKER.asStack())
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("common_mekanism_process_factory"))
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(SFTCore.id("common_mekanism_process_factory"))
                 .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.INFUSING).asItem())
                 .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.ENRICHING).asItem())
                 .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.SMELTING).asItem())
@@ -211,7 +216,8 @@ public final class ControllerRecipes {
                 .output(SFTMultiMachines.COMMON_FACTORY.asStack())
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("large_gas_collector"))
+        GTRecipeTypes.ASSEMBLER_RECIPES
+                .recipeBuilder(SFTCore.id("large_gas_collector"))
                 .outputItems(LARGE_GAS_COLLECTOR.asStack())
                 .inputItems(frameGt, TungstenSteel, 4)
                 .inputItems(GAS_COLLECTOR[IV].asStack())

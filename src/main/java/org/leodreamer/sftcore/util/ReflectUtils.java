@@ -1,14 +1,15 @@
 package org.leodreamer.sftcore.util;
 
 import net.minecraftforge.fml.ModList;
+
 import org.objectweb.asm.Type;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-
 import java.util.*;
 
 public class ReflectUtils {
+
     public static <T> T getFieldValue(Object obj, String fieldName, Class<T> fieldType) {
         try {
             Field field = obj.getClass().getDeclaredField(fieldName);
@@ -37,7 +38,10 @@ public class ReflectUtils {
         return classes;
     }
 
-    public static <A extends Annotation, F> Map<A, F> getStaticFieldsWithAnnotation(Class<?> clazz, Class<A> annotationType, Class<F> fieldType) {
+    public static <A extends Annotation, F> Map<A, F> getStaticFieldsWithAnnotation(
+                                                                                    Class<?> clazz,
+                                                                                    Class<A> annotationType,
+                                                                                    Class<F> fieldType) {
         Map<A, F> result = new HashMap<>();
         for (var field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(annotationType)) {
@@ -46,7 +50,9 @@ public class ReflectUtils {
                 try {
                     F key = fieldType.cast(field.get(null));
                     if (key == null) {
-                        throw new RuntimeException("Field " + field.getName() + " in class " + clazz.getName() + " is null. Probably not initialized yet as it is not static.");
+                        throw new RuntimeException(
+                                "Field " + field.getName() + " in class " + clazz.getName() +
+                                        " is null. Probably not initialized yet as it is not static.");
                     }
                     result.put(anno, key);
                 } catch (IllegalAccessException e) {

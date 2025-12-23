@@ -1,26 +1,29 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
-import appeng.core.definitions.AEBlocks;
-import appeng.core.definitions.AEItems;
-import appeng.datagen.providers.tags.ConventionTags;
-import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
+import org.leodreamer.sftcore.integration.IntegrateMods;
+import org.leodreamer.sftcore.util.RLUtils;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.simibubi.create.AllBlocks;
-import gripe._90.megacells.definition.MEGABlocks;
-import gripe._90.megacells.definition.MEGAItems;
-import mekanism.common.registries.MekanismItems;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
+import appeng.core.definitions.AEBlocks;
+import appeng.core.definitions.AEItems;
+import appeng.datagen.providers.tags.ConventionTags;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import com.simibubi.create.AllBlocks;
+import gripe._90.megacells.definition.MEGABlocks;
+import gripe._90.megacells.definition.MEGAItems;
+import mekanism.common.registries.MekanismItems;
 import net.pedroksl.advanced_ae.common.definitions.AAEBlocks;
 import net.pedroksl.advanced_ae.common.definitions.AAEItems;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
-import org.leodreamer.sftcore.integration.IntegrateMods;
-import org.leodreamer.sftcore.util.RLUtils;
 
 import java.util.function.Consumer;
 
@@ -34,8 +37,10 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.CERTUS_QU
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.LARGE_INSCRIBER;
 
 public final class AE2Recipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
-        CERTUS_QUARTZ_CHARGE_RECIPES.recipeBuilder("certus_quartz_charge")
+        CERTUS_QUARTZ_CHARGE_RECIPES
+                .recipeBuilder("certus_quartz_charge")
                 .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL.asItem(), 32)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem(), 32)
@@ -43,7 +48,8 @@ public final class AE2Recipes {
                 .EUt(VA[MV])
                 .save(provider);
 
-        MIXER_RECIPES.recipeBuilder(SFTCore.id("fluix_crystal"))
+        MIXER_RECIPES
+                .recipeBuilder(SFTCore.id("fluix_crystal"))
                 .outputItems(AEItems.FLUIX_CRYSTAL.asItem(), 2)
                 .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
                 .inputItems(dust, Redstone)
@@ -53,7 +59,8 @@ public final class AE2Recipes {
                 .EUt(VA[ULV])
                 .save(provider);
 
-        MIXER_RECIPES.recipeBuilder(SFTCore.id("sky_steel_ingot"))
+        MIXER_RECIPES
+                .recipeBuilder(SFTCore.id("sky_steel_ingot"))
                 .outputItems(MEGAItems.SKY_STEEL_INGOT.asItem(), 2)
                 .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
                 .inputItems(ingot, Iron)
@@ -89,17 +96,27 @@ public final class AE2Recipes {
                 .output(AEBlocks.CREATIVE_ENERGY_CELL)
                 .save(provider);
 
-        inscribe(provider, "calculation", AEItems.CERTUS_QUARTZ_CRYSTAL.asItem(), AEItems.CALCULATION_PROCESSOR.asItem());
+        inscribe(
+                provider,
+                "calculation",
+                AEItems.CERTUS_QUARTZ_CRYSTAL.asItem(),
+                AEItems.CALCULATION_PROCESSOR.asItem());
         inscribe(provider, "logic", Items.GOLD_INGOT, AEItems.LOGIC_PROCESSOR.asItem());
         inscribe(provider, "engineering", Items.DIAMOND, AEItems.ENGINEERING_PROCESSOR.asItem());
-        inscribe(provider, "accumulation", MEGAItems.SKY_STEEL_INGOT.asItem(), MEGAItems.ACCUMULATION_PROCESSOR.asItem());
-        inscribe(provider, "quantum", AAEItems.QUANTUM_ALLOY.asItem(), AAEItems.QUANTUM_PROCESSOR.asItem());
+        inscribe(
+                provider,
+                "accumulation",
+                MEGAItems.SKY_STEEL_INGOT.asItem(),
+                MEGAItems.ACCUMULATION_PROCESSOR.asItem());
+        inscribe(
+                provider, "quantum", AAEItems.QUANTUM_ALLOY.asItem(), AAEItems.QUANTUM_PROCESSOR.asItem());
 
         var sink = RLUtils.getItemById(IntegrateMods.COOK, "sink");
 
         if (sink != null) {
             var waterCell = getInfinityCell('f', "minecraft:water");
-            ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("water_cell"))
+            ASSEMBLER_RECIPES
+                    .recipeBuilder(SFTCore.id("water_cell"))
                     .outputItems(waterCell)
                     .inputItems(sink, 4)
                     .inputItems(AEItems.CELL_COMPONENT_4K.asItem())
@@ -111,7 +128,8 @@ public final class AE2Recipes {
         }
 
         var cobblestoneCell = getInfinityCell('i', "minecraft:cobblestone");
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("cobblestone_cell"))
+        ASSEMBLER_RECIPES
+                .recipeBuilder(SFTCore.id("cobblestone_cell"))
                 .outputItems(cobblestoneCell)
                 .inputItems(Items.COBBLESTONE, 4)
                 .inputItems(MekanismItems.POLONIUM_PELLET)
@@ -123,7 +141,8 @@ public final class AE2Recipes {
                 .save(provider);
 
         var lavaCell = getInfinityCell('f', "minecraft:lava");
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("lava_cell"))
+        ASSEMBLER_RECIPES
+                .recipeBuilder(SFTCore.id("lava_cell"))
                 .outputItems(lavaCell)
                 .inputItems(AllBlocks.FLUID_TANK.asItem(), 36)
                 .inputItems(AllBlocks.HOSE_PULLEY.asItem())
@@ -139,8 +158,10 @@ public final class AE2Recipes {
                 .save(provider);
     }
 
-    private static void inscribe(Consumer<FinishedRecipe> provider, String id, Item ingredient, Item processor) {
-        LARGE_INSCRIBER.recipeBuilder(SFTCore.id("inscriber/" + id))
+    private static void inscribe(
+                                 Consumer<FinishedRecipe> provider, String id, Item ingredient, Item processor) {
+        LARGE_INSCRIBER
+                .recipeBuilder(SFTCore.id("inscriber/" + id))
                 .inputItems(ingredient, 16)
                 .inputItems(AEItems.SILICON.asItem(), 12)
                 .inputFluids(Redstone.getFluid(16 * GTValues.L))

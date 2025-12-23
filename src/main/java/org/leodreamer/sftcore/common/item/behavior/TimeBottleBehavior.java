@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore.common.item.behavior;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
@@ -7,7 +11,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -15,10 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,8 +31,10 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
 
     @RegisterLanguage("Right click on a machine and finish the current recipe instantly with the wireless energy.")
     static final String TOOLTIP = "item.sftcore.time_bottle.tooltip";
+
     @RegisterLanguage("Your wireless energy DOES NOT support the machine acceleration.")
     static final String ENERGY_LACK = "item.sftcore.time_bottle.energy_lack";
+
     @RegisterLanguage("Using %s EU, accelerate the machine with %d ticks")
     static final String ACCELERATE = "item.sftcore.time_bottle.accelerate";
 
@@ -69,20 +74,26 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
         }
 
         if (container.removeEnergy(eu, null) != eu) {
-            Objects.requireNonNull(context.getPlayer()).
-                    displayClientMessage(Component.translatable(ENERGY_LACK), true);
+            Objects.requireNonNull(context.getPlayer())
+                    .displayClientMessage(Component.translatable(ENERGY_LACK), true);
             return false;
         }
 
         logic.setProgress(logic.getProgress() + leftDuration);
-        Objects.requireNonNull(context.getPlayer()).
-                displayClientMessage(Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration), true);
+        Objects.requireNonNull(context.getPlayer())
+                .displayClientMessage(
+                        Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration),
+                        true);
         return true;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag isAdvanced) {
-        SFTTooltipsBuilder.of().insert(Component.translatable(TOOLTIP))
-                .textureComeFrom("Time In a Bottle").addTo(components);
+    public void appendHoverText(
+                                ItemStack stack, @Nullable Level level, List<Component> components,
+                                TooltipFlag isAdvanced) {
+        SFTTooltipsBuilder.of()
+                .insert(Component.translatable(TOOLTIP))
+                .textureComeFrom("Time In a Bottle")
+                .addTo(components);
     }
 }

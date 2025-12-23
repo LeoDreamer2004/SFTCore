@@ -1,13 +1,17 @@
 package org.leodreamer.sftcore.api.blockentity;
 
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
-import net.createmod.catnip.data.Couple;
-import net.minecraft.world.level.block.Block;
 import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
+
+import com.gregtechceu.gtceu.api.block.IMachineBlock;
+
+import net.minecraft.world.level.block.Block;
+
+import net.createmod.catnip.data.Couple;
 
 import javax.annotation.Nullable;
 
 public class BlockStressValues {
+
     public BlockStressValues() {
         super();
     }

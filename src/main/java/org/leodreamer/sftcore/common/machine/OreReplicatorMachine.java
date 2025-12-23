@@ -4,8 +4,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -14,6 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
+
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -77,8 +79,7 @@ public class OreReplicatorMachine extends ItemBusPartMachine {
     private void fillInventory() {
         if (oreCache == null) return;
         var stack = getInventory().getStackInSlot(0);
-        if (stack.getCount() == 64)
-            return;
+        if (stack.getCount() == 64) return;
         if (stack.isEmpty() || stack.is(oreCache)) {
             stack = new ItemStack(oreCache, 64);
             getInventory().setStackInSlot(0, stack);

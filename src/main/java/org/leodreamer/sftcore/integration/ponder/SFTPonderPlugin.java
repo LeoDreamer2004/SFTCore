@@ -1,18 +1,21 @@
 package org.leodreamer.sftcore.integration.ponder;
 
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.resources.ResourceLocation;
+
 import net.createmod.ponder.api.registration.PonderPlugin;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.resources.ResourceLocation;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class SFTPonderPlugin implements PonderPlugin {
+
     @Override
     public String getModId() {
         return SFTCore.MOD_ID;

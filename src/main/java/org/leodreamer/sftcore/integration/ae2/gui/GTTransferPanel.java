@@ -1,12 +1,10 @@
 package org.leodreamer.sftcore.integration.ae2.gui;
 
-import appeng.client.Point;
-import appeng.client.gui.AEBaseScreen;
-import appeng.client.gui.ICompositeWidget;
-import appeng.client.gui.Tooltip;
-import appeng.core.AppEng;
-import appeng.menu.me.items.PatternEncodingTermMenu;
-import lombok.Getter;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,11 +12,15 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+
+import appeng.client.Point;
+import appeng.client.gui.AEBaseScreen;
+import appeng.client.gui.ICompositeWidget;
+import appeng.client.gui.Tooltip;
+import appeng.core.AppEng;
+import appeng.menu.me.items.PatternEncodingTermMenu;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
-import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ import java.util.function.Consumer;
 
 @DataGenScanned
 public class GTTransferPanel implements ICompositeWidget {
+
     private int x;
     private int y;
     private Rect2i bounds = new Rect2i(0, 0, 0, 0);
@@ -71,7 +74,8 @@ public class GTTransferPanel implements ICompositeWidget {
     }
 
     @Override
-    public void populateScreen(Consumer<AbstractWidget> addWidget, Rect2i bounds, AEBaseScreen<?> screen) {
+    public void populateScreen(
+                               Consumer<AbstractWidget> addWidget, Rect2i bounds, AEBaseScreen<?> screen) {
         this.bounds = bounds;
     }
 
@@ -89,13 +93,7 @@ public class GTTransferPanel implements ICompositeWidget {
         var hovered = hoveredRow(mouse);
         var top = absY() + HEADER + hovered * LINE_HEIGHT;
         if (hovered != -1) {
-            guiGraphics.fill(
-                    absX() + 9,
-                    top,
-                    absX() + 76,
-                    top + LINE_HEIGHT,
-                    0x90FFFFFF
-            );
+            guiGraphics.fill(absX() + 9, top, absX() + 76, top + LINE_HEIGHT, 0x90FFFFFF);
         }
     }
 
@@ -108,9 +106,11 @@ public class GTTransferPanel implements ICompositeWidget {
 
         var font = Minecraft.getInstance().font;
         // draw the title
-        guiGraphics.drawString(font,
+        guiGraphics.drawString(
+                font,
                 Component.translatable(TITLE),
-                absX() + 9, absY() + 6,
+                absX() + 9,
+                absY() + 6,
                 Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
                 false);
 
@@ -121,15 +121,15 @@ public class GTTransferPanel implements ICompositeWidget {
             var pose = guiGraphics.pose();
 
             // draw the item
-            guiGraphics.renderItem(row.item().toStack(),
-                    absX() + PADDING_LEFT,
-                    absY() + top);
+            guiGraphics.renderItem(row.item().toStack(), absX() + PADDING_LEFT, absY() + top);
 
             // draw the name of machine
             pose.pushPose();
             float fontScale = 0.75f;
             pose.scale(fontScale, fontScale, 1.0f);
-            guiGraphics.drawString(font, row.title(),
+            guiGraphics.drawString(
+                    font,
+                    row.title(),
                     (int) ((absX() + PADDING_LEFT + 20) / fontScale),
                     (int) ((absY() + top) / fontScale),
                     Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
@@ -141,12 +141,13 @@ public class GTTransferPanel implements ICompositeWidget {
             float promptScale = 0.6f;
             pose.scale(promptScale, promptScale, 1.0f);
             if (!row.prompt().isEmpty()) {
-                guiGraphics.drawString(font, row.prompt(),
+                guiGraphics.drawString(
+                        font,
+                        row.prompt(),
                         (int) ((absX() + PADDING_LEFT + 20) / promptScale),
                         (int) ((absY() + top + 10) / promptScale),
                         Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
-                        false
-                );
+                        false);
             }
             pose.popPose();
         }

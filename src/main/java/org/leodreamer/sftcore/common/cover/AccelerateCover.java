@@ -1,5 +1,8 @@
 package org.leodreamer.sftcore.common.cover;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.ICoverable;
@@ -9,15 +12,16 @@ import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.cover.detector.DetectorCover;
-import lombok.Getter;
+
 import net.minecraft.core.Direction;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
+import lombok.Getter;
 
 import javax.annotation.Nullable;
 
 @DataGenScanned
 public class AccelerateCover extends DetectorCover {
+
     public static final int[] TIERS = GTValues.tiersBetween(GTValues.LV, GTValues.LuV);
 
     @RegisterLanguage("Accelerate the recipe by §e%d%%§r")
@@ -26,7 +30,8 @@ public class AccelerateCover extends DetectorCover {
     @Getter
     private final int tier;
 
-    public AccelerateCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier) {
+    public AccelerateCover(
+                           CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier) {
         super(definition, coverHolder, attachedSide);
         this.tier = tier;
     }
@@ -35,7 +40,8 @@ public class AccelerateCover extends DetectorCover {
     public boolean canAttach() {
         var machine = MetaMachine.getMachine(coverHolder.getLevel(), coverHolder.getPos());
         return super.canAttach() && machine instanceof IOverclockMachine &&
-                machine.getCoverContainer().getCovers().stream().noneMatch(cover -> cover instanceof AccelerateCover);
+                machine.getCoverContainer().getCovers().stream()
+                        .noneMatch(cover -> cover instanceof AccelerateCover);
     }
 
     @Override

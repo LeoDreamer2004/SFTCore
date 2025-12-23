@@ -1,8 +1,13 @@
 package org.leodreamer.sftcore.common.command.dump;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
+import org.leodreamer.sftcore.Config;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.command.dump.loggers.BlockDump;
+import org.leodreamer.sftcore.common.command.dump.loggers.FluidDump;
+import org.leodreamer.sftcore.common.command.dump.loggers.IDump;
+import org.leodreamer.sftcore.common.command.dump.loggers.ItemDump;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -14,14 +19,11 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.Config;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.command.dump.loggers.BlockDump;
-import org.leodreamer.sftcore.common.command.dump.loggers.FluidDump;
-import org.leodreamer.sftcore.common.command.dump.loggers.IDump;
-import org.leodreamer.sftcore.common.command.dump.loggers.ItemDump;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -34,33 +36,42 @@ public class DumpCommand {
     public static final String FOLDER = "dumps";
     public static final String ID_FILENAME = "vocabulary.json";
     public static final String MULTI_BLOCK_FILENAME = "multiBlock.txt";
-    private static final Dynamic2CommandExceptionType ERROR_AREA_TOO_LARGE =
-            new Dynamic2CommandExceptionType((limit, actual) -> Component.translatable(
-                    "commands.fill.toobig", limit, actual));
+    private static final Dynamic2CommandExceptionType ERROR_AREA_TOO_LARGE = new Dynamic2CommandExceptionType(
+            (limit, actual) -> Component.translatable("commands.fill.toobig", limit, actual));
 
     @RegisterLanguage("Start dumping...")
     static final String START = "commands.sftcore.dump.start";
+
     @RegisterLanguage("Dump finished.")
     static final String SUCCESS = "commands.sftcore.dump.success";
+
     @RegisterLanguage("[Open the file]")
     static final String LINK = "commands.sftcore.dump.success.link";
+
     @RegisterLanguage("Dump failed.")
     static final String FAILURE = "commands.sftcore.dump.failure";
 
-    public static void
-    register(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-                Commands.literal("sftcore").then(
-                        Commands.literal("dump")
-                                .executes(context -> dumpIdentifiers(context.getSource(), Mode.ALL))
-                                .then(Commands.literal("items")
-                                        .executes(context -> dumpIdentifiers(context.getSource(), Mode.ITEM)))
-                                .then(Commands.literal("blocks")
-                                        .executes(context -> dumpIdentifiers(context.getSource(), Mode.BLOCK)))
-                                .then(Commands.literal("fluid")
-                                        .executes(context -> dumpIdentifiers(context.getSource(), Mode.FLUID)))
-                                .then(Commands.literal("multiblock")
-                                        .executes(context -> dumpMultiBlocks(context.getSource())))));
+                Commands.literal("sftcore")
+                        .then(
+                                Commands.literal("dump")
+                                        .executes(context -> dumpIdentifiers(context.getSource(), Mode.ALL))
+                                        .then(
+                                                Commands.literal("items")
+                                                        .executes(context -> dumpIdentifiers(context.getSource(),
+                                                                Mode.ITEM)))
+                                        .then(
+                                                Commands.literal("blocks")
+                                                        .executes(context -> dumpIdentifiers(context.getSource(),
+                                                                Mode.BLOCK)))
+                                        .then(
+                                                Commands.literal("fluid")
+                                                        .executes(context -> dumpIdentifiers(context.getSource(),
+                                                                Mode.FLUID)))
+                                        .then(
+                                                Commands.literal("multiblock")
+                                                        .executes(context -> dumpMultiBlocks(context.getSource())))));
     }
 
     private static int dumpIdentifiers(CommandSourceStack stack, Mode mode) {
@@ -75,26 +86,25 @@ public class DumpCommand {
 
         int i = box.getXSpan() * box.getYSpan() * box.getZSpan();
         int j = stack.getLevel().getGameRules().getInt(GameRules.RULE_COMMAND_MODIFICATION_BLOCK_LIMIT);
-        if (i > j)
-            throw ERROR_AREA_TOO_LARGE.create(j, i);
+        if (i > j) throw ERROR_AREA_TOO_LARGE.create(j, i);
         return write(stack, MULTI_BLOCK_FILENAME, getMultiblockString(stack, box));
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static int write(CommandSourceStack stack, String filename, String content) {
         File file = new File(FOLDER);
-        if (!file.exists())
-            file.mkdirs();
+        if (!file.exists()) file.mkdirs();
         String filePath = FOLDER + File.separator + filename;
         stack.sendSystemMessage(Component.translatable(START));
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(content);
             Component component = Component.translatable(LINK)
                     .withStyle(ChatFormatting.UNDERLINE)
-                    .withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, filePath)));
-            stack.sendSuccess(() -> Component.translatable(SUCCESS)
-                    .append(Component.literal(" "))
-                    .append(component), true);
+                    .withStyle(
+                            style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, filePath)));
+            stack.sendSuccess(
+                    () -> Component.translatable(SUCCESS).append(Component.literal(" ")).append(component),
+                    true);
             return 1;
         } catch (IOException e) {
             stack.sendFailure(Component.translatable(FAILURE));
@@ -107,13 +117,9 @@ public class DumpCommand {
         // Everything in Minecraft
         List<IDump> dumps = new ArrayList<>();
 
-        if (mode == Mode.ALL || mode == Mode.BLOCK)
-            dumps.add(new BlockDump());
-        if (mode == Mode.ALL || mode == Mode.ITEM)
-            dumps.add(new ItemDump());
-        if (mode == Mode.ALL || mode == Mode.FLUID)
-            dumps.add(new FluidDump());
-
+        if (mode == Mode.ALL || mode == Mode.BLOCK) dumps.add(new BlockDump());
+        if (mode == Mode.ALL || mode == Mode.ITEM) dumps.add(new ItemDump());
+        if (mode == Mode.ALL || mode == Mode.FLUID) dumps.add(new FluidDump());
 
         for (IDump dump : dumps) {
             res.put(dump.getTypeName(), dump.getIdentifierMap());
@@ -127,8 +133,7 @@ public class DumpCommand {
             for (String namespace : blockMap.keySet()) {
                 List<String> blockList = blockMap.get(namespace);
                 List<String> itemList = itemMap.get(namespace);
-                if (itemList != null && blockList != null)
-                    itemList.removeAll(blockList);
+                if (itemList != null && blockList != null) itemList.removeAll(blockList);
             }
         }
 
@@ -163,8 +168,7 @@ public class DumpCommand {
                     Block block = stack.getLevel().getBlockState(new BlockPos(x, y, z)).getBlock();
                     String name = Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block)).toString();
                     if (name.equals("minecraft:air")) continue;
-                    if (!aliasMap.containsKey(name))
-                        aliasMap.put(name, current++);
+                    if (!aliasMap.containsKey(name)) aliasMap.put(name, current++);
                     blocks[x - box.minX()][y - box.minY()][z - box.minZ()] = aliasMap.get(name);
                 }
             }
@@ -186,8 +190,7 @@ public class DumpCommand {
             sb.append("[");
             for (int y = 0; y < box.getYSpan(); y++) {
                 sb.append("\"");
-                for (int z = 0; z < box.getZSpan(); z++)
-                    sb.append(blocks[x][y][z]);
+                for (int z = 0; z < box.getZSpan(); z++) sb.append(blocks[x][y][z]);
                 sb.append("\",");
             }
             sb.deleteCharAt(sb.length() - 1).append("]\n");
@@ -196,12 +199,15 @@ public class DumpCommand {
         return sb.toString();
     }
 
-
     private enum Mode {
-        ALL, BLOCK, ITEM, FLUID
+        ALL,
+        BLOCK,
+        ITEM,
+        FLUID
     }
 
     public static class SelectedData {
+
         private static final Map<String, SelectedArea> AREA_MAP = new HashMap<>();
 
         public static void setSelectedPos1(@NotNull Player player, BlockPos pos) {
@@ -221,6 +227,7 @@ public class DumpCommand {
         }
 
         public static final class SelectedArea {
+
             public BlockPos pos1;
             public BlockPos pos2;
         }

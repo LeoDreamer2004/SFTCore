@@ -1,19 +1,22 @@
 package org.leodreamer.sftcore.integration.ponder.api;
 
-import net.createmod.ponder.api.scene.PonderStoryBoard;
-import net.createmod.ponder.api.scene.SceneBuilder;
-import net.createmod.ponder.api.scene.SceneBuildingUtil;
+import org.leodreamer.sftcore.SFTCore;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.leodreamer.sftcore.SFTCore;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import net.createmod.ponder.api.scene.PonderStoryBoard;
+import net.createmod.ponder.api.scene.SceneBuilder;
+import net.createmod.ponder.api.scene.SceneBuildingUtil;
+
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class SFTGeneralStoryBoard implements PonderStoryBoard {
@@ -73,23 +76,30 @@ public class SFTGeneralStoryBoard implements PonderStoryBoard {
         try {
             var pos = blockEntry.get("pos");
             if (pos instanceof ListTag posTag) {
-                var blockPos = posTag.stream().mapToInt(nbt -> {
-                    if (nbt instanceof IntTag intTag) {
-                        return intTag.getAsInt();
-                    } else {
-                        throw new RuntimeException("Invalid pos tag");
-                    }
-                }).toArray();
+                var blockPos = posTag.stream()
+                        .mapToInt(
+                                nbt -> {
+                                    if (nbt instanceof IntTag intTag) {
+                                        return intTag.getAsInt();
+                                    } else {
+                                        throw new RuntimeException("Invalid pos tag");
+                                    }
+                                })
+                        .toArray();
                 var nbt = blockEntry.getCompound("nbt");
                 var cable = nbt.getCompound("cable");
                 if (cable.isEmpty()) return;
 
                 final var copy = cable.copy();
-                scene.world().modifyBlockEntityNBT(util.select().position(blockPos[0], blockPos[1], blockPos[2]), BlockEntity.class, (cableNbt) -> {
-                    cableNbt.put("cable", copy);
-                });
+                scene
+                        .world()
+                        .modifyBlockEntityNBT(
+                                util.select().position(blockPos[0], blockPos[1], blockPos[2]),
+                                BlockEntity.class,
+                                (cableNbt) -> {
+                                    cableNbt.put("cable", copy);
+                                });
             }
-        } catch (RuntimeException ignored) {
-        }
+        } catch (RuntimeException ignored) {}
     }
 }

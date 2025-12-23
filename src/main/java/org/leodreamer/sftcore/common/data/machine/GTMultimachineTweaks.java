@@ -1,14 +1,16 @@
 package org.leodreamer.sftcore.common.data.machine;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
+
 import net.minecraft.network.chat.Component;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 
 import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_EXPORT_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_IMPORT_HATCH;
@@ -30,10 +32,13 @@ public final class GTMultimachineTweaks {
 
     @RegisterLanguage("Allows to run up to 64 recipes in parallel.")
     static final String PARALLEL_MK5 = "gtceu.machine.parallel_hatch_mk5.tooltip";
+
     @RegisterLanguage("Allows to run up to 256 recipes in parallel.")
     static final String PARALLEL_MK6 = "gtceu.machine.parallel_hatch_mk6.tooltip";
+
     @RegisterLanguage("Allows to run up to 1024 recipes in parallel.")
     static final String PARALLEL_MK7 = "gtceu.machine.parallel_hatch_mk7.tooltip";
+
     @RegisterLanguage("Allows to run up to 4096 recipes in parallel.")
     static final String PARALLEL_MK8 = "gtceu.machine.parallel_hatch_mk8.tooltip";
 
@@ -42,73 +47,74 @@ public final class GTMultimachineTweaks {
             // modified by mixin
             if (hatch == null) continue;
             hatch.setTooltipBuilder(
-                    hatch.getTooltipBuilder().andThen((itemStack, components) -> {
-                                components.removeLast();
-                                SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().addTo(components);
-                            }
-                    )
-            );
+                    hatch
+                            .getTooltipBuilder()
+                            .andThen(
+                                    (itemStack, components) -> {
+                                        components.removeLast();
+                                        SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().addTo(components);
+                                    }));
         }
     }
 
     public static void DualHatchTweaks() {
         for (int tier : GTValues.ALL_TIERS) {
             // mixin
-            for (var hatch : new MachineDefinition[]{DUAL_IMPORT_HATCH[tier], DUAL_EXPORT_HATCH[tier]}) {
+            for (var hatch : new MachineDefinition[] { DUAL_IMPORT_HATCH[tier], DUAL_EXPORT_HATCH[tier] }) {
                 if (hatch == null) continue;
                 hatch.setTooltipBuilder(
-                        hatch.getTooltipBuilder().andThen((itemStack, components) -> {
-                                    var shareEnabled = components.removeLast();
-                                    components.removeLast(); // fluid storage
-                                    components.removeLast(); // item storage
-                                    components.add(Component.translatable(
-                                            "gtceu.universal.tooltip.item_storage_capacity",
-                                            (int) Math.pow(tier, 2)));
-                                    components.add(Component.translatable(
-                                            "gtceu.universal.tooltip.fluid_storage_capacity_mult",
-                                            tier,
-                                            DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
-                                                    tier)));
-                                    components.add(shareEnabled);
-                                    SFTTooltipsBuilder.of().modifiedBySFT().addTo(components);
-                                }
-                        )
-                );
+                        hatch
+                                .getTooltipBuilder()
+                                .andThen(
+                                        (itemStack, components) -> {
+                                            var shareEnabled = components.removeLast();
+                                            components.removeLast(); // fluid storage
+                                            components.removeLast(); // item storage
+                                            components.add(
+                                                    Component.translatable(
+                                                            "gtceu.universal.tooltip.item_storage_capacity",
+                                                            (int) Math.pow(tier, 2)));
+                                            components.add(
+                                                    Component.translatable(
+                                                            "gtceu.universal.tooltip.fluid_storage_capacity_mult",
+                                                            tier,
+                                                            DualHatchPartMachine.getTankCapacity(
+                                                                    DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)));
+                                            components.add(shareEnabled);
+                                            SFTTooltipsBuilder.of().modifiedBySFT().addTo(components);
+                                        }));
             }
         }
     }
 
     public static void GTMultiTweaks() {
-        MachineDefinition[] machines = new MachineDefinition[]{
-                ASSEMBLY_LINE,
-                IMPLOSION_COMPRESSOR,
-                PYROLYSE_OVEN,
-                VACUUM_FREEZER
+        MachineDefinition[] machines = new MachineDefinition[] {
+                ASSEMBLY_LINE, IMPLOSION_COMPRESSOR, PYROLYSE_OVEN, VACUUM_FREEZER
         };
 
         for (var machine : machines) {
             machine.setRecipeModifier(
-                    new RecipeModifierList(
-                            OC_HALF_PERFECT,
-                            GTRecipeModifiers.BATCH_MODE
-                    )
-            );
+                    new RecipeModifierList(OC_HALF_PERFECT, GTRecipeModifiers.BATCH_MODE));
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of().halfPerfectOverlock().addTo(components))
-            );
+                    machine
+                            .getTooltipBuilder()
+                            .andThen(
+                                    (stack, components) -> SFTTooltipsBuilder.of().halfPerfectOverlock()
+                                            .addTo(components)));
         }
-
     }
 
     public static void GTPerfectTweaks() {
         LARGE_CHEMICAL_REACTOR.setTooltipBuilder(
-                LARGE_CHEMICAL_REACTOR.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of().perfectOverlock().addTo(components))
-        );
+                LARGE_CHEMICAL_REACTOR
+                        .getTooltipBuilder()
+                        .andThen(
+                                (stack, components) -> SFTTooltipsBuilder.of().perfectOverlock().addTo(components)));
     }
 
     public static void GCYMTweaks() {
-        MachineDefinition[] machines = new MachineDefinition[]{
+        MachineDefinition[] machines = new MachineDefinition[] {
                 LARGE_ARC_SMELTER,
                 LARGE_ASSEMBLER,
                 LARGE_AUTOCLAVE,
@@ -139,15 +145,17 @@ public final class GTMultimachineTweaks {
                             GTRecipeModifiers.PARALLEL_HATCH,
                             OC_HALF_PERFECT_SUBTICK,
                             GCYM_MACHINE_REDUCE,
-                            GTRecipeModifiers.BATCH_MODE
-                    )
-            );
+                            GTRecipeModifiers.BATCH_MODE));
 
             machine.setTooltipBuilder(
-                    machine.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of().gcymReduce()
-                            .halfPerfectOverlock()
-                            .modifiedBySFT().addTo(components))
-            );
+                    machine
+                            .getTooltipBuilder()
+                            .andThen(
+                                    (stack, components) -> SFTTooltipsBuilder.of()
+                                            .gcymReduce()
+                                            .halfPerfectOverlock()
+                                            .modifiedBySFT()
+                                            .addTo(components)));
         }
     }
 
@@ -158,17 +166,17 @@ public final class GTMultimachineTweaks {
                         GTRecipeModifiers::ebfOverclock,
                         GCYM_MACHINE_REDUCE,
                         MEGA_COIL_MACHINE_REDUCE,
-                        GTRecipeModifiers.BATCH_MODE
-                )
-        );
+                        GTRecipeModifiers.BATCH_MODE));
 
         MEGA_BLAST_FURNACE.setTooltipBuilder(
-                MEGA_BLAST_FURNACE.getTooltipBuilder().andThen((stack, components) -> SFTTooltipsBuilder.of()
-                        .energyMultiplier(GCYM_EUT_MULTIPLIER)
-                        .timeMultiplier(GCYM_DURATION_MULTIPLIER)
-                        .megaReduceWithCoil()
-                        .modifiedBySFT().addTo(components)
-                )
-        );
+                MEGA_BLAST_FURNACE
+                        .getTooltipBuilder()
+                        .andThen(
+                                (stack, components) -> SFTTooltipsBuilder.of()
+                                        .energyMultiplier(GCYM_EUT_MULTIPLIER)
+                                        .timeMultiplier(GCYM_DURATION_MULTIPLIER)
+                                        .megaReduceWithCoil()
+                                        .modifiedBySFT()
+                                        .addTo(components)));
     }
 }

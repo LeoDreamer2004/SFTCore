@@ -1,19 +1,23 @@
 package org.leodreamer.sftcore.api.feature;
 
+import org.leodreamer.sftcore.util.RLUtils;
+
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+
 import net.minecraft.world.item.ItemStack;
+
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.util.RLUtils;
 
 import java.util.function.Consumer;
 
 public interface IMachineAdjustment extends IMultiPart {
+
     ItemStack getInnerMachineStack();
 
     @Nullable
@@ -25,9 +29,7 @@ public interface IMachineAdjustment extends IMultiPart {
         var item = stack.getItem();
         var rl = RLUtils.getItemRL(item);
         var def = GTRegistries.MACHINES.get(rl);
-        if (def == null || def instanceof MultiblockMachineDefinition
-                || def.getRecipeTypes().length == 0)
-            return null;
+        if (def == null || def instanceof MultiblockMachineDefinition || def.getRecipeTypes().length == 0) return null;
         return def;
     }
 

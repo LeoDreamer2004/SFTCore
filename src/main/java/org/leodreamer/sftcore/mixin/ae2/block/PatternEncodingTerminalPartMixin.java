@@ -1,10 +1,11 @@
 package org.leodreamer.sftcore.mixin.ae2.block;
 
+import net.minecraft.world.item.ItemStack;
+
 import appeng.api.parts.IPartItem;
 import appeng.parts.encoding.PatternEncodingLogic;
 import appeng.parts.encoding.PatternEncodingTerminalPart;
 import appeng.parts.reporting.AbstractTerminalPart;
-import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Mixin(PatternEncodingTerminalPart.class)
 public class PatternEncodingTerminalPartMixin extends AbstractTerminalPart {
+
     @Shadow(remap = false)
     @Final
     private PatternEncodingLogic logic;

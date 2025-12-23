@@ -13,24 +13,35 @@ import java.util.regex.Pattern;
 
 public final class MultiBlockFileReader {
 
-    private MultiBlockFileReader() {
-    }
+    private MultiBlockFileReader() {}
 
     public static FactoryBlockPattern start(MultiblockMachineDefinition definition) {
-        return start(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT, definition.getName());
+        return start(
+                RelativeDirection.LEFT,
+                RelativeDirection.UP,
+                RelativeDirection.FRONT,
+                definition.getName());
     }
 
     public static FactoryBlockPattern start(String name) {
         return start(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT, name);
     }
 
-    public static FactoryBlockPattern start(MultiblockMachineDefinition definition, RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir) {
+    public static FactoryBlockPattern start(
+                                            MultiblockMachineDefinition definition,
+                                            RelativeDirection charDir,
+                                            RelativeDirection stringDir,
+                                            RelativeDirection aisleDir) {
         return start(charDir, stringDir, aisleDir, definition.getName());
     }
 
     static Pattern regex = Pattern.compile("\"([^\"]*)\"");
 
-    private static FactoryBlockPattern start(RelativeDirection charDir, RelativeDirection stringDir, RelativeDirection aisleDir, String name) {
+    private static FactoryBlockPattern start(
+                                             RelativeDirection charDir,
+                                             RelativeDirection stringDir,
+                                             RelativeDirection aisleDir,
+                                             String name) {
         var pattern = FactoryBlockPattern.start(charDir, stringDir, aisleDir);
         var stream = MultiBlockFileReader.class.getClassLoader().getResourceAsStream("pattern/" + name + ".mbp");
         if (stream == null) throw new RuntimeException("pattern not found: " + name);

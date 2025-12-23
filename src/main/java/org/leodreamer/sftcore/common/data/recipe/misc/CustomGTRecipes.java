@@ -1,19 +1,5 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
-import appeng.core.definitions.AEItems;
-import com.blakebr0.extendedcrafting.init.ModBlocks;
-import com.glodblock.github.extendedae.common.EPPItemAndBlock;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.data.recipe.CustomTags;
-import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
-import com.simibubi.create.AllItems;
-import mekanism.common.registries.MekanismFluids;
-import mekanism.common.registries.MekanismItems;
-import mekanism.generators.common.registries.GeneratorsFluids;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTMaterials;
@@ -23,6 +9,23 @@ import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import org.leodreamer.sftcore.integration.IntegrateMods;
 import org.leodreamer.sftcore.util.RLUtils;
+
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
+
+import appeng.core.definitions.AEItems;
+import com.blakebr0.extendedcrafting.init.ModBlocks;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import com.simibubi.create.AllItems;
+import mekanism.common.registries.MekanismFluids;
+import mekanism.common.registries.MekanismItems;
+import mekanism.generators.common.registries.GeneratorsFluids;
 
 import java.util.function.Consumer;
 
@@ -36,8 +39,10 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.FISHBIG_M
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.HURRY_UP_RECIPES;
 
 public final class CustomGTRecipes {
+
     public static void init(Consumer<FinishedRecipe> provider) {
-        CHEMICAL_BATH_RECIPES.recipeBuilder(SFTCore.id("uu_matter"))
+        CHEMICAL_BATH_RECIPES
+                .recipeBuilder(SFTCore.id("uu_matter"))
                 .outputItems(SFTItems.UU_MATTER)
                 .inputItems(Items.COBBLESTONE, 2)
                 .inputFluids(Lava.getFluid(100))
@@ -47,7 +52,8 @@ public final class CustomGTRecipes {
 
         var torcherino = RLUtils.getItemById(IntegrateMods.TORCHERINO, "torcherino");
         if (torcherino != null) {
-            HURRY_UP_RECIPES.recipeBuilder(SFTCore.id("hurry_up"))
+            HURRY_UP_RECIPES
+                    .recipeBuilder(SFTCore.id("hurry_up"))
                     .outputItems(torcherino, 2)
                     .inputItems(MekanismItems.ANTIMATTER_PELLET)
                     .inputItems(Items.TORCH, 64)
@@ -56,7 +62,8 @@ public final class CustomGTRecipes {
                     .EUt(VA[HV])
                     .save(provider);
 
-            HURRY_UP_RECIPES.recipeBuilder(SFTCore.id("time_bottle"))
+            HURRY_UP_RECIPES
+                    .recipeBuilder(SFTCore.id("time_bottle"))
                     .outputItems(SFTItems.TIME_BOTTLE)
                     .inputItems(torcherino, 9)
                     .inputItems(GTBlocks.INDUSTRIAL_TNT, 64)
@@ -93,7 +100,8 @@ public final class CustomGTRecipes {
                 .inputStress(131072)
                 .save(provider);
 
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("ore_generator"))
+        ASSEMBLER_RECIPES
+                .recipeBuilder(SFTCore.id("ore_generator"))
                 .outputItems(SFTSingleMachines.ORE_REPLICATOR.asStack())
                 .notConsumable(EPPItemAndBlock.FISHBIG.asItem())
                 .inputItems(MekanismItems.ULTIMATE_CONTROL_CIRCUIT, 4)
@@ -103,7 +111,8 @@ public final class CustomGTRecipes {
                 .EUt(VA[LV])
                 .save(provider);
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id("configurable_auto_maintenance_hatch"))
+        ASSEMBLY_LINE_RECIPES
+                .recipeBuilder(SFTCore.id("configurable_auto_maintenance_hatch"))
                 .outputItems(SFTPartMachines.CONFIGURABLE_AUTO_MAINTENANCE_HATCH)
                 .inputItems(frameGt, HastelloyX)
                 .inputItems(AUTO_MAINTENANCE_HATCH)
@@ -116,10 +125,8 @@ public final class CustomGTRecipes {
                 .inputItems(foil, TungstenSteel, 64)
                 .inputFluids(Polybenzimidazole.getFluid(L * 8))
                 .inputFluids(Lubricant.getFluid(4000))
-                .scannerResearch(b -> b
-                        .researchStack(AUTO_MAINTENANCE_HATCH.asStack())
-                        .duration(1500)
-                        .EUt(VA[IV]))
+                .scannerResearch(
+                        b -> b.researchStack(AUTO_MAINTENANCE_HATCH.asStack()).duration(1500).EUt(VA[IV]))
                 .duration(800)
                 .EUt(VA[LuV])
                 .save(provider);
@@ -134,7 +141,8 @@ public final class CustomGTRecipes {
                 .save(provider);
 
         for (int tier : tiersBetween(LV, EV)) {
-            ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
+            ASSEMBLER_RECIPES
+                    .recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
                     .outputItems(SFTItems.COVER_ACCELERATES[tier])
                     .inputItems(AEItems.SPEED_CARD, 1 << tier)
                     .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 4)
@@ -143,14 +151,16 @@ public final class CustomGTRecipes {
                     .inputItems(GTCraftingComponents.CABLE_DOUBLE.get(tier + 1), 2 + tier * 2)
                     .inputItems(GTCraftingComponents.ROBOT_ARM.get(tier), 4)
                     .inputItems(GTCraftingComponents.FIELD_GENERATOR.get(tier), tier / 2 + 1)
-                    .inputFluids(tier <= MV ? Glue.getFluid(1500 << tier) : Polyethylene.getFluid(L * 2 << tier))
+                    .inputFluids(
+                            tier <= MV ? Glue.getFluid(1500 << tier) : Polyethylene.getFluid(L * 2 << tier))
                     .duration(1000)
                     .EUt(VA[tier + 1])
                     .save(provider);
         }
 
         for (int tier : tiersBetween(IV, LuV)) {
-            ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
+            ASSEMBLY_LINE_RECIPES
+                    .recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
                     .outputItems(SFTItems.COVER_ACCELERATES[tier])
                     .inputItems(AEItems.SPEED_CARD, 1 << tier)
                     .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 8)
@@ -161,10 +171,10 @@ public final class CustomGTRecipes {
                     .inputItems(GTCraftingComponents.ROBOT_ARM.get(tier), 8)
                     .inputItems(GTCraftingComponents.FIELD_GENERATOR.get(tier), 4)
                     .inputFluids(Polybenzimidazole.getFluid(L * 2 << tier))
-                    .scannerResearch(b -> b
-                            .researchStack(SFTItems.COVER_ACCELERATES[tier - 1].asStack())
-                            .duration(2000)
-                            .EUt(VA[tier]))
+                    .scannerResearch(
+                            b -> b.researchStack(SFTItems.COVER_ACCELERATES[tier - 1].asStack())
+                                    .duration(2000)
+                                    .EUt(VA[tier]))
                     .duration(1200)
                     .EUt(VA[tier + 1])
                     .save(provider);
@@ -175,6 +185,7 @@ public final class CustomGTRecipes {
                 .arg('A', new MaterialEntry(ingot, Aluminium))
                 .arg('B', Items.PAPER)
                 .arg('C', ItemTags.PLANKS)
-                .output(SFTItems.ORDER);
+                .output(SFTItems.ORDER)
+                .save(provider);
     }
 }

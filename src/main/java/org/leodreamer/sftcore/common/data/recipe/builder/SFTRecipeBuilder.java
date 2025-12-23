@@ -1,19 +1,22 @@
 package org.leodreamer.sftcore.common.data.recipe.builder;
 
+import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
+import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
+
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
-import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
+
+import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Supplier;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -59,7 +62,6 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
         return this;
     }
 
-
     @Override
     public SFTRecipeBuilder inputItems(Supplier<? extends Item> input) {
         super.inputItems(input);
@@ -89,7 +91,6 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
         super.outputItems(output);
         return this;
     }
-
 
     @Override
     public SFTRecipeBuilder outputItems(ItemStack output) {

@@ -1,24 +1,5 @@
 package org.leodreamer.sftcore.common.data.machine;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import dev.engine_room.flywheel.api.visualization.VisualizationContext;
-import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.block.KineticMachineBlock;
 import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
@@ -32,6 +13,28 @@ import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableCleanin
 import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHatchPartMachine;
 import org.leodreamer.sftcore.common.visual.SplitShaftVisual;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.engine_room.flywheel.api.visualization.VisualizationContext;
+import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
+
 import java.util.Locale;
 import java.util.function.BiFunction;
 
@@ -44,7 +47,10 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
 public final class SFTPartMachines {
 
-    public static final MachineDefinition CONFIGURABLE_AUTO_MAINTENANCE_HATCH = REGISTRATE.machine("configurable_auto_maintenance_hatch", ConfigurableAutoMaintenanceHatchPartMachine::new)
+    public static final MachineDefinition CONFIGURABLE_AUTO_MAINTENANCE_HATCH = REGISTRATE
+            .machine(
+                    "configurable_auto_maintenance_hatch",
+                    ConfigurableAutoMaintenanceHatchPartMachine::new)
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(IS_FORMED, false)
@@ -53,8 +59,11 @@ public final class SFTPartMachines {
             .tier(IV)
             .register();
 
-    public static final MachineDefinition CONFIGURABLE_CLEANING_MAINTENANCE_HATCH = REGISTRATE.machine("configurable_cleaning_maintenance_hatch",
-                    (holder) -> new ConfigurableCleaningMaintenanceHatchPartMachine(holder, CleanroomType.CLEANROOM))
+    public static final MachineDefinition CONFIGURABLE_CLEANING_MAINTENANCE_HATCH = REGISTRATE
+            .machine(
+                    "configurable_cleaning_maintenance_hatch",
+                    (holder) -> new ConfigurableCleaningMaintenanceHatchPartMachine(
+                            holder, CleanroomType.CLEANROOM))
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(IS_FORMED, false)
@@ -63,10 +72,12 @@ public final class SFTPartMachines {
             .tier(LuV)
             .register();
 
-    public static final MachineDefinition MACHINE_ADJUSTMENT = REGISTRATE.machine("machine_adjustment_hatch", MachineAdjustmentHatchPartMachine::new)
+    public static final MachineDefinition MACHINE_ADJUSTMENT = REGISTRATE
+            .machine("machine_adjustment_hatch", MachineAdjustmentHatchPartMachine::new)
             .rotationState(RotationState.ALL)
             .abilities(SFTPartAbility.MACHINE_ADJUSTMENT)
-            .colorOverlayTieredHullModel("overlay_machine_in_emissive", null, "overlay_machine_holder")
+            .colorOverlayTieredHullModel(
+                    "overlay_machine_in_emissive", null, "overlay_machine_holder")
             .tier(LV)
             .allowCoverOnFront(true)
             .register();
@@ -84,13 +95,12 @@ public final class SFTPartMachines {
                     .tooltips(
                             Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
                             Component.translatable(
-                                    "gtceu.universal.tooltip.item_storage_capacity",
-                                    (int) Math.pow(tier, 2)),
+                                    "gtceu.universal.tooltip.item_storage_capacity", (int) Math.pow(tier, 2)),
                             Component.translatable(
                                     "gtceu.universal.tooltip.fluid_storage_capacity_mult",
                                     tier,
-                                    DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY,
-                                            tier)),
+                                    DualHatchPartMachine.getTankCapacity(
+                                            DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                             Component.translatable("gtceu.part_sharing.enabled"))
                     .tooltips(SFTTooltipsBuilder.of().modifiedBySFT().list())
                     .register(),
@@ -108,8 +118,7 @@ public final class SFTPartMachines {
                     .tooltips(
                             Component.translatable("gtceu.machine.dual_hatch.export.tooltip"),
                             Component.translatable(
-                                    "gtceu.universal.tooltip.item_storage_capacity",
-                                    (int) Math.pow(tier, 2)),
+                                    "gtceu.universal.tooltip.item_storage_capacity", (int) Math.pow(tier, 2)),
                             Component.translatable(
                                     "gtceu.universal.tooltip.fluid_storage_capacity_mult",
                                     tier,
@@ -119,7 +128,8 @@ public final class SFTPartMachines {
                     .register(),
             GTValues.tiersBetween(LV, IV));
 
-    public static final KineticMachineDefinition[] KINETIC_INPUT_BOX = registerKineticTieredMachines("kinetic_input_box",
+    public static final KineticMachineDefinition[] KINETIC_INPUT_BOX = registerKineticTieredMachines(
+            "kinetic_input_box",
             (tier, id) -> new KineticMachineDefinition(id, false, GTValues.V[tier]).setFrontRotation(true),
             (holder, tier) -> new KineticPartMachine(holder, tier, IO.IN),
             (tier, builder) -> builder
@@ -128,26 +138,29 @@ public final class SFTPartMachines {
                     .blockProp(BlockBehaviour.Properties::dynamicShape)
                     .blockProp(BlockBehaviour.Properties::noOcclusion)
                     .abilities(SFTPartAbility.INPUT_KINETIC)
-                    .model(SFTMachineModels.createTieredCustomModel(SFTCore.id("block/machine/part/kinetic_input_box")))
+                    .model(
+                            SFTMachineModels.createTieredCustomModel(
+                                    SFTCore.id("block/machine/part/kinetic_input_box")))
                     .tier(tier)
                     .register(),
-            () -> (VisualizationContext var1, KineticMachineBlockEntity var2, float var3) -> new SplitShaftVisual(var1, var2, var3),
+            () -> (VisualizationContext var1, KineticMachineBlockEntity var2, float var3) -> new SplitShaftVisual(var1,
+                    var2, var3),
             false,
-            GTValues.tiersBetween(LV, EV)
-    );
+            GTValues.tiersBetween(LV, EV));
 
     public static KineticMachineDefinition[] registerKineticTieredMachines(
-            String name,
-            BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
-            BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-            BiFunction<Integer, MachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
-            NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
-            boolean renderNormally,
-            int[] tiers
-    ) {
+                                                                           String name,
+                                                                           BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
+                                                                           BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
+                                                                           BiFunction<Integer, MachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
+                                                                           NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
+                                                                           boolean renderNormally,
+                                                                           int[] tiers) {
         KineticMachineDefinition[] definitions = new KineticMachineDefinition[GTValues.TIER_COUNT];
         for (int tier : tiers) {
-            var register = REGISTRATE.machine(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
+            var register = REGISTRATE
+                    .machine(
+                            GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
                             id -> definitionFactory.apply(tier, id),
                             holder -> factory.apply(holder, tier),
                             KineticMachineBlock::new,
@@ -155,13 +168,13 @@ public final class SFTPartMachines {
                             KineticMachineBlockEntity::create)
                     .tier(tier)
                     .hasBER(visualFactory != null)
-                    .onBlockEntityRegister(type -> KineticMachineBlockEntity.onBlockEntityRegister(type,
-                            visualFactory, renderNormally));
+                    .onBlockEntityRegister(
+                            type -> KineticMachineBlockEntity.onBlockEntityRegister(
+                                    type, visualFactory, renderNormally));
             definitions[tier] = builder.apply(tier, register);
         }
         return definitions;
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 }

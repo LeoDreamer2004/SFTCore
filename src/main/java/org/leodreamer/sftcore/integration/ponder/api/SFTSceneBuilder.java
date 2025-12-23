@@ -1,11 +1,5 @@
 package org.leodreamer.sftcore.integration.ponder.api;
 
-import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
-import net.createmod.ponder.api.element.ElementLink;
-import net.createmod.ponder.api.element.EntityElement;
-import net.createmod.ponder.api.element.TextElementBuilder;
-import net.createmod.ponder.api.scene.SceneBuilder;
-import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -13,12 +7,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
+import net.createmod.ponder.api.element.ElementLink;
+import net.createmod.ponder.api.element.EntityElement;
+import net.createmod.ponder.api.element.TextElementBuilder;
+import net.createmod.ponder.api.scene.SceneBuilder;
+import net.createmod.ponder.api.scene.Selection;
+
 import java.util.function.UnaryOperator;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SFTSceneBuilder extends CreateSceneBuilder {
+
     private final SFTWorldInstructions world;
 
     public SFTSceneBuilder(SceneBuilder baseSceneBuilder) {
@@ -36,6 +39,7 @@ public class SFTSceneBuilder extends CreateSceneBuilder {
     }
 
     public class SFTWorldInstructions extends WorldInstructions {
+
         public void killEntity(ElementLink<EntityElement> entity) {
             modifyEntity(entity, Entity::kill);
         }

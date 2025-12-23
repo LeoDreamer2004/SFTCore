@@ -1,10 +1,12 @@
 package org.leodreamer.sftcore.api.machine;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+
+import net.minecraft.resources.ResourceLocation;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.resources.ResourceLocation;
 
 @Accessors(chain = true)
 public class KineticMachineDefinition extends MachineDefinition {

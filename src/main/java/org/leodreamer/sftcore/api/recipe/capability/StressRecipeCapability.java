@@ -8,7 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class StressRecipeCapability extends RecipeCapability<Float> {
-    public final static StressRecipeCapability CAP = new StressRecipeCapability();
+
+    public static final StressRecipeCapability CAP = new StressRecipeCapability();
 
     protected StressRecipeCapability() {
         super("su", 0xFF77A400, false, 4, SerializerFloat.INSTANCE);

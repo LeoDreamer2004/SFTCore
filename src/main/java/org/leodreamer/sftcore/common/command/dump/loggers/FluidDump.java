@@ -6,6 +6,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
 
 public class FluidDump implements IDump {
+
     @Override
     public String getTypeName() {
         return "Fluid";
@@ -14,27 +15,29 @@ public class FluidDump implements IDump {
     @Override
     public Map<String, List<String>> getIdentifierMap() {
         Map<String, List<String>> idMap = new HashMap<>();
-        ForgeRegistries.FLUIDS.getKeys()
-                .forEach(location -> {
-                    String namespace = location.getNamespace();
-                    if (!idMap.containsKey(namespace))
-                        idMap.put(namespace, new LinkedList<>());
-                    idMap.get(namespace).add(location.getPath());
-                });
+        ForgeRegistries.FLUIDS
+                .getKeys()
+                .forEach(
+                        location -> {
+                            String namespace = location.getNamespace();
+                            if (!idMap.containsKey(namespace)) idMap.put(namespace, new LinkedList<>());
+                            idMap.get(namespace).add(location.getPath());
+                        });
         return idMap;
     }
 
     @Override
     public Map<String, List<String>> getTagMap() {
         Map<String, List<String>> tagMap = new HashMap<>();
-        Objects.requireNonNull(ForgeRegistries.FLUIDS.tags()).getTagNames()
+        Objects.requireNonNull(ForgeRegistries.FLUIDS.tags())
+                .getTagNames()
                 .map(TagKey::location)
-                .forEach(location -> {
-                    String namespace = "#" + location.getNamespace();
-                    if (!tagMap.containsKey(namespace))
-                        tagMap.put(namespace, new LinkedList<>());
-                    tagMap.get(namespace).add(location.getPath());
-                });
+                .forEach(
+                        location -> {
+                            String namespace = "#" + location.getNamespace();
+                            if (!tagMap.containsKey(namespace)) tagMap.put(namespace, new LinkedList<>());
+                            tagMap.get(namespace).add(location.getPath());
+                        });
         return tagMap;
     }
 }
