@@ -39,7 +39,7 @@ import java.util.Objects;
 
 @DataGenScanned
 public class OrderBehavior
-                           implements IItemUIFactory, IFancyUIProvider, ICustomDescriptionId, IAddInformation {
+    implements IItemUIFactory, IFancyUIProvider, ICustomDescriptionId, IAddInformation {
 
     private InteractionHand hand;
 
@@ -52,7 +52,7 @@ public class OrderBehavior
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder heldItemHolder, Player player) {
         return new ModularUI(176, 166, heldItemHolder, player)
-                .widget(new FancyMachineUIWidget(this, 176, 166));
+            .widget(new FancyMachineUIWidget(this, 176, 166));
     }
 
     public static ItemStack setTarget(ItemStack stack, ItemStack target) {
@@ -141,8 +141,12 @@ public class OrderBehavior
     static final String TOOLTIP_2 = "item.sftcore.order.tooltip.2";
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list,
-                                TooltipFlag tooltipFlag) {
+    public void appendHoverText(
+        ItemStack itemStack,
+        @Nullable Level level,
+        List<Component> list,
+        TooltipFlag tooltipFlag
+    ) {
         list.add(Component.translatable(TOOLTIP_0));
         list.add(Component.translatable(TOOLTIP_1));
         list.add(Component.translatable(TOOLTIP_2).withStyle(ChatFormatting.DARK_AQUA));

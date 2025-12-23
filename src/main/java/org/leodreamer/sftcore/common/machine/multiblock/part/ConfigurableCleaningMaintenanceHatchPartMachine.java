@@ -15,7 +15,7 @@ import java.util.Collections;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
 public class ConfigurableCleaningMaintenanceHatchPartMachine
-                                                             extends ConfigurableAutoMaintenanceHatchPartMachine {
+    extends ConfigurableAutoMaintenanceHatchPartMachine {
 
     private final ICleanroomProvider DUMMY_CLEANROOM;
 
@@ -23,7 +23,9 @@ public class ConfigurableCleaningMaintenanceHatchPartMachine
     private final CleanroomType cleanroomType;
 
     public ConfigurableCleaningMaintenanceHatchPartMachine(
-                                                           IMachineBlockEntity holder, CleanroomType cleanroomType) {
+        IMachineBlockEntity holder,
+        CleanroomType cleanroomType
+    ) {
         super(holder);
         this.cleanroomType = cleanroomType;
         DUMMY_CLEANROOM = DummyCleanroom.createForTypes(Collections.singletonList(cleanroomType));

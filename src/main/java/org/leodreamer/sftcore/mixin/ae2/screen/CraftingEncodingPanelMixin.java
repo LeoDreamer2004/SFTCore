@@ -32,17 +32,22 @@ public abstract class CraftingEncodingPanelMixin extends EncodingModePanel {
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void initWithNewBtn(PatternEncodingTermScreen<?> screen, WidgetContainer widgets, CallbackInfo ci) {
         var button = new ToggleButton(
-                Icon.PATTERN_TERMINAL_ALL,
-                Icon.PATTERN_TERMINAL_VISIBLE,
-                ((ISendToAssemblyMatrix) menu)::sftcore$setTransferToMatrix);
+            Icon.PATTERN_TERMINAL_ALL,
+            Icon.PATTERN_TERMINAL_VISIBLE,
+            ((ISendToAssemblyMatrix) menu)::sftcore$setTransferToMatrix
+        );
         button.setTooltipOn(
-                List.of(
-                        Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_ON),
-                        Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_DESC_ENABLED)));
+            List.of(
+                Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_ON),
+                Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_DESC_ENABLED)
+            )
+        );
         button.setTooltipOff(
-                List.of(
-                        Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_OFF),
-                        Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_DESC_DISABLED)));
+            List.of(
+                Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_OFF),
+                Component.translatable(MixinTooltips.SEND_TO_ASSEMBLY_MATRIX_DESC_DISABLED)
+            )
+        );
         button.setHalfSize(true);
         widgets.add("craftingAutoTransfer", button);
         sftcore$transferToMatrixBtn = button;
@@ -51,7 +56,8 @@ public abstract class CraftingEncodingPanelMixin extends EncodingModePanel {
     @Inject(method = "updateBeforeRender", at = @At("TAIL"), remap = false)
     private void updateWithNewBtn(CallbackInfo ci) {
         sftcore$transferToMatrixBtn.setState(
-                ((ISendToAssemblyMatrix) menu).sftcore$getTransferToMatrix());
+            ((ISendToAssemblyMatrix) menu).sftcore$getTransferToMatrix()
+        );
     }
 
     @Inject(method = "setVisible", at = @At("TAIL"), remap = false)

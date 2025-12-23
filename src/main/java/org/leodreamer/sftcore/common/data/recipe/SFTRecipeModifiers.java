@@ -24,31 +24,35 @@ public final class SFTRecipeModifiers {
 
     public static double HALF_DURATION_FACTOR = 0.33;
 
-    public static final OverclockingLogic HALF_PERFECT_OVERCLOCK_SUBTICK = create(HALF_DURATION_FACTOR,
-            STD_VOLTAGE_FACTOR, true);
+    public static final OverclockingLogic HALF_PERFECT_OVERCLOCK_SUBTICK = create(
+        HALF_DURATION_FACTOR,
+        STD_VOLTAGE_FACTOR, true
+    );
     public static final RecipeModifier OC_HALF_PERFECT_SUBTICK = ELECTRIC_OVERCLOCK
-            .apply(HALF_PERFECT_OVERCLOCK_SUBTICK);
+        .apply(HALF_PERFECT_OVERCLOCK_SUBTICK);
 
     public record SimpleMultiplierModifier(double eutMultiplier, double durationMultiplier)
-            implements RecipeModifier {
+        implements RecipeModifier {
 
         @Override
         public @NotNull ModifierFunction getModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
             return ModifierFunction.builder()
-                    .eutMultiplier(eutMultiplier)
-                    .durationMultiplier(durationMultiplier)
-                    .build();
+                .eutMultiplier(eutMultiplier)
+                .durationMultiplier(durationMultiplier)
+                .build();
         }
     }
 
     public static final double GCYM_EUT_MULTIPLIER = 0.8;
     public static final double GCYM_DURATION_MULTIPLIER = 0.6;
     public static final RecipeModifier GCYM_MACHINE_REDUCE = new SFTRecipeModifiers.SimpleMultiplierModifier(
-            GCYM_EUT_MULTIPLIER, GCYM_DURATION_MULTIPLIER);
+        GCYM_EUT_MULTIPLIER, GCYM_DURATION_MULTIPLIER
+    );
 
     public record CoilReductionModifier(
-                                        int coilTempLevel, double eutMultiplier, double durationMultiplier)
-            implements RecipeModifier {
+        int coilTempLevel, double eutMultiplier, double durationMultiplier
+    )
+        implements RecipeModifier {
 
         @Override
         public @NotNull ModifierFunction getModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
@@ -58,9 +62,9 @@ public final class SFTRecipeModifiers {
             var tier = Math.floor((float) temp / coilTempLevel);
 
             return ModifierFunction.builder()
-                    .eutMultiplier(Math.pow(eutMultiplier, tier))
-                    .durationMultiplier(Math.pow(durationMultiplier, tier))
-                    .build();
+                .eutMultiplier(Math.pow(eutMultiplier, tier))
+                .durationMultiplier(Math.pow(durationMultiplier, tier))
+                .build();
         }
     }
 
@@ -68,7 +72,8 @@ public final class SFTRecipeModifiers {
     public static final double MEGA_COIL_EUT_MULTIPLIER = 0.9;
     public static final double MEGA_COIL_DURATION_MULTIPLIER = 0.85;
     public static final RecipeModifier MEGA_COIL_MACHINE_REDUCE = new CoilReductionModifier(
-            MEGA_COIL_TEMP_LEVEL, MEGA_COIL_EUT_MULTIPLIER, MEGA_COIL_DURATION_MULTIPLIER);
+        MEGA_COIL_TEMP_LEVEL, MEGA_COIL_EUT_MULTIPLIER, MEGA_COIL_DURATION_MULTIPLIER
+    );
 
     @NotNull
     public static ModifierFunction largeCrackerOverlock(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
@@ -77,9 +82,9 @@ public final class SFTRecipeModifiers {
         }
 
         return ModifierFunction.builder()
-                .eutMultiplier(1.0 - coilMachine.getCoilTier() * 0.1)
-                .durationMultiplier(1.0 - coilMachine.getCoilTier() * 0.1)
-                .build();
+            .eutMultiplier(1.0 - coilMachine.getCoilTier() * 0.1)
+            .durationMultiplier(1.0 - coilMachine.getCoilTier() * 0.1)
+            .build();
     }
 
     @NotNull
@@ -97,19 +102,19 @@ public final class SFTRecipeModifiers {
         if (parallels == 1) return ModifierFunction.IDENTITY;
 
         return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(parallels))
-                .eutMultiplier(parallels)
-                .parallels(parallels)
-                .build();
+            .modifyAllContents(ContentModifier.multiplier(parallels))
+            .eutMultiplier(parallels)
+            .parallels(parallels)
+            .build();
     }
 
     @NotNull
     public static ModifierFunction gasCollectorParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         int parallels = ParallelLogic.getParallelAmount(machine, recipe, Integer.MAX_VALUE);
         return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(parallels))
-                .eutMultiplier(parallels)
-                .parallels(parallels)
-                .build();
+            .modifyAllContents(ContentModifier.multiplier(parallels))
+            .eutMultiplier(parallels)
+            .parallels(parallels)
+            .build();
     }
 }

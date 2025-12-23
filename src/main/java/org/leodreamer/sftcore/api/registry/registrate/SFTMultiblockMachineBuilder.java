@@ -58,17 +58,19 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
 
     public SFTMultiblockMachineBuilder(
-                                       SFTRegistrate registrate,
-                                       String name,
-                                       Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine,
-                                       BiFunction<BlockBehaviour.Properties, MultiblockMachineDefinition, IMachineBlock> blockFactory,
-                                       BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                                       TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+        SFTRegistrate registrate,
+        String name,
+        Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine,
+        BiFunction<BlockBehaviour.Properties, MultiblockMachineDefinition, IMachineBlock> blockFactory,
+        BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+        TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory
+    ) {
         super(registrate, name, metaMachine, blockFactory, itemFactory, blockEntityFactory);
     }
 
     public SFTMultiblockMachineBuilder tooltips(
-                                                Function<SFTMultiblockMachineBuilder, SFTTooltipsBuilder> tooltipsBuilder) {
+        Function<SFTMultiblockMachineBuilder, SFTTooltipsBuilder> tooltipsBuilder
+    ) {
         return this.tooltips(tooltipsBuilder.apply(this).list());
     }
 
@@ -91,7 +93,8 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
 
     @Override
     public SFTMultiblockMachineBuilder blockModel(
-                                                  @Nullable NonNullBiConsumer<DataGenContext<Block, ? extends Block>, GTBlockstateProvider> blockModel) {
+        @Nullable NonNullBiConsumer<DataGenContext<Block, ? extends Block>, GTBlockstateProvider> blockModel
+    ) {
         return (SFTMultiblockMachineBuilder) super.blockModel(blockModel);
     }
 
@@ -101,10 +104,14 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder multiblockPreviewRenderer(boolean multiBlockWorldPreview,
-                                                                 boolean multiBlockXEIPreview) {
-        return (SFTMultiblockMachineBuilder) super.multiblockPreviewRenderer(multiBlockWorldPreview,
-                multiBlockXEIPreview);
+    public SFTMultiblockMachineBuilder multiblockPreviewRenderer(
+        boolean multiBlockWorldPreview,
+        boolean multiBlockXEIPreview
+    ) {
+        return (SFTMultiblockMachineBuilder) super.multiblockPreviewRenderer(
+            multiBlockWorldPreview,
+            multiBlockXEIPreview
+        );
     }
 
     @Override
@@ -197,8 +204,11 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder colorOverlayTieredHullModel(String overlay, @Nullable String pipeOverlay,
-                                                                   @Nullable String emissiveOverlay) {
+    public SFTMultiblockMachineBuilder colorOverlayTieredHullModel(
+        String overlay,
+        @Nullable String pipeOverlay,
+        @Nullable String emissiveOverlay
+    ) {
         return (SFTMultiblockMachineBuilder) super.colorOverlayTieredHullModel(overlay, pipeOverlay, emissiveOverlay);
     }
 
@@ -208,9 +218,11 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder colorOverlayTieredHullModel(ResourceLocation overlay,
-                                                                   @Nullable ResourceLocation pipeOverlay,
-                                                                   @Nullable ResourceLocation emissiveOverlay) {
+    public SFTMultiblockMachineBuilder colorOverlayTieredHullModel(
+        ResourceLocation overlay,
+        @Nullable ResourceLocation pipeOverlay,
+        @Nullable ResourceLocation emissiveOverlay
+    ) {
         return (SFTMultiblockMachineBuilder) super.colorOverlayTieredHullModel(overlay, pipeOverlay, emissiveOverlay);
     }
 
@@ -230,14 +242,18 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder sidedOverlayCasingModel(ResourceLocation baseCasing,
-                                                               ResourceLocation workableModel) {
+    public SFTMultiblockMachineBuilder sidedOverlayCasingModel(
+        ResourceLocation baseCasing,
+        ResourceLocation workableModel
+    ) {
         return (SFTMultiblockMachineBuilder) super.sidedOverlayCasingModel(baseCasing, workableModel);
     }
 
     @Override
-    public SFTMultiblockMachineBuilder sidedWorkableCasingModel(ResourceLocation baseCasing,
-                                                                ResourceLocation workableModel) {
+    public SFTMultiblockMachineBuilder sidedWorkableCasingModel(
+        ResourceLocation baseCasing,
+        ResourceLocation workableModel
+    ) {
         return (SFTMultiblockMachineBuilder) super.sidedWorkableCasingModel(baseCasing, workableModel);
     }
 
@@ -277,16 +293,20 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder colorOverlaySteamHullModel(String overlay,
-                                                                  @Nullable ResourceLocation pipeOverlay,
-                                                                  @Nullable String emissiveOverlay) {
+    public SFTMultiblockMachineBuilder colorOverlaySteamHullModel(
+        String overlay,
+        @Nullable ResourceLocation pipeOverlay,
+        @Nullable String emissiveOverlay
+    ) {
         return (SFTMultiblockMachineBuilder) super.colorOverlaySteamHullModel(overlay, pipeOverlay, emissiveOverlay);
     }
 
     @Override
-    public SFTMultiblockMachineBuilder colorOverlaySteamHullModel(ResourceLocation overlay,
-                                                                  @Nullable ResourceLocation pipeOverlay,
-                                                                  @Nullable ResourceLocation emissiveOverlay) {
+    public SFTMultiblockMachineBuilder colorOverlaySteamHullModel(
+        ResourceLocation overlay,
+        @Nullable ResourceLocation pipeOverlay,
+        @Nullable ResourceLocation emissiveOverlay
+    ) {
         return (SFTMultiblockMachineBuilder) super.colorOverlaySteamHullModel(overlay, pipeOverlay, emissiveOverlay);
     }
 
@@ -331,8 +351,10 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     @Override
-    public <T extends Comparable<T>> SFTMultiblockMachineBuilder modelProperty(Property<T> property,
-                                                                               @Nullable T defaultValue) {
+    public <T extends Comparable<T>> SFTMultiblockMachineBuilder modelProperty(
+        Property<T> property,
+        @Nullable T defaultValue
+    ) {
         return (SFTMultiblockMachineBuilder) super.modelProperty(property, defaultValue);
     }
 
@@ -382,8 +404,10 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder recipeModifiers(boolean alwaysTryModifyRecipe,
-                                                       RecipeModifier... recipeModifiers) {
+    public SFTMultiblockMachineBuilder recipeModifiers(
+        boolean alwaysTryModifyRecipe,
+        RecipeModifier... recipeModifiers
+    ) {
         return (SFTMultiblockMachineBuilder) super.recipeModifiers(alwaysTryModifyRecipe, recipeModifiers);
     }
 
@@ -428,7 +452,8 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
 
     @Override
     public SFTMultiblockMachineBuilder onBlockEntityRegister(
-                                                             NonNullConsumer<BlockEntityType<BlockEntity>> onBlockEntityRegister) {
+        NonNullConsumer<BlockEntityType<BlockEntity>> onBlockEntityRegister
+    ) {
         return (SFTMultiblockMachineBuilder) super.onBlockEntityRegister(onBlockEntityRegister);
     }
 

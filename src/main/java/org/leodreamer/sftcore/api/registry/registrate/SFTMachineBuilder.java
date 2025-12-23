@@ -35,21 +35,23 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SFTMachineBuilder<DEFINITION extends MachineDefinition>
-                              extends MachineBuilder<DEFINITION> {
+    extends MachineBuilder<DEFINITION> {
 
     public SFTMachineBuilder(
-                             GTRegistrate registrate,
-                             String name,
-                             Function<ResourceLocation, DEFINITION> definition,
-                             Function<IMachineBlockEntity, MetaMachine> machine,
-                             BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
-                             BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-                             TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory) {
+        GTRegistrate registrate,
+        String name,
+        Function<ResourceLocation, DEFINITION> definition,
+        Function<IMachineBlockEntity, MetaMachine> machine,
+        BiFunction<BlockBehaviour.Properties, DEFINITION, IMachineBlock> blockFactory,
+        BiFunction<IMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+        TriFunction<BlockEntityType<?>, BlockPos, BlockState, IMachineBlockEntity> blockEntityFactory
+    ) {
         super(registrate, name, definition, machine, blockFactory, itemFactory, blockEntityFactory);
     }
 
     public SFTMachineBuilder<DEFINITION> tooltips(
-                                                  Function<SFTMachineBuilder<DEFINITION>, SFTTooltipsBuilder> tooltipsBuilder) {
+        Function<SFTMachineBuilder<DEFINITION>, SFTTooltipsBuilder> tooltipsBuilder
+    ) {
         return this.tooltips(tooltipsBuilder.apply(this).list());
     }
 
@@ -76,8 +78,10 @@ public class SFTMachineBuilder<DEFINITION extends MachineDefinition>
     }
 
     @Override
-    public <T extends Comparable<T>> SFTMachineBuilder<DEFINITION> modelProperty(Property<T> property,
-                                                                                 @Nullable T defaultValue) {
+    public <T extends Comparable<T>> SFTMachineBuilder<DEFINITION> modelProperty(
+        Property<T> property,
+        @Nullable T defaultValue
+    ) {
         return (SFTMachineBuilder<DEFINITION>) super.modelProperty(property, defaultValue);
     }
 

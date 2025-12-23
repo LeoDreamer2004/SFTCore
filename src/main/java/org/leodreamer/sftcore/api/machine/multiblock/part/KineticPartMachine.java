@@ -26,8 +26,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class KineticPartMachine extends TieredIOPartMachine implements IKineticMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(KineticPartMachine.class,
-            TieredIOPartMachine.MANAGED_FIELD_HOLDER);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+        KineticPartMachine.class,
+        TieredIOPartMachine.MANAGED_FIELD_HOLDER
+    );
 
     @Getter
     @Persisted
@@ -91,8 +93,10 @@ public class KineticPartMachine extends TieredIOPartMachine implements IKineticM
     @Override
     public void onChanged() {
         super.onChanged();
-        if (!getControllers().isEmpty() &&
-                getControllers().first() instanceof WorkableKineticMultiblockMachine kineticMultiblockMachine) {
+        if (
+            !getControllers().isEmpty() &&
+                getControllers().first() instanceof WorkableKineticMultiblockMachine kineticMultiblockMachine
+        ) {
             kineticMultiblockMachine.onChanged();
         }
     }

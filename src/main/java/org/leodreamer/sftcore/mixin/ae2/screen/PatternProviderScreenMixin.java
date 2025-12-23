@@ -21,19 +21,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PatternProviderScreen.class)
 public class PatternProviderScreenMixin<C extends PatternProviderMenu> extends AEBaseScreen<C>
-                                       implements IReceivePrompt {
+    implements IReceivePrompt {
 
     @Unique
     private AETextField sftcore$prompt;
 
     public PatternProviderScreenMixin(
-                                      C menu, Inventory playerInventory, Component title, ScreenStyle style) {
+        C menu,
+        Inventory playerInventory,
+        Component title,
+        ScreenStyle style
+    ) {
         super(menu, playerInventory, title, style);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addPromptField(PatternProviderMenu menu, Inventory playerInventory, Component title, ScreenStyle style,
-                                CallbackInfo ci) {
+    private void addPromptField(
+        PatternProviderMenu menu,
+        Inventory playerInventory,
+        Component title,
+        ScreenStyle style,
+        CallbackInfo ci
+    ) {
         sftcore$prompt = widgets.addTextField("prompt");
         sftcore$prompt.setPlaceholder(Component.translatable(MixinTooltips.PATTERN_ENCODER_PROMPT));
 

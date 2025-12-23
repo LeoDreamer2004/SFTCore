@@ -27,13 +27,13 @@ public final class SFTRecipeRemovals {
 
     public static void init(Consumer<RecipeFilter> registry) {
         ItemLike[] GT_ITEMS = new ItemLike[] {
-                GTMachines.HULL[GTValues.LV].getItem(),
-                GTMachines.CLEANING_MAINTENANCE_HATCH.getItem(),
-                GCYMMachines.MEGA_BLAST_FURNACE.getItem(),
-                GCYMMachines.MEGA_VACUUM_FREEZER.getItem(),
-                GTItems.TERMINAL,
-                GTItems.NAQUADAH_BOULE,
-                GTItems.NEUTRONIUM_BOULE
+            GTMachines.HULL[GTValues.LV].getItem(),
+            GTMachines.CLEANING_MAINTENANCE_HATCH.getItem(),
+            GCYMMachines.MEGA_BLAST_FURNACE.getItem(),
+            GCYMMachines.MEGA_VACUUM_FREEZER.getItem(),
+            GTItems.TERMINAL,
+            GTItems.NAQUADAH_BOULE,
+            GTItems.NEUTRONIUM_BOULE
         };
 
         for (ItemLike item : GT_ITEMS) {
@@ -44,7 +44,7 @@ public final class SFTRecipeRemovals {
         registry.accept(output(CustomItems.ADVANCED_TERMINAL).and(mod(GTMT)));
 
         ItemLike[] EPP_ITEMS = new ItemLike[] {
-                EPPItemAndBlock.INFINITY_CELL, EPPItemAndBlock.WIRELESS_CONNECTOR, EPPItemAndBlock.FISHBIG
+            EPPItemAndBlock.INFINITY_CELL, EPPItemAndBlock.WIRELESS_CONNECTOR, EPPItemAndBlock.FISHBIG
         };
 
         for (ItemLike item : EPP_ITEMS) {
@@ -52,15 +52,15 @@ public final class SFTRecipeRemovals {
         }
 
         ItemLike[] AAE_ITEMS = new ItemLike[] {
-                AEItems.FLUIX_CRYSTAL,
-                MEGAItems.SKY_STEEL_INGOT,
-                AEItems.CERTUS_QUARTZ_CRYSTAL,
-                AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED,
-                AEItems.CALCULATION_PROCESSOR,
-                AEItems.LOGIC_PROCESSOR,
-                AEItems.ENGINEERING_PROCESSOR,
-                MEGAItems.ACCUMULATION_PROCESSOR,
-                AAEBlocks.REACTION_CHAMBER
+            AEItems.FLUIX_CRYSTAL,
+            MEGAItems.SKY_STEEL_INGOT,
+            AEItems.CERTUS_QUARTZ_CRYSTAL,
+            AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED,
+            AEItems.CALCULATION_PROCESSOR,
+            AEItems.LOGIC_PROCESSOR,
+            AEItems.ENGINEERING_PROCESSOR,
+            MEGAItems.ACCUMULATION_PROCESSOR,
+            AAEBlocks.REACTION_CHAMBER
         };
 
         for (ItemLike item : AAE_ITEMS) {

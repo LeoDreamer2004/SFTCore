@@ -28,14 +28,18 @@ import java.util.List;
 public class PatternContainerGroupMixin {
 
     @Inject(method = "fromMachine", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void createGroupForGTMachine(Level level, BlockPos pos, Direction side,
-                                                CallbackInfoReturnable<PatternContainerGroup> cir) {
+    private static void createGroupForGTMachine(
+        Level level,
+        BlockPos pos,
+        Direction side,
+        CallbackInfoReturnable<PatternContainerGroup> cir
+    ) {
         var machine = MetaMachine.getMachine(level, pos);
         if (machine == null) return;
 
         if (machine instanceof IHasCircuitSlot circuitMachine) {
             var circuitStack = circuitMachine.isCircuitSlotEnabled() ?
-                    circuitMachine.getCircuitInventory().getStackInSlot(0) : ItemStack.EMPTY;
+                circuitMachine.getCircuitInventory().getStackInSlot(0) : ItemStack.EMPTY;
             int circuit = circuitStack.isEmpty() ? 0 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
             String desc = machine.getDefinition().getDescriptionId();
             String circuitSuffix = circuit == 0 ? "" : " - " + circuit;
@@ -45,11 +49,13 @@ public class PatternContainerGroupMixin {
                     var controller = mbMachine.getControllers().first().self().getDefinition();
                     var name = Component.translatable(controller.getDescriptionId()).append(circuitSuffix);
                     var group = new PatternContainerGroup(
-                            AEItemKey.of(controller.asStack()),
-                            name,
-                            List.of(
-                                    Component.translatable(MixinTooltips.PART_FROM)
-                                            .append(Component.translatable(desc))));
+                        AEItemKey.of(controller.asStack()),
+                        name,
+                        List.of(
+                            Component.translatable(MixinTooltips.PART_FROM)
+                                .append(Component.translatable(desc))
+                        )
+                    );
                     cir.setReturnValue(group);
                     return;
                 }
@@ -57,7 +63,8 @@ public class PatternContainerGroupMixin {
 
             var name = Component.translatable(desc).append(circuitSuffix);
             var group = new PatternContainerGroup(
-                    AEItemKey.of(machine.getDefinition().asStack()), name, List.of());
+                AEItemKey.of(machine.getDefinition().asStack()), name, List.of()
+            );
             cir.setReturnValue(group);
         }
     }

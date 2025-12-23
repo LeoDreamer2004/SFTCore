@@ -25,21 +25,21 @@ public final class VanillaRecipes {
 
     private static void vanillaRecipes(Consumer<FinishedRecipe> provider) {
         SFTVanillaRecipeHelper.addShapedRecipe("nether_star")
-                .pattern("HHH", "SSS", " S ")
-                .arg('H', Items.WITHER_SKELETON_SKULL)
-                .arg('S', Items.SOUL_SAND)
-                .output(Items.NETHER_STAR)
-                .save(provider);
+            .pattern("HHH", "SSS", " S ")
+            .arg('H', Items.WITHER_SKELETON_SKULL)
+            .arg('S', Items.SOUL_SAND)
+            .output(Items.NETHER_STAR)
+            .save(provider);
     }
 
     private static void SFTRecipes(Consumer<FinishedRecipe> provider) {
         uuMatterRecipes(provider);
         SFTVanillaRecipeHelper.addShapedRecipe("void_portal")
-                .pattern("GGG", "GDG", "GGG")
-                .arg('G', Items.GOLD_BLOCK)
-                .arg('D', Items.DIAMOND_BLOCK)
-                .output(SFTBlocks.VOID_PORTAL)
-                .save(provider);
+            .pattern("GGG", "GDG", "GGG")
+            .arg('G', Items.GOLD_BLOCK)
+            .arg('D', Items.DIAMOND_BLOCK)
+            .output(SFTBlocks.VOID_PORTAL)
+            .save(provider);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -60,27 +60,30 @@ public final class VanillaRecipes {
 
         var mek = MekanismItems.PROCESSED_RESOURCES;
         uu(
-                provider,
-                mek.get(ResourceType.INGOT, PrimaryResource.OSMIUM).asItem(),
-                3,
-                " U ",
-                "  U",
-                "U  ");
+            provider,
+            mek.get(ResourceType.INGOT, PrimaryResource.OSMIUM).asItem(),
+            3,
+            " U ",
+            "  U",
+            "U  "
+        );
         uu(
-                provider,
-                mek.get(ResourceType.INGOT, PrimaryResource.LEAD).asItem(),
-                3,
-                "   ",
-                " U ",
-                "U U");
+            provider,
+            mek.get(ResourceType.INGOT, PrimaryResource.LEAD).asItem(),
+            3,
+            "   ",
+            " U ",
+            "U U"
+        );
         uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.TIN).asItem(), 4, "   ", "U U", " U ");
         uu(
-                provider,
-                mek.get(ResourceType.INGOT, PrimaryResource.URANIUM).asItem(),
-                10,
-                " U ",
-                "UUU",
-                "   ");
+            provider,
+            mek.get(ResourceType.INGOT, PrimaryResource.URANIUM).asItem(),
+            10,
+            " U ",
+            "UUU",
+            "   "
+        );
         uu(provider, MekanismItems.FLUORITE_GEM.asItem(), 8, "   ", "UUU", " U ");
 
         uu(provider, AEItems.SKY_DUST.asItem(), 6, "  U", " U ", "  U");
@@ -89,9 +92,9 @@ public final class VanillaRecipes {
     private static void uu(Consumer<FinishedRecipe> provider, Item output, int amount, String... pattern) {
         var name = output.getDescriptionId().replace('.', '_');
         SFTVanillaRecipeHelper.addShapedRecipe("uu/" + name)
-                .pattern(pattern)
-                .arg('U', SFTItems.UU_MATTER)
-                .output(output, amount)
-                .save(provider);
+            .pattern(pattern)
+            .arg('U', SFTItems.UU_MATTER)
+            .output(output, amount)
+            .save(provider);
     }
 }

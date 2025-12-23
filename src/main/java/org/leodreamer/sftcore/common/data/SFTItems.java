@@ -28,21 +28,21 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 public final class SFTItems {
 
     public static final ItemEntry<SelectStickItem> SELECT_STICK = REGISTRATE.item("select_stick", SelectStickItem::new)
-            .lang("Select Stick").register();
+        .lang("Select Stick").register();
 
     public static final ItemEntry<ComponentItem> TIME_BOTTLE = REGISTRATE
-            .item("time_bottle", ComponentItem::create)
-            .lang("Time Bottle")
-            .properties(p -> p.stacksTo(1))
-            .onRegister(attach(new TimeBottleBehavior()))
-            .register();
+        .item("time_bottle", ComponentItem::create)
+        .lang("Time Bottle")
+        .properties(p -> p.stacksTo(1))
+        .onRegister(attach(new TimeBottleBehavior()))
+        .register();
 
     public static final ItemEntry<ComponentItem> ORDER = REGISTRATE
-            .item("order", ComponentItem::create)
-            .lang("%s Order")
-            .properties(p -> p.stacksTo(1))
-            .onRegister(attach(new OrderBehavior()))
-            .register();
+        .item("order", ComponentItem::create)
+        .lang("%s Order")
+        .properties(p -> p.stacksTo(1))
+        .onRegister(attach(new OrderBehavior()))
+        .register();
 
     public static final ItemEntry<SuperUpgradeItem> SPEED_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.SPEED);
     public static final ItemEntry<SuperUpgradeItem> ENERGY_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.ENERGY);
@@ -51,25 +51,26 @@ public final class SFTItems {
     public static final ItemEntry<SuperUpgradeItem> MUFFLING_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.MUFFLING);
     public static final ItemEntry<SuperUpgradeItem> ANCHOR_SUPER_UPGRADE = registerSuperUpgrade(Upgrade.ANCHOR);
     public static final ItemEntry<SuperUpgradeItem> STONE_GENERATOR_SUPER_UPGRADE = registerSuperUpgrade(
-            Upgrade.STONE_GENERATOR);
+        Upgrade.STONE_GENERATOR
+    );
 
     public static final ItemEntry<Item> UU_MATTER = REGISTRATE.item("uu_matter", Item::new).lang("UU Matter")
-            .register();
+        .register();
 
     public static final ItemEntry<Item> INCOMPLETE_UU_MATTER = REGISTRATE.item("incomplete_uu_matter", Item::new)
-            .lang("Incomplete UU Matter").register();
+        .lang("Incomplete UU Matter").register();
 
     public static final ItemEntry<ComponentItem>[] COVER_ACCELERATES = registerAccelerateCovers();
 
     public static final List<ItemEntry<ComponentItem>> UNIVERSAL_CIRCUITS = Arrays
-            .stream(GTValues.tiersBetween(GTValues.ULV, GTValues.UHV))
-            .mapToObj(SFTItems::registerUniversalCircuit)
-            .toList();
+        .stream(GTValues.tiersBetween(GTValues.ULV, GTValues.UHV))
+        .mapToObj(SFTItems::registerUniversalCircuit)
+        .toList();
 
     private static ItemEntry<SuperUpgradeItem> registerSuperUpgrade(Upgrade upgrade) {
         return REGISTRATE
-                .item("super_upgrade_" + upgrade.getRawName(), (p) -> new SuperUpgradeItem(p, upgrade))
-                .register();
+            .item("super_upgrade_" + upgrade.getRawName(), (p) -> new SuperUpgradeItem(p, upgrade))
+            .register();
     }
 
     private static ItemEntry<ComponentItem>[] registerAccelerateCovers() {
@@ -80,19 +81,23 @@ public final class SFTItems {
             var cover = SFTCovers.ACCELERATE_COVERS.get(index);
             int accel = tier * 50;
             entries[tier] = REGISTRATE
-                    .item(
-                            "%s_accelerate_cover".formatted(GTValues.VN[tier].toLowerCase()),
-                            ComponentItem::create)
-                    .lang("%s §rAccelerate Cover".formatted(GTValues.VNF[tier]))
-                    .onRegister(
-                            attach(
-                                    new CoverPlaceBehavior(cover),
-                                    new TooltipBehavior(
-                                            lines -> SFTTooltipsBuilder.of()
-                                                    .insert(Component.translatable(AccelerateCover.TOOLTIP, accel))
-                                                    .textureComeFrom("Thermal Expansion")
-                                                    .addTo(lines))))
-                    .register();
+                .item(
+                    "%s_accelerate_cover".formatted(GTValues.VN[tier].toLowerCase()),
+                    ComponentItem::create
+                )
+                .lang("%s §rAccelerate Cover".formatted(GTValues.VNF[tier]))
+                .onRegister(
+                    attach(
+                        new CoverPlaceBehavior(cover),
+                        new TooltipBehavior(
+                            lines -> SFTTooltipsBuilder.of()
+                                .insert(Component.translatable(AccelerateCover.TOOLTIP, accel))
+                                .textureComeFrom("Thermal Expansion")
+                                .addTo(lines)
+                        )
+                    )
+                )
+                .register();
         }
 
         return entries;
@@ -101,16 +106,19 @@ public final class SFTItems {
     private static ItemEntry<ComponentItem> registerUniversalCircuit(int tier) {
         var name = GTValues.VN[tier].toLowerCase();
         return REGISTRATE
-                .item("%s_universal_circuit".formatted(name), ComponentItem::create)
-                .lang("%s §rUniversal Circuit".formatted(GTValues.VNF[tier]))
-                .tag(CustomTags.CIRCUITS_ARRAY[tier])
-                .onRegister(
-                        attach(
-                                new TooltipBehavior(
-                                        lines -> SFTTooltipsBuilder.of()
-                                                .textureComeFrom("GregTech New Horizon")
-                                                .addTo(lines))))
-                .register();
+            .item("%s_universal_circuit".formatted(name), ComponentItem::create)
+            .lang("%s §rUniversal Circuit".formatted(GTValues.VNF[tier]))
+            .tag(CustomTags.CIRCUITS_ARRAY[tier])
+            .onRegister(
+                attach(
+                    new TooltipBehavior(
+                        lines -> SFTTooltipsBuilder.of()
+                            .textureComeFrom("GregTech New Horizon")
+                            .addTo(lines)
+                    )
+                )
+            )
+            .register();
     }
 
     public static void init() {}

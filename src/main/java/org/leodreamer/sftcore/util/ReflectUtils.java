@@ -39,7 +39,7 @@ public class ReflectUtils {
     }
 
     public static <A extends Annotation,
-            F> Map<A, F> getStaticFieldsWithAnnotation(Class<?> clazz, Class<A> annotationType, Class<F> fieldType) {
+        F> Map<A, F> getStaticFieldsWithAnnotation(Class<?> clazz, Class<A> annotationType, Class<F> fieldType) {
         Map<A, F> result = new HashMap<>();
         for (var field : clazz.getDeclaredFields()) {
             if (field.isAnnotationPresent(annotationType)) {
@@ -49,8 +49,9 @@ public class ReflectUtils {
                     F key = fieldType.cast(field.get(null));
                     if (key == null) {
                         throw new RuntimeException(
-                                "Field " + field.getName() + " in class " + clazz.getName() +
-                                        " is null. Probably not initialized yet as it is not static.");
+                            "Field " + field.getName() + " in class " + clazz.getName() +
+                                " is null. Probably not initialized yet as it is not static."
+                        );
                     }
                     result.put(anno, key);
                 } catch (IllegalAccessException e) {

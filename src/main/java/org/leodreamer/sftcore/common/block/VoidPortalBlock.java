@@ -41,8 +41,14 @@ public class VoidPortalBlock extends Block {
 
     @Override
     @SuppressWarnings("deprecation")
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player pPlayer, InteractionHand hand,
-                                 BlockHitResult hit) {
+    public InteractionResult use(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player pPlayer,
+        InteractionHand hand,
+        BlockHitResult hit
+    ) {
         if (!level.isClientSide && hand == InteractionHand.MAIN_HAND) {
             var server = level.getServer();
             var player = (ServerPlayer) pPlayer;
@@ -57,12 +63,13 @@ public class VoidPortalBlock extends Block {
                     return InteractionResult.PASS;
                 }
                 player.teleportTo(
-                        target,
-                        VOID_SPAWN_POINT.getX() + 0.5,
-                        VOID_SPAWN_POINT.getY(),
-                        VOID_SPAWN_POINT.getZ() + 0.5,
-                        player.getYRot(),
-                        player.getXRot());
+                    target,
+                    VOID_SPAWN_POINT.getX() + 0.5,
+                    VOID_SPAWN_POINT.getY(),
+                    VOID_SPAWN_POINT.getZ() + 0.5,
+                    player.getYRot(),
+                    player.getXRot()
+                );
                 makePlatform(target);
             } else if (dimension == SFTDimensions.VOID_DIMENSION) {
                 teleportToSpawnPoint(server, player);
@@ -90,20 +97,25 @@ public class VoidPortalBlock extends Block {
         position = position.above();
 
         player.teleportTo(
-                dimension,
-                position.getX() + 0.5,
-                position.getY(),
-                position.getZ() + 0.5,
-                player.getYRot(),
-                player.getXRot());
+            dimension,
+            position.getX() + 0.5,
+            position.getY(),
+            position.getZ() + 0.5,
+            player.getYRot(),
+            player.getXRot()
+        );
     }
 
     @RegisterLanguage("Right click and see what will happen")
     static final String TOOLTIP = "sftcore.void_portal.tooltip";
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip,
-                                TooltipFlag pFlag) {
+    public void appendHoverText(
+        ItemStack pStack,
+        @Nullable BlockGetter pLevel,
+        List<Component> pTooltip,
+        TooltipFlag pFlag
+    ) {
         pTooltip.add(Component.translatable(TOOLTIP));
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
     }

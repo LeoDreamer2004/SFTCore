@@ -18,12 +18,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class RecipeManagerMixin {
 
     @Inject(
-            method = "fromJson(Lnet/minecraft/resources/ResourceLocation;Lcom/google/gson/JsonObject;Lnet/minecraftforge/common/crafting/conditions/ICondition$IContext;)Lnet/minecraft/world/item/crafting/Recipe;",
-            remap = false,
-            cancellable = true,
-            at = @At("TAIL"))
-    private static void sftcore$removeRecipe(ResourceLocation id, JsonObject json, ICondition.IContext context,
-                                             CallbackInfoReturnable<Recipe<?>> cir) {
+        method = "fromJson(Lnet/minecraft/resources/ResourceLocation;Lcom/google/gson/JsonObject;Lnet/minecraftforge/common/crafting/conditions/ICondition$IContext;)Lnet/minecraft/world/item/crafting/Recipe;",
+        remap = false,
+        cancellable = true,
+        at = @At("TAIL")
+    )
+    private static void sftcore$removeRecipe(
+        ResourceLocation id,
+        JsonObject json,
+        ICondition.IContext context,
+        CallbackInfoReturnable<Recipe<?>> cir
+    ) {
         var recipe = cir.getReturnValue();
         if (recipe == null) return;
         try {

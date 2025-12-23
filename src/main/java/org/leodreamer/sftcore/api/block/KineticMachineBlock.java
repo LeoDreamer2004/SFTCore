@@ -45,7 +45,7 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     public Direction getRotationFacing(BlockState state) {
         var frontFacing = getFrontFacing(state);
         return ((KineticMachineDefinition) definition).isFrontRotation() ? frontFacing :
-                (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
+            (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
     }
 
     @Override
@@ -75,8 +75,9 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     @Override
     public BlockState rotate(BlockState pState, Rotation pRotation) {
         return pState.setValue(
-                this.getRotationState().property,
-                pRotation.rotate(pState.getValue(this.getRotationState().property)));
+            this.getRotationState().property,
+            pRotation.rotate(pState.getValue(this.getRotationState().property))
+        );
     }
 
     public boolean areStatesKineticallyEquivalent(BlockState oldState, BlockState newState) {
@@ -85,8 +86,13 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public void updateIndirectNeighbourShapes(BlockState stateIn, LevelAccessor worldIn, BlockPos pos, int flags,
-                                              int count) {
+    public void updateIndirectNeighbourShapes(
+        BlockState stateIn,
+        LevelAccessor worldIn,
+        BlockPos pos,
+        int flags,
+        int count
+    ) {
         if (worldIn.isClientSide()) return;
 
         BlockEntity tileEntity = worldIn.getBlockEntity(pos);
@@ -102,8 +108,11 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
 
     @Override
     public @Nullable <
-            T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-                                                                  BlockEntityType<T> blockEntityType) {
+        T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level,
+            BlockState state,
+            BlockEntityType<T> blockEntityType
+        ) {
         if (blockEntityType == getDefinition().getBlockEntityType()) {
             if (!level.isClientSide) {
                 return (pLevel, pPos, pState, pTile) -> {

@@ -47,8 +47,8 @@ import javax.annotation.Nullable;
 
 @Mixin(PatternEncodingTermMenu.class)
 public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
-                                                   implements IMenuCraftingPacket, ISendToGTMachine,
-                                                   ISendToAssemblyMatrix, IPatternMultiply {
+    implements IMenuCraftingPacket, ISendToGTMachine,
+    ISendToAssemblyMatrix, IPatternMultiply {
 
     @Unique
     private static final AEItemKey sftcore$key = AEItemKey.of(AEItems.BLANK_PATTERN);
@@ -94,24 +94,36 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     private static final String MULTIPLY_PATTERN = "multiplyPattern";
 
     public PatternEncodingTermMenuMixin(
-                                        MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
+        MenuType<?> menuType,
+        int id,
+        Inventory ip,
+        ITerminalHost host
+    ) {
         super(menuType, id, ip, host);
     }
 
     @Inject(
-            method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/IPatternTerminalMenuHost;Z)V",
-            at = @At("TAIL"),
-            remap = false)
-    private void initPattern(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host,
-                             boolean bindInventory, CallbackInfo ci) {
+        method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/IPatternTerminalMenuHost;Z)V",
+        at = @At("TAIL"),
+        remap = false
+    )
+    private void initPattern(
+        MenuType<?> menuType,
+        int id,
+        Inventory ip,
+        IPatternTerminalMenuHost host,
+        boolean bindInventory,
+        CallbackInfo ci
+    ) {
         blankPatternSlot.setAllowEdit(false);
         blankPatternSlot.setStackLimit(Integer.MAX_VALUE);
 
         registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
         registerClientAction(
-                SET_GT_TYPE,
-                ResourceLocation.class,
-                (rl) -> this.sftcore$setGTType((GTRecipeType) ForgeRegistries.RECIPE_TYPES.getValue(rl)));
+            SET_GT_TYPE,
+            ResourceLocation.class,
+            (rl) -> this.sftcore$setGTType((GTRecipeType) ForgeRegistries.RECIPE_TYPES.getValue(rl))
+        );
         registerClientAction(SEND_TO_GT_MACHINE, Integer.class, this::sftcore$sendToGTMachine);
         registerClientAction(MULTIPLY_PATTERN, Integer.class, this::sftcore$multiplyPattern);
     }
@@ -212,7 +224,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     private void AutoTransferAfterEncoding(CallbackInfo ci) {
         sftcore$gtContainerTargets.clear();
         var packet = sftcore$tryTransferToMatrix() ? AvailableGTMachinesPacket.empty() :
-                sftcore$checkAvailableGTMachine();
+            sftcore$checkAvailableGTMachine();
         sendPacketToClient(packet);
     }
 
@@ -226,8 +238,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         if (pattern.isEmpty()) return false;
 
         // check pattern type
-        if (!AEItems.CRAFTING_PATTERN.isSameAs(pattern) && !AEItems.STONECUTTING_PATTERN.isSameAs(pattern) &&
-                !AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern))
+        if (
+            !AEItems.CRAFTING_PATTERN.isSameAs(pattern) && !AEItems.STONECUTTING_PATTERN.isSameAs(pattern) &&
+                !AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern)
+        )
             return false;
 
         for (var mat : node.getGrid().getActiveMachines(TileAssemblerMatrixPattern.class)) {
@@ -264,13 +278,14 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
                 for (var container : node.getGrid().getMachines(matClazz)) {
                     var row = GTTransferLogic.tryBuild(container, sftcore$curType);
                     row.ifPresent(
-                            r -> {
-                                if (container instanceof IPromptProvider promptProvider) {
-                                    r = r.withPrompt(promptProvider.sftcore$getPrompt());
-                                }
-                                rows.add(r);
-                                sftcore$gtContainerTargets.add(container);
-                            });
+                        r -> {
+                            if (container instanceof IPromptProvider promptProvider) {
+                                r = r.withPrompt(promptProvider.sftcore$getPrompt());
+                            }
+                            rows.add(r);
+                            sftcore$gtContainerTargets.add(container);
+                        }
+                    );
                 }
             }
         }
@@ -279,8 +294,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     }
 
     @Redirect(
-              method = "encode",
-              at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V"))
+        method = "encode",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V")
+    )
     private void extractPatternFromStorage(ItemStack instance, int pDecrement) {
         if (storage != null) {
             storage.extract(sftcore$key, 1, Actionable.MODULATE, getActionSource());
@@ -288,12 +304,14 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     }
 
     @Redirect(
-              method = "transferStackToMenu",
-              at = @At(
-                       value = "INVOKE",
-                       target = "Lappeng/menu/slot/RestrictedInputSlot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z",
-                       remap = true),
-              remap = false)
+        method = "transferStackToMenu",
+        at = @At(
+            value = "INVOKE",
+            target = "Lappeng/menu/slot/RestrictedInputSlot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z",
+            remap = true
+        ),
+        remap = false
+    )
     private boolean transferStack$skipBlankPattern(RestrictedInputSlot instance, ItemStack itemStack) {
         return instance.mayPlace(itemStack) && itemStack.getItem() != AEItems.BLANK_PATTERN.asItem();
     }

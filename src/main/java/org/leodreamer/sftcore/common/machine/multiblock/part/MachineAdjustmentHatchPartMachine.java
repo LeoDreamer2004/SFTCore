@@ -28,10 +28,11 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 
 public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
-                                               implements IMachineLife, IMachineAdjustment, IInteractedMachine {
+    implements IMachineLife, IMachineAdjustment, IInteractedMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MachineAdjustmentHatchPartMachine.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
+        MachineAdjustmentHatchPartMachine.class, TieredPartMachine.MANAGED_FIELD_HOLDER
+    );
 
     @Persisted
     private final NotifiableItemStackHandler inventory;
@@ -97,8 +98,9 @@ public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
         var group = new WidgetGroup(0, 0, 18 + 16, 18 + 16);
         var container = new WidgetGroup(4, 4, 18 + 8, 18 + 8);
         container.addWidget(
-                new BlockableSlotWidget(inventory.storage, 0, 4, 4)
-                        .setBackground(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY));
+            new BlockableSlotWidget(inventory.storage, 0, 4, 4)
+                .setBackground(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY)
+        );
         container.setBackground(GuiTextures.BACKGROUND_INVERSE);
         group.addWidget(container);
         return group;
@@ -112,9 +114,10 @@ public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
     @Override
     public ISubscription addListenerOnChanged(Consumer<IMachineAdjustment> listener) {
         return inventory.addChangedListener(
-                () -> {
-                    updateMachineSubscription();
-                    listener.accept(this);
-                });
+            () -> {
+                updateMachineSubscription();
+                listener.accept(this);
+            }
+        );
     }
 }

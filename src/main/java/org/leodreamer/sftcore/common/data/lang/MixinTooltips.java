@@ -39,7 +39,9 @@ public class MixinTooltips {
     @RegisterLanguage("Change the pattern")
     public static final String CHANGE_PATTERN = "sftcore.mixin.ae2.pattern_encoding.change_pattern";
 
-    @RegisterLanguage("Multiply the pattern by %d. This will increase the item assigning speed when CPU does not have enough accelerators, and be more performance friendly for large amount processing.")
+    @RegisterLanguage(
+        "Multiply the pattern by %d. This will increase the item assigning speed when CPU does not have enough accelerators, and be more performance friendly for large amount processing."
+    )
     public static final String MULTIPLY_PATTERN = "sftcore.mixin.ae2.pattern_encoding.multiply_pattern";
 
     @RegisterLanguage("Divide the pattern by %d.")
@@ -70,18 +72,20 @@ public class MixinTooltips {
 
     static {
         TOOLTIPS.put(
-                AEParts.PATTERN_ENCODING_TERMINAL.asItem(),
-                SFTTooltipsBuilder.of()
-                        .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
-                        .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
-                        .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
-                        .modifiedBySFT()::addTo);
+            AEParts.PATTERN_ENCODING_TERMINAL.asItem(),
+            SFTTooltipsBuilder.of()
+                .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
+                .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
+                .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
+                .modifiedBySFT()::addTo
+        );
 
         TOOLTIPS.put(
-                ModItems.travelStaff.asItem(),
-                SFTTooltipsBuilder.of()
-                        .insert(Component.translatable(TRAVELER_ANCHOR).withStyle(ChatFormatting.AQUA))
-                        .modifiedBySFT()::addTo);
+            ModItems.travelStaff.asItem(),
+            SFTTooltipsBuilder.of()
+                .insert(Component.translatable(TRAVELER_ANCHOR).withStyle(ChatFormatting.AQUA))
+                .modifiedBySFT()::addTo
+        );
     }
 
     @SubscribeEvent

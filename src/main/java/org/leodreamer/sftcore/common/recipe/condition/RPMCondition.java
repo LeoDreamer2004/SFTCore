@@ -25,9 +25,10 @@ import org.jetbrains.annotations.NotNull;
 public class RPMCondition extends RecipeCondition {
 
     public static final Codec<RPMCondition> CODEC = RecordCodecBuilder.create(
-            instance -> RecipeCondition.isReverse(instance)
-                    .and(Codec.FLOAT.fieldOf("rpm").forGetter(val -> val.rpm))
-                    .apply(instance, RPMCondition::new));
+        instance -> RecipeCondition.isReverse(instance)
+            .and(Codec.FLOAT.fieldOf("rpm").forGetter(val -> val.rpm))
+            .apply(instance, RPMCondition::new)
+    );
     public static final RPMCondition INSTANCE = new RPMCondition();
     private float rpm;
 
@@ -55,8 +56,10 @@ public class RPMCondition extends RecipeCondition {
 
     @Override
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
-        if (recipeLogic.machine instanceof IKineticMachine kineticMachine &&
-                Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm) {
+        if (
+            recipeLogic.machine instanceof IKineticMachine kineticMachine &&
+                Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm
+        ) {
             return true;
         }
         if (recipeLogic.machine instanceof WorkableKineticMultiblockMachine controller) {

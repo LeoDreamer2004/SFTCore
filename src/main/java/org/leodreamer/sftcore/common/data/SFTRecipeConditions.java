@@ -10,5 +10,6 @@ public class SFTRecipeConditions {
     public static void init() {}
 
     public static final RecipeConditionType<RPMCondition> RPM = GTRegistries.RECIPE_CONDITIONS.register(
-            "rpm", new RecipeConditionType<>(RPMCondition::new, RPMCondition.CODEC));
+        "rpm", new RecipeConditionType<>(RPMCondition::new, RPMCondition.CODEC)
+    );
 }

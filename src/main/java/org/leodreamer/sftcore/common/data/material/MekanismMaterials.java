@@ -10,24 +10,24 @@ public class MekanismMaterials {
 
     public static void register() {
         EnergeticFissileFuel = new Material.Builder(SFTCore.id("energetic_fissile_fuel"))
-                .fluid()
-                .color(0x282c29)
-                .buildAndRegister();
+            .fluid()
+            .color(0x282c29)
+            .buildAndRegister();
         FilteredPolonium = new Material.Builder(SFTCore.id("filtered_polonium"))
-                .fluid()
-                .color(0x1a7b60)
-                .buildAndRegister();
+            .fluid()
+            .color(0x1a7b60)
+            .buildAndRegister();
         FilteredPlutonium = new Material.Builder(SFTCore.id("filtered_plutonium"))
-                .fluid()
-                .color(0x1e7d87)
-                .buildAndRegister();
+            .fluid()
+            .color(0x1e7d87)
+            .buildAndRegister();
         LowPurityDeuterium = new Material.Builder(SFTCore.id("low_purity_deuterium"))
-                .fluid()
-                .color(0xffca37)
-                .buildAndRegister();
+            .fluid()
+            .color(0xffca37)
+            .buildAndRegister();
         LowPurityTritium = new Material.Builder(SFTCore.id("low_purity_tritium"))
-                .fluid()
-                .color(0x17dcbe)
-                .buildAndRegister();
+            .fluid()
+            .color(0x17dcbe)
+            .buildAndRegister();
     }
 }

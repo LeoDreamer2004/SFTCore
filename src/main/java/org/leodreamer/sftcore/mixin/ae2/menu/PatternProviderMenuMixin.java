@@ -30,16 +30,26 @@ public class PatternProviderMenuMixin extends AEBaseMenu implements IPromptProvi
     private static final String SET_PROMPT = "setPrompt";
 
     public PatternProviderMenuMixin(
-                                    MenuType<?> menuType, int id, Inventory playerInventory, Object host) {
+        MenuType<?> menuType,
+        int id,
+        Inventory playerInventory,
+        Object host
+    ) {
         super(menuType, id, playerInventory, host);
     }
 
     @Inject(
-            method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/patternprovider/PatternProviderLogicHost;)V",
-            at = @At("TAIL"),
-            remap = false)
-    private void addProvider(MenuType<?> menuType, int id, Inventory playerInventory, PatternProviderLogicHost host,
-                             CallbackInfo ci) {
+        method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/patternprovider/PatternProviderLogicHost;)V",
+        at = @At("TAIL"),
+        remap = false
+    )
+    private void addProvider(
+        MenuType<?> menuType,
+        int id,
+        Inventory playerInventory,
+        PatternProviderLogicHost host,
+        CallbackInfo ci
+    ) {
         if (host instanceof IPromptProvider provider) {
             this.sftcore$provider = provider;
             registerClientAction(SET_PROMPT, String.class, this::sftcore$setPrompt);

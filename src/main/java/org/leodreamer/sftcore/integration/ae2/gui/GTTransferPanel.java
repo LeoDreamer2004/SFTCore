@@ -106,12 +106,13 @@ public class GTTransferPanel implements ICompositeWidget {
         var font = Minecraft.getInstance().font;
         // draw the title
         guiGraphics.drawString(
-                font,
-                Component.translatable(TITLE),
-                absX() + 9,
-                absY() + 6,
-                Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
-                false);
+            font,
+            Component.translatable(TITLE),
+            absX() + 9,
+            absY() + 6,
+            Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
+            false
+        );
 
         for (int i = 0; i < rows.size(); i++) {
             var row = rows.get(i);
@@ -127,12 +128,13 @@ public class GTTransferPanel implements ICompositeWidget {
             float fontScale = 0.75f;
             pose.scale(fontScale, fontScale, 1.0f);
             guiGraphics.drawString(
-                    font,
-                    row.title(),
-                    (int) ((absX() + PADDING_LEFT + 20) / fontScale),
-                    (int) ((absY() + top) / fontScale),
-                    Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
-                    false);
+                font,
+                row.title(),
+                (int) ((absX() + PADDING_LEFT + 20) / fontScale),
+                (int) ((absY() + top) / fontScale),
+                Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
+                false
+            );
             pose.popPose();
 
             // draw the prompt
@@ -141,12 +143,13 @@ public class GTTransferPanel implements ICompositeWidget {
             pose.scale(promptScale, promptScale, 1.0f);
             if (!row.prompt().isEmpty()) {
                 guiGraphics.drawString(
-                        font,
-                        row.prompt(),
-                        (int) ((absX() + PADDING_LEFT + 20) / promptScale),
-                        (int) ((absY() + top + 10) / promptScale),
-                        Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
-                        false);
+                    font,
+                    row.prompt(),
+                    (int) ((absX() + PADDING_LEFT + 20) / promptScale),
+                    (int) ((absY() + top + 10) / promptScale),
+                    Objects.requireNonNull(ChatFormatting.DARK_GRAY.getColor()),
+                    false
+                );
             }
             pose.popPose();
         }

@@ -16,12 +16,14 @@ public class SFTJadePlugin implements IWailaPlugin {
     @Override
     public void register(IWailaCommonRegistration registration) {
         registration.registerBlockDataProvider(
-                ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachineBlockEntity.class);
+            ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachineBlockEntity.class
+        );
     }
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
         registration.registerBlockComponent(
-                ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachineBlock.class);
+            ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachineBlock.class
+        );
     }
 }

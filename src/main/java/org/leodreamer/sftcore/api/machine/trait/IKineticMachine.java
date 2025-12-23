@@ -24,7 +24,7 @@ public interface IKineticMachine extends IMachineFeature {
     default Direction getRotationFacing() {
         var frontFacing = self().getFrontFacing();
         return getKineticDefinition().isFrontRotation() ? frontFacing :
-                (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
+            (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
     }
 
     default boolean hasShaftTowards(Direction face) {

@@ -53,69 +53,69 @@ public final class CommonGTRecipes {
 
     private static void transitionStageRecipes(Consumer<FinishedRecipe> provider) {
         SFTVanillaRecipeHelper.addShapedRecipe("ulv_input_bus")
-                .pattern("ABA", "ACA", "AAA")
-                .arg('A', new MaterialEntry(block, Lead))
-                .arg('B', MekanismBlocks.ULTIMATE_BIN)
-                .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
-                .output(ITEM_IMPORT_BUS[ULV].asStack())
-                .save(provider);
+            .pattern("ABA", "ACA", "AAA")
+            .arg('A', new MaterialEntry(block, Lead))
+            .arg('B', MekanismBlocks.ULTIMATE_BIN)
+            .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
+            .output(ITEM_IMPORT_BUS[ULV].asStack())
+            .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("ulv_output_bus")
-                .pattern("AAA", "ACA", "ABA")
-                .arg('A', new MaterialEntry(block, Lead))
-                .arg('B', MekanismBlocks.ULTIMATE_BIN)
-                .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
-                .output(ITEM_EXPORT_BUS[ULV].asStack())
-                .save(provider);
+            .pattern("AAA", "ACA", "ABA")
+            .arg('A', new MaterialEntry(block, Lead))
+            .arg('B', MekanismBlocks.ULTIMATE_BIN)
+            .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
+            .output(ITEM_EXPORT_BUS[ULV].asStack())
+            .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("ulv_input_hatch")
-                .pattern("ABA", "ACA", "AAA")
-                .arg('A', new MaterialEntry(block, Lead))
-                .arg('B', MekanismBlocks.ULTIMATE_FLUID_TANK)
-                .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
-                .output(FLUID_IMPORT_HATCH[ULV].asStack())
-                .save(provider);
+            .pattern("ABA", "ACA", "AAA")
+            .arg('A', new MaterialEntry(block, Lead))
+            .arg('B', MekanismBlocks.ULTIMATE_FLUID_TANK)
+            .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
+            .output(FLUID_IMPORT_HATCH[ULV].asStack())
+            .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("ulv_output_hatch")
-                .pattern("AAA", "ACA", "ABA")
-                .arg('A', new MaterialEntry(block, Lead))
-                .arg('B', MekanismBlocks.ULTIMATE_FLUID_TANK)
-                .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
-                .output(FLUID_EXPORT_HATCH[ULV].asStack())
-                .save(provider);
+            .pattern("AAA", "ACA", "ABA")
+            .arg('A', new MaterialEntry(block, Lead))
+            .arg('B', MekanismBlocks.ULTIMATE_FLUID_TANK)
+            .arg('C', MekanismItems.ULTIMATE_CONTROL_CIRCUIT)
+            .output(FLUID_EXPORT_HATCH[ULV].asStack())
+            .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("lv_machine_hull")
-                .pattern("   ", "ABA", "CDC")
-                .arg('A', new MaterialEntry(plate, Nickel))
-                .arg('B', new MaterialEntry(plate, Steel))
-                .arg('C', new MaterialEntry(cableGtSingle, Tin))
-                .arg('D', GTBlocks.MACHINE_CASING_LV)
-                .output(HULL[LV].asStack())
-                .save(provider);
+            .pattern("   ", "ABA", "CDC")
+            .arg('A', new MaterialEntry(plate, Nickel))
+            .arg('B', new MaterialEntry(plate, Steel))
+            .arg('C', new MaterialEntry(cableGtSingle, Tin))
+            .arg('D', GTBlocks.MACHINE_CASING_LV)
+            .output(HULL[LV].asStack())
+            .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("cleaning_maintenance_hatch")
-                .pattern("ABA", "CDC", "ABA")
-                .arg('A', AUTO_MAINTENANCE_HATCH)
-                .arg('B', CustomTags.EV_CIRCUITS)
-                .arg('C', ROBOT_ARM_HV)
-                .arg('D', HULL[HV])
-                .output(CLEANING_MAINTENANCE_HATCH.asStack())
-                .save(provider);
+            .pattern("ABA", "CDC", "ABA")
+            .arg('A', AUTO_MAINTENANCE_HATCH)
+            .arg('B', CustomTags.EV_CIRCUITS)
+            .arg('C', ROBOT_ARM_HV)
+            .arg('D', HULL[HV])
+            .output(CLEANING_MAINTENANCE_HATCH.asStack())
+            .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("terminal")
-                .pattern("AAA", "ABA", "AAA")
-                .arg('A', AllItems.PRECISION_MECHANISM)
-                .arg('B', AEParts.TERMINAL)
-                .output(GTItems.TERMINAL.asStack())
-                .save(provider);
+            .pattern("AAA", "ABA", "AAA")
+            .arg('A', AllItems.PRECISION_MECHANISM)
+            .arg('B', AEParts.TERMINAL)
+            .output(GTItems.TERMINAL.asStack())
+            .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("advanced_terminal")
-                .pattern("AAA", "CBC", "AAA")
-                .arg('A', DIAMOND_BLOCK)
-                .arg('B', GTItems.TERMINAL)
-                .arg('C', CustomTags.MV_CIRCUITS)
-                .output(CustomItems.ADVANCED_TERMINAL.asStack())
-                .save(provider);
+            .pattern("AAA", "CBC", "AAA")
+            .arg('A', DIAMOND_BLOCK)
+            .arg('B', GTItems.TERMINAL)
+            .arg('C', CustomTags.MV_CIRCUITS)
+            .output(CustomItems.ADVANCED_TERMINAL.asStack())
+            .save(provider);
     }
 
     private static void desulfurizeRecipes(Consumer<FinishedRecipe> provider) {
@@ -127,14 +127,14 @@ public final class CommonGTRecipes {
 
     private static void desulfurize(Consumer<FinishedRecipe> provider, String id, Material input, Material output) {
         DESULFURIZE_RECIPES
-                .recipeBuilder(SFTCore.id(id))
-                .notConsumable(dust, ActivatedCarbon, 8)
-                .inputFluids(input.getFluid(32000))
-                .outputItems(dust, Sulfur, 32)
-                .outputFluids(output.getFluid(40000))
-                .duration(900)
-                .EUt(VA[HV])
-                .save(provider);
+            .recipeBuilder(SFTCore.id(id))
+            .notConsumable(dust, ActivatedCarbon, 8)
+            .inputFluids(input.getFluid(32000))
+            .outputItems(dust, Sulfur, 32)
+            .outputFluids(output.getFluid(40000))
+            .duration(900)
+            .EUt(VA[HV])
+            .save(provider);
     }
 
     private static void oilDrillingRigRecipes(Consumer<FinishedRecipe> provider) {
@@ -146,127 +146,138 @@ public final class CommonGTRecipes {
 
     private static void oilDrillingRig(Consumer<FinishedRecipe> provider, int circuit, Material output) {
         OIL_DRILLING_RECIPES
-                .recipeBuilder(SFTCore.id("oil_" + circuit))
-                .outputFluids(output.getFluid(2000))
-                .chancedOutput(dust, Oilsands, 1000, 1000)
-                .inputFluids(Lubricant.getFluid(200))
-                .circuitMeta(circuit)
-                .duration(120)
-                .EUt(VA[MV])
-                .save(provider);
+            .recipeBuilder(SFTCore.id("oil_" + circuit))
+            .outputFluids(output.getFluid(2000))
+            .chancedOutput(dust, Oilsands, 1000, 1000)
+            .inputFluids(Lubricant.getFluid(200))
+            .circuitMeta(circuit)
+            .duration(120)
+            .EUt(VA[MV])
+            .save(provider);
     }
 
     private static void greenhouseRecipes(Consumer<FinishedRecipe> provider) {
         greenhouse(
-                provider,
-                "rubber",
-                GTBlocks.RUBBER_SAPLING.get().asItem(),
-                false,
-                GTBlocks.RUBBER_LOG.asItem(),
-                32,
-                GTItems.STICKY_RESIN.asItem(),
-                8,
-                GTBlocks.RUBBER_SAPLING.asItem(),
-                4);
+            provider,
+            "rubber",
+            GTBlocks.RUBBER_SAPLING.get().asItem(),
+            false,
+            GTBlocks.RUBBER_LOG.asItem(),
+            32,
+            GTItems.STICKY_RESIN.asItem(),
+            8,
+            GTBlocks.RUBBER_SAPLING.asItem(),
+            4
+        );
         greenhouse(
-                provider,
-                "rubber_boost",
-                GTBlocks.RUBBER_SAPLING.get().asItem(),
-                true,
-                GTBlocks.RUBBER_LOG.asItem(),
-                64,
-                GTItems.STICKY_RESIN.asItem(),
-                16,
-                GTBlocks.RUBBER_SAPLING.asItem(),
-                4);
+            provider,
+            "rubber_boost",
+            GTBlocks.RUBBER_SAPLING.get().asItem(),
+            true,
+            GTBlocks.RUBBER_LOG.asItem(),
+            64,
+            GTItems.STICKY_RESIN.asItem(),
+            16,
+            GTBlocks.RUBBER_SAPLING.asItem(),
+            4
+        );
         greenhouse(provider, "oak", OAK_SAPLING, false, OAK_LOG, 64, OAK_SAPLING, 4);
         greenhouse(provider, "oak_boost", OAK_SAPLING, true, OAK_LOG, 64, OAK_LOG, 64, OAK_SAPLING, 4);
         greenhouse(provider, "birch", BIRCH_SAPLING, false, BIRCH_LOG, 64, BIRCH_SAPLING, 4);
         greenhouse(
-                provider,
-                "birch_boost",
-                BIRCH_SAPLING,
-                true,
-                BIRCH_LOG,
-                64,
-                BIRCH_LOG,
-                64,
-                BIRCH_SAPLING,
-                4);
+            provider,
+            "birch_boost",
+            BIRCH_SAPLING,
+            true,
+            BIRCH_LOG,
+            64,
+            BIRCH_LOG,
+            64,
+            BIRCH_SAPLING,
+            4
+        );
         greenhouse(
-                provider, "dark_oak", DARK_OAK_SAPLING, false, DARK_OAK_LOG, 64, DARK_OAK_SAPLING, 4);
+            provider, "dark_oak", DARK_OAK_SAPLING, false, DARK_OAK_LOG, 64, DARK_OAK_SAPLING, 4
+        );
         greenhouse(
-                provider,
-                "dark_oak_boost",
-                DARK_OAK_SAPLING,
-                true,
-                DARK_OAK_LOG,
-                64,
-                DARK_OAK_LOG,
-                64,
-                DARK_OAK_SAPLING,
-                4);
+            provider,
+            "dark_oak_boost",
+            DARK_OAK_SAPLING,
+            true,
+            DARK_OAK_LOG,
+            64,
+            DARK_OAK_LOG,
+            64,
+            DARK_OAK_SAPLING,
+            4
+        );
         greenhouse(provider, "spruce", SPRUCE_SAPLING, false, SPRUCE_LOG, 64, SPRUCE_SAPLING, 4);
         greenhouse(
-                provider,
-                "spruce_boost",
-                SPRUCE_SAPLING,
-                true,
-                SPRUCE_LOG,
-                64,
-                SPRUCE_LOG,
-                64,
-                SPRUCE_SAPLING,
-                4);
+            provider,
+            "spruce_boost",
+            SPRUCE_SAPLING,
+            true,
+            SPRUCE_LOG,
+            64,
+            SPRUCE_LOG,
+            64,
+            SPRUCE_SAPLING,
+            4
+        );
         greenhouse(provider, "jungle", JUNGLE_SAPLING, false, JUNGLE_LOG, 64, JUNGLE_SAPLING, 4);
         greenhouse(
-                provider,
-                "jungle_boost",
-                JUNGLE_SAPLING,
-                true,
-                JUNGLE_LOG,
-                64,
-                JUNGLE_LOG,
-                64,
-                JUNGLE_SAPLING,
-                4);
+            provider,
+            "jungle_boost",
+            JUNGLE_SAPLING,
+            true,
+            JUNGLE_LOG,
+            64,
+            JUNGLE_LOG,
+            64,
+            JUNGLE_SAPLING,
+            4
+        );
         greenhouse(provider, "acacia", ACACIA_SAPLING, false, ACACIA_LOG, 64, ACACIA_SAPLING, 4);
         greenhouse(
-                provider,
-                "acacia_boost",
-                ACACIA_SAPLING,
-                true,
-                ACACIA_LOG,
-                64,
-                ACACIA_LOG,
-                64,
-                ACACIA_SAPLING,
-                4);
+            provider,
+            "acacia_boost",
+            ACACIA_SAPLING,
+            true,
+            ACACIA_LOG,
+            64,
+            ACACIA_LOG,
+            64,
+            ACACIA_SAPLING,
+            4
+        );
         greenhouse(provider, "cherry", CHERRY_SAPLING, false, CHERRY_LOG, 64, CHERRY_SAPLING, 4);
         greenhouse(
-                provider,
-                "cherry_boost",
-                CHERRY_SAPLING,
-                true,
-                CHERRY_LOG,
-                64,
-                CHERRY_LOG,
-                64,
-                CHERRY_SAPLING,
-                4);
+            provider,
+            "cherry_boost",
+            CHERRY_SAPLING,
+            true,
+            CHERRY_LOG,
+            64,
+            CHERRY_LOG,
+            64,
+            CHERRY_SAPLING,
+            4
+        );
         greenhouse(
-                provider, "mangrove", MANGROVE_PROPAGULE, false, MANGROVE_LOG, 64, MANGROVE_PROPAGULE, 4);
+            provider, "mangrove", MANGROVE_PROPAGULE, false, MANGROVE_LOG, 64, MANGROVE_PROPAGULE, 4
+        );
         greenhouse(
-                provider,
-                "mangrove_boost",
-                MANGROVE_PROPAGULE,
-                true,
-                MANGROVE_LOG,
-                64,
-                MANGROVE_LOG,
-                64,
-                MANGROVE_PROPAGULE,
-                4);
+            provider,
+            "mangrove_boost",
+            MANGROVE_PROPAGULE,
+            true,
+            MANGROVE_LOG,
+            64,
+            MANGROVE_LOG,
+            64,
+            MANGROVE_PROPAGULE,
+            4
+        );
 
         greenhouse(provider, "sugar_cane", SUGAR_CANE, false, SUGAR_CANE, 24);
         greenhouse(provider, "sugar_cane", SUGAR_CANE, true, SUGAR_CANE, 48);
@@ -297,29 +308,35 @@ public final class CommonGTRecipes {
         greenhouse(provider, "brown_mushroom", BROWN_MUSHROOM, false, BROWN_MUSHROOM, 12);
     }
 
-    private static void greenhouse(Consumer<FinishedRecipe> provider, String id, Item input, boolean boost,
-                                   Object... outputs) {
+    private static void greenhouse(
+        Consumer<FinishedRecipe> provider,
+        String id,
+        Item input,
+        boolean boost,
+        Object... outputs
+    ) {
         if (outputs.length % 2 != 0) {
             SFTCore.LOGGER.error("outputs must be even, like item, amount, item, amount");
             return;
         }
 
         var builder = GREENHOUSE_RECIPES
-                .recipeBuilder(SFTCore.id(id))
-                .circuitMeta(boost ? 2 : 1)
-                .notConsumable(input)
-                .inputFluids(Water.getFluid(1000))
-                .duration(boost ? 300 : 600)
-                .EUt(VA[MV]);
+            .recipeBuilder(SFTCore.id(id))
+            .circuitMeta(boost ? 2 : 1)
+            .notConsumable(input)
+            .inputFluids(Water.getFluid(1000))
+            .duration(boost ? 300 : 600)
+            .EUt(VA[MV]);
 
         for (int i = 0; i < outputs.length; i += 2) {
             if (outputs[i] instanceof Item item && outputs[i + 1] instanceof Integer amount) {
                 builder.outputItems(item, amount);
             } else {
                 SFTCore.LOGGER.error(
-                        "Invalid output format: expected Item and Integer, got {} and {}",
-                        outputs[i].getClass(),
-                        outputs[i + 1].getClass());
+                    "Invalid output format: expected Item and Integer, got {} and {}",
+                    outputs[i].getClass(),
+                    outputs[i + 1].getClass()
+                );
                 return;
             }
         }
@@ -337,16 +354,17 @@ public final class CommonGTRecipes {
 
             // crafting
             VanillaRecipeHelper.addShapelessRecipe(
-                    provider, SFTCore.id(name + "_by_crafting"), circuit.asStack(), tag);
+                provider, SFTCore.id(name + "_by_crafting"), circuit.asStack(), tag
+            );
 
             // packer
             PACKER_RECIPES
-                    .recipeBuilder(SFTCore.id(name + "_by_assembling"))
-                    .inputItems(tag)
-                    .outputItems(circuit)
-                    .EUt(VA[ULV])
-                    .duration(60)
-                    .save(provider);
+                .recipeBuilder(SFTCore.id(name + "_by_assembling"))
+                .inputItems(tag)
+                .outputItems(circuit)
+                .EUt(VA[ULV])
+                .duration(60)
+                .save(provider);
         }
     }
 
@@ -359,14 +377,20 @@ public final class CommonGTRecipes {
         gasCollector(provider, "liquid_ender_air", END_STONE, LiquidEnderAir, IV, true);
     }
 
-    private static void gasCollector(Consumer<FinishedRecipe> provider, String id, Item input, Material output,
-                                     int tier, boolean freeze) {
+    private static void gasCollector(
+        Consumer<FinishedRecipe> provider,
+        String id,
+        Item input,
+        Material output,
+        int tier,
+        boolean freeze
+    ) {
         var builder = LARGE_GAS_COLLECTOR_RECIPES
-                .recipeBuilder(id)
-                .notConsumable(input)
-                .outputFluids(output.getFluid(100000))
-                .duration(freeze ? 2000 : 1800)
-                .EUt(VA[tier]);
+            .recipeBuilder(id)
+            .notConsumable(input)
+            .outputFluids(output.getFluid(100000))
+            .duration(freeze ? 2000 : 1800)
+            .EUt(VA[tier]);
         if (freeze) builder.notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack());
         else builder.circuitMeta(1);
         builder.save(provider);
@@ -374,10 +398,10 @@ public final class CommonGTRecipes {
 
     private static void dualHatchRecipes(Consumer<FinishedRecipe> provider) {
         Material[] fluidMap = new Material[] {
-                GTMaterials.Glue,
-                GTMaterials.Polyethylene,
-                GTMaterials.Polytetrafluoroethylene,
-                GTMaterials.Polybenzimidazole
+            GTMaterials.Glue,
+            GTMaterials.Polyethylene,
+            GTMaterials.Polytetrafluoroethylene,
+            GTMaterials.Polybenzimidazole
         };
 
         for (var machine : SFTPartMachines.DUAL_IMPORT_HATCH) {
@@ -387,20 +411,22 @@ public final class CommonGTRecipes {
             for (; j < fluidMap.length; j++) {
                 int fluidAmount = GTValues.L * 8 * (tier + 1);
                 ASSEMBLER_RECIPES
-                        .recipeBuilder(
-                                SFTCore.id(
-                                        "dual_import_bus_" + VN[tier].toLowerCase(Locale.ROOT) + "_" +
-                                                fluidMap[j].getName()))
-                        .inputItems(ITEM_IMPORT_BUS[tier])
-                        .inputItems(FLUID_IMPORT_HATCH[tier])
-                        .inputItems(PIPE_NORMAL.get(tier), 2)
-                        .inputItems(FRAME.get(tier), 3)
-                        .circuitMeta(1)
-                        .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
-                        .outputItems(machine)
-                        .duration(300)
-                        .EUt(VA[tier])
-                        .save(provider);
+                    .recipeBuilder(
+                        SFTCore.id(
+                            "dual_import_bus_" + VN[tier].toLowerCase(Locale.ROOT) + "_" +
+                                fluidMap[j].getName()
+                        )
+                    )
+                    .inputItems(ITEM_IMPORT_BUS[tier])
+                    .inputItems(FLUID_IMPORT_HATCH[tier])
+                    .inputItems(PIPE_NORMAL.get(tier), 2)
+                    .inputItems(FRAME.get(tier), 3)
+                    .circuitMeta(1)
+                    .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
+                    .outputItems(machine)
+                    .duration(300)
+                    .EUt(VA[tier])
+                    .save(provider);
             }
         }
 
@@ -411,20 +437,22 @@ public final class CommonGTRecipes {
             for (; j < fluidMap.length; j++) {
                 int fluidAmount = GTValues.L * 8 * (tier + 1);
                 ASSEMBLER_RECIPES
-                        .recipeBuilder(
-                                SFTCore.id(
-                                        "dual_export_bus_" + VN[tier].toLowerCase(Locale.ROOT) + "_" +
-                                                fluidMap[j].getName()))
-                        .inputItems(ITEM_IMPORT_BUS[tier])
-                        .inputItems(FLUID_IMPORT_HATCH[tier])
-                        .inputItems(PIPE_NORMAL.get(tier), 2)
-                        .inputItems(FRAME.get(tier), 3)
-                        .circuitMeta(2)
-                        .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
-                        .outputItems(machine)
-                        .duration(300)
-                        .EUt(VA[tier])
-                        .save(provider);
+                    .recipeBuilder(
+                        SFTCore.id(
+                            "dual_export_bus_" + VN[tier].toLowerCase(Locale.ROOT) + "_" +
+                                fluidMap[j].getName()
+                        )
+                    )
+                    .inputItems(ITEM_IMPORT_BUS[tier])
+                    .inputItems(FLUID_IMPORT_HATCH[tier])
+                    .inputItems(PIPE_NORMAL.get(tier), 2)
+                    .inputItems(FRAME.get(tier), 3)
+                    .circuitMeta(2)
+                    .inputFluids(fluidMap[j].getFluid(fluidAmount >> j))
+                    .outputItems(machine)
+                    .duration(300)
+                    .EUt(VA[tier])
+                    .save(provider);
             }
         }
     }

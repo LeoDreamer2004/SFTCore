@@ -31,27 +31,33 @@ public class SFTRegistrate extends GTRegistrate {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder multiblock(String name,
-                                                  Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
+    public SFTMultiblockMachineBuilder multiblock(
+        String name,
+        Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine
+    ) {
         return new SFTMultiblockMachineBuilder(
-                this,
-                name,
-                metaMachine,
-                MetaMachineBlock::new,
-                MetaMachineItem::new,
-                MetaMachineBlockEntity::new);
+            this,
+            name,
+            metaMachine,
+            MetaMachineBlock::new,
+            MetaMachineItem::new,
+            MetaMachineBlockEntity::new
+        );
     }
 
     @Override
-    public SFTMachineBuilder<MachineDefinition> machine(String name,
-                                                        Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+    public SFTMachineBuilder<MachineDefinition> machine(
+        String name,
+        Function<IMachineBlockEntity, MetaMachine> metaMachine
+    ) {
         return new SFTMachineBuilder<>(
-                this,
-                name,
-                MachineDefinition::new,
-                metaMachine,
-                MetaMachineBlock::new,
-                MetaMachineItem::new,
-                MetaMachineBlockEntity::new);
+            this,
+            name,
+            MachineDefinition::new,
+            metaMachine,
+            MetaMachineBlock::new,
+            MetaMachineItem::new,
+            MetaMachineBlockEntity::new
+        );
     }
 }

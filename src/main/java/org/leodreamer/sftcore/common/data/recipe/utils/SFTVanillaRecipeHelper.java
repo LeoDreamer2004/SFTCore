@@ -38,7 +38,8 @@ public class SFTVanillaRecipeHelper {
         public ShapedRecipeBuilder pattern(String... patterns) {
             if (!recipe.isEmpty()) {
                 throw new IllegalArgumentException(
-                        "Please define the pattern before adding any arguments to the recipe.");
+                    "Please define the pattern before adding any arguments to the recipe."
+                );
             }
             recipe.addAll(Arrays.asList(patterns));
             return this;
@@ -89,7 +90,8 @@ public class SFTVanillaRecipeHelper {
                 return;
             }
             VanillaRecipeHelper.addShapedRecipe(
-                    provider, setMaterialInfoData, id, output, recipe.toArray());
+                provider, setMaterialInfoData, id, output, recipe.toArray()
+            );
         }
     }
 

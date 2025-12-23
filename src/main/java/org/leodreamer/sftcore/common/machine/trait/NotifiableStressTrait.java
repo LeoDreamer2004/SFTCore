@@ -21,10 +21,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float>
-                                   implements ICapabilityTrait {
+    implements ICapabilityTrait {
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            NotifiableStressTrait.class, NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
+        NotifiableStressTrait.class, NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER
+    );
 
     @Getter
     @Setter
@@ -47,13 +48,14 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float>
         super.onMachineLoad();
         if (machine instanceof IKineticMachine kineticMachine) {
             machine.subscribeServerTick(
-                    () -> {
-                        var speed = kineticMachine.getKineticHolder().getSpeed();
-                        if (speed != lastSpeed) {
-                            lastSpeed = speed;
-                            notifyListeners();
-                        }
-                    });
+                () -> {
+                    var speed = kineticMachine.getKineticHolder().getSpeed();
+                    if (speed != lastSpeed) {
+                        lastSpeed = speed;
+                        notifyListeners();
+                    }
+                }
+            );
         }
     }
 

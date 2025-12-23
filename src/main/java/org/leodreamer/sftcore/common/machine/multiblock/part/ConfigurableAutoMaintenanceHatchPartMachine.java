@@ -23,7 +23,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachine
-                                                         implements IMaintenanceMachine {
+    implements IMaintenanceMachine {
 
     @Getter
     @Persisted
@@ -34,8 +34,9 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
     private static final float DURATION_ACTION_AMOUNT = 0.2f;
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ConfigurableAutoMaintenanceHatchPartMachine.class,
-            MultiblockPartMachine.MANAGED_FIELD_HOLDER);
+        ConfigurableAutoMaintenanceHatchPartMachine.class,
+        MultiblockPartMachine.MANAGED_FIELD_HOLDER
+    );
 
     public ConfigurableAutoMaintenanceHatchPartMachine(IMachineBlockEntity holder) {
         super(holder, GTValues.IV);
@@ -80,41 +81,50 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
         WidgetGroup group;
         group = new WidgetGroup(0, 0, 150, 70);
         group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 150 - 8, 70 - 8)
-                        .setBackground(GuiTextures.DISPLAY)
-                        .addWidget(
-                                new ComponentPanelWidget(
-                                        4,
-                                        5,
-                                        list -> {
-                                            list.add(getTimeWidget());
-                                            var buttonText = Component.translatable(
-                                                    "gtceu.maintenance.configurable_duration.modify");
-                                            buttonText.append(" ");
-                                            buttonText.append(
-                                                    ComponentPanelWidget.withButton(Component.literal("[-]"), "sub"));
-                                            buttonText.append(" ");
-                                            buttonText.append(
-                                                    ComponentPanelWidget.withButton(Component.literal("[+]"), "add"));
-                                            list.add(buttonText);
-                                        })
-                                        .setMaxWidthLimit(150 - 8 - 8 - 4)
-                                        .clickHandler(
-                                                (componentData, clickData) -> {
-                                                    if (!clickData.isRemote) {
-                                                        if (componentData.equals("sub")) {
-                                                            durationMultiplier = Mth.clamp(
-                                                                    durationMultiplier - DURATION_ACTION_AMOUNT,
-                                                                    MIN_DURATION_MULTIPLIER,
-                                                                    MAX_DURATION_MULTIPLIER);
-                                                        } else if (componentData.equals("add")) {
-                                                            durationMultiplier = Mth.clamp(
-                                                                    durationMultiplier + DURATION_ACTION_AMOUNT,
-                                                                    MIN_DURATION_MULTIPLIER,
-                                                                    MAX_DURATION_MULTIPLIER);
-                                                        }
-                                                    }
-                                                })));
+            new DraggableScrollableWidgetGroup(4, 4, 150 - 8, 70 - 8)
+                .setBackground(GuiTextures.DISPLAY)
+                .addWidget(
+                    new ComponentPanelWidget(
+                        4,
+                        5,
+                        list -> {
+                            list.add(getTimeWidget());
+                            var buttonText = Component.translatable(
+                                "gtceu.maintenance.configurable_duration.modify"
+                            );
+                            buttonText.append(" ");
+                            buttonText.append(
+                                ComponentPanelWidget.withButton(Component.literal("[-]"), "sub")
+                            );
+                            buttonText.append(" ");
+                            buttonText.append(
+                                ComponentPanelWidget.withButton(Component.literal("[+]"), "add")
+                            );
+                            list.add(buttonText);
+                        }
+                    )
+                        .setMaxWidthLimit(150 - 8 - 8 - 4)
+                        .clickHandler(
+                            (componentData, clickData) -> {
+                                if (!clickData.isRemote) {
+                                    if (componentData.equals("sub")) {
+                                        durationMultiplier = Mth.clamp(
+                                            durationMultiplier - DURATION_ACTION_AMOUNT,
+                                            MIN_DURATION_MULTIPLIER,
+                                            MAX_DURATION_MULTIPLIER
+                                        );
+                                    } else if (componentData.equals("add")) {
+                                        durationMultiplier = Mth.clamp(
+                                            durationMultiplier + DURATION_ACTION_AMOUNT,
+                                            MIN_DURATION_MULTIPLIER,
+                                            MAX_DURATION_MULTIPLIER
+                                        );
+                                    }
+                                }
+                            }
+                        )
+                )
+        );
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
@@ -130,12 +140,14 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
             tooltip = Component.translatable("gtceu.maintenance.configurable_duration.unchanged_description");
         } else {
             tooltip = Component.translatable(
-                    "gtceu.maintenance.configurable_duration.changed_description",
-                    FormattingUtil.formatNumber2Places(durationMultiplier));
+                "gtceu.maintenance.configurable_duration.changed_description",
+                FormattingUtil.formatNumber2Places(durationMultiplier)
+            );
         }
         return Component.translatable(
-                "gtceu.maintenance.configurable_duration",
-                FormattingUtil.formatNumber2Places(durationMultiplier))
-                .setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tooltip)));
+            "gtceu.maintenance.configurable_duration",
+            FormattingUtil.formatNumber2Places(durationMultiplier)
+        )
+            .setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tooltip)));
     }
 }

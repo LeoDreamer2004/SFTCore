@@ -17,8 +17,10 @@ public class BlockStressValues {
     }
 
     public static double getImpact(Block block) {
-        if (block instanceof IMachineBlock machineBlock &&
-                machineBlock.getDefinition() instanceof KineticMachineDefinition definition) {
+        if (
+            block instanceof IMachineBlock machineBlock &&
+                machineBlock.getDefinition() instanceof KineticMachineDefinition definition
+        ) {
             if (!definition.isSource()) {
                 return definition.getTorque();
             }
@@ -27,8 +29,10 @@ public class BlockStressValues {
     }
 
     public static double getCapacity(Block block) {
-        if (block instanceof IMachineBlock machineBlock &&
-                machineBlock.getDefinition() instanceof KineticMachineDefinition definition) {
+        if (
+            block instanceof IMachineBlock machineBlock &&
+                machineBlock.getDefinition() instanceof KineticMachineDefinition definition
+        ) {
             if (definition.isSource()) {
                 return definition.getTorque();
             }
@@ -37,16 +41,20 @@ public class BlockStressValues {
     }
 
     public boolean hasImpact(Block block) {
-        if (block instanceof IMachineBlock machineBlock &&
-                machineBlock.getDefinition() instanceof KineticMachineDefinition definition) {
+        if (
+            block instanceof IMachineBlock machineBlock &&
+                machineBlock.getDefinition() instanceof KineticMachineDefinition definition
+        ) {
             return !definition.isSource();
         }
         return false;
     }
 
     public boolean hasCapacity(Block block) {
-        if (block instanceof IMachineBlock machineBlock &&
-                machineBlock.getDefinition() instanceof KineticMachineDefinition definition) {
+        if (
+            block instanceof IMachineBlock machineBlock &&
+                machineBlock.getDefinition() instanceof KineticMachineDefinition definition
+        ) {
             return definition.isSource();
         }
         return false;

@@ -37,7 +37,8 @@ public class DumpCommand {
     public static final String ID_FILENAME = "vocabulary.json";
     public static final String MULTI_BLOCK_FILENAME = "multiBlock.txt";
     private static final Dynamic2CommandExceptionType ERROR_AREA_TOO_LARGE = new Dynamic2CommandExceptionType(
-            (limit, actual) -> Component.translatable("commands.fill.toobig", limit, actual));
+        (limit, actual) -> Component.translatable("commands.fill.toobig", limit, actual)
+    );
 
     @RegisterLanguage("Start dumping...")
     static final String START = "commands.sftcore.dump.start";
@@ -53,25 +54,43 @@ public class DumpCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-                Commands.literal("sftcore")
+            Commands.literal("sftcore")
+                .then(
+                    Commands.literal("dump")
+                        .executes(context -> dumpIdentifiers(context.getSource(), Mode.ALL))
                         .then(
-                                Commands.literal("dump")
-                                        .executes(context -> dumpIdentifiers(context.getSource(), Mode.ALL))
-                                        .then(
-                                                Commands.literal("items")
-                                                        .executes(context -> dumpIdentifiers(context.getSource(),
-                                                                Mode.ITEM)))
-                                        .then(
-                                                Commands.literal("blocks")
-                                                        .executes(context -> dumpIdentifiers(context.getSource(),
-                                                                Mode.BLOCK)))
-                                        .then(
-                                                Commands.literal("fluid")
-                                                        .executes(context -> dumpIdentifiers(context.getSource(),
-                                                                Mode.FLUID)))
-                                        .then(
-                                                Commands.literal("multiblock")
-                                                        .executes(context -> dumpMultiBlocks(context.getSource())))));
+                            Commands.literal("items")
+                                .executes(
+                                    context -> dumpIdentifiers(
+                                        context.getSource(),
+                                        Mode.ITEM
+                                    )
+                                )
+                        )
+                        .then(
+                            Commands.literal("blocks")
+                                .executes(
+                                    context -> dumpIdentifiers(
+                                        context.getSource(),
+                                        Mode.BLOCK
+                                    )
+                                )
+                        )
+                        .then(
+                            Commands.literal("fluid")
+                                .executes(
+                                    context -> dumpIdentifiers(
+                                        context.getSource(),
+                                        Mode.FLUID
+                                    )
+                                )
+                        )
+                        .then(
+                            Commands.literal("multiblock")
+                                .executes(context -> dumpMultiBlocks(context.getSource()))
+                        )
+                )
+        );
     }
 
     private static int dumpIdentifiers(CommandSourceStack stack, Mode mode) {
@@ -99,12 +118,14 @@ public class DumpCommand {
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(content);
             Component component = Component.translatable(LINK)
-                    .withStyle(ChatFormatting.UNDERLINE)
-                    .withStyle(
-                            style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, filePath)));
+                .withStyle(ChatFormatting.UNDERLINE)
+                .withStyle(
+                    style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, filePath))
+                );
             stack.sendSuccess(
-                    () -> Component.translatable(SUCCESS).append(Component.literal(" ")).append(component),
-                    true);
+                () -> Component.translatable(SUCCESS).append(Component.literal(" ")).append(component),
+                true
+            );
             return 1;
         } catch (IOException e) {
             stack.sendFailure(Component.translatable(FAILURE));

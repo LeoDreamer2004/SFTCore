@@ -11,13 +11,14 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 public final class SFTSingleMachines {
 
     public static final MachineDefinition ORE_REPLICATOR = REGISTRATE
-            .machine("ore_replicator", OreReplicatorMachine::new)
-            .tooltips(
-                    builder -> SFTTooltipsBuilder.machine(builder.id)
-                            .tip("Place it under an ore block and it will generate ores."))
-            .langValue("Ore Replicator")
-            .rotationState(RotationState.NONE)
-            .register();
+        .machine("ore_replicator", OreReplicatorMachine::new)
+        .tooltips(
+            builder -> SFTTooltipsBuilder.machine(builder.id)
+                .tip("Place it under an ore block and it will generate ores.")
+        )
+        .langValue("Ore Replicator")
+        .rotationState(RotationState.NONE)
+        .register();
 
     public static void init() {}
 }

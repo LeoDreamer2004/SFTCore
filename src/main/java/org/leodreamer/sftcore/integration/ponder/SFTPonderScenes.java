@@ -46,24 +46,26 @@ public class SFTPonderScenes {
                         method.invoke(null, builder, util);
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         SFTCore.LOGGER.error(
-                                "Failed to invoke ponder scene method {} in class {}",
-                                method.getName(),
-                                clazz.getName(),
-                                e);
+                            "Failed to invoke ponder scene method {} in class {}",
+                            method.getName(),
+                            clazz.getName(),
+                            e
+                        );
                         SFTCore.LOGGER.error(
-                                "Expected a static method BiConsumer<SFTSceneBuilder, SceneBuildingUtil>");
+                            "Expected a static method BiConsumer<SFTSceneBuilder, SceneBuildingUtil>"
+                        );
                     }
                 };
 
                 var components = Arrays.stream(scene.groups())
-                        .map(SFTPonderGroup::getComponents)
-                        .flatMap(Arrays::stream)
-                        .map(RLUtils::getItemRL)
-                        .toList();
+                    .map(SFTPonderGroup::getComponents)
+                    .flatMap(Arrays::stream)
+                    .map(RLUtils::getItemRL)
+                    .toList();
 
                 helper
-                        .forComponents(components)
-                        .addStoryBoard(schematic, new SFTGeneralStoryBoard(func, schematic), methodTags);
+                    .forComponents(components)
+                    .addStoryBoard(schematic, new SFTGeneralStoryBoard(func, schematic), methodTags);
             }
         }
     }

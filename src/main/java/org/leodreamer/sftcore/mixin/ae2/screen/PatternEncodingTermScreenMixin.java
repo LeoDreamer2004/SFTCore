@@ -26,19 +26,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PatternEncodingTermScreen.class)
 public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu>
-                                           extends MEStorageScreen<C> implements IGTTransferPanel {
+    extends MEStorageScreen<C>
+    implements IGTTransferPanel {
 
     @Unique
     GTTransferPanel sftcore$gtPanel;
 
     public PatternEncodingTermScreenMixin(
-                                          C menu, Inventory playerInventory, Component title, ScreenStyle style) {
+        C menu,
+        Inventory playerInventory,
+        Component title,
+        ScreenStyle style
+    ) {
         super(menu, playerInventory, title, style);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addGTPanel(PatternEncodingTermMenu menu, Inventory playerInventory, Component title, ScreenStyle style,
-                            CallbackInfo ci) {
+    private void addGTPanel(
+        PatternEncodingTermMenu menu,
+        Inventory playerInventory,
+        Component title,
+        ScreenStyle style,
+        CallbackInfo ci
+    ) {
         sftcore$gtPanel = new GTTransferPanel(menu);
         widgets.add("gtPanel", sftcore$gtPanel);
     }

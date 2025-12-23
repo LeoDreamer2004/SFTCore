@@ -75,24 +75,29 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
 
         if (container.removeEnergy(eu, null) != eu) {
             Objects.requireNonNull(context.getPlayer())
-                    .displayClientMessage(Component.translatable(ENERGY_LACK), true);
+                .displayClientMessage(Component.translatable(ENERGY_LACK), true);
             return false;
         }
 
         logic.setProgress(logic.getProgress() + leftDuration);
         Objects.requireNonNull(context.getPlayer())
-                .displayClientMessage(
-                        Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration),
-                        true);
+            .displayClientMessage(
+                Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration),
+                true
+            );
         return true;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components,
-                                TooltipFlag isAdvanced) {
+    public void appendHoverText(
+        ItemStack stack,
+        @Nullable Level level,
+        List<Component> components,
+        TooltipFlag isAdvanced
+    ) {
         SFTTooltipsBuilder.of()
-                .insert(Component.translatable(TOOLTIP))
-                .textureComeFrom("Time In a Bottle")
-                .addTo(components);
+            .insert(Component.translatable(TOOLTIP))
+            .textureComeFrom("Time In a Bottle")
+            .addTo(components);
     }
 }

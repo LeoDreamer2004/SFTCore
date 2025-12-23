@@ -14,17 +14,20 @@ import java.util.List;
 public final class SFTCovers {
 
     public static final List<CoverDefinition> ACCELERATE_COVERS = Arrays.stream(AccelerateCover.TIERS)
-            .mapToObj(
-                    tier -> register(
-                            GTValues.VN[tier].toLowerCase() + "_accelerate_cover",
-                            (a, b, c) -> new AccelerateCover(a, b, c, tier)))
-            .toList();
+        .mapToObj(
+            tier -> register(
+                GTValues.VN[tier].toLowerCase() + "_accelerate_cover",
+                (a, b, c) -> new AccelerateCover(a, b, c, tier)
+            )
+        )
+        .toList();
 
     public static CoverDefinition register(String id, CoverDefinition.CoverBehaviourProvider behaviorCreator) {
         var definition = new CoverDefinition(
-                SFTCore.id(id),
-                behaviorCreator,
-                () -> () -> new SimpleCoverRenderer(SFTCore.id("block/cover/" + id)));
+            SFTCore.id(id),
+            behaviorCreator,
+            () -> () -> new SimpleCoverRenderer(SFTCore.id("block/cover/" + id))
+        );
         GTRegistries.COVERS.register(definition.getId(), definition);
         return definition;
     }

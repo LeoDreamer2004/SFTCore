@@ -24,7 +24,9 @@ public class SFTPacketHandler {
         private final Function<FriendlyByteBuf, BasePacket> factory;
 
         PacketTypes(
-                    Class<? extends BasePacket> packetClass, Function<FriendlyByteBuf, BasePacket> factory) {
+            Class<? extends BasePacket> packetClass,
+            Function<FriendlyByteBuf, BasePacket> factory
+        ) {
             this.factory = factory;
 
             REVERSE_LOOKUP.put(packetClass, this);

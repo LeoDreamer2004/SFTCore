@@ -14,9 +14,10 @@ public final class SFTOres {
         // Remove all the veins
         Set<ResourceLocation> keys = Set.copyOf(GTRegistries.ORE_VEINS.keys());
         keys.forEach(
-                (rl) -> {
-                    SFTCore.LOGGER.info("Removing ore vein: {}", rl);
-                    GTRegistries.ORE_VEINS.remove(rl);
-                });
+            (rl) -> {
+                SFTCore.LOGGER.info("Removing ore vein: {}", rl);
+                GTRegistries.ORE_VEINS.remove(rl);
+            }
+        );
     }
 }

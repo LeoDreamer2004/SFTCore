@@ -49,8 +49,12 @@ public abstract class CraftingCpuLogicMixin {
     private int[] usedOps;
 
     @Shadow(remap = false)
-    public abstract int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService,
-                                        Level level);
+    public abstract int executeCrafting(
+        int maxPatterns,
+        CraftingService craftingService,
+        IEnergyService energyService,
+        Level level
+    );
 
     @Shadow(remap = false)
     @Nullable
@@ -94,8 +98,10 @@ public abstract class CraftingCpuLogicMixin {
         AEItemKey orderKey = null;
         boolean isOrder = false;
 
-        if (finish != null && finish.what() instanceof AEItemKey finishKey &&
-                finishKey.getItem() == SFTItems.ORDER.asItem()) {
+        if (
+            finish != null && finish.what() instanceof AEItemKey finishKey &&
+                finishKey.getItem() == SFTItems.ORDER.asItem()
+        ) {
             isOrder = true;
             orderKey = finishKey;
         }

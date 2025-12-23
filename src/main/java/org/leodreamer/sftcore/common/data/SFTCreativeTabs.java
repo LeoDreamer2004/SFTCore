@@ -12,16 +12,19 @@ import static org.leodreamer.sftcore.SFTCore.*;
 public final class SFTCreativeTabs {
 
     public static final RegistryEntry<CreativeModeTab> SFTCore = REGISTRATE
-            .defaultCreativeTab(
-                    MOD_ID,
-                    builder -> builder
-                            .displayItems(
-                                    new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(
-                                            MOD_ID, REGISTRATE))
-                            .title(Component.literal(NAME))
-                            .icon(SFTItems.UU_MATTER::asStack)
-                            .build())
-            .register();
+        .defaultCreativeTab(
+            MOD_ID,
+            builder -> builder
+                .displayItems(
+                    new GTCreativeModeTabs.RegistrateDisplayItemsGenerator(
+                        MOD_ID, REGISTRATE
+                    )
+                )
+                .title(Component.literal(NAME))
+                .icon(SFTItems.UU_MATTER::asStack)
+                .build()
+        )
+        .register();
 
     static {
         REGISTRATE.creativeModeTab(() -> SFTCore);

@@ -25,7 +25,10 @@ public class SplitShaftVisual extends KineticBlockEntityVisual<KineticMachineBlo
     protected final ArrayList<RotatingInstance> keys;
 
     public SplitShaftVisual(
-                            VisualizationContext context, KineticMachineBlockEntity blockEntity, float partialTick) {
+        VisualizationContext context,
+        KineticMachineBlockEntity blockEntity,
+        float partialTick
+    ) {
         super(context, blockEntity, partialTick);
 
         keys = new ArrayList<>(2);
@@ -35,15 +38,15 @@ public class SplitShaftVisual extends KineticBlockEntityVisual<KineticMachineBlo
         for (Direction dir : Iterate.directionsInAxis(rotationAxis())) {
 
             RotatingInstance half = instancerProvider()
-                    .instancer(AllInstanceTypes.ROTATING, Models.partial(AllPartialModels.SHAFT_HALF))
-                    .createInstance();
+                .instancer(AllInstanceTypes.ROTATING, Models.partial(AllPartialModels.SHAFT_HALF))
+                .createInstance();
 
             float splitSpeed = speed * (blockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine ?
-                    kineticMachine.getRotationSpeedModifier(dir) : 1);
+                kineticMachine.getRotationSpeedModifier(dir) : 1);
             half.setup(blockEntity, splitSpeed)
-                    .setPosition(getVisualPosition())
-                    .rotateToFace(Direction.SOUTH, dir)
-                    .setChanged();
+                .setPosition(getVisualPosition())
+                .rotateToFace(Direction.SOUTH, dir)
+                .setChanged();
             keys.add(half);
         }
     }
@@ -57,12 +60,13 @@ public class SplitShaftVisual extends KineticBlockEntityVisual<KineticMachineBlo
 
         for (int i : Iterate.zeroAndOne) {
             keys.get(i)
-                    .setup(
-                            blockEntity,
-                            blockEntity.getSpeed() *
-                                    (blockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine ?
-                                            kineticMachine.getRotationSpeedModifier(directions[i]) : 1))
-                    .setChanged();
+                .setup(
+                    blockEntity,
+                    blockEntity.getSpeed() *
+                        (blockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine ?
+                            kineticMachine.getRotationSpeedModifier(directions[i]) : 1)
+                )
+                .setChanged();
         }
     }
 

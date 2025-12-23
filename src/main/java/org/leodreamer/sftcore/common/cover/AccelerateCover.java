@@ -31,7 +31,11 @@ public class AccelerateCover extends DetectorCover {
     private final int tier;
 
     public AccelerateCover(
-                           CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier) {
+        CoverDefinition definition,
+        ICoverable coverHolder,
+        Direction attachedSide,
+        int tier
+    ) {
         super(definition, coverHolder, attachedSide);
         this.tier = tier;
     }
@@ -40,8 +44,8 @@ public class AccelerateCover extends DetectorCover {
     public boolean canAttach() {
         var machine = MetaMachine.getMachine(coverHolder.getLevel(), coverHolder.getPos());
         return super.canAttach() && machine instanceof IOverclockMachine &&
-                machine.getCoverContainer().getCovers().stream()
-                        .noneMatch(cover -> cover instanceof AccelerateCover);
+            machine.getCoverContainer().getCovers().stream()
+                .noneMatch(cover -> cover instanceof AccelerateCover);
     }
 
     @Override

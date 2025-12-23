@@ -32,7 +32,9 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     private Button sftcore$halfBtn;
 
     private ProcessingEncodingPanelMixin(
-                                         PatternEncodingTermScreen<?> screen, WidgetContainer widgets) {
+        PatternEncodingTermScreen<?> screen,
+        WidgetContainer widgets
+    ) {
         super(screen, widgets);
     }
 
@@ -49,13 +51,16 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     @Unique
     private Button sftcore$createMultiplyPatternBtn(Component text, int multiplier) {
         var btn = new TinyTextButton(
-                text, (b) -> ((IPatternMultiply) menu).sftcore$multiplyPattern(multiplier));
+            text, (b) -> ((IPatternMultiply) menu).sftcore$multiplyPattern(multiplier)
+        );
 
         btn.setTooltips(
-                List.of(
-                        Component.translatable(MixinTooltips.CHANGE_PATTERN),
-                        multiplier > 0 ? Component.translatable(MixinTooltips.MULTIPLY_PATTERN, multiplier) :
-                                Component.translatable(MixinTooltips.DIVIDE_PATTERN, -multiplier)));
+            List.of(
+                Component.translatable(MixinTooltips.CHANGE_PATTERN),
+                multiplier > 0 ? Component.translatable(MixinTooltips.MULTIPLY_PATTERN, multiplier) :
+                    Component.translatable(MixinTooltips.DIVIDE_PATTERN, -multiplier)
+            )
+        );
 
         return btn;
     }

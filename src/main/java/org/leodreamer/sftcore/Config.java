@@ -10,8 +10,8 @@ public class Config {
 
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     private static final ForgeConfigSpec.BooleanValue KEEP_DISTINCT = BUILDER
-            .comment("Whether to delete the repeated items which occurred in blocks")
-            .define("keepDistinct", true);
+        .comment("Whether to delete the repeated items which occurred in blocks")
+        .define("keepDistinct", true);
     public static ForgeConfigSpec SPEC = BUILDER.build();
     public static boolean keepDistinct;
 

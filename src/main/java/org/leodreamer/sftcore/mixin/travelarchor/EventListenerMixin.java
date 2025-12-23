@@ -12,10 +12,12 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class EventListenerMixin {
 
     @Redirect(
-              method = "onRightClick",
-              at = @At(
-                       value = "INVOKE",
-                       target = "Lnet/minecraft/world/item/ItemCooldowns;addCooldown(Lnet/minecraft/world/item/Item;I)V"))
+        method = "onRightClick",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/item/ItemCooldowns;addCooldown(Lnet/minecraft/world/item/Item;I)V"
+        )
+    )
     private void travelAnchors$skipCooldown(ItemCooldowns cooldowns, Item item, int coolDownTicks) {
         // Do nothing
     }

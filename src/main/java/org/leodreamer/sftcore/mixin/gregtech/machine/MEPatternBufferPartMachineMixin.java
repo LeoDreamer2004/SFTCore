@@ -23,15 +23,18 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine {
     }
 
     @ModifyArg(
-               method = "getTerminalGroup",
-               at = @At(
-                        value = "INVOKE",
-                        target = "Lappeng/api/implementations/blockentities/PatternContainerGroup;<init>(Lappeng/api/stacks/AEItemKey;Lnet/minecraft/network/chat/Component;Ljava/util/List;)V"),
-               index = 2,
-               remap = false)
+        method = "getTerminalGroup",
+        at = @At(
+            value = "INVOKE",
+            target = "Lappeng/api/implementations/blockentities/PatternContainerGroup;<init>(Lappeng/api/stacks/AEItemKey;Lnet/minecraft/network/chat/Component;Ljava/util/List;)V"
+        ),
+        index = 2,
+        remap = false
+    )
     private List<Component> sftcore$addBufferTooltips(List<Component> original) {
         return List.of(
-                Component.translatable(MixinTooltips.PART_FROM)
-                        .append(Component.translatable(getDefinition().getDescriptionId())));
+            Component.translatable(MixinTooltips.PART_FROM)
+                .append(Component.translatable(getDefinition().getDescriptionId()))
+        );
     }
 }

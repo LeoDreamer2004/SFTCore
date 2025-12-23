@@ -90,10 +90,14 @@ public class SFTTooltipsBuilder {
         return this;
     }
 
-    @RegisterLanguage("§2- §lBlast Furnace Coil Bonus: §7§oFor every voltage tier above §bMV§7§o, temperature is increased by §r100K.")
+    @RegisterLanguage(
+        "§2- §lBlast Furnace Coil Bonus: §7§oFor every voltage tier above §bMV§7§o, temperature is increased by §r100K."
+    )
     static final String EBF_0 = "gtceu.machine.electric_blast_furnace.tooltip.0";
 
-    @RegisterLanguage("§7§o   For every §f900K§7§o above the recipe temperature, energy consumption is reduced by §f5%%.§r")
+    @RegisterLanguage(
+        "§7§o   For every §f900K§7§o above the recipe temperature, energy consumption is reduced by §f5%%.§r"
+    )
     static final String EBF_1 = "gtceu.machine.electric_blast_furnace.tooltip.1";
 
     @RegisterLanguage("§7§o   For every §f1800K§7§o above the recipe temperature, one perfect overclock is granted.§r")
@@ -101,9 +105,10 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder ebf() {
         return this.insert(
-                Component.translatable(EBF_0),
-                Component.translatable(EBF_1),
-                Component.translatable(EBF_2));
+            Component.translatable(EBF_0),
+            Component.translatable(EBF_1),
+            Component.translatable(EBF_2)
+        );
     }
 
     @RegisterLanguage("§co §lParallelizable§r")
@@ -132,7 +137,8 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder energyMultiplier(double multiplier) {
         return this.insert(
-                Component.translatable(ENERGY_MULTIPLIER, FormattingUtil.formatNumbers(multiplier)));
+            Component.translatable(ENERGY_MULTIPLIER, FormattingUtil.formatNumbers(multiplier))
+        );
     }
 
     @RegisterLanguage("§9- §lTime Multiplier§r§9: %s§r")
@@ -140,7 +146,8 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder timeMultiplier(double multiplier) {
         return this.insert(
-                Component.translatable(TIME_MULTIPLIER, FormattingUtil.formatNumbers(multiplier)));
+            Component.translatable(TIME_MULTIPLIER, FormattingUtil.formatNumbers(multiplier))
+        );
     }
 
     @RegisterLanguage("§6o §lPerfect Overclock§r")
@@ -151,7 +158,8 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder perfectOverlock() {
         return this.insert(
-                Component.translatable(PERFECT_OVERLOCK), Component.translatable(PERFECT_OVERLOCK_1));
+            Component.translatable(PERFECT_OVERLOCK), Component.translatable(PERFECT_OVERLOCK_1)
+        );
     }
 
     @RegisterLanguage("§do §lHalf Perfect Overclock§r")
@@ -162,14 +170,17 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder halfPerfectOverlock() {
         return this.insert(
-                Component.translatable(HALF_PERFECT_OVERLOCK),
-                Component.translatable(HALF_PERFECT_OVERLOCK_1));
+            Component.translatable(HALF_PERFECT_OVERLOCK),
+            Component.translatable(HALF_PERFECT_OVERLOCK_1)
+        );
     }
 
     @RegisterLanguage("§eo §lLaser Hatch: §a✔§r")
     static final String ALLOW_LASER = "sftcore.multiblock.allow_laser";
 
-    @RegisterLanguage("§7§o   Laser hatch can provide huge energy, and must be used together with a normal energy hatch.")
+    @RegisterLanguage(
+        "§7§o   Laser hatch can provide huge energy, and must be used together with a normal energy hatch."
+    )
     static final String ALLOW_LASER_1 = "sftcore.multiblock.allow_laser.1";
 
     public SFTTooltipsBuilder allowLaser() {
@@ -178,23 +189,27 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder gcymReduce() {
         return this.energyMultiplier(SFTRecipeModifiers.GCYM_EUT_MULTIPLIER)
-                .timeMultiplier(SFTRecipeModifiers.GCYM_DURATION_MULTIPLIER);
+            .timeMultiplier(SFTRecipeModifiers.GCYM_DURATION_MULTIPLIER);
     }
 
     @RegisterLanguage("§co §lCoil Discount§r")
     static final String MEGA_REDUCE_WITH_COIL = "sftcore.multiblock.mega_reduce_with_coil";
 
-    @RegisterLanguage("§7§o   For every §d%dK§7§o above coil temperature, recipe energy is multiplied by §a%s§r§7§o and time by §9%s§r")
+    @RegisterLanguage(
+        "§7§o   For every §d%dK§7§o above coil temperature, recipe energy is multiplied by §a%s§r§7§o and time by §9%s§r"
+    )
     static final String MEGA_REDUCE_WITH_COIL_1 = "sftcore.multiblock.mega_reduce_with_coil.1";
 
     public SFTTooltipsBuilder megaReduceWithCoil() {
         return this.insert(
-                Component.translatable(MEGA_REDUCE_WITH_COIL),
-                Component.translatable(
-                        MEGA_REDUCE_WITH_COIL_1,
-                        SFTRecipeModifiers.MEGA_COIL_TEMP_LEVEL,
-                        FormattingUtil.formatNumbers(SFTRecipeModifiers.MEGA_COIL_DURATION_MULTIPLIER),
-                        FormattingUtil.formatNumbers(SFTRecipeModifiers.MEGA_COIL_EUT_MULTIPLIER)));
+            Component.translatable(MEGA_REDUCE_WITH_COIL),
+            Component.translatable(
+                MEGA_REDUCE_WITH_COIL_1,
+                SFTRecipeModifiers.MEGA_COIL_TEMP_LEVEL,
+                FormattingUtil.formatNumbers(SFTRecipeModifiers.MEGA_COIL_DURATION_MULTIPLIER),
+                FormattingUtil.formatNumbers(SFTRecipeModifiers.MEGA_COIL_EUT_MULTIPLIER)
+            )
+        );
     }
 
     @RegisterLanguage("§5Δ §lRecipe Types: %s")
@@ -218,11 +233,13 @@ public class SFTTooltipsBuilder {
             throw new IllegalArgumentException("Too many recipe types to generate a component");
         }
         return this.insert(
-                Component.translatable(
-                        "gtceu.machine.available_recipe_map_" + number + ".tooltip",
-                        Arrays.stream(recipeTypes)
-                                .map(rt -> Component.translatable(rt.registryName.toLanguageKey()))
-                                .toArray()));
+            Component.translatable(
+                "gtceu.machine.available_recipe_map_" + number + ".tooltip",
+                Arrays.stream(recipeTypes)
+                    .map(rt -> Component.translatable(rt.registryName.toLanguageKey()))
+                    .toArray()
+            )
+        );
     }
 
     @RegisterLanguage("Textures come from: %s")
@@ -230,7 +247,8 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder textureComeFrom(String where) {
         return this.insert(
-                Component.translatable(TEXTURE_COME_FROM, where).withStyle(ChatFormatting.GRAY));
+            Component.translatable(TEXTURE_COME_FROM, where).withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @RegisterLanguage("Structures come from: %s")
@@ -238,7 +256,8 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder structureComeFrom(String where) {
         return this.insert(
-                Component.translatable(STRUCTURE_COME_FROM, where).withStyle(ChatFormatting.GRAY));
+            Component.translatable(STRUCTURE_COME_FROM, where).withStyle(ChatFormatting.GRAY)
+        );
     }
 
     @RegisterLanguage("* Modified By SFT *")
@@ -246,7 +265,8 @@ public class SFTTooltipsBuilder {
 
     public SFTTooltipsBuilder modifiedBySFT() {
         return this.insert(
-                Component.translatable(MODIFIED_BY_SFT)
-                        .withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC, ChatFormatting.UNDERLINE));
+            Component.translatable(MODIFIED_BY_SFT)
+                .withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC, ChatFormatting.UNDERLINE)
+        );
     }
 }

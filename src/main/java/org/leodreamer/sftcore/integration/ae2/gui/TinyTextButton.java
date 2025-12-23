@@ -38,7 +38,8 @@ public class TinyTextButton extends Button implements ITooltip {
             guiGraphics.fill(getX() - 1, getY(), getX(), getY() + height, 0xFFFFFFFF);
             guiGraphics.fill(getX() + width, getY(), getX() + width + 1, getY() + height, 0xFFFFFFFF);
             guiGraphics.fill(
-                    getX() - 1, getY() + height, getX() + width + 1, getY() + height + 1, 0xFFFFFFFF);
+                getX() - 1, getY() + height, getX() + width + 1, getY() + height + 1, 0xFFFFFFFF
+            );
         }
 
         var pose = guiGraphics.pose();
@@ -61,7 +62,8 @@ public class TinyTextButton extends Button implements ITooltip {
         float Y = (getY() + 2.0f) * 2;
         MultiBufferSource.BufferSource buffer = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
         font.drawInBatch(
-                getMessage(), X, Y, 0xffffff, true, matrix, buffer, Font.DisplayMode.NORMAL, 0, 15728880);
+            getMessage(), X, Y, 0xffffff, true, matrix, buffer, Font.DisplayMode.NORMAL, 0, 15728880
+        );
         buffer.endBatch();
         RenderSystem.enableBlend();
 

@@ -21,7 +21,7 @@ public class CleaningMaintenanceMixin {
     private CleanroomType cleanroomType;
 
     @Inject(method = "getTier", at = @At("HEAD"), cancellable = true, remap = false)
-    public void maintenanceHatch$getTier(CallbackInfoReturnable<Integer> cir) {
+    public void setMaintenanceHatchTier(CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue(cleanroomType == CleanroomType.CLEANROOM ? HV : ZPM);
     }
 }

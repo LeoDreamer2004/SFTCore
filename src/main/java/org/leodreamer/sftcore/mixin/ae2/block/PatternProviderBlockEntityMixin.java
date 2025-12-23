@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PatternProviderBlockEntity.class)
 public abstract class PatternProviderBlockEntityMixin extends AENetworkBlockEntity
-                                                      implements IPromptProvider {
+    implements IPromptProvider {
 
     @Unique
     private static final String PROMPT_KEY = "prompt";
@@ -26,7 +26,10 @@ public abstract class PatternProviderBlockEntityMixin extends AENetworkBlockEnti
     private String sftcore$prompt = "";
 
     protected PatternProviderBlockEntityMixin(
-                                              BlockEntityType<?> blockEntityType, BlockPos pos, BlockState blockState) {
+        BlockEntityType<?> blockEntityType,
+        BlockPos pos,
+        BlockState blockState
+    ) {
         super(blockEntityType, pos, blockState);
     }
 

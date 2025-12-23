@@ -21,8 +21,8 @@ import snownee.jade.api.config.IPluginConfig;
 
 @DataGenScanned
 public class ConfigurableMaintenanceHatchProvider
-                                                  implements IBlockComponentProvider,
-                                                  IServerDataProvider<BlockAccessor> {
+    implements IBlockComponentProvider,
+    IServerDataProvider<BlockAccessor> {
 
     public static final ConfigurableMaintenanceHatchProvider INSTANCE = new ConfigurableMaintenanceHatchProvider();
 
@@ -41,7 +41,7 @@ public class ConfigurableMaintenanceHatchProvider
             float multiplier = tag.getFloat(DURATION_MULTIPLIER);
             if (multiplier != 1.0F) {
                 Component multiplierText = Component.literal(FormattingUtil.formatNumbers(multiplier))
-                        .withStyle(ChatFormatting.GOLD);
+                    .withStyle(ChatFormatting.GOLD);
                 tooltip.add(Component.translatable(TOOLTIP_MULTIPLIER, multiplierText));
             }
         }

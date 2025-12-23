@@ -26,36 +26,41 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 public final class SFTBlocks {
 
     public static final BlockEntry<VoidPortalBlock> VOID_PORTAL = REGISTRATE
-            .block("void_portal", VoidPortalBlock::new)
-            .initialProperties(() -> Blocks.OBSIDIAN)
-            .simpleItem()
-            .register();
+        .block("void_portal", VoidPortalBlock::new)
+        .initialProperties(() -> Blocks.OBSIDIAN)
+        .simpleItem()
+        .register();
 
     public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock(
-            "multi_functional_casing",
-            SFTCore.id("block/casings/solid/multi_functional_casing"),
-            SFTTooltipsBuilder.of().textureComeFrom("GregTech Odyssey").array());
+        "multi_functional_casing",
+        SFTCore.id("block/casings/solid/multi_functional_casing"),
+        SFTTooltipsBuilder.of().textureComeFrom("GregTech Odyssey").array()
+    );
 
     public static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture, Component... tooltips) {
         return createCasingBlock(
-                name, Block::new, texture, () -> Blocks.IRON_BLOCK, () -> RenderType::solid, tooltips);
+            name, Block::new, texture, () -> Blocks.IRON_BLOCK, () -> RenderType::solid, tooltips
+        );
     }
 
-    public static BlockEntry<Block> createCasingBlock(String name,
-                                                      NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
-                                                      ResourceLocation texture,
-                                                      NonNullSupplier<? extends Block> properties,
-                                                      Supplier<Supplier<RenderType>> type, Component... tooltips) {
+    public static BlockEntry<Block> createCasingBlock(
+        String name,
+        NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
+        ResourceLocation texture,
+        NonNullSupplier<? extends Block> properties,
+        Supplier<Supplier<RenderType>> type,
+        Component... tooltips
+    ) {
         return REGISTRATE
-                .block(name, blockSupplier)
-                .initialProperties(properties)
-                .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-                .addLayer(type)
-                .exBlockstate(GTModels.cubeAllModel(texture))
-                .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
-                .item((block, property) -> new TooltipedBlockItem(block, property, tooltips))
-                .build()
-                .register();
+            .block(name, blockSupplier)
+            .initialProperties(properties)
+            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+            .addLayer(type)
+            .exBlockstate(GTModels.cubeAllModel(texture))
+            .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
+            .item((block, property) -> new TooltipedBlockItem(block, property, tooltips))
+            .build()
+            .register();
     }
 
     public static void init() {}

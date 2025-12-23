@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record AvailableGTRow(
-                             AEItemKey item, Component title, List<Component> tooltips, String prompt) {
+    AEItemKey item, Component title, List<Component> tooltips, String prompt
+) {
 
     public static AvailableGTRow of(AEItemKey item, Component title, List<Component> tooltips) {
         return new AvailableGTRow(item, title, tooltips, "");

@@ -51,10 +51,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @DataGenScanned
 public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
-                                              implements IDisplayUIMachine, ITieredMachine {
+    implements IDisplayUIMachine, ITieredMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            WorkableKineticMultiblockMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
+        WorkableKineticMultiblockMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER
+    );
 
     @Getter
     public LongSet rotateBlocks;
@@ -133,12 +134,13 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP)
-                .forEach(
-                        iRecipeHandler -> {
-                            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
-                                notifiableStressTrait.preWorking();
-                            }
-                        });
+            .forEach(
+                iRecipeHandler -> {
+                    if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
+                        notifiableStressTrait.preWorking();
+                    }
+                }
+            );
         boolean result = super.beforeWorking(recipe);
         previousSpeed = speed;
         if (speed != previousSpeed) {
@@ -149,22 +151,24 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
 
     public void postWorking() {
         getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP)
-                .forEach(
-                        iRecipeHandler -> {
-                            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
-                                notifiableStressTrait.postWorking();
-                            }
-                        });
+            .forEach(
+                iRecipeHandler -> {
+                    if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
+                        notifiableStressTrait.postWorking();
+                    }
+                }
+            );
     }
 
     public void preWorking() {
         getCapabilitiesFlat(IO.OUT, StressRecipeCapability.CAP)
-                .forEach(
-                        iRecipeHandler -> {
-                            if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
-                                notifiableStressTrait.preWorking();
-                            }
-                        });
+            .forEach(
+                iRecipeHandler -> {
+                    if (iRecipeHandler instanceof NotifiableStressTrait notifiableStressTrait) {
+                        notifiableStressTrait.preWorking();
+                    }
+                }
+            );
     }
 
     @Override
@@ -176,8 +180,10 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
     private void updateMachineSpeed() {
         speed = AllConfigs.server().kinetics.maxRotationSpeed.get();
         for (IMultiPart part : getParts()) {
-            if (part instanceof IKineticMachine kineticPart &&
-                    inputPartsMax.contains(kineticPart.getKineticHolder().getBlockPos())) {
+            if (
+                part instanceof IKineticMachine kineticPart &&
+                    inputPartsMax.contains(kineticPart.getKineticHolder().getBlockPos())
+            ) {
                 speed = Math.min(speed, Math.abs(kineticPart.getKineticHolder().getSpeed()));
             }
         }
@@ -221,8 +227,8 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
     }
 
     public void updateBlazeBlocks(boolean active)
-                                                  throws NoSuchMethodException, InvocationTargetException,
-                                                  IllegalAccessException {
+        throws NoSuchMethodException, InvocationTargetException,
+        IllegalAccessException {
         if (blazeBlocks != null) {
             for (Long pos : blazeBlocks) {
                 var blockPos = BlockPos.of(pos);
@@ -240,7 +246,8 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
                     }
                     if (blockEntity instanceof BlazeBurnerBlockEntity blazeBurnerBlockEntity) {
                         Method method = BlazeBurnerBlockEntity.class.getDeclaredMethod(
-                                "setBlockHeat", BlazeBurnerBlock.HeatLevel.class);
+                            "setBlockHeat", BlazeBurnerBlock.HeatLevel.class
+                        );
                         method.setAccessible(true);
                         method.invoke(blazeBurnerBlockEntity, heat);
                     }
@@ -260,20 +267,22 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
     public void addDisplayText(List<Component> textList) {
         if (recipeLogic.isWaiting()) {
             textList.add(
-                    Component.translatable("gtceu.multiblock.waiting").withStyle(ChatFormatting.RED));
+                Component.translatable("gtceu.multiblock.waiting").withStyle(ChatFormatting.RED)
+            );
             for (var reason : recipeLogic.getFancyTooltip()) {
                 textList.add(Component.literal(" - " + reason.getString()));
             }
         }
         MultiblockDisplayText.builder(textList, isFormed())
-                .setWorkingStatus(recipeLogic.isWorkingEnabled(), recipeLogic.isActive())
-                .addMachineModeLine(getRecipeType(), getRecipeTypes().length > 1)
-                .addWorkingStatusLine()
-                .addProgressLine(
-                        recipeLogic.getProgress(),
-                        recipeLogic.getMaxProgress(),
-                        recipeLogic.getProgressPercent())
-                .addOutputLines(recipeLogic.getLastRecipe());
+            .setWorkingStatus(recipeLogic.isWorkingEnabled(), recipeLogic.isActive())
+            .addMachineModeLine(getRecipeType(), getRecipeTypes().length > 1)
+            .addWorkingStatusLine()
+            .addProgressLine(
+                recipeLogic.getProgress(),
+                recipeLogic.getMaxProgress(),
+                recipeLogic.getProgressPercent()
+            )
+            .addOutputLines(recipeLogic.getLastRecipe());
         getDefinition().getAdditionalDisplay().accept(this, textList);
         textList.add(Component.translatable(SPEED, speed));
         IDisplayUIMachine.super.addDisplayText(textList);

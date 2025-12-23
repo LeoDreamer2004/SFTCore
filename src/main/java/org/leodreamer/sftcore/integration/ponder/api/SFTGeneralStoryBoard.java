@@ -77,28 +77,30 @@ public class SFTGeneralStoryBoard implements PonderStoryBoard {
             var pos = blockEntry.get("pos");
             if (pos instanceof ListTag posTag) {
                 var blockPos = posTag.stream()
-                        .mapToInt(
-                                nbt -> {
-                                    if (nbt instanceof IntTag intTag) {
-                                        return intTag.getAsInt();
-                                    } else {
-                                        throw new RuntimeException("Invalid pos tag");
-                                    }
-                                })
-                        .toArray();
+                    .mapToInt(
+                        nbt -> {
+                            if (nbt instanceof IntTag intTag) {
+                                return intTag.getAsInt();
+                            } else {
+                                throw new RuntimeException("Invalid pos tag");
+                            }
+                        }
+                    )
+                    .toArray();
                 var nbt = blockEntry.getCompound("nbt");
                 var cable = nbt.getCompound("cable");
                 if (cable.isEmpty()) return;
 
                 final var copy = cable.copy();
                 scene
-                        .world()
-                        .modifyBlockEntityNBT(
-                                util.select().position(blockPos[0], blockPos[1], blockPos[2]),
-                                BlockEntity.class,
-                                (cableNbt) -> {
-                                    cableNbt.put("cable", copy);
-                                });
+                    .world()
+                    .modifyBlockEntityNBT(
+                        util.select().position(blockPos[0], blockPos[1], blockPos[2]),
+                        BlockEntity.class,
+                        (cableNbt) -> {
+                            cableNbt.put("cable", copy);
+                        }
+                    );
             }
         } catch (RuntimeException ignored) {}
     }
