@@ -40,6 +40,7 @@
   "commands.sftcore.dump.success": "导出完成",
   "commands.sftcore.dump.success.link": "[打开文件]",
   "config.jade.plugin_sftcore.configurable_maintenance_hatch": "可配置自动维护仓",
+  "config.jade.plugin_sftcore.pattern_container_provider": "样板供应器",
   "gtceu.dummy": "无",
   "gtceu.machine.available_recipe_map_1.tooltip": "§5Δ §l配方类型：%s",
   "gtceu.machine.available_recipe_map_2.tooltip": "§5Δ §l配方类型：%s，%s",
@@ -161,7 +162,6 @@
   "sftcore.modified_by_sft": "* 由 SFT 修改 *",
   "sftcore.multiblock.allow_laser": "§eo §l激光仓：§a✔§r",
   "sftcore.multiblock.allow_laser.1": "§7§o   激光仓可以提供巨大的能量，且必须和一般能源仓共同使用",
-  "sftcore.multiblock.configurable_maintenance.duration_multiplier": "配方耗时系数：%s",
   "sftcore.multiblock.energy_multiplier.tooltip": "§a- §l能量倍率：%s§r",
   "sftcore.multiblock.half_perfect_overclock.tooltip": "§do §l低损超频§r",
   "sftcore.multiblock.half_perfect_overclock.tooltip.1": "§7§o   以4倍的功率达到3倍的处理速度§r",
@@ -326,5 +326,7 @@
   "sftcore.structure_come_from": "结构来源：%s",
   "sftcore.texture_come_from": "纹理来源：%s",
   "sftcore.void_portal.tooltip": "右击它，看看会发生什么",
-  "sftcore.wool_to_string.tooltip": "右键羊毛获得"
+  "sftcore.wool_to_string.tooltip": "右键羊毛获得",
+  "sftcore.jade.ae2.pattern_provider.patterns": "样板：",
+  "sftcore.jade.gtceu.configurable_maintenance.duration_multiplier": "配方耗时系数：%s"
 }

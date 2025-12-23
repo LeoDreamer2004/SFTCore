@@ -24,15 +24,20 @@ public class ConfigurableMaintenanceHatchProvider
     implements IBlockComponentProvider,
     IServerDataProvider<BlockAccessor> {
 
-    public static final ConfigurableMaintenanceHatchProvider INSTANCE = new ConfigurableMaintenanceHatchProvider();
-
     private static final String DURATION_MULTIPLIER = "duration_multiplier";
 
-    @RegisterLanguage("Recipe Duration Multiplier: %s")
-    static final String TOOLTIP_MULTIPLIER = "sftcore.multiblock.configurable_maintenance.duration_multiplier";
+    public static final ConfigurableMaintenanceHatchProvider INSTANCE = new ConfigurableMaintenanceHatchProvider();
 
     @RegisterLanguage("Configurable Maintenance Hatch")
     static final String JADE_CONFIG = "config.jade.plugin_sftcore.configurable_maintenance_hatch";
+
+    @Override
+    public ResourceLocation getUid() {
+        return SFTCore.id("configurable_maintenance_hatch");
+    }
+
+    @RegisterLanguage("Recipe Duration Multiplier: %s")
+    static final String TOOLTIP_MULTIPLIER = "sftcore.jade.gtceu.configurable_maintenance.duration_multiplier";
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
@@ -45,11 +50,6 @@ public class ConfigurableMaintenanceHatchProvider
                 tooltip.add(Component.translatable(TOOLTIP_MULTIPLIER, multiplierText));
             }
         }
-    }
-
-    @Override
-    public ResourceLocation getUid() {
-        return SFTCore.id("configurable_maintenance_hatch");
     }
 
     @Override
