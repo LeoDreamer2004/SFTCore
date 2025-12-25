@@ -98,7 +98,7 @@
   "item.sftcore.order.tooltip.1": "可以作为AE自动合成的产物",
   "item.sftcore.order.tooltip.2": "当此合成完成时，会自动取消，无需手动取消",
   "item.sftcore.select_stick": "选区木棍",
-  "item.sftcore.super_speed_card": "Super Acceleration Card",
+  "item.sftcore.super_speed_card": "超级加速卡",
   "item.sftcore.super_upgrade_anchor": "超级锚升级",
   "item.sftcore.super_upgrade_energy": "超级能量升级",
   "item.sftcore.super_upgrade_filter": "超级过滤升级",
@@ -150,7 +150,7 @@
   "sftcore.mekanism_nuclear_reaction": "通用机械核反应",
   "sftcore.mixin.ae2.gt_auto_transfer": "自动上传",
   "sftcore.mixin.ae2.pattern.gt_part_from": "仓口部件：",
-  "sftcore.mixin.ae2.pattern.machine_pos": "机器位置：%d %d %d",
+  "sftcore.mixin.ae2.pattern.machine_pos": "机器位置: %d %d %d",
   "sftcore.mixin.ae2.pattern_encoder.prompt": "提示词……",
   "sftcore.mixin.ae2.pattern_encoder.tooltip.0": "- 可以自动填充空白样板",
   "sftcore.mixin.ae2.pattern_encoder.tooltip.1": "- 可以自动上传编码样板到装配矩阵",
@@ -331,6 +331,5 @@
   "sftcore.structure_come_from": "结构来源：%s",
   "sftcore.texture_come_from": "纹理来源：%s",
   "sftcore.void_portal.tooltip": "右击它，看看会发生什么",
-  "sftcore.wool_to_string.tooltip": "右键羊毛获得",
-  "item.sftcore.super_speed_upgrade_card": "超级加速卡"
+  "sftcore.wool_to_string.tooltip": "右键羊毛获得"
 }
