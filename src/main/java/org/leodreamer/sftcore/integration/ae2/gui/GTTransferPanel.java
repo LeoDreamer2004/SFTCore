@@ -2,7 +2,6 @@ package org.leodreamer.sftcore.integration.ae2.gui;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
 import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 
 import net.minecraft.ChatFormatting;
@@ -18,7 +17,6 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.ICompositeWidget;
 import appeng.client.gui.Tooltip;
 import appeng.core.AppEng;
-import appeng.menu.me.items.PatternEncodingTermMenu;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +32,8 @@ public class GTTransferPanel implements ICompositeWidget {
     private int y;
     private Rect2i bounds = new Rect2i(0, 0, 0, 0);
 
-    private final PatternEncodingTermMenu menu;
+    private Consumer<Integer> onSelect = (a) -> {};
+
     @Getter
     private List<AvailableGTRow> rows = new ArrayList<>();
 
@@ -45,8 +44,10 @@ public class GTTransferPanel implements ICompositeWidget {
     private static final int PADDING_TOP = 3;
     private static final int MAX_ROW = 6;
 
-    public GTTransferPanel(PatternEncodingTermMenu menu) {
-        this.menu = menu;
+    public GTTransferPanel() {}
+
+    public void setCallback(Consumer<Integer> onSelect) {
+        this.onSelect = onSelect;
     }
 
     @Override
@@ -159,7 +160,7 @@ public class GTTransferPanel implements ICompositeWidget {
     public boolean onMouseUp(Point mousePos, int button) {
         int row = hoveredRow(mousePos);
         if (row == -1) return false;
-        ((ISendToGTMachine) menu).sftcore$sendToGTMachine(row);
+        onSelect.accept(row);
         return true;
     }
 

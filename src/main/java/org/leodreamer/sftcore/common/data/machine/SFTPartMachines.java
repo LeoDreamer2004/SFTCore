@@ -23,6 +23,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
@@ -95,6 +96,7 @@ public final class SFTPartMachines {
             .langValue("%s Dual Input Hatch".formatted(VNF[tier]))
             .rotationState(RotationState.ALL)
             .abilities(DUAL_INPUT_HATCH_ABILITIES)
+            .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .overlayTieredHullModel(GTCEu.id("block/machine/part/dual_input_hatch"))
             .tooltips(
                 Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
@@ -123,6 +125,7 @@ public final class SFTPartMachines {
             .langValue("%s Dual Output Hatch".formatted(VNF[tier]))
             .rotationState(RotationState.ALL)
             .abilities(DUAL_OUTPUT_HATCH_ABILITIES)
+            .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .overlayTieredHullModel(GTCEu.id("block/machine/part/dual_output_hatch"))
             .tooltips(
                 Component.translatable("gtceu.machine.dual_hatch.export.tooltip"),
@@ -152,6 +155,7 @@ public final class SFTPartMachines {
             .blockProp(BlockBehaviour.Properties::dynamicShape)
             .blockProp(BlockBehaviour.Properties::noOcclusion)
             .abilities(SFTPartAbility.INPUT_KINETIC)
+            .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .model(
                 SFTMachineModels.createTieredCustomModel(
                     SFTCore.id("block/machine/part/kinetic_input_box")

@@ -30,6 +30,7 @@
     "gregtech.recipe.DimensionConditionMixin",
     "gregtech.recipe.GTEmiRecipeMixin",
     "gregtech.recipe.GTRecipeBuilderMixin",
+    "gregtech.recipe.MultiblockInfoEmiRecipeMixin",
     "travelarchor.EventListenerMixin",
     "vanilla.RecipeManagerMixin"
   ],

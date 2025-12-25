@@ -1,10 +1,8 @@
 package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
-import org.leodreamer.sftcore.integration.emi.IGTEmiRecipe;
+import org.leodreamer.sftcore.integration.emi.SFTEmiPatternHandler;
 
 import com.gregtechceu.gtceu.integration.emi.recipe.Ae2PatternTerminalHandler;
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import dev.emi.emi.api.recipe.EmiRecipe;
@@ -21,15 +19,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AE2PatternTerminalHandlerMixin<T extends PatternEncodingTermMenu> {
 
     @Inject(method = "craft", at = @At("TAIL"), remap = false)
-    private void rememberGTRecipeType(
+    private void handleEmiRecipe(
         EmiRecipe recipe,
         EmiCraftContext<T> context,
         CallbackInfoReturnable<Boolean> cir
     ) {
-        if (recipe instanceof GTEmiRecipe gtRecipe) {
-            var menu = (ISendToGTMachine) context.getScreenHandler();
-            var type = ((IGTEmiRecipe) gtRecipe).sftcore$recipe().recipeType;
-            menu.sftcore$setGTType(type);
-        }
+        SFTEmiPatternHandler.handleEmiRecipe(recipe, context);
     }
 }

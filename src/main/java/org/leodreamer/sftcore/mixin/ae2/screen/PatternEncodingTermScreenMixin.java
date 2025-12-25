@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.mixin.ae2.screen;
 
 import org.leodreamer.sftcore.integration.ae2.feature.IGTTransferPanel;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
 import org.leodreamer.sftcore.integration.ae2.gui.GTTransferPanel;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -49,7 +50,8 @@ public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu>
         ScreenStyle style,
         CallbackInfo ci
     ) {
-        sftcore$gtPanel = new GTTransferPanel(menu);
+        sftcore$gtPanel = new GTTransferPanel();
+        sftcore$gtPanel.setCallback(((ISendToGTMachine) menu)::sftcore$sendToGTMachine);
         widgets.add("gtPanel", sftcore$gtPanel);
     }
 

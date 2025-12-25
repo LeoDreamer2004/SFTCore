@@ -260,8 +260,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
     @Unique
     private AvailableGTMachinesPacket sftcore$checkAvailableGTMachine() {
-        var node = getNetworkNode();
-        if (node == null) return AvailableGTMachinesPacket.empty();
+        var thisNode = getNetworkNode();
+        if (thisNode == null) return AvailableGTMachinesPacket.empty();
 
         var pattern = encodedPatternSlot.getItem();
         if (pattern.isEmpty() || !AEItems.PROCESSING_PATTERN.isSameAs(pattern))
@@ -270,13 +270,16 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         SFTCore.LOGGER.info("Trying to check available GT machines to auto transfer");
 
         List<AvailableGTRow> rows = new ArrayList<>();
-        for (var clazz : node.getGrid().getMachineClasses()) {
+        for (var clazz : thisNode.getGrid().getMachineClasses()) {
             if (PatternContainer.class.isAssignableFrom(clazz)) {
                 @SuppressWarnings("unchecked")
-                var matClazz = (Class<? extends PatternContainer>) clazz;
+                var machineClz = (Class<? extends PatternContainer>) clazz;
 
-                for (var container : node.getGrid().getMachines(matClazz)) {
-                    var row = GTTransferLogic.tryBuild(container, sftcore$curType);
+                for (var node : thisNode.getGrid().getMachineNodes(machineClz)) {
+                    var owner = node.getOwner();
+                    if (!machineClz.isInstance(owner)) continue;
+                    var container = machineClz.cast(owner);
+                    var row = GTTransferLogic.tryBuild(container, node, sftcore$curType);
                     row.ifPresent(
                         r -> {
                             if (container instanceof IPromptProvider promptProvider) {
@@ -308,6 +311,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         at = @At(
             value = "INVOKE",
             target = "Lappeng/menu/slot/RestrictedInputSlot;mayPlace(Lnet/minecraft/world/item/ItemStack;)Z",
+            ordinal = 0,
             remap = true
         ),
         remap = false

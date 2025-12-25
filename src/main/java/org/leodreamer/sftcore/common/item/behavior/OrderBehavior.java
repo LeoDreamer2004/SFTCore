@@ -95,7 +95,10 @@ public class OrderBehavior
     public Component getItemName(ItemStack stack) {
         Component name = Component.empty();
         if (stack.hasTag()) {
-            name = getTarget(stack).getHoverName();
+            var target = getTarget(stack);
+            if (!target.isEmpty()) {
+                name = target.getHoverName().copy().append(" ");
+            }
         }
         return Component.translatable(stack.getDescriptionId(), name);
     }

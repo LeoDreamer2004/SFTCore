@@ -337,7 +337,7 @@ public final class SFTMultiMachines {
                     blocks(CASING_STEEL_SOLID.get())
                         .setMinGlobalLimited(25)
                         .or(autoAbilities(definition.getRecipeTypes()))
-                        .or(autoAbilities(true, false, true))
+                        .or(autoAbilities(true, false, false))
                 )
                 .where("B", blocks(CASING_TEMPERED_GLASS.get()))
                 .where("C", blocks(CASING_STEEL_SOLID.get()))

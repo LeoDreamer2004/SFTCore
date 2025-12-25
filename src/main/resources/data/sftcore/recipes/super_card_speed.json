@@ -1,0 +1,29 @@
+{
+  "type": "extendedcrafting:shaped_table",
+  "pattern": [
+    "AAAAAAAAA",
+    "AAAAAAAAA",
+    "AAAACAAAA",
+    "AAACBCAAA",
+    "AACBBBCAA",
+    "AAACBCAAA",
+    "AAAACAAAA",
+    "AAAAAAAAA",
+    "AAAAAAAAA"
+  ],
+  "key": {
+    "A": {
+      "item": "ae2:speed_card"
+    },
+    "B": {
+      "item": "ae2:singularity"
+    },
+    "C": {
+      "tag": "forge:plates/aluminium"
+    }
+  },
+  "result": {
+    "item": "sftcore:super_speed_card",
+    "count": 1
+  }
+}

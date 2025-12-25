@@ -65,8 +65,11 @@ public class MixinTooltips {
     @RegisterLanguage("Also available in the void")
     public static final String AVAILABLE_IN_VOID = "sftcore.mixin.gtceu.condition.demension.available_in_void";
 
-    @RegisterLanguage("Part From: ")
+    @RegisterLanguage("Part From: %s")
     public static final String PART_FROM = "sftcore.mixin.ae2.pattern.gt_part_from";
+
+    @RegisterLanguage("Machine Position: %d %d %d")
+    public static final String MACHINE_POS = "sftcore.mixin.ae2.pattern.block_pos";
 
     private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 

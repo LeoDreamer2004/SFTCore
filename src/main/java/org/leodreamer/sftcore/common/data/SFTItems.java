@@ -1,10 +1,13 @@
 package org.leodreamer.sftcore.common.data;
 
+import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.item.SelectStickItem;
 import org.leodreamer.sftcore.common.item.behavior.OrderBehavior;
 import org.leodreamer.sftcore.common.item.behavior.TimeBottleBehavior;
+import org.leodreamer.sftcore.integration.IntegrateMods;
+import org.leodreamer.sftcore.integration.ae2.item.SuperUpgradeCardItem;
 import org.leodreamer.sftcore.integration.mek.SuperUpgradeItem;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,9 +17,11 @@ import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
 
+import appeng.core.definitions.AEItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import mekanism.api.Upgrade;
 
 import java.util.Arrays;
@@ -28,7 +33,9 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 public final class SFTItems {
 
     public static final ItemEntry<SelectStickItem> SELECT_STICK = REGISTRATE.item("select_stick", SelectStickItem::new)
-        .lang("Select Stick").register();
+        .lang("Select Stick")
+        .model((ctx, prov) -> prov.generated(ctx::getEntry, ResourceLocation.withDefaultNamespace("item/stick")))
+        .register();
 
     public static final ItemEntry<ComponentItem> TIME_BOTTLE = REGISTRATE
         .item("time_bottle", ComponentItem::create)
@@ -39,7 +46,7 @@ public final class SFTItems {
 
     public static final ItemEntry<ComponentItem> ORDER = REGISTRATE
         .item("order", ComponentItem::create)
-        .lang("%s Order")
+        .lang("%sOrder")
         .properties(p -> p.stacksTo(1))
         .onRegister(attach(new OrderBehavior()))
         .register();
@@ -54,10 +61,38 @@ public final class SFTItems {
         Upgrade.STONE_GENERATOR
     );
 
-    public static final ItemEntry<Item> UU_MATTER = REGISTRATE.item("uu_matter", Item::new).lang("UU Matter")
+    public static final ItemEntry<SuperUpgradeCardItem> SUPER_SPEED_CARD = REGISTRATE
+        .item("super_speed_card", p -> new SuperUpgradeCardItem(AEItems.SPEED_CARD.asItem(), p))
+        .lang("Super Acceleration Card")
+        .model(
+            (ctx, prov) -> prov.generated(
+                ctx::getEntry, ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/card_speed"),
+                SFTCore.id("item/overlay/super_upgrade")
+            )
+        )
         .register();
 
-    public static final ItemEntry<Item> INCOMPLETE_UU_MATTER = REGISTRATE.item("incomplete_uu_matter", Item::new)
+    public static final ItemEntry<ComponentItem> UU_MATTER = REGISTRATE.item("uu_matter", ComponentItem::create)
+        .lang("UU Matter")
+        .onRegister(
+            attach(
+                new TooltipBehavior(
+                    SFTTooltipsBuilder.of()
+                        .textureComeFrom("Industrial Craft 2")::addTo
+                )
+            )
+        )
+        .register();
+
+    public static final ItemEntry<ComponentItem> INCOMPLETE_UU_MATTER = REGISTRATE
+        .item("incomplete_uu_matter", ComponentItem::create)
+        .onRegister(
+            attach(
+                new TooltipBehavior(
+                    SFTTooltipsBuilder.of().textureComeFrom("Industrial Craft 2")::addTo
+                )
+            )
+        )
         .lang("Incomplete UU Matter").register();
 
     public static final ItemEntry<ComponentItem>[] COVER_ACCELERATES = registerAccelerateCovers();
@@ -70,10 +105,12 @@ public final class SFTItems {
     private static ItemEntry<SuperUpgradeItem> registerSuperUpgrade(Upgrade upgrade) {
         return REGISTRATE
             .item("super_upgrade_" + upgrade.getRawName(), (p) -> new SuperUpgradeItem(p, upgrade))
+            .model(NonNullBiConsumer.noop())
             .register();
     }
 
     private static ItemEntry<ComponentItem>[] registerAccelerateCovers() {
+        @SuppressWarnings("unchecked")
         ItemEntry<ComponentItem>[] entries = new ItemEntry[GTValues.TIER_COUNT];
 
         for (int index = 0; index < AccelerateCover.TIERS.length; index++) {

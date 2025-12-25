@@ -37,8 +37,14 @@ versionRange = "[15.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
 [[dependencies."${mod_id}"]]
-modId="create"
-mandatory=true
-versionRange="[6.0.6,6.1.0)"
-ordering="NONE"
-side="BOTH"
+modId = "create"
+mandatory = true
+versionRange = "[6.0.6,6.1.0)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies."${mod_id}"]]
+modId = "mekanism"
+mandatory = true
+versionRange = "[10.4,)"
+ordering = "NONE"
+side = "BOTH"

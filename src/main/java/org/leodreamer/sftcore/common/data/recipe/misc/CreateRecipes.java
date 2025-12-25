@@ -1,8 +1,10 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
+import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -32,5 +34,19 @@ public final class CreateRecipes {
                 .output(SFTPartMachines.KINETIC_INPUT_BOX[tier].asStack())
                 .save(provider);
         }
+
+        var lavaCell = AE2Recipes.getInfinityCell('f', "minecraft:lava");
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("creative_motor"))
+            .inputItems(AllBlocks.FLUID_TANK.asItem(), 64)
+            .inputItems(AllBlocks.FLUID_TANK.asItem(), 64)
+            .inputItems(AllBlocks.BLAZE_BURNER.asItem(), 64)
+            .inputItems(AllBlocks.STEAM_ENGINE.asItem(), 64)
+            .inputItems(AllBlocks.MECHANICAL_ARM.asItem(), 8)
+            .inputItems(lavaCell)
+            .outputItems(AllBlocks.CREATIVE_MOTOR)
+            .duration(1500)
+            .EUt(VA[MV])
+            .save(provider);
     }
 }

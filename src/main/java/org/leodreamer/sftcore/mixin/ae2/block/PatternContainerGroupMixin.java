@@ -27,6 +27,11 @@ import java.util.List;
 @Mixin(PatternContainerGroup.class)
 public class PatternContainerGroupMixin {
 
+    /**
+     * More Friendly Pattern Container Group for GTCEu Machines
+     * Hacky in tooltips, as the last one should contain the machine/controllers' position
+     * See {@link org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic}
+     */
     @Inject(method = "fromMachine", at = @At("HEAD"), cancellable = true, remap = false)
     private static void createGroupForGTMachine(
         Level level,
@@ -46,14 +51,17 @@ public class PatternContainerGroupMixin {
 
             if (machine instanceof MultiblockPartMachine mbMachine && mbMachine.isFormed()) {
                 if (machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine) {
-                    var controller = mbMachine.getControllers().first().self().getDefinition();
+                    var controllerMachine = mbMachine.getControllers().first().self();
+                    var controller = controllerMachine.getDefinition();
+                    var cpos = controllerMachine.getPos();
                     var name = Component.translatable(controller.getDescriptionId()).append(circuitSuffix);
                     var group = new PatternContainerGroup(
                         AEItemKey.of(controller.asStack()),
                         name,
                         List.of(
                             Component.translatable(MixinTooltips.PART_FROM)
-                                .append(Component.translatable(desc))
+                                .append(Component.translatable(desc)),
+                            Component.translatable(MixinTooltips.MACHINE_POS, cpos.getX(), cpos.getY(), cpos.getZ())
                         )
                     );
                     cir.setReturnValue(group);
@@ -63,7 +71,9 @@ public class PatternContainerGroupMixin {
 
             var name = Component.translatable(desc).append(circuitSuffix);
             var group = new PatternContainerGroup(
-                AEItemKey.of(machine.getDefinition().asStack()), name, List.of()
+                AEItemKey.of(machine.getDefinition().asStack()), name, List.of(
+                    Component.translatable(MixinTooltips.MACHINE_POS, pos.getX(), pos.getY(), pos.getZ())
+                )
             );
             cir.setReturnValue(group);
         }

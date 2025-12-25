@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ae2:item/card_speed",
+    "layer1": "sftcore:item/overlay/super_upgrade"
+  }
+}

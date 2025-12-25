@@ -173,7 +173,7 @@ public final class AE2Recipes {
             .save(provider);
     }
 
-    private static ItemStack getInfinityCell(char type, String id) {
+    public static ItemStack getInfinityCell(char type, String id) {
         var cell = new ItemStack(EPPItemAndBlock.INFINITY_CELL);
         var record = new CompoundTag();
         record.putString("#c", "ae2:" + type);

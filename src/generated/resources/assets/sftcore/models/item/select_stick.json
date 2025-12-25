@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "sftcore:item/select_stick"
+    "layer0": "minecraft:item/stick"
   }
 }
