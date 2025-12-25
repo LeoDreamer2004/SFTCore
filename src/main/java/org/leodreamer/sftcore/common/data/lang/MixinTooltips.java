@@ -69,7 +69,7 @@ public class MixinTooltips {
     public static final String PART_FROM = "sftcore.mixin.ae2.pattern.gt_part_from";
 
     @RegisterLanguage("Machine Position: %d %d %d")
-    public static final String MACHINE_POS = "sftcore.mixin.ae2.pattern.block_pos";
+    public static final String MACHINE_POS = "sftcore.mixin.ae2.pattern.machine_pos";
 
     private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
