@@ -50,8 +50,8 @@ public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu>
         ScreenStyle style,
         CallbackInfo ci
     ) {
-        sftcore$gtPanel = new GTTransferPanel();
-        sftcore$gtPanel.setCallback(((ISendToGTMachine) menu)::sftcore$sendToGTMachine);
+        var scrollbar = widgets.addScrollBar("gtPanelScrollbar");
+        sftcore$gtPanel = new GTTransferPanel((ISendToGTMachine) menu, scrollbar);
         widgets.add("gtPanel", sftcore$gtPanel);
     }
 

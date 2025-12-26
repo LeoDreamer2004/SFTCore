@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import appeng.blockentity.crafting.PatternProviderBlockEntity;
 import appeng.blockentity.grid.AENetworkBlockEntity;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,14 +36,14 @@ public abstract class PatternProviderBlockEntityMixin extends AENetworkBlockEnti
 
     @Unique
     @Override
-    public String sftcore$getPrompt() {
+    public @NotNull String sftcore$getPrompt() {
         return this.sftcore$prompt;
     }
 
     @Unique
     @Override
-    public void sftcore$setPrompt(String prompt) {
-        this.sftcore$prompt = prompt == null ? "" : prompt;
+    public void sftcore$setPrompt(@NotNull String prompt) {
+        this.sftcore$prompt = prompt;
         this.setChanged();
     }
 

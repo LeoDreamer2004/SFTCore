@@ -2,6 +2,7 @@ package org.leodreamer.sftcore.integration.ae2.gui;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
 import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 
 import net.minecraft.ChatFormatting;
@@ -16,8 +17,10 @@ import appeng.client.Point;
 import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.ICompositeWidget;
 import appeng.client.gui.Tooltip;
+import appeng.client.gui.widgets.Scrollbar;
 import appeng.core.AppEng;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -32,8 +35,10 @@ public class GTTransferPanel implements ICompositeWidget {
     private int y;
     private Rect2i bounds = new Rect2i(0, 0, 0, 0);
 
-    private Consumer<Integer> onSelect = (a) -> {};
+    private final ISendToGTMachine sender;
+    private final Scrollbar scrollbar;
 
+    @Setter
     @Getter
     private List<AvailableGTRow> rows = new ArrayList<>();
 
@@ -42,26 +47,18 @@ public class GTTransferPanel implements ICompositeWidget {
     private static final int LINE_HEIGHT = 23;
     private static final int PADDING_LEFT = 13;
     private static final int PADDING_TOP = 3;
-    private static final int MAX_ROW = 6;
+    private static final int ROWS = 6;
 
-    public GTTransferPanel() {}
-
-    public void setCallback(Consumer<Integer> onSelect) {
-        this.onSelect = onSelect;
+    public GTTransferPanel(ISendToGTMachine sender, Scrollbar scrollbar) {
+        this.sender = sender;
+        scrollbar.setCaptureMouseWheel(false);
+        this.scrollbar = scrollbar;
     }
 
     @Override
     public void setPosition(Point position) {
         x = position.getX();
         y = position.getY();
-    }
-
-    public void setRows(List<AvailableGTRow> rows) {
-        if (rows.size() > MAX_ROW) {
-            this.rows = rows.subList(0, MAX_ROW);
-        } else {
-            this.rows = rows;
-        }
     }
 
     @Override
@@ -115,8 +112,10 @@ public class GTTransferPanel implements ICompositeWidget {
             false
         );
 
-        for (int i = 0; i < rows.size(); i++) {
-            var row = rows.get(i);
+        int scroll = scrollbar.getCurrentScroll();
+        int drawLines = Math.min(ROWS, rows.size() - scroll);
+        for (int i = 0; i < drawLines; i++) {
+            var row = rows.get(i + scroll);
             var top = HEADER + i * LINE_HEIGHT + PADDING_TOP;
 
             var pose = guiGraphics.pose();
@@ -160,8 +159,21 @@ public class GTTransferPanel implements ICompositeWidget {
     public boolean onMouseUp(Point mousePos, int button) {
         int row = hoveredRow(mousePos);
         if (row == -1) return false;
-        onSelect.accept(row);
+        sender.sftcore$sendToGTMachine(row + scrollbar.getCurrentScroll());
         return true;
+    }
+
+    @Override
+    public boolean onMouseWheel(Point mousePos, double delta) {
+        scrollbar.onMouseWheel(mousePos, delta);
+        return true;
+    }
+
+    @Override
+    public void updateBeforeRender() {
+        var hiddenRows = Math.max(0, rows.size() - ROWS);
+        System.out.println("Ok, " + rows.size() + " so hidden" + hiddenRows);
+        scrollbar.setRange(0, hiddenRows, ROWS / 3);
     }
 
     @Override

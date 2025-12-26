@@ -7,5 +7,5 @@ public interface IPromptProviderMenu {
     @NotNull
     String sftcore$getPrompt();
 
-    void sftcore$setPrompt(String prompt);
+    void sftcore$setPrompt(@NotNull String prompt);
 }

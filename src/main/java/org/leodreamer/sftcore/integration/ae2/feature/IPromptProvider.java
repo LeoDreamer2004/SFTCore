@@ -1,19 +1,22 @@
 package org.leodreamer.sftcore.integration.ae2.feature;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface IPromptProvider {
 
+    @NotNull
     String sftcore$getPrompt();
 
-    void sftcore$setPrompt(String prompt);
+    void sftcore$setPrompt(@NotNull String prompt);
 
     IPromptProvider EMPTY = new IPromptProvider() {
 
         @Override
-        public String sftcore$getPrompt() {
+        public @NotNull String sftcore$getPrompt() {
             return "";
         }
 
         @Override
-        public void sftcore$setPrompt(String prompt) {}
+        public void sftcore$setPrompt(@NotNull String prompt) {}
     };
 }

@@ -9,6 +9,12 @@
     "gtPanel": {
       "right": -2,
       "top": 104
+    },
+    "gtPanelScrollbar": {
+      "right": -80,
+      "top": 123,
+      "width": 12,
+      "height": 137
     }
   }
 }

@@ -5,6 +5,7 @@ import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
 import net.minecraft.nbt.CompoundTag;
 
 import com.glodblock.github.extendedae.common.parts.PartExPatternProvider;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,14 +23,14 @@ public class PartExPatternMixin implements IPromptProvider {
 
     @Unique
     @Override
-    public String sftcore$getPrompt() {
+    public @NotNull String sftcore$getPrompt() {
         return this.sftcore$prompt;
     }
 
     @Unique
     @Override
-    public void sftcore$setPrompt(String prompt) {
-        this.sftcore$prompt = prompt == null ? "" : prompt;
+    public void sftcore$setPrompt(@NotNull String prompt) {
+        this.sftcore$prompt = prompt;
     }
 
     @Inject(method = "readFromNBT", at = @At("TAIL"), remap = false)

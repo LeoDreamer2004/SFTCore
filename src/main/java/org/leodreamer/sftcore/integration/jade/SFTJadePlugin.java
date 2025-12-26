@@ -6,8 +6,9 @@ import org.leodreamer.sftcore.integration.jade.provider.PatternContainerProvider
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
-import appeng.block.AEBaseBlock;
-import appeng.blockentity.AEBaseBlockEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
@@ -22,7 +23,7 @@ public class SFTJadePlugin implements IWailaPlugin {
             ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachineBlockEntity.class
         );
         registration.registerBlockDataProvider(
-            PatternContainerProvider.INSTANCE, AEBaseBlockEntity.class
+            PatternContainerProvider.INSTANCE, BlockEntity.class
         );
     }
 
@@ -32,7 +33,7 @@ public class SFTJadePlugin implements IWailaPlugin {
             ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachineBlock.class
         );
         registration.registerBlockComponent(
-            PatternContainerProvider.INSTANCE, AEBaseBlock.class
+            PatternContainerProvider.INSTANCE, Block.class
         );
     }
 }

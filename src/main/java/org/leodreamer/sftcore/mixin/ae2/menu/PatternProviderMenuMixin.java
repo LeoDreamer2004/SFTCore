@@ -71,7 +71,7 @@ public class PatternProviderMenuMixin extends AEBaseMenu implements IPromptProvi
 
     @Unique
     @Override
-    public void sftcore$setPrompt(String prompt) {
+    public void sftcore$setPrompt(@NotNull String prompt) {
         if (isClientSide()) {
             sendClientAction(SET_PROMPT, prompt);
         } else {
