@@ -22,6 +22,7 @@
     "carryon.PickupHandlerMixin",
     "create.RotationPropagatorMixin",
     "emi.WidgetGroupMixin",
+    "extendae.PartExPatternMixin",
     "gregtech.machine.CleaningMaintenanceMixin",
     "gregtech.machine.DualHatchMixin",
     "gregtech.machine.MEPatternBufferPartMachineMixin",

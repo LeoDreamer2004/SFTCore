@@ -1,18 +1,18 @@
-package org.leodreamer.sftcore.mixin.ae2.block;
+package org.leodreamer.sftcore.mixin.extendae;
 
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
 
 import net.minecraft.nbt.CompoundTag;
 
-import appeng.parts.crafting.PatternProviderPart;
+import com.glodblock.github.extendedae.common.parts.PartExPatternProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(PatternProviderPart.class)
-public abstract class PatternProviderPartMixin implements IPromptProvider {
+@Mixin(PartExPatternProvider.class)
+public class PartExPatternMixin implements IPromptProvider {
 
     @Unique
     private static final String PROMPT_KEY = "prompt";
