@@ -1,22 +1,24 @@
 package org.leodreamer.sftcore.integration.ae2.logic;
 
-import appeng.api.networking.IGridNode;
-import appeng.helpers.patternprovider.PatternContainer;
-import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import net.minecraft.world.level.block.Block;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+
+import net.minecraft.world.level.block.Block;
+
+import appeng.api.networking.IGridNode;
+import appeng.helpers.patternprovider.PatternContainer;
 
 import java.util.Optional;
 
 public class GTTransferLogic {
 
     public static Optional<AvailableGTRow> tryBuild(
-            PatternContainer container, IGridNode containerNode, ISendToGTMachine.RecipeInfo recipeInfo
+        PatternContainer container, IGridNode containerNode, ISendToGTMachine.RecipeInfo recipeInfo
     ) {
         var group = container.getTerminalGroup();
         var item = group.icon();
@@ -26,7 +28,7 @@ public class GTTransferLogic {
         if (block instanceof MetaMachineBlock machineBlock) {
             for (var type : machineBlock.definition.getRecipeTypes()) {
                 if (type != recipeInfo.type()) continue;
-                var hacky =HackyContainerGroupProxy.of(group);
+                var hacky = HackyContainerGroupProxy.of(group);
                 var pos = hacky.getBlockBos();
                 if (pos != null) {
                     var machine = MetaMachine.getMachine(containerNode.getLevel(), pos);

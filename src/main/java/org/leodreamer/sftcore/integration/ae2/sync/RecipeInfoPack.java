@@ -1,9 +1,11 @@
 package org.leodreamer.sftcore.integration.ae2.sync;
 
+import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
 
 public record RecipeInfoPack(ResourceLocation type, int circuit) {
 

@@ -1,7 +1,5 @@
 package org.leodreamer.sftcore.mixin.ae2.menu;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import net.minecraft.world.Container;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.integration.ae2.feature.IPatternMultiply;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
@@ -10,14 +8,11 @@ import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
 import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;
 import org.leodreamer.sftcore.integration.ae2.sync.AvailableGTMachinesPacket;
+import org.leodreamer.sftcore.integration.ae2.sync.RecipeInfoPack;
 
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
@@ -33,7 +28,7 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import appeng.util.ConfigInventory;
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
-import org.leodreamer.sftcore.integration.ae2.sync.RecipeInfoPack;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -124,7 +119,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
         registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
         registerClientAction(
-                SET_GT_RECIPE_INFO,
+            SET_GT_RECIPE_INFO,
             RecipeInfoPack.class,
             (pack) -> sftcore$setGTRecipeInfo(pack.unpack())
         );

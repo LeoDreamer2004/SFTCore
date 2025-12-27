@@ -1,12 +1,14 @@
 package org.leodreamer.sftcore.integration.ae2.feature;
 
-import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.stacks.AEItemKey;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+
+import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.stacks.AEItemKey;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
  */
 @DataGenScanned
 public class HackyContainerGroupProxy {
+
     private final @Nullable AEItemKey icon;
     private Component name;
     private final List<Component> tooltip;

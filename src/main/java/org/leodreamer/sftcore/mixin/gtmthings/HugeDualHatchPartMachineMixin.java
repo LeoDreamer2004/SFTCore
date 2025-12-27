@@ -2,6 +2,7 @@ package org.leodreamer.sftcore.mixin.gtmthings;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeDualHatchPartMachine;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +17,7 @@ public class HugeDualHatchPartMachineMixin extends HugeBusPartMachine {
         super(holder, tier, io, 9, args);
     }
 
-    @Inject(method = "getTankInventorySize", at = @At("TAIL"),cancellable = true, remap = false)
+    @Inject(method = "getTankInventorySize", at = @At("TAIL"), cancellable = true, remap = false)
     private void setTankInventorySize(CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue(getTier());
     }

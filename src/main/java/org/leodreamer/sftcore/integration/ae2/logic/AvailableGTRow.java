@@ -1,9 +1,9 @@
 package org.leodreamer.sftcore.integration.ae2.logic;
 
-import appeng.api.implementations.blockentities.PatternContainerGroup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 
+import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.AEItemKey;
 
 import java.util.ArrayList;

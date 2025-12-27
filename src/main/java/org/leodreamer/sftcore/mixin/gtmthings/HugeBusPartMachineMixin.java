@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,8 +32,7 @@ public class HugeBusPartMachineMixin extends TieredIOPartMachine implements IHas
         return circuitInventory;
     }
 
-    @Inject(method = "getInventorySize", at = @At
-            ("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "getInventorySize", at = @At("HEAD"), cancellable = true, remap = false)
     private void setInventorySize(CallbackInfoReturnable<Integer> cir) {
         cir.setReturnValue((getTier() + 1) * 2);
     }
