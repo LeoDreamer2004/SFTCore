@@ -1,23 +1,22 @@
 package org.leodreamer.sftcore.mixin.ae2.block;
 
-import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
-
+import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.stacks.AEItemKey;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
-
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-
-import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.stacks.AEItemKey;
+import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -25,56 +24,48 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(PatternContainerGroup.class)
-public class PatternContainerGroupMixin {
+public abstract class PatternContainerGroupMixin {
 
-    /**
-     * More Friendly Pattern Container Group for GTCEu Machines
-     * Hacky in tooltips, as the last one should contain the machine/controllers' position
-     * See {@link org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic}
-     */
+    @Shadow(remap = false)
+    public abstract List<Component> tooltip();
+
     @Inject(method = "fromMachine", at = @At("HEAD"), cancellable = true, remap = false)
     private static void createGroupForGTMachine(
-        Level level,
-        BlockPos pos,
-        Direction side,
-        CallbackInfoReturnable<PatternContainerGroup> cir
+            Level level,
+            BlockPos pos,
+            Direction side,
+            CallbackInfoReturnable<PatternContainerGroup> cir
     ) {
         var machine = MetaMachine.getMachine(level, pos);
         if (machine == null) return;
 
         if (machine instanceof IHasCircuitSlot circuitMachine) {
             var circuitStack = circuitMachine.isCircuitSlotEnabled() ?
-                circuitMachine.getCircuitInventory().getStackInSlot(0) : ItemStack.EMPTY;
+                    circuitMachine.getCircuitInventory().getStackInSlot(0) : ItemStack.EMPTY;
             int circuit = circuitStack.isEmpty() ? 0 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
             String desc = machine.getDefinition().getDescriptionId();
-            String circuitSuffix = circuit == 0 ? "" : " - " + circuit;
 
             if (machine instanceof MultiblockPartMachine mbMachine && mbMachine.isFormed()) {
-                if (machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine) {
+                if (machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine
+                        || machine instanceof HugeBusPartMachine) {
                     var controllerMachine = mbMachine.getControllers().first().self();
                     var controller = controllerMachine.getDefinition();
                     var cpos = controllerMachine.getPos();
-                    var name = Component.translatable(controller.getDescriptionId()).append(circuitSuffix);
-                    var group = new PatternContainerGroup(
-                        AEItemKey.of(controller.asStack()),
-                        name,
-                        List.of(
-                            Component.translatable(MixinTooltips.PART_FROM)
-                                .append(Component.translatable(desc)),
-                            Component.translatable(MixinTooltips.MACHINE_POS, cpos.getX(), cpos.getY(), cpos.getZ())
-                        )
-                    );
+                    var group = new PatternContainerGroup(AEItemKey.of(controller.asStack()),
+                            Component.translatable(controller.getDescriptionId()), List.of());
+                    group = HackyContainerGroupProxy.of(group)
+                            .setBlockPos(cpos)
+                            .setCircuit(circuit)
+                            .recordPartFrom(Component.translatable(desc))
+                            .get();
                     cir.setReturnValue(group);
                     return;
                 }
             }
 
-            var name = Component.translatable(desc).append(circuitSuffix);
             var group = new PatternContainerGroup(
-                AEItemKey.of(machine.getDefinition().asStack()), name, List.of(
-                    Component.translatable(MixinTooltips.MACHINE_POS, pos.getX(), pos.getY(), pos.getZ())
-                )
-            );
+                    AEItemKey.of(machine.getDefinition().asStack()), Component.translatable(desc), List.of());
+            group = HackyContainerGroupProxy.of(group).setBlockPos(pos).setCircuit(circuit).get();
             cir.setReturnValue(group);
         }
     }

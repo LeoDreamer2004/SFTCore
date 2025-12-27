@@ -149,7 +149,7 @@
   "sftcore.machine.semiconductor_blast_furnace.tooltip": "Expert in producing semiconductor.",
   "sftcore.mekanism_nuclear_reaction": "Mekanism Nuclear Reaction",
   "sftcore.mixin.ae2.gt_auto_transfer": "Auto Transfer",
-  "sftcore.mixin.ae2.pattern.gt_part_from": "Part From: %s",
+  "sftcore.mixin.ae2.pattern.gt_part_from": "Part From: ",
   "sftcore.mixin.ae2.pattern.machine_pos": "Machine Position: %d %d %d",
   "sftcore.mixin.ae2.pattern_encoder.prompt": "Prompt...",
   "sftcore.mixin.ae2.pattern_encoder.tooltip.0": "- Can automatically refill the blank pattern",

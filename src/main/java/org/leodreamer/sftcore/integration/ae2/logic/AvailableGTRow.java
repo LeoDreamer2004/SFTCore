@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.integration.ae2.logic;
 
+import appeng.api.implementations.blockentities.PatternContainerGroup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 
@@ -9,15 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record AvailableGTRow(
-    AEItemKey item, Component title, List<Component> tooltips, String prompt
+    AEItemKey item, Component title, List<Component> tooltips, String prompt, int weight
 ) {
 
+    public static AvailableGTRow of(PatternContainerGroup group) {
+        return of(group.icon(), group.name(), group.tooltip());
+    }
+
     public static AvailableGTRow of(AEItemKey item, Component title, List<Component> tooltips) {
-        return new AvailableGTRow(item, title, tooltips, "");
+        return new AvailableGTRow(item, title, tooltips, "", 0);
     }
 
     public AvailableGTRow withPrompt(String prompt) {
-        return new AvailableGTRow(item, title, tooltips, prompt);
+        return new AvailableGTRow(item, title, tooltips, prompt, weight);
+    }
+
+    public AvailableGTRow withWeight(int weight) {
+        return new AvailableGTRow(item, title, tooltips, prompt, weight);
     }
 
     public void write(FriendlyByteBuf stream) {
@@ -28,6 +37,7 @@ public record AvailableGTRow(
             stream.writeComponent(tooltip);
         }
         stream.writeUtf(prompt);
+        stream.writeVarInt(weight);
     }
 
     public static AvailableGTRow read(FriendlyByteBuf stream) {
@@ -39,6 +49,7 @@ public record AvailableGTRow(
             tooltips.add(stream.readComponent());
         }
         var prompt = stream.readUtf();
-        return new AvailableGTRow(item, title, tooltips, prompt);
+        int weight = stream.readVarInt();
+        return new AvailableGTRow(item, title, tooltips, prompt, weight);
     }
 }

@@ -4,7 +4,9 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 public interface ISendToGTMachine {
 
-    void sftcore$setGTType(GTRecipeType type);
+    record RecipeInfo(GTRecipeType type, int circuit) {}
+
+    void sftcore$setGTRecipeInfo(RecipeInfo recipeInfo);
 
     void sftcore$sendToGTMachine(int chooseIndex);
 }

@@ -52,6 +52,7 @@ public class GTTransferPanel implements ICompositeWidget {
     public GTTransferPanel(ISendToGTMachine sender, Scrollbar scrollbar) {
         this.sender = sender;
         scrollbar.setCaptureMouseWheel(false);
+        scrollbar.setVisible(false);
         this.scrollbar = scrollbar;
     }
 
@@ -172,7 +173,7 @@ public class GTTransferPanel implements ICompositeWidget {
     @Override
     public void updateBeforeRender() {
         var hiddenRows = Math.max(0, rows.size() - ROWS);
-        System.out.println("Ok, " + rows.size() + " so hidden" + hiddenRows);
+        scrollbar.setVisible(isVisible());
         scrollbar.setRange(0, hiddenRows, ROWS / 3);
     }
 

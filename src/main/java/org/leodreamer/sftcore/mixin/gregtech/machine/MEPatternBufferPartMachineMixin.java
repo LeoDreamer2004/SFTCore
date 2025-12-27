@@ -1,24 +1,21 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
-import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
-
+import appeng.api.implementations.blockentities.PatternContainerGroup;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
-
 import net.minecraft.network.chat.Component;
-
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
+import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import java.util.List;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MEPatternBufferPartMachine.class)
 public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements IPromptProvider {
@@ -44,38 +41,32 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine i
     }
 
     @Redirect(
-        method = "getTerminalGroup",
-        at = @At(
-            value = "INVOKE",
-            target = "Ljava/lang/String;isEmpty()Z"
-        ),
-        remap = false
+            method = "getTerminalGroup",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ljava/lang/String;isEmpty()Z"
+            ),
+            remap = false
     )
     private boolean sftcore$passCustomName(String instance) {
         return true;
     }
 
-    /**
-     * More Friendly Display for ME Pattern Buffer in Pattern Access Terminal
-     * Hacky in tooltips, as the last one should contain the machine/controllers' position
-     * See {@link org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic}
-     */
-    @ModifyArg(
-        method = "getTerminalGroup",
-        at = @At(
-            value = "INVOKE",
-            target = "Lappeng/api/implementations/blockentities/PatternContainerGroup;<init>(Lappeng/api/stacks/AEItemKey;Lnet/minecraft/network/chat/Component;Ljava/util/List;)V",
-            ordinal = 1
-        ),
-        index = 2,
-        remap = false
+    @Inject(
+            method = "getTerminalGroup",
+            at = @At("RETURN"),
+            remap = false,
+            cancellable = true
     )
-    private List<Component> sftcore$formedWithoutCustomNameTooltip(List<Component> original) {
+    private void recordThePositon(CallbackInfoReturnable<PatternContainerGroup> cir) {
+        if (!isFormed()) return;
         var pos = getControllers().first().self().getPos();
-        return List.of(
-            Component.translatable(MixinTooltips.PART_FROM)
-                .append(Component.translatable(getDefinition().getDescriptionId())),
-            Component.translatable(MixinTooltips.MACHINE_POS, pos.getX(), pos.getY(), pos.getZ())
-        );
+        var group = cir.getReturnValue();
+        group = HackyContainerGroupProxy.of(group).setBlockPos(pos)
+                .recordPartFrom(Component.translatable(getDefinition().getDescriptionId()))
+                // the circuit has been set in the name in the original implementation
+                // .setCircuit()
+                .get();
+        cir.setReturnValue(group);
     }
 }

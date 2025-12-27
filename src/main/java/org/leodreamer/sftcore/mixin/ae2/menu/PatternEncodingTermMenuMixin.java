@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.mixin.ae2.menu;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import net.minecraft.world.Container;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.integration.ae2.feature.IPatternMultiply;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
@@ -31,6 +33,7 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import appeng.util.ConfigInventory;
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
+import org.leodreamer.sftcore.integration.ae2.sync.RecipeInfoPack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,6 +45,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -59,7 +63,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
     // server side
     @Unique
-    private final List<PatternContainer> sftcore$gtContainerTargets = new ArrayList<>();
+    private List<PatternContainer> sftcore$gtContainerTargets = new ArrayList<>();
 
     @Unique
     @GuiSync(150)
@@ -67,7 +71,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
     @Unique
     @Nullable
-    private GTRecipeType sftcore$curType = null;
+    private RecipeInfo sftcore$curRecipe = null;
 
     @Shadow(remap = false)
     @Final
@@ -85,7 +89,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     private static final String TRANSFER_TO_MATRIX = "transferToMatrix";
 
     @Unique
-    private static final String SET_GT_TYPE = "setGTType";
+    private static final String SET_GT_RECIPE_INFO = "setGTRecipeInfo";
 
     @Unique
     private static final String SEND_TO_GT_MACHINE = "sendToGTMachine";
@@ -120,9 +124,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
         registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
         registerClientAction(
-            SET_GT_TYPE,
-            ResourceLocation.class,
-            (rl) -> this.sftcore$setGTType((GTRecipeType) ForgeRegistries.RECIPE_TYPES.getValue(rl))
+                SET_GT_RECIPE_INFO,
+            RecipeInfoPack.class,
+            (pack) -> sftcore$setGTRecipeInfo(pack.unpack())
         );
         registerClientAction(SEND_TO_GT_MACHINE, Integer.class, this::sftcore$sendToGTMachine);
         registerClientAction(MULTIPLY_PATTERN, Integer.class, this::sftcore$multiplyPattern);
@@ -146,11 +150,11 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
     @Override
     @Unique
-    public void sftcore$setGTType(GTRecipeType type) {
+    public void sftcore$setGTRecipeInfo(RecipeInfo info) {
         if (isClientSide()) {
-            sendClientAction(SET_GT_TYPE, type.registryName);
+            sendClientAction(SET_GT_RECIPE_INFO, RecipeInfoPack.pack(info));
         } else {
-            sftcore$curType = type;
+            sftcore$curRecipe = info;
         }
     }
 
@@ -270,6 +274,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         SFTCore.LOGGER.info("Trying to check available GT machines to auto transfer");
 
         List<AvailableGTRow> rows = new ArrayList<>();
+        Map<AvailableGTRow, PatternContainer> rowMap = new Object2ObjectArrayMap<>();
         for (var clazz : thisNode.getGrid().getMachineClasses()) {
             if (PatternContainer.class.isAssignableFrom(clazz)) {
                 @SuppressWarnings("unchecked")
@@ -279,20 +284,23 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
                     var owner = node.getOwner();
                     if (!machineClz.isInstance(owner)) continue;
                     var container = machineClz.cast(owner);
-                    var row = GTTransferLogic.tryBuild(container, node, sftcore$curType);
+                    var row = GTTransferLogic.tryBuild(container, node, sftcore$curRecipe);
                     row.ifPresent(
                         r -> {
                             if (container instanceof IPromptProvider promptProvider) {
                                 r = r.withPrompt(promptProvider.sftcore$getPrompt());
                             }
                             rows.add(r);
-                            sftcore$gtContainerTargets.add(container);
+                            rowMap.put(r, container);
                         }
                     );
                 }
             }
         }
+        // sort the rows by the given weight
+        rows.sort((r1, r2) -> Integer.compare(r2.weight(), r1.weight()));
         SFTCore.LOGGER.info("Found {} machines to provide pattern", rows.size());
+        sftcore$gtContainerTargets = rows.stream().map(rowMap::get).toList();
         return new AvailableGTMachinesPacket(rows);
     }
 

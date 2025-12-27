@@ -32,6 +32,8 @@
     "gregtech.recipe.GTEmiRecipeMixin",
     "gregtech.recipe.GTRecipeBuilderMixin",
     "gregtech.recipe.MultiblockInfoEmiRecipeMixin",
+    "gtmthings.HugeBusPartMachineMixin",
+    "gtmthings.HugeDualHatchPartMachineMixin",
     "travelarchor.EventListenerMixin",
     "vanilla.RecipeManagerMixin"
   ],
