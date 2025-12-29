@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
 import org.jetbrains.annotations.NotNull;
@@ -52,45 +52,40 @@ public class DumpCommand {
     @RegisterLanguage("Dump failed.")
     static final String FAILURE = "commands.sftcore.dump.failure";
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(
-            Commands.literal("sftcore")
-                .then(
-                    Commands.literal("dump")
-                        .executes(context -> dumpIdentifiers(context.getSource(), Mode.ALL))
-                        .then(
-                            Commands.literal("items")
-                                .executes(
-                                    context -> dumpIdentifiers(
-                                        context.getSource(),
-                                        Mode.ITEM
-                                    )
-                                )
+    public static LiteralArgumentBuilder<CommandSourceStack> builder() {
+        return Commands.literal("dump")
+            .executes(context -> dumpIdentifiers(context.getSource(), Mode.ALL))
+            .then(
+                Commands.literal("items")
+                    .executes(
+                        context -> dumpIdentifiers(
+                            context.getSource(),
+                            Mode.ITEM
                         )
-                        .then(
-                            Commands.literal("blocks")
-                                .executes(
-                                    context -> dumpIdentifiers(
-                                        context.getSource(),
-                                        Mode.BLOCK
-                                    )
-                                )
+                    )
+            )
+            .then(
+                Commands.literal("blocks")
+                    .executes(
+                        context -> dumpIdentifiers(
+                            context.getSource(),
+                            Mode.BLOCK
                         )
-                        .then(
-                            Commands.literal("fluid")
-                                .executes(
-                                    context -> dumpIdentifiers(
-                                        context.getSource(),
-                                        Mode.FLUID
-                                    )
-                                )
+                    )
+            )
+            .then(
+                Commands.literal("fluid")
+                    .executes(
+                        context -> dumpIdentifiers(
+                            context.getSource(),
+                            Mode.FLUID
                         )
-                        .then(
-                            Commands.literal("multiblock")
-                                .executes(context -> dumpMultiBlocks(context.getSource()))
-                        )
-                )
-        );
+                    )
+            )
+            .then(
+                Commands.literal("multiblock")
+                    .executes(context -> dumpMultiBlocks(context.getSource()))
+            );
     }
 
     private static int dumpIdentifiers(CommandSourceStack stack, Mode mode) {

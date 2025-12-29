@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2.misc;
+package org.leodreamer.sftcore.mixin.ae2.crafting;
 
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.util.ReflectUtils;

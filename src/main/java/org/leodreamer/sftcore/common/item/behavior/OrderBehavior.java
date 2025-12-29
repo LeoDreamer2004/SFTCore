@@ -2,6 +2,7 @@ package org.leodreamer.sftcore.common.item.behavior;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.gui.SimpleNotifiableItemHandler;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.util.RLUtils;
 
@@ -30,8 +31,6 @@ import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -42,6 +41,9 @@ public class OrderBehavior
     implements IItemUIFactory, IFancyUIProvider, ICustomDescriptionId, IAddInformation {
 
     private InteractionHand hand;
+
+    private static final String ID = "marker_id";
+    private static final String NBT = "marker_nbt";
 
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
@@ -58,20 +60,20 @@ public class OrderBehavior
     public static ItemStack setTarget(ItemStack stack, ItemStack target) {
         var tag = stack.getOrCreateTag();
         var id = RLUtils.getItemRL(target.getItem());
-        tag.putString("marker_id", id.toString());
+        tag.putString(ID, id.toString());
         if (target.hasTag()) {
-            tag.put("marker_nbt", Objects.requireNonNull(target.getTag()).copy());
+            tag.put(NBT, Objects.requireNonNull(target.getTag()).copy());
         }
         return stack;
     }
 
     public static ItemStack getTarget(ItemStack stack) {
         var tag = stack.getOrCreateTag();
-        var id = tag.getString("marker_id");
+        var id = tag.getString(ID);
         if (id.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        CompoundTag nbt = tag.getCompound("marker_nbt");
+        CompoundTag nbt = tag.getCompound(NBT);
         var item = RLUtils.getItemByName(id);
         if (item == null) {
             return ItemStack.EMPTY;
@@ -86,8 +88,8 @@ public class OrderBehavior
     public static ItemStack clearTarget(ItemStack stack) {
         if (!stack.hasTag()) return stack;
         var tag = stack.getOrCreateTag();
-        tag.remove("marker_id");
-        tag.remove("marker_nbt");
+        tag.remove(ID);
+        tag.remove(NBT);
         return stack;
     }
 
@@ -107,12 +109,14 @@ public class OrderBehavior
     public Widget createMainPage(FancyMachineUIWidget ui) {
         WidgetGroup group = new WidgetGroup(0, 0, 34, 34);
         WidgetGroup container = new WidgetGroup(4, 4, 26, 26);
-        Player player = null;
-        if (ui.getGui() != null) {
-            player = ui.getGui().entityPlayer;
+        Player player = ui.getGui() == null ? null : ui.getGui().entityPlayer;
+        if (player != null) {
+            var handler = new SimpleNotifiableItemHandler(
+                stack -> player.setItemInHand(hand, setTarget(player.getItemInHand(hand), stack)),
+                () -> player.setItemInHand(hand, clearTarget(player.getItemInHand(hand)))
+            );
+            container.addWidget(new PhantomSlotWidget(handler, 0, 4, 4));
         }
-        if (player != null)
-            container.addWidget(new PhantomSlotWidget(new ItemHandler(hand, player), 0, 4, 4));
         group.addWidget(container);
         return group;
     }
@@ -153,68 +157,5 @@ public class OrderBehavior
         list.add(Component.translatable(TOOLTIP_0));
         list.add(Component.translatable(TOOLTIP_1));
         list.add(Component.translatable(TOOLTIP_2).withStyle(ChatFormatting.DARK_AQUA));
-    }
-
-    private static class ItemHandler implements IItemTransfer {
-
-        @NotNull
-        private ItemStack stack = ItemStack.EMPTY;
-        private final InteractionHand hand;
-        private final Player player;
-
-        public ItemHandler(InteractionHand hand, @NotNull Player player) {
-            this.hand = hand;
-            this.player = player;
-        }
-
-        @Override
-        public int getSlots() {
-            return 1;
-        }
-
-        @NotNull
-        @Override
-        public ItemStack getStackInSlot(int slot) {
-            return stack;
-        }
-
-        @NotNull
-        @Override
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate, boolean notifyChanges) {
-            this.stack = stack;
-            player.setItemInHand(hand, setTarget(player.getItemInHand(hand), stack));
-            return stack;
-        }
-
-        @NotNull
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate, boolean notifyChanges) {
-            this.stack = ItemStack.EMPTY;
-            player.setItemInHand(hand, clearTarget(player.getItemInHand(hand)));
-            return stack;
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return 1;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem() == this.stack.getItem();
-        }
-
-        @NotNull
-        @Override
-        public Object createSnapshot() {
-            return stack;
-        }
-
-        @Override
-        public void restoreFromSnapshot(Object snapshot) {
-            if (snapshot instanceof ItemStack stack) {
-                this.stack = stack;
-            }
-        }
     }
 }
