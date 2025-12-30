@@ -1,20 +1,17 @@
 package org.leodreamer.sftcore.common.item.behavior.wildcard.impl;
 
-import org.leodreamer.sftcore.common.item.behavior.wildcard.WildcardIOSerializers;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardIOComponent;
-
-import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.stacks.GenericStack;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.WildcardIOSerializers;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardIOComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,14 +72,15 @@ public class WildcardPatternLogic {
 
     public Stream<IPatternDetails> generateAllPatterns(Level level) {
         return GTCEuAPI.materialManager.getRegisteredMaterials().stream()
-            .map(material -> {
-                var input = getIOStacks(IO.IN, material);
-                var output = getIOStacks(IO.OUT, material);
-                if (input == null || output == null) return null;
-                // FIXME: a little silly here
-                var item = PatternDetailsHelper.encodeProcessingPattern(input, output);
-                return PatternDetailsHelper.decodePattern(item, level);
-            })
-            .filter(Objects::nonNull);
+                .map(material -> {
+                    var input = getIOStacks(IO.IN, material);
+                    var output = getIOStacks(IO.OUT, material);
+                    if (input == null || output == null || input.length == 0 || output.length == 0)
+                        return null;
+                    // FIXME: a little silly here
+                    var item = PatternDetailsHelper.encodeProcessingPattern(input, output);
+                    return PatternDetailsHelper.decodePattern(item, level);
+                })
+                .filter(Objects::nonNull);
     }
 }

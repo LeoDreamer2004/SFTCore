@@ -1,40 +1,41 @@
 package org.leodreamer.sftcore.common.item.behavior.wildcard.impl;
 
-import org.leodreamer.sftcore.common.item.behavior.wildcard.WildcardIOSerializers;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardIOComponent;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardIOSerializer;
-
-import com.gregtechceu.gtceu.api.GTCEuAPI;
+import appeng.api.stacks.GenericStack;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
+import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTMath;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
-
-import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
+import org.leodreamer.sftcore.api.gui.PhantomTagPrefixSlot;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.WildcardIOSerializers;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardIOComponent;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardIOSerializer;
 
 public class TagPrefixIOComponent implements IWildcardIOComponent {
 
     private TagPrefix tag;
     private int amount;
 
-    private SlotWidget itemSlot;
+    private PhantomTagPrefixSlot tagSlot;
     private LabelWidget tagLabel;
     private TextFieldWidget amountEdit;
     static IGuiTexture GROUP_BG = ResourceBorderTexture.BUTTON_COMMON.copy().setColor(ColorPattern.PURPLE.color);
 
-    public static TagPrefixIOComponent EMPTY = new TagPrefixIOComponent(TagPrefix.NULL_PREFIX, 1);
+    public static TagPrefixIOComponent empty() {
+        return new TagPrefixIOComponent(TagPrefix.NULL_PREFIX, 1);
+    }
 
     public TagPrefixIOComponent(TagPrefix tag, int amount) {
         this.tag = tag;
@@ -56,51 +57,42 @@ public class TagPrefixIOComponent implements IWildcardIOComponent {
     public void createUILine(WidgetGroup line) {
         line.setBackground(GROUP_BG);
 
-        itemSlot = new PhantomSlotWidget(new CustomItemStackHandler(), 0, 3, 3, (stack) -> {
-            if (getItemPrefix(stack) != TagPrefix.NULL_PREFIX) {
-                updateItemAndTag(stack);
-                return true;
-            }
-            return false;
-        });
+        tagSlot = new PhantomTagPrefixSlot(new CustomItemStackHandler(), 0, 3, 3, this::updateTag);
 
         if (tag != TagPrefix.NULL_PREFIX) {
-            itemSlot.setItem(findExampleForPrefix(tag));
+            tagSlot.setTag(tag);
         }
-
         tagLabel = new LabelWidget(25, 7, tag.name);
 
-        amountEdit = new TextFieldWidget(80, 5, 50, 15, () -> amountEdit.toString(), (str) -> {});
+        amountEdit = new TextFieldWidget(80, 5, 50, 15, () -> amountEdit.toString(), (str) -> {
+        });
         amountEdit.setNumbersOnly(0, Integer.MAX_VALUE);
         amountEdit.setCurrentString(GTMath.saturatedCast(amount));
 
-        line.addWidget(itemSlot);
+        line.addWidget(tagSlot);
         line.addWidget(tagLabel);
         line.addWidget(new LabelWidget(70, 7, "x"));
         line.addWidget(amountEdit);
     }
 
-    private void updateItemAndTag(ItemStack stack) {
-        tag = getItemPrefix(stack);
-        tagLabel.setText(tag.name);
+    private boolean updateTag(TagPrefix tag) {
+        var ok = tag != TagPrefix.NULL_PREFIX;
+        if (ok) {
+            tagLabel.setText(tag.name);
+            this.tag = tag;
+        }
+        return ok;
     }
 
     @Override
     public void onSave() {
-        updateItemAndTag(itemSlot.getItem());
+        updateTag(tagSlot.getTag());
         amount = Integer.parseInt(amountEdit.getCurrentString());
     }
 
-    private static ItemStack findExampleForPrefix(TagPrefix tag) {
-        for (var mat : GTCEuAPI.materialManager.getRegisteredMaterials()) {
-            var stack = ChemicalHelper.get(tag, mat);
-            if (!stack.isEmpty()) return stack;
-        }
-        return ItemStack.EMPTY;
-    }
-
-    private static TagPrefix getItemPrefix(ItemStack stack) {
-        return ChemicalHelper.getPrefix(stack.getItem());
+    @Override
+    public String toString() {
+        return "Component " + tag.name + " x " + amount;
     }
 
     public static class Serializer implements IWildcardIOSerializer {
@@ -112,13 +104,11 @@ public class TagPrefixIOComponent implements IWildcardIOComponent {
 
         @Override
         public CompoundTag writeToNBT(IWildcardIOComponent component) {
-            if (component instanceof TagPrefixIOComponent tagComponent) {
-                var nbt = new CompoundTag();
-                nbt.putString("tag", tagComponent.tag.name);
-                nbt.putInt("amount", tagComponent.amount);
-                return nbt;
-            }
-            return new CompoundTag();
+            var tagComponent = (TagPrefixIOComponent) component;
+            var nbt = new CompoundTag();
+            nbt.putString("tag", tagComponent.tag.name);
+            nbt.putInt("amount", tagComponent.amount);
+            return nbt;
         }
 
         @Override

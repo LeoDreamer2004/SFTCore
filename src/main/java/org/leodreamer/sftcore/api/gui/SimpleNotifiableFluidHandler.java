@@ -58,7 +58,6 @@ public class SimpleNotifiableFluidHandler implements IFluidTransfer {
     @SuppressWarnings("all")
     @Override
     public long fill(int tank, FluidStack resource, boolean simulate, boolean notifyChanges) {
-        System.out.println("Filling" + resource.getFluid() + resource.getAmount());
         stack = resource;
         onChange.accept(stack);
         return 1000L;
@@ -72,7 +71,6 @@ public class SimpleNotifiableFluidHandler implements IFluidTransfer {
     @SuppressWarnings("all")
     @Override
     public @NotNull FluidStack drain(int tank, FluidStack resource, boolean simulate, boolean notifyChanges) {
-        System.out.println("Draining");
         stack = FluidStack.empty();
         onClear.run();
         return stack;
