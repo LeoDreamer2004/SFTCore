@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Hacky way to record more info in the container group
@@ -48,13 +49,20 @@ public class HackyContainerGroupProxy {
         return this;
     }
 
+    private static final Pattern posPattern = Pattern.compile("(-?\\d+) (-?\\d+) (-?\\d+)$");
+
     public @Nullable BlockPos getBlockBos() {
         try {
             // tooltip: "block position: x y z"
-            var parts = tooltip.getFirst().getString().split(" ");
-            var x = Integer.parseInt(parts[parts.length - 3]);
-            var y = Integer.parseInt(parts[parts.length - 2]);
-            var z = Integer.parseInt(parts[parts.length - 1]);
+            // use regex to extract x, y, z, at the end of the string
+            var line = tooltip.getFirst().getString();
+            var match = posPattern.matcher(line);
+            if (!match.find()) {
+                return null;
+            }
+            int x = Integer.parseInt(match.group(1));
+            int y = Integer.parseInt(match.group(2));
+            int z = Integer.parseInt(match.group(3));
             return new BlockPos(x, y, z);
         } catch (RuntimeException ignored) {
             return null;
