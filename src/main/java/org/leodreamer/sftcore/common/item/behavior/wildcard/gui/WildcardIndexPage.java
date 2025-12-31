@@ -1,29 +1,31 @@
 package org.leodreamer.sftcore.common.item.behavior.wildcard.gui;
 
-import appeng.api.crafting.IPatternDetails;
-import appeng.api.stacks.AEFluidKey;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.GenericStack;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.WildcardPatternLogic;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTMath;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
+
+import appeng.api.crafting.IPatternDetails;
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.WildcardPatternLogic;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
-
 
 @DataGenScanned
 public class WildcardIndexPage extends WidgetGroup {
@@ -41,7 +43,7 @@ public class WildcardIndexPage extends WidgetGroup {
 
         patterns = logic.generateAllPatterns(level).toList();
         var size = patterns.size();
-        var text = new LabelWidget(50, 5, Component.translatable(PATTERNS_AVAILABLE, size));
+        var text = new LabelWidget(50, 5, Component.translatable(PATTERNS_AVAILABLE, size).getString());
         addWidget(text);
 
         initPatternDisplay();
@@ -55,7 +57,8 @@ public class WildcardIndexPage extends WidgetGroup {
         outputGroup = new WidgetGroup((w + 30) / 2, 15, (w - 10) / 2, h - 20);
 
         var bar = new Widget((w - 10) / 2, 32, 15, 10).setBackground(
-                GuiTextures.PROGRESS_BAR_ARROW.getSubTexture(0, 0, 1, 0.5));
+            GuiTextures.PROGRESS_BAR_ARROW.getSubTexture(0, 0, 1, 0.5)
+        );
 
         addWidget(inputGroup);
         addWidget(bar);
@@ -79,8 +82,10 @@ public class WildcardIndexPage extends WidgetGroup {
             displayPatternSlots(inputGroup, Stream.of());
             displayPatternSlots(outputGroup, Stream.of());
         } else {
-            displayPatternSlots(inputGroup, Arrays.stream(pattern.getInputs())
-                    .map(i -> new GenericStack(i.getPossibleInputs()[0].what(), i.getMultiplier())));
+            displayPatternSlots(
+                inputGroup, Arrays.stream(pattern.getInputs())
+                    .map(i -> new GenericStack(i.getPossibleInputs()[0].what(), i.getMultiplier()))
+            );
             displayPatternSlots(outputGroup, Arrays.stream(pattern.getOutputs()));
         }
     }
@@ -102,8 +107,10 @@ public class WildcardIndexPage extends WidgetGroup {
                     slot.setItem(item.toStack(GTMath.saturatedCast(next.amount())));
                     group.addWidget(slot);
                 } else if (next.what() instanceof AEFluidKey fluid) {
-                    var slot = new TankWidget(new CustomFluidTank(100), 18 * c, 18 * r, false, false);
-                    slot.setFluid(fluid.toStack(GTMath.saturatedCast(next.amount())));
+                    var handler = new CustomFluidTank(Integer.MAX_VALUE);
+                    handler.setFluid(fluid.toStack(GTMath.saturatedCast(next.amount())));
+                    var slot = new TankWidget(handler, 18 * c, 18 * r, false, false)
+                        .setBackground(GuiTextures.SLOT).setClientSideWidget();
                     group.addWidget(slot);
                 }
             }

@@ -6,7 +6,6 @@ import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScann
 import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import appeng.block.crafting.PatternProviderBlock;
@@ -123,7 +122,7 @@ public class AEAutomationExamplesScenes {
         scene
             .overlay()
             .showControls(vec.of(2.5, 2, 2.5), Pointing.DOWN, 80)
-            .withItem(new ItemStack(Items.IRON_INGOT));
+            .withItem(Items.IRON_INGOT.getDefaultInstance());
         scene
             .overlay()
             .showControls(vec.of(2, 1, 2.5), Pointing.RIGHT, 80)
