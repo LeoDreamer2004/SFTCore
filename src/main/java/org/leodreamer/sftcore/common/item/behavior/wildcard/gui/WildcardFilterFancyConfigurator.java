@@ -4,6 +4,8 @@ import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.behavior.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardFilterComponent;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.FlagFilterComponent;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.PropertyFilterComponent;
 import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.SimpleFilterComponent;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -16,6 +18,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.*;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
@@ -52,6 +55,18 @@ public class WildcardFilterFancyConfigurator implements IFancyUIProvider {
     @RegisterLanguage("Create a filter of a fixed material")
     private static final String CREATE_SINGLE_TOOLTIP = "sftcore.item.wildcard_pattern.filter.single.tooltip";
 
+    @RegisterLanguage("Prop")
+    private static final String CREATE_PROPERTY = "sftcore.item.wildcard_pattern.filter.property";
+
+    @RegisterLanguage("Create a filter of materials with the given property")
+    private static final String CREATE_PROPERTY_TOOLTIP = "sftcore.item.wildcard_pattern.filter.property.tooltip";
+
+    @RegisterLanguage("Flag")
+    private static final String CREATE_FLAG = "sftcore.item.wildcard_pattern.filter.flag";
+
+    @RegisterLanguage("(ADVANCED) Create a filter of materials with the given flag")
+    private static final String CREATE_FLAGS_TOOLTIP = "sftcore.item.wildcard_pattern.filter.flag.tooltip";
+
     @RegisterLanguage("Delete this filter")
     private static final String DELETE_TOOLTIP = "sftcore.item.wildcard_pattern.filter.delete.tooltip";
 
@@ -66,7 +81,7 @@ public class WildcardFilterFancyConfigurator implements IFancyUIProvider {
         var global = new WidgetGroup(0, 0, 158, 180);
 
         componentList = new WildcardComponentListGroup<>(
-            logic.getFilterComponents(), 0, 0, 158, 0
+            logic.getFilterComponents(), 0, 0, 158
         );
 
         componentList.setLineStyle(
@@ -85,10 +100,18 @@ public class WildcardFilterFancyConfigurator implements IFancyUIProvider {
         var createSimple = createBottomBtn(Component.translatable(CREATE_SINGLE), 2, (cd) -> {
             componentList.addComponent(SimpleFilterComponent.empty());
         }).setHoverTooltips(Component.translatable(CREATE_SINGLE_TOOLTIP));
+        var createProperty = createBottomBtn(Component.translatable(CREATE_PROPERTY), 37, (cd) -> {
+            componentList.addComponent(PropertyFilterComponent.empty());
+        }).setHoverTooltips(Component.translatable(CREATE_PROPERTY_TOOLTIP));
+        var createFlag = createBottomBtn(Component.translatable(CREATE_FLAG), 72, (cd) -> {
+            componentList.addComponent(FlagFilterComponent.empty());
+        }).setHoverTooltips(Component.translatable(CREATE_FLAGS_TOOLTIP));
 
         global.addWidget(componentList);
         global.addWidget(saveBtn);
         global.addWidget(createSimple);
+        global.addWidget(createProperty);
+        global.addWidget(createFlag);
         return global;
     }
 
@@ -117,13 +140,15 @@ public class WildcardFilterFancyConfigurator implements IFancyUIProvider {
             component.setWhitelist(!cur);
             setButtonWhitelist(toggle, !cur);
         });
-        component.setWhitelist(false);
-        setButtonWhitelist(toggle, false);
+        setButtonWhitelist(toggle, component.isWhitelist());
         return toggle;
     }
 
     private void setButtonWhitelist(ButtonWidget button, boolean whitelist) {
-        button.setBackground(GuiTextures.BUTTON, new TextTexture(whitelist ? "W" : "B"));
+        button.setBackground(
+            GuiTextures.BUTTON, new TextTexture(whitelist ? "W" : "B")
+                .setColor(ColorPattern.DARK_GRAY.color).setDropShadow(false)
+        );
         button
             .setHoverTooltips(whitelist ? Component.translatable(TO_BLACKLIST) : Component.translatable(TO_WHITELIST));
     }

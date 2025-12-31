@@ -4,9 +4,7 @@ import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardFil
 import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardIOComponent;
 import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardSerializable;
 import org.leodreamer.sftcore.common.item.behavior.wildcard.feature.IWildcardSerializer;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.SimpleFilterComponent;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.SimpleIOComponent;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.TagIOComponent;
+import org.leodreamer.sftcore.common.item.behavior.wildcard.impl.*;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
@@ -28,14 +26,16 @@ public class WildcardSerializers {
     public static final Map<String, IWildcardSerializer<IWildcardIOComponent>> IO_SERIALIZERS = new Object2ObjectOpenHashMap<>();
     public static final Map<String, IWildcardSerializer<IWildcardFilterComponent>> FILTER_SERIALIZERS = new Object2ObjectOpenHashMap<>();
 
-    public static final IWildcardSerializer<IWildcardIOComponent> IO_SIMPLE = register(
-        IO_SERIALIZERS, SimpleIOComponent.Serializer::new
-    ),
+    // spotless:off
+    public static final IWildcardSerializer<IWildcardIOComponent>
+        IO_SIMPLE = register(IO_SERIALIZERS, SimpleIOComponent.Serializer::new),
         IO_TAG = register(IO_SERIALIZERS, TagIOComponent.Serializer::new);
 
-    public static final IWildcardSerializer<IWildcardFilterComponent> FILTER_SIMPLE = register(
-        FILTER_SERIALIZERS, SimpleFilterComponent.Serializer::new
-    );
+    public static final IWildcardSerializer<IWildcardFilterComponent>
+        FILTER_SIMPLE = register(FILTER_SERIALIZERS, SimpleFilterComponent.Serializer::new),
+        FILTER_FLAG = register(FILTER_SERIALIZERS, FlagFilterComponent.Serializer::new),
+        FILTER_PROPERTY = register(FILTER_SERIALIZERS, PropertyFilterComponent.Serializer::new);
+    // spotless:on
 
     public static <T> IWildcardSerializer<T> register(
         Map<String, IWildcardSerializer<T>> map, Supplier<IWildcardSerializer<T>> factory

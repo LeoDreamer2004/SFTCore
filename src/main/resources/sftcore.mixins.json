@@ -25,6 +25,8 @@
     "create.RotationPropagatorMixin",
     "emi.WidgetGroupMixin",
     "extendae.PartExPatternMixin",
+    "gregtech.data.MaterialFlagsMixin",
+    "gregtech.data.MaterialPropertiesMixin",
     "gregtech.machine.CleaningMaintenanceMixin",
     "gregtech.machine.DualHatchMixin",
     "gregtech.machine.MEPatternBufferPartMachineMixin",

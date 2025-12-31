@@ -44,6 +44,12 @@ public class WildcardIOFancyConfigurator implements IFancyUIProvider {
         this.onSave = onSave;
     }
 
+    @RegisterLanguage("Input Configuration")
+    private static final String TITLE_IN = "sftcore.item.wildcard_pattern.io.title_in";
+
+    @RegisterLanguage("Output Configuration")
+    private static final String TITLE_OUT = "sftcore.item.wildcard_pattern.io.title_out";
+
     @RegisterLanguage("Save")
     private static final String SAVE = "sftcore.item.wildcard_pattern.io.save";
 
@@ -51,13 +57,13 @@ public class WildcardIOFancyConfigurator implements IFancyUIProvider {
     private static final String CREATE_SINGLE = "sftcore.item.wildcard_pattern.io.single";
 
     @RegisterLanguage("Tag")
-    private static final String CREATE_TAG_PREFIX = "sftcore.item.wildcard_pattern.io.tag_prefix";
+    private static final String CREATE_TAG = "sftcore.item.wildcard_pattern.io.tag";
 
     @RegisterLanguage("Create an ingredient with a fixed item")
     private static final String CREATE_SINGLE_TOOLTIP = "sftcore.item.wildcard_pattern.io.single.tooltip";
 
     @RegisterLanguage("Create an ingredient with the GT tag")
-    private static final String CREATE_TAG_PREFIX_TOOLTIP = "sftcore.item.wildcard_pattern.io.tag_prefix.tooltip";
+    private static final String CREATE_TAG_TOOLTIP = "sftcore.item.wildcard_pattern.io.tag.tooltip";
 
     @RegisterLanguage("Delete this ingredient")
     private static final String DELETE_TOOLTIP = "sftcore.item.wildcard_pattern.io.delete.tooltip";
@@ -66,7 +72,7 @@ public class WildcardIOFancyConfigurator implements IFancyUIProvider {
     public Widget createMainPage(FancyMachineUIWidget ui) {
         var global = new WidgetGroup(0, 0, 158, 180);
 
-        componentList = new WildcardComponentListGroup<>(logic.getIOComponents(io), 0, 0, 158, 0);
+        componentList = new WildcardComponentListGroup<>(logic.getIOComponents(io), 0, 0, 158);
         componentList.setLineStyle(
             (i, group) -> {
                 group.addWidget(
@@ -81,9 +87,9 @@ public class WildcardIOFancyConfigurator implements IFancyUIProvider {
         var createSimple = createBottomBtn(Component.translatable(CREATE_SINGLE), 2, (cd) -> {
             componentList.addComponent(SimpleIOComponent.empty());
         }).setHoverTooltips(Component.translatable(CREATE_SINGLE_TOOLTIP));
-        var createTagPrefix = createBottomBtn(Component.translatable(CREATE_TAG_PREFIX), 37, (cd) -> {
+        var createTagPrefix = createBottomBtn(Component.translatable(CREATE_TAG), 37, (cd) -> {
             componentList.addComponent(TagIOComponent.empty());
-        }).setHoverTooltips(Component.translatable(CREATE_TAG_PREFIX_TOOLTIP));
+        }).setHoverTooltips(Component.translatable(CREATE_TAG_TOOLTIP));
 
         global.addWidget(componentList);
         global.addWidget(saveBtn);
@@ -99,7 +105,7 @@ public class WildcardIOFancyConfigurator implements IFancyUIProvider {
 
     @Override
     public Component getTitle() {
-        return Component.literal(io.key);
+        return Component.translatable(io == WildcardPatternLogic.IO.IN ? TITLE_IN : TITLE_OUT);
     }
 
     private ButtonWidget createBottomBtn(Component label, int x, Consumer<ClickData> onPressed) {

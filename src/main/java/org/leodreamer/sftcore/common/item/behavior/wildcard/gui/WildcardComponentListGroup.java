@@ -21,8 +21,8 @@ public class WildcardComponentListGroup<L extends IWildcardComponentUI> extends 
 
     private BiConsumer<Integer, WidgetGroup> lineStyle = null;
 
-    public WildcardComponentListGroup(List<L> components, int x, int y, int width, int height) {
-        super(x, y, width, height);
+    public WildcardComponentListGroup(List<L> components, int x, int y, int width) {
+        super(x, y, width, 0);
         this.components = components.size() < MAX_COMPONENTS ? new ArrayList<>(components) :
             new ArrayList<>(components.subList(0, MAX_COMPONENTS));
         onComponentsChanged();
