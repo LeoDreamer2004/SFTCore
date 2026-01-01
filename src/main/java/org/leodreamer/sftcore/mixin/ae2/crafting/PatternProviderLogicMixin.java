@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.ae2.crafting;
 
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.item.behavior.wildcard.WildcardPatternLogic;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;

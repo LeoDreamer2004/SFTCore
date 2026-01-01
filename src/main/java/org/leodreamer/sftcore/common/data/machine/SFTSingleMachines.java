@@ -1,10 +1,13 @@
 package org.leodreamer.sftcore.common.data.machine;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.machine.OreReplicatorMachine;
 
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
 
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
@@ -18,6 +21,14 @@ public final class SFTSingleMachines {
         )
         .langValue("Ore Replicator")
         .rotationState(RotationState.NONE)
+        .register();
+
+    public static final MachineDefinition WIRELESS_CONTROLLER = REGISTRATE
+        .machine("wireless_controller", GTWirelessControllerMachine::new)
+        .langValue("Wireless Controller")
+        .rotationState(RotationState.ALL)
+        .tier(GTValues.IV)
+        .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_output_bus"))
         .register();
 
     public static void init() {}

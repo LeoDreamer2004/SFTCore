@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.api.block;
 
 import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
 import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+import org.leodreamer.sftcore.api.feature.IKineticMachine;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -26,6 +26,13 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * A base block class for kinetic machines.
+ * <p>
+ * All codes about integration between GTM and Create are from <a href="https://github.com/CTNH-Team/CTNH-Core">Create: New Horizon</a>.
+ * Many thanks to CTNH-Team for their open source contributions.
+ * </p>
+ */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class KineticMachineBlock extends MetaMachineBlock implements IRotate {

@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.common.machine.trait;
 
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+import org.leodreamer.sftcore.api.feature.IKineticMachine;
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;

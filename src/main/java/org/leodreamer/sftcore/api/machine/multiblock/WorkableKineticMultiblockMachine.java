@@ -4,7 +4,7 @@ import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
 import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+import org.leodreamer.sftcore.api.feature.IKineticMachine;
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
 import org.leodreamer.sftcore.common.machine.trait.NotifiableStressTrait;
 

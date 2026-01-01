@@ -11,7 +11,7 @@ import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableAutoMaintenanceHatchPartMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableCleaningMaintenanceHatchPartMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHatchPartMachine;
-import org.leodreamer.sftcore.common.visual.SplitShaftVisual;
+import org.leodreamer.sftcore.integration.create.visual.SplitShaftVisual;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;

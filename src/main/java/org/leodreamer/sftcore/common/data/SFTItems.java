@@ -1,31 +1,31 @@
 package org.leodreamer.sftcore.common.data;
 
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
-import org.leodreamer.sftcore.common.cover.AccelerateCover;
-import org.leodreamer.sftcore.common.item.SelectStickItem;
-import org.leodreamer.sftcore.common.item.behavior.OrderBehavior;
-import org.leodreamer.sftcore.common.item.behavior.TimeBottleBehavior;
-import org.leodreamer.sftcore.common.item.behavior.WildcardPatternBehavior;
-import org.leodreamer.sftcore.integration.IntegrateMods;
-import org.leodreamer.sftcore.integration.ae2.item.SuperUpgradeCardItem;
-import org.leodreamer.sftcore.integration.mek.SuperUpgradeItem;
-
+import appeng.core.definitions.AEItems;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-
-import appeng.core.definitions.AEItems;
+import com.tterrag.registrate.providers.DataGenContext;
+import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import mekanism.api.Upgrade;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.cover.AccelerateCover;
+import org.leodreamer.sftcore.common.item.OrderBehavior;
+import org.leodreamer.sftcore.common.item.SelectStickBehavior;
+import org.leodreamer.sftcore.common.item.TimeBottleBehavior;
+import org.leodreamer.sftcore.common.item.WildcardPatternBehavior;
+import org.leodreamer.sftcore.integration.IntegrateMods;
+import org.leodreamer.sftcore.integration.ae2.item.SuperUpgradeCardItem;
+import org.leodreamer.sftcore.integration.mek.SuperUpgradeItem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,9 +36,10 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 
 public final class SFTItems {
 
-    public static final ItemEntry<SelectStickItem> SELECT_STICK = REGISTRATE.item("select_stick", SelectStickItem::new)
+    public static final ItemEntry<ComponentItem> SELECT_STICK = REGISTRATE.item("select_stick", ComponentItem::create)
         .lang("Select Stick")
-        .model((ctx, prov) -> prov.generated(ctx::getEntry, ResourceLocation.withDefaultNamespace("item/stick")))
+        .model(generatedModel(ResourceLocation.withDefaultNamespace("item/stick")))
+        .onRegister(attach(new SelectStickBehavior()))
         .register();
 
     public static final ItemEntry<ComponentItem> TIME_BOTTLE = REGISTRATE
@@ -68,22 +69,16 @@ public final class SFTItems {
     public static final ItemEntry<SuperUpgradeCardItem> SUPER_SPEED_CARD = REGISTRATE
         .item("super_speed_card", p -> new SuperUpgradeCardItem(AEItems.SPEED_CARD.asItem(), p))
         .lang("Super Acceleration Card")
-        .model(
-            (ctx, prov) -> prov.generated(
-                ctx::getEntry, ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/card_speed"),
-                SFTCore.id("item/overlay/super_upgrade")
-            )
+        .model(generatedModel(
+            ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/card_speed"),
+            SFTCore.id("item/overlay/super_upgrade"))
         )
         .register();
 
     public static final ItemEntry<ComponentItem> WILDCARD_PATTERN = REGISTRATE
         .item("wildcard_pattern", ComponentItem::create)
         .lang("Wildcard Pattern")
-        .model(
-            (ctx, prov) -> prov.generated(
-                ctx::getEntry, ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/processing_pattern")
-            )
-        )
+        .model(generatedModel(ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/processing_pattern")))
         .properties(p -> p.stacksTo(1))
         .onRegister(attach(new WildcardPatternBehavior()))
         .register();
@@ -130,17 +125,14 @@ public final class SFTItems {
                     ComponentItem::create
                 )
                 .lang("%s §rAccelerate Cover".formatted(GTValues.VNF[tier]))
+                .onRegister(attach(new CoverPlaceBehavior(cover)))
                 .onRegister(
-                    attach(
-                        new CoverPlaceBehavior(cover),
-                        new TooltipBehavior(
-                            lines -> SFTTooltipsBuilder.of()
-                                .insert(Component.translatable(AccelerateCover.TOOLTIP, accel))
-                                .textureComeFrom("Thermal Expansion")
-                                .addTo(lines)
-                        )
-                    )
-                )
+                    tooltip(
+                    lines -> SFTTooltipsBuilder.of()
+                        .insert(Component.translatable(AccelerateCover.TOOLTIP, accel))
+                        .textureComeFrom("Thermal Expansion")
+                        .addTo(lines)
+                ))
                 .register();
         }
 
@@ -154,12 +146,9 @@ public final class SFTItems {
             .lang("%s §rUniversal Circuit".formatted(GTValues.VNF[tier]))
             .tag(CustomTags.CIRCUITS_ARRAY[tier])
             .onRegister(
-                attach(
-                    new TooltipBehavior(
-                        lines -> SFTTooltipsBuilder.of()
-                            .textureComeFrom("GregTech New Horizon")
-                            .addTo(lines)
-                    )
+                tooltip(lines -> SFTTooltipsBuilder.of()
+                    .textureComeFrom("GregTech New Horizon")
+                    .addTo(lines)
                 )
             )
             .register();
@@ -169,5 +158,10 @@ public final class SFTItems {
         return attach(new TooltipBehavior(tooltips));
     }
 
-    public static void init() {}
+    private static <T extends Item> NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelProvider> generatedModel(ResourceLocation... layers) {
+        return (ctx, prov) -> prov.generated(ctx::getEntry, layers);
+    }
+
+    public static void init() {
+    }
 }

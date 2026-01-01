@@ -33,6 +33,9 @@ public class MixinTooltips {
     @RegisterLanguage("- Can multiply the number of items processed by patterns")
     public static final String PATTERN_ENCODER_2 = "sftcore.mixin.ae2.pattern_encoder.tooltip.2";
 
+    @RegisterLanguage("- Can guess the GregTech recipe type from EMI to transfer pattern automatically")
+    public static final String PATTERN_ENCODER_3 = "sftcore.mixin.ae2.pattern_encoder.tooltip.3";
+
     @RegisterLanguage("Prompt...")
     public static final String PATTERN_ENCODER_PROMPT = "sftcore.mixin.ae2.pattern_encoder.prompt";
 
@@ -65,6 +68,15 @@ public class MixinTooltips {
     @RegisterLanguage("Also available in the void")
     public static final String AVAILABLE_IN_VOID = "sftcore.mixin.gtceu.condition.demension.available_in_void";
 
+    @RegisterLanguage("Select Target: %d, %d, %d")
+    public static final String WIRELESS_SELECTED = "sftcore.mixin.extended_ae.wireless_connector.selected";
+
+    @RegisterLanguage("The machine is connected successfully.")
+    public static final String WIRELESS_CONNECT = "sftcore.mixin.extended_ae.wireless_connector.connect";
+
+    @RegisterLanguage("The wireless controller is missing.")
+    public static final String WIRELESS_MISSING = "sftcore.mixin.extended_ae.wireless_connector.missing";
+
     private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
     static {
@@ -74,6 +86,7 @@ public class MixinTooltips {
                 .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
                 .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
                 .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
+                .insert(Component.translatable(PATTERN_ENCODER_3).withStyle(ChatFormatting.GOLD))
                 .modifiedBySFT()::addTo
         );
 

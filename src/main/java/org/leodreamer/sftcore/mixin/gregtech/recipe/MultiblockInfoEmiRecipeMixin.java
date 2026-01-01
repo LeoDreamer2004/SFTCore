@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.item.behavior.OrderBehavior;
+import org.leodreamer.sftcore.common.item.OrderBehavior;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;

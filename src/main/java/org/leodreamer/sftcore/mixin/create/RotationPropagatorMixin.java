@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.create;
 
 import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
-import org.leodreamer.sftcore.api.machine.trait.IKineticMachine;
+import org.leodreamer.sftcore.api.feature.IKineticMachine;
 
 import net.minecraft.core.Direction;
 
