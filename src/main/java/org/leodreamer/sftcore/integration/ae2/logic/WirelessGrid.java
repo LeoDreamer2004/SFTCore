@@ -1,14 +1,16 @@
 package org.leodreamer.sftcore.integration.ae2.logic;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import org.leodreamer.sftcore.api.serialization.ITagCodecSerializable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
-import org.leodreamer.sftcore.api.serialization.ITagCodecSerializable;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.List;
 import java.util.Set;

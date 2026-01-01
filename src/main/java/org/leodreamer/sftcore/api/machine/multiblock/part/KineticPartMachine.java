@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.api.machine.multiblock.part;
 
-import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.feature.IKineticMachine;
+import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.common.machine.trait.NotifiableStressTrait;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;

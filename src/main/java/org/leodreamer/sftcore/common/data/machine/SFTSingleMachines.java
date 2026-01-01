@@ -1,13 +1,13 @@
 package org.leodreamer.sftcore.common.data.machine;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
 import org.leodreamer.sftcore.common.machine.OreReplicatorMachine;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
 
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 

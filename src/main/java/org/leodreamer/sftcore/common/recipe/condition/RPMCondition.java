@@ -2,8 +2,8 @@ package org.leodreamer.sftcore.common.recipe.condition;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.feature.IKineticMachine;
+import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.common.data.SFTRecipeConditions;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;

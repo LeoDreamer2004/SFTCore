@@ -37,7 +37,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * These codes are from <a href="https://github.com/GregTech-Odyssey/GTOCore/blob/main/src/main/java/com/gtocore/common/item/OrderItem.java">GregTech Odyssey</a>
+ * These codes are from <a href=
+ * "https://github.com/GregTech-Odyssey/GTOCore/blob/main/src/main/java/com/gtocore/common/item/OrderItem.java">GregTech
+ * Odyssey</a>
  */
 @DataGenScanned
 public class OrderBehavior

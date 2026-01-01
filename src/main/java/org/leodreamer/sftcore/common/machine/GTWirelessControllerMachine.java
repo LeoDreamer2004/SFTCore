@@ -1,25 +1,28 @@
 package org.leodreamer.sftcore.common.machine;
 
-import appeng.api.networking.GridHelper;
-import appeng.api.networking.IManagedGridNode;
+import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
+import org.leodreamer.sftcore.common.save.WirelessSavedData;
+import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+
+import appeng.api.networking.GridHelper;
+import appeng.api.networking.IManagedGridNode;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
-import org.leodreamer.sftcore.common.save.WirelessSavedData;
-import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
 
 import java.util.Map;
 import java.util.Objects;
@@ -65,8 +68,7 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
         try {
             GridHelper.createConnection(node, otherNode);
             otherMachine.sftcore$getWirelessHolder().setGrid(grid);
-        } catch (IllegalStateException ignored) {
-        }
+        } catch (IllegalStateException ignored) {}
     }
 
     @Override
@@ -92,8 +94,10 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
 
         // GTM YOU ARE JOKING!
         // OK, it's my fault. Do not remove the grid data when the server is saving.
-        if (getLevel() instanceof ServerLevel serverLevel &&
-            serverLevel.getServer().isCurrentlySaving()) return;
+        if (
+            getLevel() instanceof ServerLevel serverLevel &&
+                serverLevel.getServer().isCurrentlySaving()
+        ) return;
 
         waitTasks.clear();
         if (grid != null) {
@@ -127,8 +131,10 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
 
     @Nullable
     private IWirelessAEMachine getWirelessMachineAt(BlockPos pos) {
-        if (Objects.requireNonNull(getLevel()).getBlockEntity(pos) instanceof MetaMachineBlockEntity metaMachine
-            && metaMachine.metaMachine instanceof IWirelessAEMachine machine) {
+        if (
+            Objects.requireNonNull(getLevel()).getBlockEntity(pos) instanceof MetaMachineBlockEntity metaMachine &&
+                metaMachine.metaMachine instanceof IWirelessAEMachine machine
+        ) {
             return machine;
         }
         return null;

@@ -1,20 +1,23 @@
 package org.leodreamer.sftcore.common.data;
 
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.api.wrapper.TooltipedBlockItem;
+import org.leodreamer.sftcore.common.block.VoidPortalBlock;
+
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullFunction;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
+
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
-import org.leodreamer.sftcore.api.wrapper.TooltipedBlockItem;
-import org.leodreamer.sftcore.common.block.VoidPortalBlock;
+
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import java.util.function.Supplier;
 
@@ -60,6 +63,5 @@ public final class SFTBlocks {
             .register();
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 }

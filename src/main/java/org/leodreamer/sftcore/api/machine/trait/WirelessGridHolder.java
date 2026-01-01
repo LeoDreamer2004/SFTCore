@@ -1,14 +1,17 @@
 package org.leodreamer.sftcore.api.machine.trait;
 
+import org.leodreamer.sftcore.common.save.WirelessSavedData;
+import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
+
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
+
+import net.minecraft.server.level.ServerLevel;
+
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.common.save.WirelessSavedData;
-import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
 
 public class WirelessGridHolder extends MachineTrait {
 
@@ -31,8 +34,10 @@ public class WirelessGridHolder extends MachineTrait {
     @Override
     public void onMachineUnLoad() {
         super.onMachineUnLoad();
-        if (machine.getLevel() instanceof ServerLevel serverLevel &&
-            serverLevel.getServer().isCurrentlySaving()) return;
+        if (
+            machine.getLevel() instanceof ServerLevel serverLevel &&
+                serverLevel.getServer().isCurrentlySaving()
+        ) return;
 
         if (grid != null) {
             grid.members().remove(machine.getPos());

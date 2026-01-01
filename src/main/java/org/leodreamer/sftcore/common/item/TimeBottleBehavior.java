@@ -27,7 +27,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * These codes are partially from <a href="https://github.com/GregTech-Odyssey/GTOCore/blob/main/src/main/java/com/gtocore/common/item/TimeTwisterBehavior.java">GregTech Odyssey</a> (while I'm also the contributor)
+ * These codes are partially from <a href=
+ * "https://github.com/GregTech-Odyssey/GTOCore/blob/main/src/main/java/com/gtocore/common/item/TimeTwisterBehavior.java">GregTech
+ * Odyssey</a> (while I'm also the contributor)
  */
 @DataGenScanned
 public class TimeBottleBehavior implements IInteractionItem, IAddInformation {

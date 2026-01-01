@@ -1,11 +1,13 @@
 package org.leodreamer.sftcore.mixin.gtmthings;
 
+import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
+import org.leodreamer.sftcore.api.machine.trait.WirelessGridHolder;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
+
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.appeng.MEOutputPartMachine;
-import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
-import org.leodreamer.sftcore.api.machine.trait.WirelessGridHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

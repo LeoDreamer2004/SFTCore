@@ -15,7 +15,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 /**
  * Ponder Integration for SFTCore.
  * <p>
- * Some codes are ported from KubeJS by modpack <a href="https://github.com/Jasons-impart/Create-Delight-Remake">Create Delight Remake</a>
+ * Some codes are ported from KubeJS by modpack <a href="https://github.com/Jasons-impart/Create-Delight-Remake">Create
+ * Delight Remake</a>
  * and <a href="https://github.com/Eternal-Snowstorm/CodeNameCIM2">Create: Mechanisms and Innovations</a>,
  * both of which are adapted with Java modding.
  * </p>

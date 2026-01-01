@@ -1,5 +1,8 @@
 package org.leodreamer.sftcore.common.save;
 
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -12,13 +15,12 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -29,8 +31,7 @@ public class WirelessSavedData extends SavedData {
     private static final String NBT_KEY = "gt_wireless_data";
     public static WirelessSavedData INSTANCE = null;
 
-    private WirelessSavedData() {
-    }
+    private WirelessSavedData() {}
 
     public WirelessGrid createOrGetGrid(ResourceKey<Level> level, BlockPos center) {
         for (var grid : grids) {
@@ -74,7 +75,8 @@ public class WirelessSavedData extends SavedData {
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
-            INSTANCE = serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::load, WirelessSavedData::new, "sftcore_wireless_data");
+            INSTANCE = serverLevel.getDataStorage()
+                .computeIfAbsent(WirelessSavedData::load, WirelessSavedData::new, "sftcore_wireless_data");
         }
     }
 }
