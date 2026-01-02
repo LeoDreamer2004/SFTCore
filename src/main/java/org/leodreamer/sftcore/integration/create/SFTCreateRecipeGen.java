@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.UnaryOperator;
 
+import static com.simibubi.create.api.data.recipe.BaseRecipeProvider.GeneratedRecipe;
+
 @SuppressWarnings("unused")
 public class SFTCreateRecipeGen {
 
@@ -127,13 +129,12 @@ public class SFTCreateRecipeGen {
         );
     }
 
-    private static <
-        T extends ProcessingRecipe<?>> List<BaseRecipeProvider.GeneratedRecipe> genGTTransform(
-            String idSuffix,
-            TagPrefix from,
-            TagPrefix to,
-            BiFunction<String, UnaryOperator<ProcessingRecipeBuilder<T>>, BaseRecipeProvider.GeneratedRecipe> createFactory
-        ) {
+    private static <T extends ProcessingRecipe<?>> List<GeneratedRecipe> genGTTransform(
+        String idSuffix,
+        TagPrefix from,
+        TagPrefix to,
+        BiFunction<String, UnaryOperator<ProcessingRecipeBuilder<T>>, GeneratedRecipe> createFactory
+    ) {
         return GTCEuAPI.materialManager.getRegisteredMaterials().stream()
             .filter(
                 material -> material.shouldGenerateRecipesFor(to) &&

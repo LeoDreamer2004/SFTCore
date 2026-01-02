@@ -39,8 +39,7 @@ public class AENetworkScenes {
         scene.text(40, "This is a Controller...");
         scene.idle(60);
 
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(0, 1, 1), 60)
             .colored(PonderPalette.GREEN)
             .text("Controller needs to be powered to function")
@@ -60,42 +59,34 @@ public class AENetworkScenes {
         scene.idle(30);
         scene.world().showSection(sel.position(8, 1, 1), Direction.DOWN);
         scene.idle(20);
-        scene
-            .world()
-            .modifyBlocks(
-                sel.fromTo(8, 1, 1, 1, 1, 1),
-                (state) -> state.setValue(
-                    ControllerBlock.CONTROLLER_STATE,
-                    ControllerBlock.ControllerBlockState.conflicted
-                )
-            );
-        scene
-            .world()
-            .modifyBlocks(
-                sel.fromTo(1, 8, 1, 1, 1, 1),
-                (state) -> state.setValue(
-                    ControllerBlock.CONTROLLER_STATE,
-                    ControllerBlock.ControllerBlockState.conflicted
-                )
-            );
-        scene
-            .world()
-            .modifyBlocks(
-                sel.fromTo(1, 1, 8, 1, 1, 1),
-                (state) -> state.setValue(
-                    ControllerBlock.CONTROLLER_STATE,
-                    ControllerBlock.ControllerBlockState.conflicted
-                )
-            );
-        scene
-            .world()
-            .modifyBlock(
-                pos.at(7, 1, 1),
-                (state) -> state.setValue(
-                    ControllerBlock.CONTROLLER_TYPE,
-                    ControllerBlock.ControllerRenderType.column_x
-                )
-            );
+        scene.world().modifyBlocks(
+            sel.fromTo(8, 1, 1, 1, 1, 1),
+            (state) -> state.setValue(
+                ControllerBlock.CONTROLLER_STATE,
+                ControllerBlock.ControllerBlockState.conflicted
+            )
+        );
+        scene.world().modifyBlocks(
+            sel.fromTo(1, 8, 1, 1, 1, 1),
+            (state) -> state.setValue(
+                ControllerBlock.CONTROLLER_STATE,
+                ControllerBlock.ControllerBlockState.conflicted
+            )
+        );
+        scene.world().modifyBlocks(
+            sel.fromTo(1, 1, 8, 1, 1, 1),
+            (state) -> state.setValue(
+                ControllerBlock.CONTROLLER_STATE,
+                ControllerBlock.ControllerBlockState.conflicted
+            )
+        );
+        scene.world().modifyBlock(
+            pos.at(7, 1, 1),
+            (state) -> state.setValue(
+                ControllerBlock.CONTROLLER_TYPE,
+                ControllerBlock.ControllerRenderType.column_x
+            )
+        );
         scene.text(
             60, "Controllers will turn red and become unusable if they exceed the 7-block limit"
         );
@@ -103,8 +94,7 @@ public class AENetworkScenes {
         scene.idle(80);
         scene.world().showSection(sel.fromTo(3, 1, 3, 5, 1, 4), Direction.DOWN);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(3, 1, 3, 5, 1, 4), 60)
             .colored(PonderPalette.RED)
             .text(
@@ -132,19 +122,16 @@ public class AENetworkScenes {
             "Quantum Bridge can be used for remote network transmission, even across dimensions. A pair of Quantum Rings can transmit up to 32 channels."
         );
         scene.idle(120);
-        scene
-            .text(
-                60,
-                "To build a Quantum Ring structure, you need eight Quantum Rings and one Quantum Link"
-            )
+        scene.text(
+            60,
+            "To build a Quantum Ring structure, you need eight Quantum Rings and one Quantum Link"
+        )
             .attachKeyFrame();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                scene
-                    .world()
-                    .modifyBlock(
-                        pos.at(i, j + 1, 0), (state) -> state.setValue(QuantumBaseBlock.FORMED, false)
-                    );
+                scene.world().modifyBlock(
+                    pos.at(i, j + 1, 0), (state) -> state.setValue(QuantumBaseBlock.FORMED, false)
+                );
                 if (i != 1 || j != 1) {
                     scene.world().showSection(sel.position(i, j + 1, 0), Direction.DOWN);
                     scene.idle(5);
@@ -157,11 +144,9 @@ public class AENetworkScenes {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (i == 1 || j == 1)
-                    scene
-                        .world()
-                        .modifyBlock(
-                            pos.at(i, j + 1, 0), (state) -> state.setValue(QuantumBaseBlock.FORMED, true)
-                        );
+                    scene.world().modifyBlock(
+                        pos.at(i, j + 1, 0), (state) -> state.setValue(QuantumBaseBlock.FORMED, true)
+                    );
             }
         }
         scene.idle(30);
@@ -173,33 +158,28 @@ public class AENetworkScenes {
         scene.overlay().showOutline(PonderPalette.GREEN, new Object(), sel.position(0, 2, 0), 60);
         scene.overlay().showOutline(PonderPalette.GREEN, new Object(), sel.position(1, 3, 0), 60);
         scene.overlay().showOutline(PonderPalette.GREEN, new Object(), sel.position(2, 2, 0), 60);
-        scene
-            .text(
-                60,
-                "Network can only be connected to the Quantum Ring through the four Quantum Ring blocks surrounding the Quantum Link"
-            )
+        scene.text(
+            60,
+            "Network can only be connected to the Quantum Ring through the four Quantum Ring blocks surrounding the Quantum Link"
+        )
             .pointAt(vec.of(1.5, 2.5, 1))
             .attachKeyFrame();
         scene.idle(80);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (i != 1 && j != 1)
-                    scene
-                        .world()
-                        .modifyBlock(
-                            pos.at(i + 6, j + 1, 8),
-                            (state) -> state.setValue(QuantumBaseBlock.FORMED, true)
-                        );
+                    scene.world().modifyBlock(
+                        pos.at(i + 6, j + 1, 8),
+                        (state) -> state.setValue(QuantumBaseBlock.FORMED, true)
+                    );
                 scene.world().showSection(sel.position(i + 6, j + 1, 8), Direction.DOWN);
                 scene.idle(5);
             }
         }
-        scene
-            .text(
-                60,
-                "The Quantum Rings are used in pairs, you need to place another Quantum Ring structure at the remote end where you need it"
-            )
-            .attachKeyFrame();
+        scene.text(
+            60,
+            "The Quantum Rings are used in pairs, you need to place another Quantum Ring structure at the remote end where you need it"
+        ).attachKeyFrame();
         scene.idle(80);
         scene.text(
             60,

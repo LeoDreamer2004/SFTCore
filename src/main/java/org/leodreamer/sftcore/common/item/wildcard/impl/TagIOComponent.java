@@ -2,7 +2,6 @@ package org.leodreamer.sftcore.common.item.wildcard.impl;
 
 import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardSerializer;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTTagSlot;
 import org.leodreamer.sftcore.integration.ae2.item.GenericGTTag;
 
@@ -107,7 +106,7 @@ public class TagIOComponent implements IWildcardIOComponent {
         }
 
         @Override
-        public @NotNull CompoundTag writeToNBT(IWildcardIOComponent component) {
+        public @NotNull CompoundTag serialize(IWildcardIOComponent component) {
             var tagComponent = (TagIOComponent) component;
             var nbt = new CompoundTag();
             nbt.put("tag", tagComponent.tag.toNBT());
@@ -116,7 +115,7 @@ public class TagIOComponent implements IWildcardIOComponent {
         }
 
         @Override
-        public @NotNull IWildcardIOComponent readFromNBT(CompoundTag nbt) {
+        public @NotNull IWildcardIOComponent deserialize(CompoundTag nbt) {
             var amount = nbt.getInt("amount");
             if (nbt.get("tag") instanceof CompoundTag tagNBT) {
                 var tag = GenericGTTag.fromNBT(tagNBT);

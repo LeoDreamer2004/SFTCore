@@ -52,8 +52,8 @@ public class PatternProviderLogicMixin {
         for (var stack : patternInventory) {
             // injected by SFT
             if (stack.is(SFTItems.WILDCARD_PATTERN.asItem())) {
-                var parser = WildcardPatternLogic.on(stack);
-                parser.generateAllPatterns(level).forEach(this::sftcore$updatePattern);
+                WildcardPatternLogic.decodePatterns(stack, level)
+                    .forEach(this::sftcore$updatePattern);
                 continue;
             }
             var details = PatternDetailsHelper.decodePattern(stack, level);

@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.common.item.wildcard;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardSerializable;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardSerializer;
 import org.leodreamer.sftcore.common.item.wildcard.impl.*;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -18,6 +17,8 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import static org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardSerializable.IWildcardSerializer;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -54,7 +55,7 @@ public class WildcardSerializers {
                     if (serializer == null) {
                         throw new IllegalStateException("Unknown wildcard component type: " + type);
                     }
-                    return serializer.readFromNBT(compound.getCompound("data"));
+                    return serializer.deserialize(compound.getCompound("data"));
                 }
                 return null;
             }).filter(Objects::nonNull).toList();
@@ -68,7 +69,7 @@ public class WildcardSerializers {
             var serializer = component.getSerializer();
             var compound = new CompoundTag();
             compound.putString("type", serializer.key());
-            compound.put("data", serializer.writeToNBT(component));
+            compound.put("data", serializer.serialize(component));
             listTag.add(compound);
         }
         tag.put(key, listTag);

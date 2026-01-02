@@ -85,7 +85,7 @@ public class WildcardPatternLogic {
     }
 
     public Stream<IPatternDetails> generateAllPatterns(Level level) {
-        return GTCEuAPI.materialManager.getRegisteredMaterials().stream()
+        return GTCEuAPI.materialManager.getRegisteredMaterials().parallelStream()
             .filter(this::test)
             .map(material -> {
                 var input = getIOStacks(IO.IN, material);
@@ -97,5 +97,9 @@ public class WildcardPatternLogic {
                 return PatternDetailsHelper.decodePattern(item, level);
             })
             .filter(Objects::nonNull);
+    }
+
+    public static Stream<IPatternDetails> decodePatterns(ItemStack stack, Level level) {
+        return on(stack).generateAllPatterns(level);
     }
 }

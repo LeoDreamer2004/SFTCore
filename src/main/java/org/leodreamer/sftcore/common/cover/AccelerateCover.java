@@ -50,6 +50,7 @@ public class AccelerateCover extends DetectorCover {
 
     @Override
     protected void update() {
+        // for every 2 tick, the recipe progress is increased by tier ticks
         if (coverHolder.getOffsetTimer() % 2 == 0) {
             return;
         }

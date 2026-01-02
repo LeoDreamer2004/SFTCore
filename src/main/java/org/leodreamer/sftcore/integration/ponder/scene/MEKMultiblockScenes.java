@@ -49,8 +49,7 @@ public class MEKMultiblockScenes {
         }
 
         scene.idle(40);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(4, 2, 4, 4, 6, 4), 60)
             .colored(PonderPalette.BLUE)
             .text("Place Turbine Rotors vertically in the center")
@@ -63,24 +62,21 @@ public class MEKMultiblockScenes {
             "Hold a Turbine Blade and right-click the Turbine Rotor to install blades, two blades are required for each rotor"
         );
         scene.idle(30);
-        scene
-            .overlay()
+        scene.overlay()
             .showControls(vec.of(4, 2.5, 4), Pointing.RIGHT, 60)
             .rightClick()
             .withItem(GeneratorsItems.TURBINE_BLADE.getItemStack());
         scene.idle(30);
 
         for (int h = 2; h <= 6; h++) {
-            scene
-                .world()
+            scene.world()
                 .modifyBlockEntityNBT(
                     sel.position(4, h, 4),
                     TileEntityTurbineRotor.class,
                     (nbt) -> nbt.putInt("blades", 1)
                 );
             scene.idle(20 / h);
-            scene
-                .world()
+            scene.world()
                 .modifyBlockEntityNBT(
                     sel.position(4, h, 4),
                     TileEntityTurbineRotor.class,
@@ -93,8 +89,7 @@ public class MEKMultiblockScenes {
         scene.world().showSection(complex, Direction.DOWN);
         scene.idle(20);
 
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(complex, 60)
             .colored(PonderPalette.GREEN)
             .text("Place a Rotation Complex on top of the rotors")
@@ -122,8 +117,7 @@ public class MEKMultiblockScenes {
                 scene.idle(2);
             }
         }
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(2, 7, 2, 6, 7, 6), 60)
             .colored(PonderPalette.BLUE)
             .text("Fill the layer of the Rotation Complex with Pressure Dispersers")
@@ -132,8 +126,7 @@ public class MEKMultiblockScenes {
 
         scene.world().showSection(sel.fromTo(4, 8, 3, 4, 8, 5), Direction.DOWN);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(4, 8, 3, 4, 8, 5), 100)
             .colored(PonderPalette.BLUE)
             .text(
@@ -153,8 +146,7 @@ public class MEKMultiblockScenes {
         scene.world().showSection(sel.fromTo(2, 7, 7, 6, 8, 7), Direction.NORTH);
         scene.idle(10);
 
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(1, 7, 1, 7, 8, 7), 80)
             .colored(PonderPalette.GREEN)
             .text(
@@ -188,19 +180,17 @@ public class MEKMultiblockScenes {
         scene.text(40, "Finally, cap it off with Turbine Casing and Structure Glass").attachKeyFrame();
         scene.idle(80);
 
-        scene
-            .world()
+        scene.world()
             .setBlocks(
                 sel.fromTo(3, 2, 1, 5, 2, 1),
                 GeneratorsBlocks.TURBINE_VALVE.getBlock().defaultBlockState(),
                 true
             );
         scene.idle(10);
-        scene
-            .text(
-                60,
-                "Replace Turbine Casing and Structure Glass with Turbine Valves for input and output"
-            )
+        scene.text(
+            60,
+            "Replace Turbine Casing and Structure Glass with Turbine Valves for input and output"
+        )
             .pointAt(vec.of(4, 2.5, 1))
             .placeNearTarget();
         scene.idle(60);
@@ -242,8 +232,7 @@ public class MEKMultiblockScenes {
         scene.text(70, "Replace some of the casing on the faces with Fission Reactor Ports");
         scene.idle(85);
         scene.addKeyframe();
-        scene
-            .overlay()
+        scene.overlay()
             .showControls(vec.of(2, 3, 1), Pointing.LEFT, 50)
             .rightClick()
             .withItem(MekanismItems.CONFIGURATOR.getItemStack())
@@ -252,41 +241,33 @@ public class MEKMultiblockScenes {
             50, "Shift right-click the port with a Configurator to change its input/output mode"
         );
         scene.idle(65);
-        scene
-            .world()
-            .modifyBlock(
-                pos.at(2, 11, 1),
-                (state) -> state.setValue(
-                    AttributeStateFissionPortMode.modeProperty,
-                    AttributeStateFissionPortMode.FissionPortMode.OUTPUT_WASTE
-                )
-            );
-        scene
-            .world()
-            .modifyBlock(
-                pos.at(2, 12, 1),
-                (state) -> state.setValue(
-                    AttributeStateFissionPortMode.modeProperty,
-                    AttributeStateFissionPortMode.FissionPortMode.OUTPUT_COOLANT
-                )
-            );
+        scene.world().modifyBlock(
+            pos.at(2, 11, 1),
+            (state) -> state.setValue(
+                AttributeStateFissionPortMode.modeProperty,
+                AttributeStateFissionPortMode.FissionPortMode.OUTPUT_WASTE
+            )
+        );
+        scene.world().modifyBlock(
+            pos.at(2, 12, 1),
+            (state) -> state.setValue(
+                AttributeStateFissionPortMode.modeProperty,
+                AttributeStateFissionPortMode.FissionPortMode.OUTPUT_COOLANT
+            )
+        );
         scene.idle(17);
         scene.rotateCameraY(180);
         scene.idle(20);
         scene.world().hideIndependentSection(sec, Direction.UP);
         scene.world().moveSection(sec1, vec.of(0, 35, 0), 35);
         scene.addKeyframe();
-        scene
-            .world()
-            .setBlocks(
-                sel.fromTo(3, 2, 3, 3, 3, 3),
-                GeneratorsBlocks.FISSION_FUEL_ASSEMBLY.getBlock().defaultBlockState()
-            );
-        scene
-            .world()
-            .setBlock(
-                pos.at(3, 4, 3), GeneratorsBlocks.CONTROL_ROD_ASSEMBLY.getBlock().defaultBlockState()
-            );
+        scene.world().setBlocks(
+            sel.fromTo(3, 2, 3, 3, 3, 3),
+            GeneratorsBlocks.FISSION_FUEL_ASSEMBLY.getBlock().defaultBlockState()
+        );
+        scene.world().setBlock(
+            pos.at(3, 4, 3), GeneratorsBlocks.CONTROL_ROD_ASSEMBLY.getBlock().defaultBlockState()
+        );
         scene.idle(20);
         scene.text(40, "Place Fission Fuel Assemblies vertically inside the reactor");
         scene.world().showSection(sel.position(3, 2, 3), Direction.DOWN);
@@ -301,18 +282,14 @@ public class MEKMultiblockScenes {
         scene.idle(40);
         scene.addKeyframe();
         scene.text(40, "You can also automate the reactor using the Fission Reactor Logic Adapter");
-        scene
-            .world()
-            .setBlock(
-                pos.at(3, 5, 3), GeneratorsBlocks.REACTOR_GLASS.getBlock().defaultBlockState(), true
-            );
-        scene
-            .world()
-            .setBlock(
-                pos.at(3, 5, 3),
-                GeneratorsBlocks.FISSION_REACTOR_LOGIC_ADAPTER.getBlock().defaultBlockState(),
-                true
-            );
+        scene.world().setBlock(
+            pos.at(3, 5, 3), GeneratorsBlocks.REACTOR_GLASS.getBlock().defaultBlockState(), true
+        );
+        scene.world().setBlock(
+            pos.at(3, 5, 3),
+            GeneratorsBlocks.FISSION_REACTOR_LOGIC_ADAPTER.getBlock().defaultBlockState(),
+            true
+        );
         scene.idle(40);
     }
 
@@ -330,8 +307,7 @@ public class MEKMultiblockScenes {
 
         scene.world().showSection(sel.fromTo(0, 2, 0, 8, 2, 8), Direction.DOWN);
         scene.idle(15);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(1, 2, 1, 7, 2, 7), 60)
             .colored(PonderPalette.BLUE)
             .text(
@@ -369,8 +345,7 @@ public class MEKMultiblockScenes {
         scene.idle(20);
         scene.addKeyframe();
 
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(4, 2, 4, 4, 2, 4), 60)
             .colored(PonderPalette.BLUE)
             .text(
@@ -378,20 +353,16 @@ public class MEKMultiblockScenes {
             )
             .pointAt(vec.of(4.5, 2.5, 4));
         scene.idle(70);
-        scene
-            .world()
+        scene.world()
             .setBlock(pos.at(4, 3, 4), MekanismBlocks.SUPERCHARGED_COIL.getBlock().defaultBlockState());
         scene.world().showSection(sel.position(4, 3, 4), Direction.DOWN);
-        scene
-            .world()
-            .modifyBlock(
-                pos.at(4, 3, 4), (state) -> state.setValue(BlockStateProperties.FACING, Direction.UP)
-            );
+        scene.world().modifyBlock(
+            pos.at(4, 3, 4), (state) -> state.setValue(BlockStateProperties.FACING, Direction.UP)
+        );
         scene.idle(20);
         scene.addKeyframe();
 
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(4, 3, 4, 4, 3, 4), 60)
             .colored(PonderPalette.BLUE)
             .text("And place a Supercharged Coil here")
@@ -406,8 +377,7 @@ public class MEKMultiblockScenes {
         scene.idle(10);
         scene.addKeyframe();
 
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(7, 5, 3, 7, 5, 5), 60)
             .colored(PonderPalette.BLUE)
             .text(
@@ -415,8 +385,7 @@ public class MEKMultiblockScenes {
             )
             .pointAt(vec.of(7, 5, 5));
         scene.idle(70);
-        scene
-            .overlay()
+        scene.overlay()
             .showControls(vec.of(6.5, 5, 5), Pointing.RIGHT, 60)
             .rightClick()
             .withItem(MekanismItems.CONFIGURATOR.getItemStack())
@@ -426,11 +395,10 @@ public class MEKMultiblockScenes {
         scene.text(60, "Shift right-click to configure the port to output mode");
         scene.world().modifyBlock(pos.at(7, 5, 5), state -> Attribute.setActive(state, true));
         scene.idle(70);
-        scene
-            .text(
-                60,
-                "Now use Pressurized Tubes to input Polonium into the input port to produce Antimatter!"
-            )
+        scene.text(
+            60,
+            "Now use Pressurized Tubes to input Polonium into the input port to produce Antimatter!"
+        )
             .pointAt(vec.of(7, 3.5, 5));
         scene.idle(70);
     }

@@ -131,9 +131,10 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
 
     @Nullable
     private IWirelessAEMachine getWirelessMachineAt(BlockPos pos) {
+        var be = Objects.requireNonNull(getLevel()).getBlockEntity(pos);
         if (
-            Objects.requireNonNull(getLevel()).getBlockEntity(pos) instanceof MetaMachineBlockEntity metaMachine &&
-                metaMachine.metaMachine instanceof IWirelessAEMachine machine
+            be instanceof MetaMachineBlockEntity metaBe &&
+                metaBe.metaMachine instanceof IWirelessAEMachine machine
         ) {
             return machine;
         }

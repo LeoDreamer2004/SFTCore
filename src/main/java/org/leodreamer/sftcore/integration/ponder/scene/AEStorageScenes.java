@@ -45,8 +45,7 @@ public class AEStorageScenes {
         scene.world().showSection(sel.fromTo(1, 1, 3, 1, 1, 4), Direction.DOWN);
         scene.rotateCameraY(-90);
         scene.idle(40);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(1, 1, 3), 60)
             .colored(PonderPalette.BLUE)
             .text("The Export Bus extracts items from the network into a target inventory")
@@ -85,8 +84,7 @@ public class AEStorageScenes {
         scene.world().showSection(sel.position(2, 1, 3), Direction.DOWN);
         scene.idle(40);
         scene.rotateCameraY(-90);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(2, 1, 3), 60)
             .colored(PonderPalette.GREEN)
             .text("The Import Bus inserts items from a target inventory into the network")
@@ -121,8 +119,7 @@ public class AEStorageScenes {
         scene.idle(20);
         scene.world().showSection(sel.fromTo(3, 1, 4, 5, 1, 4), Direction.DOWN);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(4, 1, 4), 80)
             .colored(PonderPalette.GREEN)
             .text(
@@ -131,8 +128,7 @@ public class AEStorageScenes {
             .pointAt(vec.of(4.5, 2, 4.5));
         scene.idle(100);
         scene.world().showSection(sel.fromTo(0, 1, 0, 4, 1, 3), Direction.DOWN);
-        scene
-            .text(60, "You can use it to export items from the network into storage cells")
+        scene.text(60, "You can use it to export items from the network into storage cells")
             .attachKeyFrame();
         scene.idle(60);
 
@@ -142,8 +138,7 @@ public class AEStorageScenes {
         scene.idle(20);
         scene.world().showSection(sel.fromTo(4, 1, 5, 6, 1, 8), Direction.DOWN);
         scene.idle(20);
-        scene
-            .text(60, "You can also use IO Ports to organize the contents of storage cells in drives")
+        scene.text(60, "You can also use IO Ports to organize the contents of storage cells in drives")
             .attachKeyFrame();
         scene.idle(60);
     }
@@ -222,8 +217,7 @@ public class AEStorageScenes {
         scene.idle(10);
 
         scene.world().showSection(sel.fromTo(5, 1, 1, 5, 1, 4), Direction.DOWN);
-        scene
-            .text(60, "When you want one network to access the contents of another...")
+        scene.text(60, "When you want one network to access the contents of another...")
             .attachKeyFrame();
         scene.idle(60);
         scene.idle(30);
@@ -231,8 +225,7 @@ public class AEStorageScenes {
         scene.idle(10);
         scene.world().showSection(sel.position(4, 1, 2), Direction.DOWN);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(3, 1, 2, 4, 1, 2), 60)
             .colored(PonderPalette.BLUE)
             .text("Connect the Storage Bus to an ME Interface")
@@ -240,32 +233,28 @@ public class AEStorageScenes {
             .attachKeyFrame()
             .placeNearTarget();
         scene.idle(80);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(3, 1, 2), 60)
             .colored(PonderPalette.GREEN)
             .text("The network on the end of the Storage Bus (the main network)...")
             .pointAt(vec.of(3.5, 1.5, 2.5))
             .placeNearTarget();
         scene.idle(80);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(4, 1, 2), 60)
             .colored(PonderPalette.RED)
             .text("...can access the network on the other end of the ME Interface (the subnetwork)")
             .pointAt(vec.of(4.5, 1.5, 2.5))
             .placeNearTarget();
         scene.idle(80);
-        scene
-            .text(40, "While the opposite is not true")
+        scene.text(40, "While the opposite is not true")
             .pointAt(vec.of(4.5, 1.5, 2.5))
             .placeNearTarget();
         scene.idle(60);
-        scene
-            .text(
-                100,
-                "By configuring the Storage Bus, you can set the main network to have read-only, write-only, or read-write access to the subnetwork, as well as apply filters for reading and writing."
-            )
+        scene.text(
+            100,
+            "By configuring the Storage Bus, you can set the main network to have read-only, write-only, or read-write access to the subnetwork, as well as apply filters for reading and writing."
+        )
             .pointAt(vec.of(3, 2.5, 2))
             .attachKeyFrame();
         scene.overlay().showControls(vec.of(3.5, 2.5, 2), Pointing.DOWN, 100).rightClick();

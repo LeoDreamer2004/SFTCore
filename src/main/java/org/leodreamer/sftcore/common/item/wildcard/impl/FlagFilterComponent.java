@@ -5,7 +5,6 @@ import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.feature.IMaterialFlags;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardSerializer;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -142,7 +141,7 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
         }
 
         @Override
-        public @NotNull CompoundTag writeToNBT(IWildcardFilterComponent component) {
+        public @NotNull CompoundTag serialize(IWildcardFilterComponent component) {
             var tag = new CompoundTag();
             var simple = (FlagFilterComponent) component;
             tag.putBoolean("whitelist", simple.whitelist);
@@ -154,7 +153,7 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
         }
 
         @Override
-        public @NotNull IWildcardFilterComponent readFromNBT(CompoundTag nbt) {
+        public @NotNull IWildcardFilterComponent deserialize(CompoundTag nbt) {
             var whitelist = nbt.getBoolean("whitelist");
             var materialId = nbt.getString("example");
             var flagName = nbt.getString("flag");

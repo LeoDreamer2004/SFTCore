@@ -56,8 +56,7 @@ public class AEAutomationScenes {
         scene.idle(60);
         scene.world().showSection(sel.fromTo(1, 1, 6, 2, 2, 7), Direction.DOWN);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(1, 1, 6, 2, 2, 7), 40)
             .colored(PonderPalette.RED)
             .text(
@@ -67,8 +66,7 @@ public class AEAutomationScenes {
         scene.idle(100);
         scene.world().showSection(sel.fromTo(4, 1, 6, 5, 2, 7), Direction.DOWN);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(4, 1, 6, 5, 2, 7), 40)
             .colored(PonderPalette.GREEN)
             .text(
@@ -90,8 +88,7 @@ public class AEAutomationScenes {
         scene.world().showSection(sel.fromTo(1, 1, 1, 1, 1, 3), Direction.DOWN);
         scene.world().showSection(sel.fromTo(1, 1, 2, 3, 1, 2), Direction.DOWN);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(3, 1, 2), 60)
             .colored(PonderPalette.GREEN)
             .text("The ME Interface is the interface between the network and the outside world")
@@ -109,15 +106,13 @@ public class AEAutomationScenes {
         scene.idle(15);
         scene.world().killEntity(entity);
         scene.idle(10);
-        scene
-            .text(60, "You can directly input items into the network from the ME Interface")
+        scene.text(60, "You can directly input items into the network from the ME Interface")
             .pointAt(vec.of(3.5, 2, 2.5))
             .placeNearTarget();
         scene.idle(70);
         scene.world().hideSection(sel.position(3, 2, 2), Direction.UP);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(3, 1, 2), 40)
             .colored(PonderPalette.GREEN)
             .text("Configuring the slots of the ME Interface")
@@ -155,11 +150,9 @@ public class AEAutomationScenes {
             "If the network can still store items, the Annihilation Plane will collect blocks or item entities in front of it into the network"
         );
         scene.idle(60);
-        scene
-            .world()
-            .setBlocks(
-                sel.position(2, 2, 1), AEBlocks.QUARTZ_CLUSTER.block().defaultBlockState(), false
-            );
+        scene.world().setBlocks(
+            sel.position(2, 2, 1), AEBlocks.QUARTZ_CLUSTER.block().defaultBlockState(), false
+        );
         scene.world().showSection(sel.position(2, 2, 1), Direction.UP);
         scene.idle(20);
         scene.world().showSection(sel.fromTo(1, 1, 2, 0, 1, 2), Direction.DOWN);
@@ -191,17 +184,14 @@ public class AEAutomationScenes {
         scene.world().showSection(sel.fromTo(0, 1, 0, 3, 1, 2), Direction.DOWN);
         scene.world().showSection(sel.position(2, 2, 2), Direction.DOWN);
         scene.idle(40);
-        scene
-            .world()
-            .setBlocks(
-                sel.position(2, 2, 1), AEBlocks.SMALL_QUARTZ_BUD.block().defaultBlockState(), false
-            );
+        scene.world().setBlocks(
+            sel.position(2, 2, 1), AEBlocks.SMALL_QUARTZ_BUD.block().defaultBlockState(), false
+        );
         scene.world().showSection(sel.position(2, 2, 1), Direction.UP);
         scene.idle(20);
         scene.world().destroyBlock(pos.at(2, 2, 1));
         scene.idle(40);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(2, 2, 1), 60)
             .colored(PonderPalette.RED)
             .text("You will find that the Annihilation Plane collects all items in front of it...")
@@ -215,8 +205,7 @@ public class AEAutomationScenes {
         scene.world().showSection(sel.fromTo(4, 1, 2, 5, 1, 2), Direction.DOWN);
         scene.idle(20);
         var point = vec.of(4.75, 1.5, 2.5);
-        scene
-            .text(60, "Configuring the storage bus filter...")
+        scene.text(60, "Configuring the storage bus filter...")
             .pointAt(point)
             .placeNearTarget()
             .attachKeyFrame();
@@ -279,8 +268,7 @@ public class AEAutomationScenes {
         scene.world().killEntity(item);
         scene.world().setBlocks(sel.position(2, 1, 1), qb.block().defaultBlockState(), false);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(2, 1, 1), 60)
             .colored(PonderPalette.GREEN)
             .text("Formation Plane will place the block in front of it")
@@ -297,18 +285,16 @@ public class AEAutomationScenes {
         scene.world().killEntity(item);
         scene.world().createItemEntity(loc, qb.stack());
 
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.position(2, 1, 1), 60)
             .colored(PonderPalette.GREEN)
             .text("Formation Plane will drop the item entity in front of it")
             .pointAt(vec.of(2.5, 1.5, 1.5));
         scene.idle(80);
-        scene
-            .text(
-                60,
-                "Configuring the filter options of the Formation Plane allows it to only output items within the filter"
-            )
+        scene.text(
+            60,
+            "Configuring the filter options of the Formation Plane allows it to only output items within the filter"
+        )
             .attachKeyFrame();
         scene.idle(80);
 
@@ -343,8 +329,7 @@ public class AEAutomationScenes {
         scene.text(60, "To use the Molecular Assembler...");
         scene.idle(80);
         scene.world().showSection(sel.fromTo(1, 1, 2, 1, 1, 2), Direction.DOWN);
-        scene
-            .text(60, "You need to place it together with the Pattern Provider")
+        scene.text(60, "You need to place it together with the Pattern Provider")
             .pointAt(vec.of(1.5, 2, 2.5))
             .attachKeyFrame();
         scene.idle(80);
@@ -388,29 +373,25 @@ public class AEAutomationScenes {
         scene.idle(20);
         scene.text(40, "This is a Pattern Provider").pointAt(vec.of(2.5, 2.5, 3.5)).attachKeyFrame();
         scene.idle(60);
-        scene
-            .overlay()
+        scene.overlay()
             .showControls(vec.of(2.5, 3, 3.5), Pointing.DOWN, 20)
             .rightClick()
             .withItem(AEItems.CERTUS_QUARTZ_WRENCH.stack());
         scene.idle(20);
-        scene
-            .world()
+        scene.world()
             .modifyBlock(
                 pos.at(2, 2, 3),
                 (state) -> state.setValue(PatternProviderBlock.PUSH_DIRECTION, PushDirection.DOWN),
                 false
             );
         scene.idle(20);
-        scene
-            .text(40, "Click the Pattern Provider with a Wrench to set its direction")
+        scene.text(40, "Click the Pattern Provider with a Wrench to set its direction")
             .pointAt(vec.of(2.5, 3, 3.5))
             .attachKeyFrame();
         scene.idle(60);
         scene.text(40, "When the network sends a crafting request...").attachKeyFrame();
         scene.idle(20);
-        scene
-            .world()
+        scene.world()
             .createItemOnBelt(pos.at(2, 1, 3), Direction.DOWN, new ItemStack(Items.IRON_INGOT));
         scene.idle(30);
 
@@ -423,14 +404,12 @@ public class AEAutomationScenes {
             .world()
             .createItemEntity(vec.of(5, 2, 3.5), vec.of(0.2, 0.25, 0), AllItems.IRON_SHEET.asStack());
         scene.idle(20);
-        scene
-            .text(40, "The Pattern Provider outputs the ingredients to adjacent inventories")
+        scene.text(40, "The Pattern Provider outputs the ingredients to adjacent inventories")
             .pointAt(vec.of(2.5, 1.5, 3.5));
         scene.overlay().showOutline(PonderPalette.GREEN, new Object(), sel.position(2, 1, 3), 40);
         scene.idle(80);
         scene.addKeyframe();
-        scene
-            .text(40, "To complete a craft, the items need to be returned to the network")
+        scene.text(40, "To complete a craft, the items need to be returned to the network")
             .pointAt(vec.of(2.5, 2.5, 3.5));
         scene.idle(60);
         scene.rotateCameraY(-180);
@@ -463,28 +442,23 @@ public class AEAutomationScenes {
         scene.world().showSection(sel.fromTo(0, 1, 1, 1, 1, 3), Direction.DOWN);
         scene.idle(20);
         scene.text(40, "You need a Crafting CPU multiblock").pointAt(vec.of(0.5, 2, 2.5));
-        scene
-            .overlay()
+        scene.overlay()
             .showOutline(PonderPalette.GREEN, new Object(), sel.fromTo(0, 1, 1, 0, 1, 3), 40);
         scene.idle(60);
         scene.world().showSection(sel.fromTo(4, 1, 2, 3, 1, 0), Direction.DOWN);
         scene.idle(20);
-        scene
-            .text(40, "as well as a Pattern Provider and an Output Destination")
+        scene.text(40, "as well as a Pattern Provider and an Output Destination")
             .pointAt(vec.of(4.5, 2, 1));
-        scene
-            .overlay()
+        scene.overlay()
             .showOutline(PonderPalette.GREEN, new Object(), sel.fromTo(4, 1, 0, 4, 1, 1), 40);
         scene.idle(80);
-        scene
-            .text(
-                80,
-                "By writing patterns with the Pattern Encoding Terminal and placing them into the Pattern Provider, you can start ordering crafts"
-            )
+        scene.text(
+            80,
+            "By writing patterns with the Pattern Encoding Terminal and placing them into the Pattern Provider, you can start ordering crafts"
+        )
             .pointAt(vec.of(4, 2.5, 1))
             .attachKeyFrame();
-        scene
-            .overlay()
+        scene.overlay()
             .showControls(vec.of(4, 2.5, 1), Pointing.DOWN, 40)
             .rightClick()
             .withItem(AEItems.BLANK_PATTERN.stack());
@@ -515,11 +489,10 @@ public class AEAutomationScenes {
         scene.idle(10);
         scene.world().showSection(sel.position(1, 3, 4), Direction.DOWN);
         scene.idle(40);
-        scene
-            .text(
-                60,
-                "Multiple Pattern Providers executing the same pattern can achieve parallelism across multiple machines"
-            )
+        scene.text(
+            60,
+            "Multiple Pattern Providers executing the same pattern can achieve parallelism across multiple machines"
+        )
             .attachKeyFrame();
         scene.idle(80);
         scene.text(
@@ -529,8 +502,7 @@ public class AEAutomationScenes {
         scene.idle(80);
         scene.text(60, "Use the Memory Card to right-click the Pattern Provider while sneaking...");
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showControls(vec.of(1.5, 2, 3.5), Pointing.DOWN, 40)
             .whileSneaking()
             .withItem(memoryCard);
@@ -540,25 +512,22 @@ public class AEAutomationScenes {
         scene.world().showSection(sel.fromTo(2, 1, 3, 2, 1, 5), Direction.DOWN);
         scene.idle(20);
         scene.world().showSection(sel.position(2, 3, 4), Direction.DOWN);
-        scene
-            .text(60, "Then, use the Memory Card to right-click the target Pattern Provider...")
+        scene.text(60, "Then, use the Memory Card to right-click the target Pattern Provider...")
             .attachKeyFrame();
         scene.idle(40);
         scene.overlay().showControls(vec.of(2.5, 2, 3.5), Pointing.DOWN, 40).withItem(memoryCard);
         scene.idle(20);
-        scene
-            .world()
+        scene.world()
             .modifyBlock(
                 pos.at(2, 1, 3),
                 (state) -> state.setValue(PatternProviderBlock.PUSH_DIRECTION, PushDirection.SOUTH),
                 false
             );
         scene.idle(40);
-        scene
-            .text(
-                40,
-                "The Memory Card will consume a Blank Pattern from your inventory and copy the pattern into the target Pattern Provider"
-            )
+        scene.text(
+            40,
+            "The Memory Card will consume a Blank Pattern from your inventory and copy the pattern into the target Pattern Provider"
+        )
             .attachKeyFrame();
         scene.idle(60);
         scene.text(80, "Repeat the process to build parallelism");
@@ -599,8 +568,7 @@ public class AEAutomationScenes {
         scene.idle(20);
         scene.rotateCameraY(90);
         scene.idle(20);
-        scene
-            .overlay()
+        scene.overlay()
             .showOutlineWithText(sel.fromTo(1, 1, 1, 2, 1, 1), 40)
             .colored(PonderPalette.GREEN)
             .text(

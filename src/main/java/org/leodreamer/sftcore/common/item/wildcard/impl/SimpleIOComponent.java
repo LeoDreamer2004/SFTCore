@@ -2,7 +2,6 @@ package org.leodreamer.sftcore.common.item.wildcard.impl;
 
 import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardSerializer;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
@@ -101,12 +100,12 @@ public class SimpleIOComponent implements IWildcardIOComponent {
         }
 
         @Override
-        public @NotNull CompoundTag writeToNBT(IWildcardIOComponent component) {
+        public @NotNull CompoundTag serialize(IWildcardIOComponent component) {
             return GenericStack.writeTag(((SimpleIOComponent) component).stack);
         }
 
         @Override
-        public @NotNull SimpleIOComponent readFromNBT(CompoundTag nbt) {
+        public @NotNull SimpleIOComponent deserialize(CompoundTag nbt) {
             var stack = GenericStack.readTag(nbt);
             return stack == null ? empty() : new SimpleIOComponent(stack);
         }
