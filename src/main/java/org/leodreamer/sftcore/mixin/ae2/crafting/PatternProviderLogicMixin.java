@@ -2,6 +2,9 @@ package org.leodreamer.sftcore.mixin.ae2.crafting;
 
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
+import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
+
+import net.minecraft.nbt.CompoundTag;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;
@@ -74,4 +77,15 @@ public class PatternProviderLogicMixin {
             }
         }
     }
+
+    /**
+     * @author LeoDreamer
+     * @reason Use the safe proxy
+     */
+    @Overwrite(remap = false)
+    public void exportSettings(CompoundTag output) {
+        new MemoryCardPatternInventoryProxy(patternInventory, host.getBlockEntity().getLevel()).exportSettings(output);
+    }
+
+    // No need to overwrite importSettings here as it is totally same.
 }

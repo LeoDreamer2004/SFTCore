@@ -26,6 +26,7 @@
     "emi.WidgetGroupMixin",
     "extendae.ItemWirelessConnectorToolMixin",
     "extendae.PartExPatternMixin",
+    "gregtech.block.MetaMachineBlockMixin",
     "gregtech.data.MaterialFlagsMixin",
     "gregtech.data.MaterialPropertiesMixin",
     "gregtech.machine.CleaningMaintenanceMixin",

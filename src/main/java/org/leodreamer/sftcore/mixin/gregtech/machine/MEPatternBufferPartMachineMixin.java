@@ -3,7 +3,9 @@ package org.leodreamer.sftcore.mixin.gregtech.machine;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
+import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
+import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -11,17 +13,21 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
+import net.minecraft.world.entity.player.Player;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.inventories.InternalInventory;
 import appeng.api.stacks.KeyCounter;
+import appeng.core.definitions.AEBlocks;
 import appeng.crafting.pattern.ProcessingPatternItem;
 import com.google.common.collect.BiMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,9 +41,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mixin(MEPatternBufferPartMachine.class)
-public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements IPromptProvider {
+public class MEPatternBufferPartMachineMixin extends MEBusPartMachine
+    implements IPromptProvider, IMemoryCardInteraction {
 
     // custom name now acts as the prompt, instead of the name shown in the pattern group!
     @Shadow(remap = false)
@@ -57,10 +65,14 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements
 
     // Cannot use BiMap here, as for wildcard patterns, multiple patterns may map to the same slot
     @Unique
-    private final Map<IPatternDetails, MEPatternBufferPartMachine.InternalSlot> sftcore$wildcardDetailsSlotMap = new Object2ObjectOpenHashMap<>();
+    private final Map<IPatternDetails, MEPatternBufferPartMachine.InternalSlot> sftcore$wildcardDetailsSlotMap = new ConcurrentHashMap<>();
 
     @Shadow(remap = false)
     private boolean needPatternSync;
+
+    @Shadow(remap = false)
+    @Final
+    private InternalInventory internalPatternInventory;
 
     public MEPatternBufferPartMachineMixin(IMachineBlockEntity holder, IO io, Object... args) {
         super(holder, io, args);
@@ -207,5 +219,25 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements
             slot.pushPattern(patternDetails, inputHolder);
             cir.setReturnValue(true);
         }
+    }
+
+    /* --- memory card integration --- */
+
+    @Override
+    public String sftcore$memoryId() {
+        // cheat the memory card, as if this is a pattern provider block to export self settings to pattern providers
+        return AEBlocks.PATTERN_PROVIDER.block().getDescriptionId();
+    }
+
+    @Unique
+    @Override
+    public void sftcore$exportSettings(CompoundTag output, @Nullable Player player) {
+        new MemoryCardPatternInventoryProxy(internalPatternInventory, getLevel()).exportSettings(output);
+    }
+
+    @Unique
+    @Override
+    public void sftcore$importSettings(CompoundTag input, @Nullable Player player) {
+        new MemoryCardPatternInventoryProxy(internalPatternInventory, getLevel()).importSettings(input, player);
     }
 }
