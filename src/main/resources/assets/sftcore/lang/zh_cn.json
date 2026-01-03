@@ -184,6 +184,7 @@
   "sftcore.mixin.ae2.pattern_encoder.tooltip.1": "- 可以自动上传编码样板到装配矩阵",
   "sftcore.mixin.ae2.pattern_encoder.tooltip.2": "- 可以倍增样板",
   "sftcore.mixin.ae2.pattern_encoder.tooltip.3": "- 可以从EMI推测GT配方类型自动上传",
+  "sftcore.mixin.ae2.pattern_encoding.already_craftable": "此样板已可合成",
   "sftcore.mixin.ae2.pattern_encoding.change_pattern": "修改样板",
   "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_disabled": "禁止自动上传",
   "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_disabled.tooltip": "样板不会被自动上传到装配矩阵。",

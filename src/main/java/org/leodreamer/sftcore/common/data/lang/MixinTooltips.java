@@ -62,6 +62,9 @@ public class MixinTooltips {
     @RegisterLanguage("The encoded pattern will not be automatically sent to the assembly matrix")
     public static final String SEND_TO_ASSEMBLY_MATRIX_DESC_DISABLED = "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_disabled.tooltip";
 
+    @RegisterLanguage("This pattern is already craftable")
+    public static final String ALREADY_CRAFTABLE = "sftcore.mixin.ae2.pattern_encoding.already_craftable";
+
     @RegisterLanguage("Do not have the cooldown time")
     public static final String TRAVELER_ANCHOR = "sftcore.mixin.travel_anchor.travel_staff.tooltip";
 

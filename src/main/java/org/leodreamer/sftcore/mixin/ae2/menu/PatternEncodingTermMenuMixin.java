@@ -1,20 +1,20 @@
 package org.leodreamer.sftcore.mixin.ae2.menu;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.integration.ae2.feature.IPatternMultiply;
-import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToAssemblyMatrix;
-import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
+import org.leodreamer.sftcore.integration.ae2.feature.*;
 import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;
 import org.leodreamer.sftcore.integration.ae2.sync.AvailableGTMachinesPacket;
 import org.leodreamer.sftcore.integration.ae2.sync.RecipeInfoPack;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
+import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.ITerminalHost;
@@ -222,9 +222,29 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
     private void AutoTransferAfterEncoding(CallbackInfo ci) {
         sftcore$gtContainerTargets.clear();
-        var packet = sftcore$tryTransferToMatrix() ? AvailableGTMachinesPacket.empty() :
-            sftcore$checkAvailableGTMachine();
+
+        boolean checkGT = true;
+        if (sftcore$checkIsAlreadyCraftable()) {
+            getPlayer().sendSystemMessage(Component.translatable(MixinTooltips.ALREADY_CRAFTABLE));
+        } else {
+            checkGT = !sftcore$tryTransferToMatrix();
+        }
+
+        var packet = checkGT ? sftcore$checkAvailableGTMachine() : AvailableGTMachinesPacket.empty();
         sendPacketToClient(packet);
+    }
+
+    @Unique
+    private boolean sftcore$checkIsAlreadyCraftable() {
+        var pattern = encodedPatternSlot.getItem();
+        if (pattern.isEmpty()) return false;
+
+        var player = getPlayer();
+        var detail = PatternDetailsHelper.decodePattern(pattern, player.level());
+        if (detail == null) return false;
+
+        var output = detail.getPrimaryOutput();
+        return ((IGetCraftables) this).sftcore$getCraftables().contains(output.what());
     }
 
     @Unique

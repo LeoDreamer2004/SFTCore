@@ -184,6 +184,7 @@
   "sftcore.mixin.ae2.pattern_encoder.tooltip.1": "- Can automatically transfer encoded pattern to assembly matrix",
   "sftcore.mixin.ae2.pattern_encoder.tooltip.2": "- Can multiply the number of items processed by patterns",
   "sftcore.mixin.ae2.pattern_encoder.tooltip.3": "- Can guess the GregTech recipe type from EMI to transfer pattern automatically",
+  "sftcore.mixin.ae2.pattern_encoding.already_craftable": "This pattern is already craftable",
   "sftcore.mixin.ae2.pattern_encoding.change_pattern": "Change the pattern",
   "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_disabled": "Send to Assembly Matrix Disabled",
   "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_disabled.tooltip": "The encoded pattern will not be automatically sent to the assembly matrix",

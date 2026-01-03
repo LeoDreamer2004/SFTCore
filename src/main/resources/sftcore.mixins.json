@@ -13,6 +13,7 @@
     "ae2.crafting.EmiEncodePatternHandlerMixin",
     "ae2.crafting.PatternDetailsHelperMixin",
     "ae2.crafting.PatternProviderLogicMixin",
+    "ae2.menu.MEStorageMenuMixin",
     "ae2.menu.PatternEncodingTermMenuMixin",
     "ae2.menu.PatternProviderMenuMixin",
     "ae2.screen.CraftingEncodingPanelMixin",
