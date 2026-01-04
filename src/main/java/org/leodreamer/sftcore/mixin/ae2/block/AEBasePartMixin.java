@@ -18,7 +18,6 @@ public class AEBasePartMixin {
 
     @Inject(method = "useMemoryCard", at = @At("HEAD"), remap = false, cancellable = true)
     public void cancelCutIfCutting(Player player, CallbackInfoReturnable<Boolean> cir) {
-        System.out.println("Using mode " + MemoryCardUtils.isCutting(player));
         if (MemoryCardUtils.isCutting(player) == MemoryCardUtils.CuttingResult.DANGER) {
             MemoryCardUtils.sendDangerousWarning(player);
             cir.setReturnValue(true);
@@ -27,13 +26,9 @@ public class AEBasePartMixin {
 
     @Inject(method = "useMemoryCard", at = @At("RETURN"), remap = false)
     public void allowCut(Player player, CallbackInfoReturnable<Boolean> cir) {
-        System.out.println(MemoryCardUtils.isCutting(player));
         if (MemoryCardUtils.isCutting(player) != MemoryCardUtils.CuttingResult.NOT) {
             var self = (Object) this;
-            System.out.println(self.getClass());
-            System.out.println(self instanceof PatternProviderPart patternProvider);
             if (self instanceof PatternProviderPart patternProvider) {
-                System.out.println("Here clearing");
                 ((IPatternClear) patternProvider.getLogic()).sftcore$clearPatterns(player);
             } else if (self instanceof PartExPatternProvider patternProvider) {
                 ((IPatternClear) patternProvider.getLogic()).sftcore$clearPatterns(player);
