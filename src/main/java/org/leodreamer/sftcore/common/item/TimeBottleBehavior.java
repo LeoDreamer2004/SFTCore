@@ -35,13 +35,13 @@ import java.util.Objects;
 public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
 
     @RegisterLanguage("Right click on a machine and finish the current recipe instantly with the wireless energy.")
-    static final String TOOLTIP = "item.sftcore.time_bottle.tooltip";
+    private static final String TOOLTIP = "item.sftcore.time_bottle.tooltip";
 
     @RegisterLanguage("Your wireless energy DOES NOT support the machine acceleration.")
-    static final String ENERGY_LACK = "item.sftcore.time_bottle.energy_lack";
+    private static final String ENERGY_LACK = "item.sftcore.time_bottle.energy_lack";
 
     @RegisterLanguage("Using %s EU, accelerate the machine with %d ticks")
-    static final String ACCELERATE = "item.sftcore.time_bottle.accelerate";
+    private static final String ACCELERATE = "item.sftcore.time_bottle.accelerate";
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {

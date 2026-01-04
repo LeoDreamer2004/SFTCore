@@ -24,6 +24,7 @@
     "ae2.sync.NetworkHandlerMixin",
     "carryon.PickupHandlerMixin",
     "create.RotationPropagatorMixin",
+    "emi.EmiScreenManagerMixin",
     "emi.WidgetGroupMixin",
     "extendae.ItemWirelessConnectorToolMixin",
     "extendae.PartExPatternMixin",

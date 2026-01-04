@@ -18,10 +18,10 @@ import org.jetbrains.annotations.NotNull;
 public class SelectStickBehavior implements IInteractionItem {
 
     @RegisterLanguage("Select the first point at %s")
-    static final String SELECT_FIRST = "item.sftcore.dump.select_stick.first";
+    private static final String SELECT_FIRST = "item.sftcore.dump.select_stick.first";
 
     @RegisterLanguage("Select the second point at %s")
-    static final String SELECT_SECOND = "item.sftcore.dump.select_stick.second";
+    private static final String SELECT_SECOND = "item.sftcore.dump.select_stick.second";
 
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {

@@ -45,7 +45,7 @@ public class WildcardPatternBehavior implements IItemUIFactory, IFancyUIProvider
     }
 
     @RegisterLanguage("Wildcard Pattern Config")
-    static final String TITLE_CONFIG = "sftcore.item.wildcard_pattern.config";
+    private static final String TITLE_CONFIG = "sftcore.item.wildcard_pattern.config";
 
     @Override
     public Component getTitle() {
