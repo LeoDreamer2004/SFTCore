@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "sftcore.refmap.json",
   "mixins": [
+    "ae2.block.AEBasePartMixin",
     "ae2.block.PatternContainerGroupMixin",
     "ae2.block.PatternEncodingTerminalPartMixin",
     "ae2.block.PatternProviderBlockEntityMixin",
@@ -27,7 +28,7 @@
     "emi.EmiScreenManagerMixin",
     "emi.WidgetGroupMixin",
     "extendae.ItemWirelessConnectorToolMixin",
-    "extendae.PartExPatternMixin",
+    "extendae.PartExPatternProviderMixin",
     "gregtech.block.MetaMachineBlockMixin",
     "gregtech.data.MaterialFlagsMixin",
     "gregtech.data.MaterialPropertiesMixin",

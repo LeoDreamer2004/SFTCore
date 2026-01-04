@@ -12,6 +12,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import appeng.core.definitions.AEItems;
 import appeng.core.definitions.AEParts;
 import de.castcrafter.travelanchors.ModItems;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -80,6 +81,9 @@ public class MixinTooltips {
     @RegisterLanguage("The wireless controller is missing.")
     public static final String WIRELESS_MISSING = "sftcore.mixin.extended_ae.wireless_connector.missing";
 
+    @RegisterLanguage("Hold a (certus) quartz knife in the offhand to enable the cut-paste mode")
+    public static final String MEMORY_CARD_CUT_MODE = "sftcore.mixin.ae2.memory_card.cut_mode.tooltip";
+
     private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
     static {
@@ -97,6 +101,13 @@ public class MixinTooltips {
             ModItems.travelStaff.asItem(),
             SFTTooltipsBuilder.of()
                 .insert(Component.translatable(TRAVELER_ANCHOR).withStyle(ChatFormatting.AQUA))
+                .modifiedBySFT()::addTo
+        );
+
+        TOOLTIPS.put(
+            AEItems.MEMORY_CARD.asItem(),
+            SFTTooltipsBuilder.of()
+                .insert(Component.translatable(MEMORY_CARD_CUT_MODE).withStyle(ChatFormatting.AQUA))
                 .modifiedBySFT()::addTo
         );
     }

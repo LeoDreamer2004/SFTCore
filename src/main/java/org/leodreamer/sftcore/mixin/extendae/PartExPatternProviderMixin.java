@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PartExPatternProvider.class)
-public class PartExPatternMixin implements IPromptProvider {
+public class PartExPatternProviderMixin implements IPromptProvider {
 
     @Unique
     private static final String PROMPT_KEY = "prompt";

@@ -56,7 +56,7 @@ public record MemoryCardPatternInventoryProxy(InternalInventory inventory, Level
      */
     public void importSettings(CompoundTag input, @Nullable Player player) {
         if (player != null && input.contains(KEY) && !player.level().isClientSide) {
-            clearPatternInventory(player);
+            clearPatterns(player);
 
             var desiredPatterns = new AppEngInternalInventory(inventory.size());
             desiredPatterns.readFromNBT(input, KEY);
@@ -95,9 +95,10 @@ public record MemoryCardPatternInventoryProxy(InternalInventory inventory, Level
     }
 
     /**
+     * Totally same with "appeng.helpers.patternprovider.PatternProviderLogic.clearPatternInventory".
      * clear internal and give back the blank patterns
      */
-    private void clearPatternInventory(Player player) {
+    public void clearPatterns(Player player) {
         // just clear for creative mode players
         if (player.getAbilities().instabuild) {
             for (int i = 0; i < inventory.size(); i++) {

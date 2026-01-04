@@ -2,9 +2,11 @@ package org.leodreamer.sftcore.mixin.ae2.crafting;
 
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
+import org.leodreamer.sftcore.integration.ae2.feature.IPatternClear;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;
@@ -20,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 @Mixin(PatternProviderLogic.class)
-public class PatternProviderLogicMixin {
+public abstract class PatternProviderLogicMixin implements IPatternClear {
 
     @Shadow(remap = false)
     @Final
@@ -41,6 +43,9 @@ public class PatternProviderLogicMixin {
     @Shadow(remap = false)
     @Final
     private IManagedGridNode mainNode;
+
+    @Shadow(remap = false)
+    protected abstract void clearPatternInventory(Player player);
 
     /**
      * @author LeoDreamer
@@ -85,6 +90,14 @@ public class PatternProviderLogicMixin {
     @Overwrite(remap = false)
     public void exportSettings(CompoundTag output) {
         new MemoryCardPatternInventoryProxy(patternInventory, host.getBlockEntity().getLevel()).exportSettings(output);
+    }
+
+    @Unique
+    @Override
+    public void sftcore$clearPatterns(Player player) {
+        if (player != null) {
+            clearPatternInventory(player);
+        }
     }
 
     // No need to overwrite importSettings here as it is totally same.

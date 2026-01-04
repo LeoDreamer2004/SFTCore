@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.mixin.gregtech.block;
 
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
+import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 
 import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
@@ -29,6 +30,11 @@ public abstract class MetaMachineBlockMixin implements IMachineBlock {
         BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit,
         CallbackInfoReturnable<InteractionResult> cir
     ) {
+        if (MemoryCardUtils.isCutting(player) == MemoryCardUtils.CuttingResult.DANGER) {
+            MemoryCardUtils.sendDangerousWarning(player);
+            return;
+        }
+
         var machine = getMachine(world, pos);
         if (machine instanceof IMemoryCardInteraction interaction) {
             var stack = player.getItemInHand(hand);

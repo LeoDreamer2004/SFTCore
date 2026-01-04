@@ -115,12 +115,12 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     }
 
     @Override
-    public @Nullable <
-        T extends BlockEntity> BlockEntityTicker<T> getTicker(
-            Level level,
-            BlockState state,
-            BlockEntityType<T> blockEntityType
-        ) {
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+        Level level,
+        BlockState state,
+        BlockEntityType<T> blockEntityType
+    ) {
         if (blockEntityType == getDefinition().getBlockEntityType()) {
             if (!level.isClientSide) {
                 return (pLevel, pPos, pState, pTile) -> {

@@ -4,9 +4,12 @@ import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
 
 import net.minecraft.nbt.CompoundTag;
 
+import appeng.helpers.patternprovider.PatternProviderLogic;
 import appeng.parts.crafting.PatternProviderPart;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,6 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PatternProviderPart.class)
 public abstract class PatternProviderPartMixin implements IPromptProvider {
+
+    @Shadow(remap = false)
+    @Final
+    protected PatternProviderLogic logic;
 
     @Unique
     private static final String PROMPT_KEY = "prompt";

@@ -5,6 +5,7 @@ import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
+import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -233,6 +234,12 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     @Override
     public void sftcore$exportSettings(CompoundTag output, @Nullable Player player) {
         new MemoryCardPatternInventoryProxy(internalPatternInventory, getLevel()).exportSettings(output);
+
+        if (player == null) return;
+        if (MemoryCardUtils.isCutting(player) != MemoryCardUtils.CuttingResult.NOT) {
+            new MemoryCardPatternInventoryProxy(internalPatternInventory, getLevel()).clearPatterns(player);
+            MemoryCardUtils.sendCutInfo(player);
+        }
     }
 
     @Unique
