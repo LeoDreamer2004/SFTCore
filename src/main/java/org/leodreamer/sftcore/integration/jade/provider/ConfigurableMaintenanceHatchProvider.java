@@ -4,7 +4,7 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -54,10 +54,11 @@ public class ConfigurableMaintenanceHatchProvider
 
     @Override
     public void appendServerData(CompoundTag tag, BlockAccessor accessor) {
-        if (accessor.getBlockEntity() instanceof MetaMachineBlockEntity blockEntity) {
-            if (blockEntity.getMetaMachine() instanceof IMaintenanceMachine machine) {
-                tag.putFloat(DURATION_MULTIPLIER, machine.getDurationMultiplier());
-            }
+        if (
+            accessor.getBlockEntity() instanceof IMachineBlockEntity mbe &&
+                mbe.getMetaMachine() instanceof IMaintenanceMachine machine
+        ) {
+            tag.putFloat(DURATION_MULTIPLIER, machine.getDurationMultiplier());
         }
     }
 }

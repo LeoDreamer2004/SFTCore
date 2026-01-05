@@ -4,7 +4,6 @@ import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
 import org.leodreamer.sftcore.common.save.WirelessSavedData;
 import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
 
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -133,8 +132,8 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
     private IWirelessAEMachine getWirelessMachineAt(BlockPos pos) {
         var be = Objects.requireNonNull(getLevel()).getBlockEntity(pos);
         if (
-            be instanceof MetaMachineBlockEntity metaBe &&
-                metaBe.metaMachine instanceof IWirelessAEMachine machine
+            be instanceof IMachineBlockEntity mbe &&
+                mbe.getMetaMachine() instanceof IWirelessAEMachine machine
         ) {
             return machine;
         }

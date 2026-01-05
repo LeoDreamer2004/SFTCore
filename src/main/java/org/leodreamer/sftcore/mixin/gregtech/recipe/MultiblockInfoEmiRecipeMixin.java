@@ -59,7 +59,7 @@ public abstract class MultiblockInfoEmiRecipeMixin extends ModularEmiRecipe<Widg
                         );
                         var dummyMachine = machineBlock.definition.createMetaMachine(dummyTE);
                         if (dummyMachine instanceof MultiblockPartMachine) {
-                            continue;
+                            continue; // skip the part machines
                         }
                     }
                 }

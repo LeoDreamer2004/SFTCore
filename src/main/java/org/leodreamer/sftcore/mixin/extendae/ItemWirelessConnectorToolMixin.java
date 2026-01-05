@@ -5,7 +5,7 @@ import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
 
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtOps;
@@ -46,7 +46,7 @@ public class ItemWirelessConnectorToolMixin extends Item {
 
         var toTag = tag.get("to");
 
-        if (be instanceof MetaMachineBlockEntity metaBe && metaBe.metaMachine instanceof GTWirelessControllerMachine) {
+        if (be instanceof IMachineBlockEntity mbe && mbe.getMetaMachine() instanceof GTWirelessControllerMachine) {
             var posTag = BlockPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).getOrThrow(false, SFTCore.LOGGER::error);
             tag.put("to", posTag);
 
@@ -59,7 +59,7 @@ public class ItemWirelessConnectorToolMixin extends Item {
             return InteractionResult.SUCCESS;
         }
 
-        if (be instanceof MetaMachineBlockEntity metaBe && metaBe.metaMachine instanceof IWirelessAEMachine wireless) {
+        if (be instanceof IMachineBlockEntity mbe && mbe.getMetaMachine() instanceof IWirelessAEMachine wireless) {
             var node = wireless.getGridNode();
             if (node == null) {
                 return InteractionResult.FAIL; // client
@@ -76,8 +76,8 @@ public class ItemWirelessConnectorToolMixin extends Item {
             var another = context.getLevel().getBlockEntity(targetPos);
 
             if (
-                another instanceof MetaMachineBlockEntity anotherBE &&
-                    anotherBE.metaMachine instanceof GTWirelessControllerMachine controller
+                another instanceof IMachineBlockEntity otherMbe &&
+                    otherMbe.getMetaMachine() instanceof GTWirelessControllerMachine controller
             ) {
                 controller.join(wireless);
                 player.displayClientMessage(Component.translatable(MixinTooltips.WIRELESS_CONNECT), true);

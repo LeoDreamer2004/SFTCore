@@ -3,10 +3,10 @@ package org.leodreamer.sftcore.integration.ae2.logic;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+import org.leodreamer.sftcore.util.GTMachineUtils;
 
-import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 
 import net.minecraft.world.level.block.Block;
 
@@ -25,18 +25,24 @@ public class GTTransferLogic {
         if (item == null) return Optional.empty();
 
         var block = Block.byItem(item.getItem());
-        if (block instanceof MetaMachineBlock machineBlock) {
-            for (var type : machineBlock.definition.getRecipeTypes()) {
-                if (type != recipeInfo.type()) continue;
+        if (block instanceof IMachineBlock machineBlock) {
+            var type = recipeInfo.type();
+            if (GTMachineUtils.supportRecipe(machineBlock.getDefinition(), type)) {
+
+                // more precisely...
                 var hacky = HackyContainerGroupProxy.of(group);
                 var pos = hacky.getBlockBos();
                 if (pos != null) {
                     var machine = MetaMachine.getMachine(containerNode.getLevel(), pos);
-                    if (machine instanceof IRecipeLogicMachine logic && logic.getRecipeType() != type) {
-                        // the machine contains this type, but not using this!
+                    if (
+                        machine != null &&
+                            GTMachineUtils.guessRecipe(machine, type) == GTMachineUtils.GuessResult.MISMATCH
+                    ) {
                         return Optional.empty();
                     }
                 }
+
+                // this machine is ok
                 var result = AvailableGTRow.of(group);
                 int circuit = hacky.getCircuit();
                 if (circuit != 0 && circuit == recipeInfo.circuit()) {

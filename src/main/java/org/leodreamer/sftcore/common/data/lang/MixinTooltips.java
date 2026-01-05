@@ -84,6 +84,9 @@ public class MixinTooltips {
     @RegisterLanguage("Hold a (certus) quartz knife in the offhand to enable the cut-paste mode")
     public static final String MEMORY_CARD_CUT_MODE = "sftcore.mixin.ae2.memory_card.cut_mode.tooltip";
 
+    @RegisterLanguage("Push TAB to autocraft")
+    public static final String EMI_AUTOCRAFT = "sftcore.mixin.emi.autocraft";
+
     private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
 
     static {

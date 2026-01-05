@@ -26,6 +26,8 @@
     "carryon.PickupHandlerMixin",
     "create.RotationPropagatorMixin",
     "emi.EmiScreenManagerMixin",
+    "emi.SidebarPanelMixin",
+    "emi.SyntheticMixin",
     "emi.WidgetGroupMixin",
     "extendae.ItemWirelessConnectorToolMixin",
     "extendae.PartExPatternProviderMixin",

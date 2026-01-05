@@ -195,6 +195,7 @@
   "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_enabled.tooltip": "The encoded pattern will be automatically sent to the assembly matrix (if possible)",
   "sftcore.mixin.ae2.pattern_encoding.divide_pattern": "Divide the pattern by %d.",
   "sftcore.mixin.ae2.pattern_encoding.multiply_pattern": "Multiply the pattern by %d. This will increase the item assigning speed when CPU does not have enough accelerators, and be more performance friendly for large amount processing.",
+  "sftcore.mixin.emi.autocraft": "Push TAB to autocraft",
   "sftcore.mixin.extended_ae.wireless_connector.connect": "The machine is connected successfully.",
   "sftcore.mixin.extended_ae.wireless_connector.missing": "The wireless controller is missing.",
   "sftcore.mixin.extended_ae.wireless_connector.selected": "Select Target: %d, %d, %d",

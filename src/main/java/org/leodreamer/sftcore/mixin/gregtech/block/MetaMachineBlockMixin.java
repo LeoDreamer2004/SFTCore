@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MetaMachineBlock.class)
 public abstract class MetaMachineBlockMixin implements IMachineBlock {
 
-    @Inject(method = "use", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void allowAEMemoryCard(
         BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit,
         CallbackInfoReturnable<InteractionResult> cir

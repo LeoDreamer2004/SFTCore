@@ -1,13 +1,11 @@
 package org.leodreamer.sftcore.mixin.ae2.block;
 
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
+import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,7 +15,6 @@ import net.minecraft.world.level.Level;
 
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.AEItemKey;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,12 +45,10 @@ public abstract class PatternContainerGroupMixin {
             int circuit = circuitStack.isEmpty() ? 0 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
             String desc = machine.getDefinition().getDescriptionId();
 
-            if (machine instanceof MultiblockPartMachine mbMachine && mbMachine.isFormed()) {
-                if (
-                    machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine ||
-                        machine instanceof HugeBusPartMachine
-                ) {
-                    var controllerMachine = mbMachine.getControllers().first().self();
+            if (GTMachineUtils.isIngredientIOPort(machine)) {
+                var iController = GTMachineUtils.tryGetController(machine);
+                if (iController != null) {
+                    var controllerMachine = iController.self();
                     var controller = controllerMachine.getDefinition();
                     var cpos = controllerMachine.getPos();
                     var group = new PatternContainerGroup(

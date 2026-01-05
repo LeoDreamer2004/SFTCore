@@ -195,6 +195,7 @@
   "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_enabled.tooltip": "编码后的样板会自动上传到装配矩阵（如果可能）。",
   "sftcore.mixin.ae2.pattern_encoding.divide_pattern": "将样板除去 %d。",
   "sftcore.mixin.ae2.pattern_encoding.multiply_pattern": "将样板乘上 %d。在 CPU 并行处理单元较少时，这将会加快物品发配速度，并对大批量加工性能更友好",
+  "sftcore.mixin.emi.autocraft": "按下 TAB 键自动合成",
   "sftcore.mixin.extended_ae.wireless_connector.connect": "此机器已成功连接",
   "sftcore.mixin.extended_ae.wireless_connector.missing": "没有无线控制器",
   "sftcore.mixin.extended_ae.wireless_connector.selected": "选取目标：%d, %d, %d",
