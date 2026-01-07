@@ -1,11 +1,12 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import org.leodreamer.sftcore.integration.IntegrateMods;
 import org.leodreamer.sftcore.util.RLUtils;
 
-import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -159,6 +160,24 @@ public final class AE2Recipes {
             .duration(80)
             .EUt(VA[MV])
             .save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wildcard_pattern"))
+            .inputItems(AEItems.BLANK_PATTERN.asItem(), 16)
+            .inputItems(ChemicalHelper.get(plate, Polyethylene, 4))
+            .outputItems(SFTItems.WILDCARD_PATTERN)
+            .duration(200)
+            .EUt(VA[MV])
+            .save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wireless_controller"))
+            .inputItems(HULL[IV])
+            .inputItems(AEBlocks.INTERFACE.asItem(), 4)
+            .inputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
+            .inputItems(AEItems.WIRELESS_BOOSTER.asItem(), 64)
+            .inputFluids(Polybenzimidazole.getFluid(16 * L))
+            .duration(1200)
+            .EUt(VA[EV])
+            .save(provider);
     }
 
     private static void inscribe(Consumer<FinishedRecipe> provider, String id, Item ingredient, Item processor) {
@@ -166,7 +185,7 @@ public final class AE2Recipes {
             .recipeBuilder(SFTCore.id("inscriber/" + id))
             .inputItems(ingredient, 16)
             .inputItems(AEItems.SILICON.asItem(), 12)
-            .inputFluids(Redstone.getFluid(16 * GTValues.L))
+            .inputFluids(Redstone.getFluid(16 * L))
             .outputItems(processor, 16)
             .duration(100)
             .EUt(VA[MV])

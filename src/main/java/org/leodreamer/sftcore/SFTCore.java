@@ -19,6 +19,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,6 +35,8 @@ public class SFTCore {
 
     public SFTCore(FMLJavaModLoadingContext context) {
         REGISTRATE.registerRegistrate();
+        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
         var bus = context.getModEventBus();
         bus.register(this);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);

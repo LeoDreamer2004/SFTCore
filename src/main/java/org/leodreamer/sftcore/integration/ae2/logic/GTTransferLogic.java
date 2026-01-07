@@ -48,7 +48,7 @@ public class GTTransferLogic {
                 if (circuit != 0 && circuit == recipeInfo.circuit()) {
                     // the circuit matches! Probably this machine!
                     SFTCore.LOGGER.info("Found a matching machine with the same circuit {}!", circuit);
-                    result.withWeight(100);
+                    result = result.withWeight(100);
                 }
                 return Optional.of(result);
             }

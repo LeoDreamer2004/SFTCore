@@ -12,11 +12,17 @@ public class Config {
     private static final ForgeConfigSpec.BooleanValue KEEP_DISTINCT = BUILDER
         .comment("Whether to delete the repeated items which occurred in blocks")
         .define("keepDistinct", true);
+    private static final ForgeConfigSpec.DoubleValue DURATION_MULTIPLIER = BUILDER
+        .comment("Duration Multiplier for GT Machines")
+        .defineInRange("durationMultiplier", 0.33, 0.1, 1);
+
     public static ForgeConfigSpec SPEC = BUILDER.build();
     public static boolean keepDistinct;
+    public static double durationMultiplier;
 
     @SubscribeEvent
-    static void onLoad(final ModConfigEvent event) {
+    static void onLoad(final ModConfigEvent.Loading event) {
         keepDistinct = KEEP_DISTINCT.get();
+        durationMultiplier = DURATION_MULTIPLIER.get();
     }
 }

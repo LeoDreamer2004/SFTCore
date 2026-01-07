@@ -215,15 +215,17 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     @Inject(method = "encode", at = @At("HEAD"), remap = false, cancellable = true)
     private void preventEncodingWhenDisconnected(CallbackInfo ci) {
         if (!isPowered()) {
+            System.out.println("Canceled!");
             ci.cancel();
         }
     }
 
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
     private void AutoTransferAfterEncoding(CallbackInfo ci) {
-        sftcore$gtContainerTargets.clear();
+        if (isClientSide()) return;
+        sftcore$gtContainerTargets = List.of(); // clear former target
 
-        boolean checkGT = true;
+        boolean checkGT = false;
         if (sftcore$checkIsAlreadyCraftable()) {
             getPlayer().sendSystemMessage(Component.translatable(MixinTooltips.ALREADY_CRAFTABLE));
         } else {
