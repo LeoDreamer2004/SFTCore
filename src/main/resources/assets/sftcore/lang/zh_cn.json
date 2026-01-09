@@ -79,6 +79,7 @@
   "item.gtceu.quantum_processor_assembly.tooltip.0": "§7大概三万个哈达玛门",
   "item.gtceu.quantum_processor_computer.tooltip.0": "§7错误率小于十亿分之一",
   "item.gtceu.quantum_processor_mainframe.tooltip.0": "§7量子计算终成现实！",
+  "item.gtceu.tool.vajra": "金刚杵",
   "item.sftcore.accelerate_cover.tooltip": "为配方加速§e%d%%§r",
   "item.sftcore.dump.select_stick.first": "选取第一个点于 %s",
   "item.sftcore.dump.select_stick.second": "选取第二个点于 %s",

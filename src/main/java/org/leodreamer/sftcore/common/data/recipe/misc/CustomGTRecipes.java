@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.SFTTools;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTMaterials;
 import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
@@ -189,6 +190,16 @@ public final class CustomGTRecipes {
             .arg('B', Items.PAPER)
             .arg('C', ItemTags.PLANKS)
             .output(SFTItems.ORDER)
+            .save(provider);
+
+        SFTVanillaRecipeHelper.addShapedRecipe("vajra")
+            .pattern("PEP", "CFC", "RCR")
+            .arg('E', EMITTER_HV)
+            .arg('F', FIELD_GENERATOR_HV)
+            .arg('P', new MaterialEntry(plate, BlackSteel))
+            .arg('R', new MaterialEntry(plateDouble, Steel))
+            .arg('C', CARBON_FIBER_PLATE)
+            .output(SFTTools.getVajra())
             .save(provider);
     }
 }

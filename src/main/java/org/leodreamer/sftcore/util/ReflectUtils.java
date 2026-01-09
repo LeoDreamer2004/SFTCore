@@ -20,6 +20,15 @@ public class ReflectUtils {
         }
     }
 
+    public static Class<?> getInnerClassByName(Class<?> outerClass, String innerClassName) {
+        for (Class<?> innerClass : outerClass.getDeclaredClasses()) {
+            if (innerClass.getSimpleName().equals(innerClassName)) {
+                return innerClass;
+            }
+        }
+        throw new RuntimeException("Inner class " + innerClassName + " not found in " + outerClass.getName());
+    }
+
     public static List<Class<?>> getClassesWithAnnotation(Class<? extends Annotation> annotation) {
         List<Class<?>> classes = new ArrayList<>();
         Type annoType = Type.getType(annotation);

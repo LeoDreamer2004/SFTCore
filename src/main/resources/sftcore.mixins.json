@@ -32,6 +32,7 @@
     "extendae.ItemWirelessConnectorToolMixin",
     "extendae.PartExPatternProviderMixin",
     "gregtech.block.MetaMachineBlockMixin",
+    "gregtech.data.MaterialBuilderMixin",
     "gregtech.data.MaterialFlagsMixin",
     "gregtech.data.MaterialPropertiesMixin",
     "gregtech.machine.CleaningMaintenanceMixin",

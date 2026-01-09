@@ -84,12 +84,14 @@ public class WildcardIOFancyConfigurator implements IFancyUIProvider {
         );
 
         var saveBtn = createBottomBtn(Component.translatable(SAVE), 126, cd -> save());
-        var createSimple = createBottomBtn(Component.translatable(CREATE_SINGLE), 2, (cd) -> {
-            componentList.addComponent(SimpleIOComponent.empty());
-        }).setHoverTooltips(Component.translatable(CREATE_SINGLE_TOOLTIP));
-        var createTagPrefix = createBottomBtn(Component.translatable(CREATE_TAG), 37, (cd) -> {
-            componentList.addComponent(TagIOComponent.empty());
-        }).setHoverTooltips(Component.translatable(CREATE_TAG_TOOLTIP));
+        var createSimple = createBottomBtn(
+            Component.translatable(CREATE_SINGLE), 2,
+            (cd) -> componentList.addComponent(SimpleIOComponent.empty())
+        ).setHoverTooltips(Component.translatable(CREATE_SINGLE_TOOLTIP));
+        var createTagPrefix = createBottomBtn(
+            Component.translatable(CREATE_TAG), 37,
+            (cd) -> componentList.addComponent(TagIOComponent.empty())
+        ).setHoverTooltips(Component.translatable(CREATE_TAG_TOOLTIP));
 
         global.addWidget(componentList);
         global.addWidget(saveBtn);

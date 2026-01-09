@@ -97,15 +97,18 @@ public class WildcardFilterFancyConfigurator implements IFancyUIProvider {
         );
 
         var saveBtn = createBottomBtn(Component.translatable(SAVE), 126, cd -> save());
-        var createSimple = createBottomBtn(Component.translatable(CREATE_SINGLE), 2, (cd) -> {
-            componentList.addComponent(SimpleFilterComponent.empty());
-        }).setHoverTooltips(Component.translatable(CREATE_SINGLE_TOOLTIP));
-        var createProperty = createBottomBtn(Component.translatable(CREATE_PROPERTY), 37, (cd) -> {
-            componentList.addComponent(PropertyFilterComponent.empty());
-        }).setHoverTooltips(Component.translatable(CREATE_PROPERTY_TOOLTIP));
-        var createFlag = createBottomBtn(Component.translatable(CREATE_FLAG), 72, (cd) -> {
-            componentList.addComponent(FlagFilterComponent.empty());
-        }).setHoverTooltips(Component.translatable(CREATE_FLAGS_TOOLTIP));
+        var createSimple = createBottomBtn(
+            Component.translatable(CREATE_SINGLE), 2,
+            (cd) -> componentList.addComponent(SimpleFilterComponent.empty())
+        ).setHoverTooltips(Component.translatable(CREATE_SINGLE_TOOLTIP));
+        var createProperty = createBottomBtn(
+            Component.translatable(CREATE_PROPERTY), 37,
+            (cd) -> componentList.addComponent(PropertyFilterComponent.empty())
+        ).setHoverTooltips(Component.translatable(CREATE_PROPERTY_TOOLTIP));
+        var createFlag = createBottomBtn(
+            Component.translatable(CREATE_FLAG), 72,
+            (cd) -> componentList.addComponent(FlagFilterComponent.empty())
+        ).setHoverTooltips(Component.translatable(CREATE_FLAGS_TOOLTIP));
 
         global.addWidget(componentList);
         global.addWidget(saveBtn);

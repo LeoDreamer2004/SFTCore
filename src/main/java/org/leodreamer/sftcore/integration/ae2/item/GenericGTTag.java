@@ -25,6 +25,9 @@ import org.jetbrains.annotations.Nullable;
 import static org.leodreamer.sftcore.integration.ae2.item.GenericGTTag.GenericType.FLUID;
 import static org.leodreamer.sftcore.integration.ae2.item.GenericGTTag.GenericType.ITEM;
 
+/**
+ * A Union for {@link TagPrefix} and {@link FluidStorageKey} to represent either an item tag or a fluid tag.
+ */
 public class GenericGTTag {
 
     private final TagPrefix itemTag;

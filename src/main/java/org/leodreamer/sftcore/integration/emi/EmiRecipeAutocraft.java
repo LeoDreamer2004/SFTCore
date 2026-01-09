@@ -5,11 +5,14 @@ import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CraftingScreen;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -31,18 +34,40 @@ import org.jetbrains.annotations.Nullable;
 public class EmiRecipeAutocraft {
 
     private static final Minecraft client = Minecraft.getInstance();
-
-    private static boolean craftingRecipe = false; // global lock while crafting
-    private static long craftingStart;
+    private static final int MAX_STACK = 64;
+    private static final int CHECK_INTERVAL = 3;
 
     /**
-     * The current machine screen opened by client
+     * global lock while crafting
+     */
+    private static boolean isCrafting = false;
+    /**
+     * record of crafting start time, used to check if the crafting is timeout.
+     */
+    private static long craftingStart;
+    /**
+     * interval counter for checking crafting finish
+     */
+    private static int currentInterval = CHECK_INTERVAL;
+    /**
+     * the (crafting) recipe currently being crafted
+     */
+    @Nullable
+    private static EmiRecipe currentRecipe = null;
+    /**
+     * the amount of items to craft in total
+     */
+    private static long currentAmount = 0;
+    /**
+     * the current machine screen opened by client
      */
     @Nullable
     public static MetaMachine openedMachine = null;
 
     @SubscribeEvent
     public static void onGTMachineHit(PlayerInteractEvent.RightClickBlock event) {
+        if (!event.getLevel().isClientSide) return;
+
         var pos = event.getPos();
         var level = event.getLevel();
         if (level.getBlockEntity(pos) instanceof IMachineBlockEntity mbe) {
@@ -50,6 +75,27 @@ public class EmiRecipeAutocraft {
         } else {
             openedMachine = null;
         }
+    }
+
+    @SubscribeEvent
+    public static void onClosingScreen(ScreenEvent.Closing event) {
+        var screen = event.getScreen();
+        if (screen instanceof CraftingScreen || screen instanceof ModularUIGuiContainer) {
+            resetCrafting();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) return;
+        if (!isCrafting || client.player == null) return;
+
+        if (currentInterval-- > 0) {
+            return;
+        }
+
+        currentInterval = CHECK_INTERVAL;
+        checkCraftingFinished();
     }
 
     public enum AutocraftScreen {
@@ -89,7 +135,7 @@ public class EmiRecipeAutocraft {
     }
 
     public static void autoFillAvailableRecipes() {
-        if (craftingRecipe) return;
+        if (isCrafting) return;
 
         var syn = findFocus();
         if (syn == null) return;
@@ -97,7 +143,7 @@ public class EmiRecipeAutocraft {
         var recipe = syn.getRecipe();
         if (recipe instanceof EmiCraftingRecipe) {
             // only do auto crafting for crafting table recipes
-            craftingRecipe = true;
+            isCrafting = true;
             boolean fill = EmiRecipeFiller.performFill(
                 recipe, EmiApi.getHandledScreen(), EmiCraftContext.Type.CRAFTABLE,
                 EmiCraftContext.Destination.INVENTORY, GTMath.saturatedCast(syn.batches)
@@ -105,59 +151,71 @@ public class EmiRecipeAutocraft {
 
             if (fill) {
                 craftingStart = System.currentTimeMillis();
-                Thread thread = new Thread(() -> checkCraftingFinished(recipe, syn.amount));
-                thread.start();
+                currentRecipe = recipe;
+                currentAmount = syn.amount;
             } else {
-                craftingRecipe = false;
+                isCrafting = false;
             }
         } else {
+            int batch = calculateMaxBatches(recipe, GTMath.saturatedCast(syn.batches));
             EmiRecipeFiller.performFill(
                 recipe, EmiApi.getHandledScreen(), EmiCraftContext.Type.CRAFTABLE,
-                EmiCraftContext.Destination.INVENTORY, GTMath.saturatedCast(syn.batches)
+                EmiCraftContext.Destination.INVENTORY, batch
             );
         }
     }
 
-    private static void checkCraftingFinished(EmiRecipe recipe, long amount) {
-        long current = System.currentTimeMillis();
-        if (current - craftingStart > 500) {
+    private static void checkCraftingFinished() {
+        if (currentRecipe == null) {
+            resetCrafting();
+            return;
+        }
+
+        if (System.currentTimeMillis() - craftingStart > 500) {
             SFTCore.LOGGER.warn(
                 """
                     EMI auto crafting seems to be stuck, aborting...
                     If you see this message frequently, please check if you installed Fast WorkBench. It has capability issue with the autocrafting function.
                     """
             );
-            craftingRecipe = false;
+            resetCrafting();
             return;
         }
 
         if (curScreen() == AutocraftScreen.CRAFTING) {
-            try {
-                Thread.sleep(40); // in case of lagging
-            } catch (InterruptedException e) {
-                SFTCore.LOGGER.error("Interrupted while checking crafting finished", e);
-                craftingRecipe = false;
-                return;
-            }
-
             EmiFavorites.updateSynthetic(EmiPlayerInventory.of(client.player));
 
             for (var syn : EmiFavorites.syntheticFavorites) {
                 var r = syn.getRecipe();
                 if (r == null) continue;
-                if (r.getId() == recipe.getId() && syn.amount == amount) {
+                if (r.getId() == currentRecipe.getId() && syn.amount == currentAmount) {
                     // still not crafted, maybe the network delay
-                    checkCraftingFinished(recipe, amount);
                     return;
                 }
             }
-            craftingRecipe = false;
+            resetCrafting();
             // crafting finished, and try to fill other recipes
             client.tell(EmiRecipeAutocraft::autoFillAvailableRecipes);
         }
 
         // the player has suddenly closed
-        craftingRecipe = false;
+        resetCrafting();
+    }
+
+    private static int calculateMaxBatches(EmiRecipe recipe, int requested) {
+        if (!(recipe instanceof GTEmiRecipe gtEmiRecipe)) {
+            return requested;
+        }
+
+        var gtRecipe = ((IGTEmiRecipe) gtEmiRecipe).sftcore$recipe();
+        int max = requested;
+        for (var input : RecipeHelper.getInputItems(gtRecipe)) {
+            int amount = input.getCount();
+            if (amount > 0) {
+                max = Math.min(max, MAX_STACK / amount);
+            }
+        }
+        return Math.max(1, max);
     }
 
     @Nullable
@@ -169,5 +227,13 @@ public class EmiRecipeAutocraft {
             return AutocraftScreen.GT;
         }
         return null;
+    }
+
+    public static void resetCrafting() {
+        openedMachine = null;
+        isCrafting = false;
+        currentInterval = CHECK_INTERVAL;
+        currentRecipe = null;
+        currentAmount = 0;
     }
 }

@@ -42,7 +42,7 @@ public final class AE2Recipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         CERTUS_QUARTZ_CHARGE_RECIPES
             .recipeBuilder("certus_quartz_charge")
-            .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL.asItem(), 32)
+            .inputItems(ChemicalHelper.get(gem, CertusQuartz), 32)
             .inputFluids(GTMaterials.Water.getFluid(1000))
             .outputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem(), 32)
             .duration(50)
@@ -101,6 +101,12 @@ public final class AE2Recipes {
             provider,
             "calculation",
             AEItems.CERTUS_QUARTZ_CRYSTAL.asItem(),
+            AEItems.CALCULATION_PROCESSOR.asItem()
+        );
+        inscribe(
+            provider,
+            "calculation_gt",
+            ChemicalHelper.get(gem, CertusQuartz).getItem(),
             AEItems.CALCULATION_PROCESSOR.asItem()
         );
         inscribe(provider, "logic", Items.GOLD_INGOT, AEItems.LOGIC_PROCESSOR.asItem());

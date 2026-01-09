@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTMath;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
@@ -42,9 +43,10 @@ public class WildcardIndexPage extends WidgetGroup {
         super(x, y, width, height);
 
         patterns = logic.generateAllPatterns(level).toList();
-        var size = patterns.size();
-        var text = new LabelWidget(50, 5, Component.translatable(PATTERNS_AVAILABLE, size).getString());
-        addWidget(text);
+
+        var component = Component.translatable(PATTERNS_AVAILABLE, patterns.size());
+        int fontWidth = Minecraft.getInstance().font.width(component);
+        addWidget(new LabelWidget((width - fontWidth) / 2, 5, component.getString()));
 
         initPatternDisplay();
         displayPattern(patterns.isEmpty() ? null : patterns.getFirst());
@@ -53,8 +55,8 @@ public class WildcardIndexPage extends WidgetGroup {
     private void initPatternDisplay() {
         int w = getSizeWidth(), h = getSizeHeight();
 
-        inputGroup = new WidgetGroup(10, 15, (w - 10) / 2, h - 20);
-        outputGroup = new WidgetGroup((w + 30) / 2, 15, (w - 10) / 2, h - 20);
+        inputGroup = new WidgetGroup(10, 18, (w - 10) / 2, h - 20);
+        outputGroup = new WidgetGroup((w + 30) / 2, 18, (w - 10) / 2, h - 20);
 
         var bar = new Widget((w - 10) / 2, 32, 15, 10).setBackground(
             GuiTextures.PROGRESS_BAR_ARROW.getSubTexture(0, 0, 1, 0.5)

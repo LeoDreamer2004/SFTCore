@@ -79,6 +79,7 @@
   "item.gtceu.quantum_processor_assembly.tooltip.0": "§7Around Thirty Thousand Hadamard Gates",
   "item.gtceu.quantum_processor_computer.tooltip.0": "§7Error Rate Less Than One in a Billion",
   "item.gtceu.quantum_processor_mainframe.tooltip.0": "§7Quantum Computing Comes to Life!",
+  "item.gtceu.tool.vajra": "Vajra",
   "item.sftcore.accelerate_cover.tooltip": "Accelerate the recipe by §e%d%%§r",
   "item.sftcore.dump.select_stick.first": "Select the first point at %s",
   "item.sftcore.dump.select_stick.second": "Select the second point at %s",

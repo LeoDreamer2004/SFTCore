@@ -225,7 +225,7 @@ repositories {
 		url 'https://maven.blakesmods.com'
 	}
 	maven {
-		// libX
+		// LibX
 		name = 'ModdingX Maven'
 		url = 'https://maven.moddingx.org/'
 	}
@@ -265,7 +265,6 @@ dependencies {
 	annotationProcessor fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
 	implementation fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
 	implementation("com.eliotlash.mclib:mclib:20")
-	implementation 'org.projectlombok:lombok:1.18.30'
 	implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {
 		jarJar.ranged(it, "[0.5.0,)")
 	}
