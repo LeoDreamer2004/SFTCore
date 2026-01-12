@@ -6,6 +6,7 @@ import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.editor.EditableMachineUI;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -21,6 +22,8 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.api.registry.registrate.provider.GTBlockstateProvider;
+import com.gregtechceu.gtceu.common.data.GTMaterialItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -28,6 +31,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -69,9 +73,18 @@ public class SFTMultiblockMachineBuilder extends MultiblockMachineBuilder {
     }
 
     public SFTMultiblockMachineBuilder tooltips(
-        Function<SFTMultiblockMachineBuilder, SFTTooltipsBuilder> tooltipsBuilder
+        UnaryOperator<SFTTooltipsBuilder> tooltipsBuilder
     ) {
-        return this.tooltips(tooltipsBuilder.apply(this).list());
+        return this.tooltips(tooltipsBuilder.apply(SFTTooltipsBuilder.machine(this.id)).list());
+    }
+
+    public SFTMultiblockMachineBuilder recoverAsh() {
+        recoveryItems(
+            () -> new ItemLike[] {
+                GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.dustTiny, GTMaterials.Ash)
+            }
+        );
+        return this;
     }
 
     /// COPIED METHODS

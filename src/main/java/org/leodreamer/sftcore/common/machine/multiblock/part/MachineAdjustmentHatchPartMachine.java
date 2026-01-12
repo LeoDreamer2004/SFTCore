@@ -9,16 +9,14 @@ import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
 import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -27,15 +25,12 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 
-public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
+public class MachineAdjustmentHatchPartMachine extends ItemBusPartMachine
     implements IMachineLife, IMachineAdjustment, IInteractedMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-        MachineAdjustmentHatchPartMachine.class, TieredPartMachine.MANAGED_FIELD_HOLDER
+        MachineAdjustmentHatchPartMachine.class, ItemBusPartMachine.MANAGED_FIELD_HOLDER
     );
-
-    @Persisted
-    private final NotifiableItemStackHandler inventory;
 
     @Getter
     @NotNull
@@ -45,8 +40,7 @@ public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
     private int tier;
 
     public MachineAdjustmentHatchPartMachine(IMachineBlockEntity holder) {
-        super(holder, GTValues.LV);
-        this.inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
+        super(holder, GTValues.LV, IO.IN);
     }
 
     @Override
@@ -59,11 +53,6 @@ public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
     @NotNull
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
-    public void onMachineRemoved() {
-        clearInventory(inventory.storage);
     }
 
     @Override
@@ -94,11 +83,11 @@ public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
 
     /// ///////////////////////////////////
     @Override
-    public Widget createUIWidget() {
+    public @NotNull Widget createUIWidget() {
         var group = new WidgetGroup(0, 0, 18 + 16, 18 + 16);
         var container = new WidgetGroup(4, 4, 18 + 8, 18 + 8);
         container.addWidget(
-            new BlockableSlotWidget(inventory.storage, 0, 4, 4)
+            new BlockableSlotWidget(getInventory().storage, 0, 4, 4)
                 .setBackground(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY)
         );
         container.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -108,12 +97,12 @@ public class MachineAdjustmentHatchPartMachine extends TieredPartMachine
 
     @Override
     public ItemStack getInnerMachineStack() {
-        return inventory.getStackInSlot(0);
+        return getInventory().getStackInSlot(0);
     }
 
     @Override
     public ISubscription addListenerOnChanged(Consumer<IMachineAdjustment> listener) {
-        return inventory.addChangedListener(
+        return getInventory().addChangedListener(
             () -> {
                 updateMachineSubscription();
                 listener.accept(this);

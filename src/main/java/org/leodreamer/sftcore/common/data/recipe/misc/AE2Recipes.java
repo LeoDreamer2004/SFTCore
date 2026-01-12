@@ -2,12 +2,14 @@ package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.machine.SFTSingleMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import org.leodreamer.sftcore.integration.IntegrateMods;
 import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.CompoundTag;
@@ -167,6 +169,17 @@ public final class AE2Recipes {
             .EUt(VA[MV])
             .save(provider);
 
+        ASSEMBLER_RECIPES
+            .recipeBuilder(SFTCore.id("lava_cell_easy"))
+            .outputItems(lavaCell)
+            .inputItems(CustomTags.EV_CIRCUITS)
+            .inputItems(AEItems.CELL_COMPONENT_64K.asItem())
+            .inputItems(AEItems.FLUID_CELL_HOUSING.asItem())
+            .inputFluids(Lava.getFluid(4000))
+            .duration(40)
+            .EUt(VA[HV])
+            .save(provider);
+
         ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wildcard_pattern"))
             .inputItems(AEItems.BLANK_PATTERN.asItem(), 16)
             .inputItems(ChemicalHelper.get(plate, Polyethylene, 4))
@@ -175,12 +188,24 @@ public final class AE2Recipes {
             .EUt(VA[MV])
             .save(provider);
 
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wireless_controller"))
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wireless_controller_sbr"))
             .inputItems(HULL[IV])
             .inputItems(AEBlocks.INTERFACE.asItem(), 4)
             .inputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
             .inputItems(AEItems.WIRELESS_BOOSTER.asItem(), 64)
-            .inputFluids(Polybenzimidazole.getFluid(16 * L))
+            .inputFluids(StyreneButadieneRubber.getFluid(L))
+            .outputItems(SFTSingleMachines.WIRELESS_CONTROLLER)
+            .duration(1200)
+            .EUt(VA[EV])
+            .save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wireless_controller_sr"))
+            .inputItems(HULL[IV])
+            .inputItems(AEBlocks.INTERFACE.asItem(), 4)
+            .inputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
+            .inputItems(AEItems.WIRELESS_BOOSTER.asItem(), 64)
+            .inputFluids(SiliconeRubber.getFluid(2 * L))
+            .outputItems(SFTSingleMachines.WIRELESS_CONTROLLER)
             .duration(1200)
             .EUt(VA[EV])
             .save(provider);

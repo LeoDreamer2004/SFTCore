@@ -7,6 +7,7 @@ import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
@@ -223,10 +224,40 @@ public final class ControllerRecipes {
             .inputItems(GAS_COLLECTOR[IV].asStack())
             .inputItems(EMITTER_IV, 4)
             .inputItems(ROBOT_ARM_IV, 2)
-            .inputItems(cableGtDouble, NiobiumTitanium, 8)
+            .inputItems(GTCraftingComponents.CABLE_DOUBLE.get(IV), 8)
             .inputFluids(Polybenzimidazole.getFluid(16 * L))
             .duration(1200)
             .EUt(VA[IV])
+            .save(provider);
+
+        GTRecipeTypes.ASSEMBLY_LINE_RECIPES
+            .recipeBuilder(SFTCore.id("ore_processor"))
+            .outputItems(ORE_PROCESSOR.asStack())
+            .inputItems(HULL[LuV].asStack(), 4)
+            .inputItems(LARGE_MACERATION_TOWER.asStack(), 2)
+            .inputItems(LARGE_CENTRIFUGE.asStack(), 2)
+            .inputItems(LARGE_CHEMICAL_BATH)
+            .inputItems(GTCraftingComponents.CABLE_QUAD.get(IV), 12)
+            .inputItems(GTCraftingComponents.EMITTER.get(LuV), 8)
+            .inputItems(GTCraftingComponents.PUMP.get(LuV), 8)
+            .inputItems(GTCraftingComponents.FIELD_GENERATOR.get(IV), 8)
+            .inputItems(bolt, TungstenSteel, 64)
+            .inputItems(rodLong, Iridium, 16)
+            .inputItems(plate, Ruridit, 16)
+            .inputItems(rotor, HSSS, 16)
+            .inputItems(CustomTags.EV_CIRCUITS, 64)
+            .inputItems(CustomTags.IV_CIRCUITS, 24)
+            .inputItems(CustomTags.LuV_CIRCUITS, 12)
+            .inputItems(CustomTags.ZPM_CIRCUITS, 4)
+            .inputFluids(Lubricant.getFluid(8000))
+            .inputFluids(Polybenzimidazole.getFluid(L * 16))
+            .inputFluids(VanadiumSteel.getFluid(L * 16))
+            .inputFluids(SodiumPotassium.getFluid(16000))
+            .scannerResearch(
+                b -> b.researchStack(LARGE_MACERATION_TOWER.asStack()).duration(3500).EUt(VA[LuV])
+            )
+            .duration(3000)
+            .EUt(VA[LuV])
             .save(provider);
     }
 }

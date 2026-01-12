@@ -45,7 +45,7 @@ public class HackyContainerGroupProxy {
     private static final String MACHINE_POS = "sftcore.mixin.ae2.pattern.machine_pos";
 
     public HackyContainerGroupProxy setBlockPos(BlockPos pos) {
-        tooltip.addFirst(Component.translatable(MACHINE_POS, pos.getX(), pos.getY(), pos.getZ()));
+        tooltip.add(0, Component.translatable(MACHINE_POS, pos.getX(), pos.getY(), pos.getZ()));
         return this;
     }
 
@@ -55,7 +55,7 @@ public class HackyContainerGroupProxy {
         try {
             // tooltip: "block position: x y z"
             // use regex to extract x, y, z, at the end of the string
-            var line = tooltip.getFirst().getString();
+            var line = tooltip.get(0).getString();
             var match = posPattern.matcher(line);
             if (!match.find()) {
                 return null;

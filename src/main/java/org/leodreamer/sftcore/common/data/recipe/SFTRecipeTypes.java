@@ -58,11 +58,10 @@ public final class SFTRecipeTypes {
         )
         .setUiBuilder(
             (recipe, group) -> {
-                if (!recipe.conditions.isEmpty() && recipe.conditions.getFirst() instanceof RPMCondition) {
-                    var handler = new CustomItemStackHandler(AllBlocks.SHAFT.asStack());
+                if (!recipe.conditions.isEmpty() && recipe.conditions.get(0) instanceof RPMCondition) {
                     group.addWidget(
                         new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(
-                            handler,
+                            new CustomItemStackHandler(AllBlocks.SHAFT.asStack()),
                             0,
                             group.getSize().width - 30,
                             group.getSize().height - 30,
@@ -199,6 +198,14 @@ public final class SFTRecipeTypes {
             })
         )
         .setSound(GTSoundEntries.FURNACE);
+
+    public static final GTRecipeType ORE_PROCESSING = register("ore_processing", MULTIBLOCK)
+        .setEUIO(IO.IN)
+        .setMaxIOSize(2, 12, 1, 0)
+        .setProgressBar(
+            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
+        )
+        .setSound(GTSoundEntries.MACERATOR);
 
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(SFTCore.id(name), group, proxyRecipes);

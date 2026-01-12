@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.gregtech.block;
+package org.leodreamer.sftcore.mixin.gregtech.machine;
 
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;

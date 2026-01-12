@@ -25,10 +25,14 @@ public final class SFTSingleMachines {
 
     public static final MachineDefinition WIRELESS_CONTROLLER = REGISTRATE
         .machine("wireless_controller", GTWirelessControllerMachine::new)
+        .tooltips(
+            builder -> SFTTooltipsBuilder.machine(builder.id)
+                .intro("Use Wireless Connector to connect to any GregTech ME Buses.")
+        )
         .langValue("Wireless Controller")
         .rotationState(RotationState.ALL)
         .tier(GTValues.IV)
-        .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_output_bus"))
+        .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_buffer_hatch_proxy"))
         .register();
 
     public static void init() {}

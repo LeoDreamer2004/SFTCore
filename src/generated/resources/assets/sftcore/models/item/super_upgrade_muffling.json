@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "sftcore:item/vajra"
+    "layer0": "mekanism:item/upgrade_muffling"
   }
 }

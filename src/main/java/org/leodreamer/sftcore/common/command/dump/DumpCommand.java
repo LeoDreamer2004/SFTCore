@@ -35,7 +35,7 @@ public class DumpCommand {
 
     public static final String FOLDER = "dumps";
     public static final String ID_FILENAME = "vocabulary.json";
-    public static final String MULTI_BLOCK_FILENAME = "multiBlock.txt";
+    public static final String MULTI_BLOCK_FILENAME = "multiblock.txt";
     private static final Dynamic2CommandExceptionType ERROR_AREA_TOO_LARGE = new Dynamic2CommandExceptionType(
         (limit, actual) -> Component.translatable("commands.fill.toobig", limit, actual)
     );
@@ -84,7 +84,7 @@ public class DumpCommand {
             )
             .then(
                 Commands.literal("multiblock")
-                    .executes(context -> dumpMultiBlocks(context.getSource()))
+                    .executes(context -> dumpMultiblock(context.getSource()))
             );
     }
 
@@ -92,7 +92,7 @@ public class DumpCommand {
         return write(stack, ID_FILENAME, getJSONString(mode));
     }
 
-    private static int dumpMultiBlocks(CommandSourceStack stack) throws CommandSyntaxException {
+    private static int dumpMultiblock(CommandSourceStack stack) throws CommandSyntaxException {
         Player player = stack.getPlayer();
         if (player == null) return 0;
         SelectedData.SelectedArea area = SelectedData.getSelectedArea(player);

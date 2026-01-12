@@ -28,7 +28,7 @@ side = "BOTH"
 modId = "gtceu"
 mandatory = true
 versionRange = "[7.0.0,)"
-ordering = "AFTER"
+ordering = "BEFORE"
 side = "BOTH"
 [[dependencies."${mod_id}"]]
 modId = "ae2"

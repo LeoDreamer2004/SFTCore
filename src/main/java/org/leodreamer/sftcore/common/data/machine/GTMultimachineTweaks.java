@@ -51,7 +51,7 @@ public final class GTMultimachineTweaks {
                     .getTooltipBuilder()
                     .andThen(
                         (itemStack, components) -> {
-                            components.removeLast();
+                            components.remove(components.size() - 1);
                             SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().addTo(components);
                         }
                     )
@@ -69,9 +69,9 @@ public final class GTMultimachineTweaks {
                         .getTooltipBuilder()
                         .andThen(
                             (itemStack, components) -> {
-                                var shareEnabled = components.removeLast();
-                                components.removeLast(); // fluid storage
-                                components.removeLast(); // item storage
+                                var shareEnabled = components.remove(components.size() - 1);
+                                components.remove(components.size() - 1); // fluid storage
+                                components.remove(components.size() - 1); // item storage
                                 components.add(
                                     Component.translatable(
                                         "gtceu.universal.tooltip.item_storage_capacity",

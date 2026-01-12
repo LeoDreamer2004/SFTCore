@@ -90,16 +90,12 @@ public final class SFTItems {
 
     public static final ItemEntry<ComponentItem> UU_MATTER = REGISTRATE.item("uu_matter", ComponentItem::create)
         .lang("UU Matter")
-        .onRegister(
-            tooltip(SFTTooltipsBuilder.of().textureComeFrom("Industrial Craft 2")::addTo)
-        )
+        .onRegister(tooltip(SFTTooltipsBuilder.of().textureComeFrom("Industrial Craft 2")::addTo))
         .register();
 
     public static final ItemEntry<ComponentItem> INCOMPLETE_UU_MATTER = REGISTRATE
         .item("incomplete_uu_matter", ComponentItem::create)
-        .onRegister(
-            tooltip(SFTTooltipsBuilder.of().textureComeFrom("Industrial Craft 2")::addTo)
-        )
+        .onRegister(tooltip(SFTTooltipsBuilder.of().textureComeFrom("Industrial Craft 2")::addTo))
         .lang("Incomplete UU Matter").register();
 
     public static final ItemEntry<ComponentItem>[] COVER_ACCELERATES = registerAccelerateCovers();
@@ -112,7 +108,11 @@ public final class SFTItems {
     private static ItemEntry<SuperUpgradeItem> registerSuperUpgrade(Upgrade upgrade) {
         return REGISTRATE
             .item("super_upgrade_" + upgrade.getRawName(), (p) -> new SuperUpgradeItem(p, upgrade))
-            .model(NonNullBiConsumer.noop())
+            .model(
+                generatedModel(
+                    ResourceLocation.fromNamespaceAndPath(IntegrateMods.MEK, "item/upgrade_" + upgrade.getRawName())
+                )
+            )
             .register();
     }
 
@@ -123,7 +123,6 @@ public final class SFTItems {
         for (int index = 0; index < AccelerateCover.TIERS.length; index++) {
             int tier = AccelerateCover.TIERS[index];
             var cover = SFTCovers.ACCELERATE_COVERS.get(index);
-            int accel = tier * 50;
             entries[tier] = REGISTRATE
                 .item(
                     "%s_accelerate_cover".formatted(GTValues.VN[tier].toLowerCase()),
@@ -131,14 +130,7 @@ public final class SFTItems {
                 )
                 .lang("%s §rAccelerate Cover".formatted(GTValues.VNF[tier]))
                 .onRegister(attach(new CoverPlaceBehavior(cover)))
-                .onRegister(
-                    tooltip(
-                        lines -> SFTTooltipsBuilder.of()
-                            .insert(Component.translatable(AccelerateCover.TOOLTIP, accel))
-                            .textureComeFrom("Thermal Expansion")
-                            .addTo(lines)
-                    )
-                )
+                .onRegister(tooltip(AccelerateCover.getTooltips(tier)::addTo))
                 .register();
         }
 
@@ -151,13 +143,7 @@ public final class SFTItems {
             .item("%s_universal_circuit".formatted(name), ComponentItem::create)
             .lang("%s §rUniversal Circuit".formatted(GTValues.VNF[tier]))
             .tag(CustomTags.CIRCUITS_ARRAY[tier])
-            .onRegister(
-                tooltip(
-                    lines -> SFTTooltipsBuilder.of()
-                        .textureComeFrom("GregTech New Horizon")
-                        .addTo(lines)
-                )
-            )
+            .onRegister(tooltip(SFTTooltipsBuilder.of().textureComeFrom("GregTech New Horizon")::addTo))
             .register();
     }
 

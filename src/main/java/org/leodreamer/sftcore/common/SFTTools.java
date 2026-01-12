@@ -1,6 +1,8 @@
 package org.leodreamer.sftcore.common;
 
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
@@ -15,7 +17,11 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Objects;
 
+@DataGenScanned
 public class SFTTools {
+
+    @RegisterLanguage("%s Vajra")
+    private static final String VAJRA_NAME = "item.gtceu.tool.vajra";
 
     public static final GTToolType VAJRA = GTToolType.builder("vajra")
         .modelLocation(SFTCore.id("item/vajra"))

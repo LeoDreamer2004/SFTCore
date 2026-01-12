@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CraftingScreen;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -30,7 +31,7 @@ import dev.emi.emi.runtime.EmiFavorites;
 import dev.emi.emi.screen.EmiScreenBase;
 import org.jetbrains.annotations.Nullable;
 
-@Mod.EventBusSubscriber(modid = SFTCore.MOD_ID)
+@Mod.EventBusSubscriber(modid = SFTCore.MOD_ID, value = Dist.CLIENT)
 public class EmiRecipeAutocraft {
 
     private static final Minecraft client = Minecraft.getInstance();

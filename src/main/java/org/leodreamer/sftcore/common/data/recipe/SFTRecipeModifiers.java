@@ -109,7 +109,7 @@ public final class SFTRecipeModifiers {
     }
 
     @NotNull
-    public static ModifierFunction gasCollectorParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction infiniteParallel(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         int parallels = ParallelLogic.getParallelAmount(machine, recipe, Integer.MAX_VALUE);
         return ModifierFunction.builder()
             .modifyAllContents(ContentModifier.multiplier(parallels))

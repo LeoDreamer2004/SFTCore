@@ -3,29 +3,21 @@ package org.leodreamer.sftcore.common.data.machine;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.pattern.MultiBlockFileReader;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.data.machine.ui.SFTMachineDisplays;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.common.data.*;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 
@@ -81,7 +73,7 @@ public final class SFTMultiMachines {
         .multiblock("certus_quartz_charger", WorkableElectricMultiblockMachine::new)
         .rotationState(RotationState.NON_Y_AXIS)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .tip("Release the power of Certus Quartz.")
                 .parallelizable()
         )
@@ -113,7 +105,7 @@ public final class SFTMultiMachines {
         .multiblock("large_inscriber", WorkableElectricMultiblockMachine::new)
         .rotationState(RotationState.NON_Y_AXIS)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .tip("A large inscriber for advanced circuits.")
                 .parallelizable()
         )
@@ -149,7 +141,7 @@ public final class SFTMultiMachines {
         .recipeType(SFTRecipeTypes.MEKANISM_NUCLEAR_REACTION_RECIPES)
         .recipeModifiers(OC_PERFECT_SUBTICK, BATCH_MODE)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .tip("Extract energy from fuel thoroughly.")
                 .perfectOverlock()
                 .allowLaser()
@@ -167,12 +159,7 @@ public final class SFTMultiMachines {
                 .where('C', blocks(FIREBOX_STEEL.get()))
                 .where('B', blocks(GeneratorsBlocks.REACTOR_GLASS.getBlock()))
                 .where('E', blocks(GeneratorsBlocks.FISSION_FUEL_ASSEMBLY.getBlock()))
-                .where(
-                    'F',
-                    blocks(
-                        ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)
-                    )
-                )
+                .where('F', frames(GTMaterials.BlackSteel))
                 .where('G', blocks(COIL_CUPRONICKEL.get()))
                 .where('H', blocks(LAMPS.get(DyeColor.GREEN).get()))
                 .where('D', blocks(CASING_INVAR_HEATPROOF.get()))
@@ -188,7 +175,7 @@ public final class SFTMultiMachines {
         .multiblock("common_mekanism_process_factory", WorkableElectricMultiblockMachine::new)
         .rotationState(RotationState.ALL)
         .recipeType(SFTRecipeTypes.MEKANISM_PROCESSING_RECIPES)
-        .recipeModifiers(PARALLEL_HATCH, OC_HALF_PERFECT)
+        .recipeModifiers(PARALLEL_HATCH, OC_HALF_PERFECT, BATCH_MODE)
         .appearanceBlock(MekanismBlocks.SPS_CASING::getBlock)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
@@ -216,7 +203,7 @@ public final class SFTMultiMachines {
         .rotationState(RotationState.ALL)
         .recipeTypes(CommonFactoryMachine.AVAILABLE_RECIPES)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .intro(
                     "- §7The simple machine in the§r machine adjustment hatch§7 limits the recipe type and voltage.§r",
                     "- §7The voltage of energy hatch and machine must match, though it is allowed to use two energy hatch.§r",
@@ -256,14 +243,14 @@ public final class SFTMultiMachines {
     public static final MachineDefinition DESULFURIZER = REGISTRATE
         .multiblock("desulfurizer", WorkableElectricMultiblockMachine::new)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .tip("Desulfurize oil efficiently.")
                 .parallelizable()
                 .halfPerfectOverlock()
         )
         .rotationState(RotationState.ALL)
         .recipeType(SFTRecipeTypes.DESULFURIZE_RECIPES)
-        .recipeModifiers(PARALLEL_HATCH, OC_HALF_PERFECT)
+        .recipeModifiers(PARALLEL_HATCH, OC_HALF_PERFECT, BATCH_MODE)
         .appearanceBlock(CASING_STAINLESS_TURBINE)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
@@ -275,14 +262,7 @@ public final class SFTMultiMachines {
                         .or(autoAbilities(definition.getRecipeTypes()))
                         .or(autoAbilities(true, false, true))
                 )
-                .where(
-                    'B',
-                    blocks(
-                        ChemicalHelper.getBlock(
-                            TagPrefix.frameGt, GTMaterials.StainlessSteel
-                        )
-                    )
-                )
+                .where('B', frames(GTMaterials.StainlessSteel))
                 .where('C', blocks(CASING_INVAR_HEATPROOF.get()))
                 .where('D', blocks(COIL_CUPRONICKEL.get()))
                 .where('E', blocks(CASING_STAINLESS_TURBINE.get()))
@@ -323,9 +303,7 @@ public final class SFTMultiMachines {
     public static final MachineDefinition GREENHOUSE = REGISTRATE
         .multiblock("greenhouse", WorkableElectricMultiblockMachine::new)
         .rotationState(RotationState.NON_Y_AXIS)
-        .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id).tip("Hope our plants can grow well.")
-        )
+        .tooltips(builder -> builder.tip("Hope our plants can grow well."))
         .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
         .recipeModifiers(OC_NON_PERFECT, BATCH_MODE)
         .appearanceBlock(CASING_STEEL_SOLID)
@@ -359,7 +337,7 @@ public final class SFTMultiMachines {
         .recipeType(SFTRecipeTypes.GREENHOUSE_RECIPES)
         .recipeModifiers(PARALLEL_HATCH, GCYM_MACHINE_REDUCE, OC_HALF_PERFECT, BATCH_MODE)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .parallelizable()
                 .availableTypes(SFTRecipeTypes.GREENHOUSE_RECIPES)
                 .gcymReduce()
@@ -381,14 +359,7 @@ public final class SFTMultiMachines {
                 .where('E', blocks(Blocks.MOSS_BLOCK))
                 .where('F', blocks(FILTER_CASING.get()))
                 .where('G', blocks(LAMPS.get(DyeColor.WHITE).get()))
-                .where(
-                    'H',
-                    blocks(
-                        ChemicalHelper.getBlock(
-                            TagPrefix.frameGt, GTMaterials.StainlessSteel
-                        )
-                    )
-                )
+                .where('H', frames(GTMaterials.StainlessSteel))
                 .build()
         )
         .workableCasingModel(
@@ -401,8 +372,9 @@ public final class SFTMultiMachines {
         .multiblock("oil_drilling_rig", WorkableElectricMultiblockMachine::new)
         .rotationState(RotationState.NON_Y_AXIS)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .tip("Oh, It's not so environmental friendly...")
+                .parallelizable()
         )
         .recipeType(SFTRecipeTypes.OIL_DRILLING_RECIPES)
         .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT, BATCH_MODE)
@@ -413,14 +385,10 @@ public final class SFTMultiMachines {
                 .where(
                     'A',
                     blocks(CASING_STEEL_SOLID.get())
-                        .setMinGlobalLimited(4)
                         .or(autoAbilities(definition.getRecipeTypes()))
                         .or(autoAbilities(true, false, true))
                 )
-                .where(
-                    'B',
-                    blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel))
-                )
+                .where('B', frames(GTMaterials.Steel))
                 .build()
         )
         .workableCasingModel(
@@ -433,10 +401,10 @@ public final class SFTMultiMachines {
         .multiblock("large_gas_collector", WorkableElectricMultiblockMachine::new)
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeType(SFTRecipeTypes.LARGE_GAS_COLLECTOR_RECIPES)
-        .recipeModifiers(SFTRecipeModifiers::gasCollectorParallel, OC_NON_PERFECT, BATCH_MODE)
+        .recipeModifiers(SFTRecipeModifiers::infiniteParallel, OC_NON_PERFECT, BATCH_MODE)
         .appearanceBlock(CASING_STRESS_PROOF)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .tip("Collect gas from the anywhere.")
                 .intro("-§7 Has (nearly)§c§l infinite§7 parallels")
         )
@@ -445,14 +413,7 @@ public final class SFTMultiMachines {
                 .where('H', controller(blocks(definition.get())))
                 .where('A', blocks(CASING_STRESS_PROOF.get()))
                 .where('B', blocks(CASING_CORROSION_PROOF.get()))
-                .where(
-                    'C',
-                    blocks(
-                        ChemicalHelper.getBlock(
-                            TagPrefix.frameGt, GTMaterials.StainlessSteel
-                        )
-                    )
-                )
+                .where('C', frames(GTMaterials.StainlessSteel))
                 .where('D', blocks(HERMETIC_CASING_IV.get()))
                 .where('E', blocks(CASING_STEEL_PIPE.get()))
                 .where('F', blocks(CASING_GRATE.get()))
@@ -477,7 +438,7 @@ public final class SFTMultiMachines {
         .recipeModifiers(PARALLEL_HATCH, GTRecipeModifiers::ebfOverclock, BATCH_MODE)
         .appearanceBlock(CASING_HIGH_TEMPERATURE_SMELTING)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .tip("Expert in producing semiconductor.")
                 .parallelizable()
                 .ebf()
@@ -498,39 +459,12 @@ public final class SFTMultiMachines {
                 .where('F', abilities(PartAbility.MUFFLER))
                 .build()
         )
-        .recoveryItems(
-            () -> new ItemLike[] {
-                GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.dustTiny, GTMaterials.Ash)
-            }
-        )
+        .recoverAsh()
         .workableCasingModel(
             GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
             GTCEu.id("block/multiblock/gcym/large_mixer")
         )
-        .additionalDisplay(
-            (controller, components) -> {
-                if (
-                    controller instanceof CoilWorkableElectricMultiblockMachine coilMachine &&
-                        controller.isFormed()
-                ) {
-                    components.add(
-                        Component.translatable(
-                            "gtceu.multiblock.blast_furnace.max_temperature",
-                            Component.translatable(
-                                FormattingUtil.formatNumbers(
-                                    coilMachine.getCoilType().getCoilTemperature() +
-                                        100L * Math.max(
-                                            0, coilMachine.getTier() - GTValues.MV
-                                        )
-                                ) +
-                                    "K"
-                            )
-                                .setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
-                        )
-                    );
-                }
-            }
-        )
+        .additionalDisplay(SFTMachineDisplays.ebfCoilDisplay)
         .register();
 
     public static final MachineDefinition LARGE_CRACKER = REGISTRATE
@@ -545,7 +479,7 @@ public final class SFTMultiMachines {
             GCYM_MACHINE_REDUCE
         )
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .parallelizable()
                 .availableTypes(GTRecipeTypes.CRACKING_RECIPES)
                 .intro(
@@ -565,20 +499,14 @@ public final class SFTMultiMachines {
                         .or(autoAbilities(true, false, true))
                 )
                 .where('B', blocks(CASING_STAINLESS_TURBINE.get()))
-                .where(
-                    'C',
-                    blocks(
-                        ChemicalHelper.getBlock(
-                            TagPrefix.frameGt, GTMaterials.StainlessSteel
-                        )
-                    )
-                )
+                .where('C', frames(GTMaterials.StainlessSteel))
                 .where('D', blocks(CASING_STAINLESS_CLEAN.get()))
                 .where('E', heatingCoils())
                 .where('F', abilities(PartAbility.MUFFLER))
                 .where('G', blocks(CASING_TEMPERED_GLASS.get()))
                 .build()
         )
+        .recoverAsh()
         .workableCasingModel(
             GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
             GTCEu.id("block/multiblock/cracking_unit")
@@ -597,7 +525,7 @@ public final class SFTMultiMachines {
             MEGA_COIL_MACHINE_REDUCE
         )
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .parallelizable()
                 .availableTypes(GTRecipeTypes.LARGE_CHEMICAL_RECIPES)
                 .megaReduceWithCoil()
@@ -620,23 +548,7 @@ public final class SFTMultiMachines {
                 .where('D', heatingCoils())
                 .build()
         )
-        .additionalDisplay(
-            (controller, components) -> {
-                if (!controller.isFormed()) return;
-                if (!(controller instanceof CoilWorkableElectricMultiblockMachine coilMachine))
-                    return;
-                components.add(
-                    Component.translatable(
-                        "gtceu.multiblock.blast_furnace.max_temperature",
-                        Component.translatable(
-                            FormattingUtil.formatNumbers(
-                                coilMachine.getCoilType().getCoilTemperature()
-                            ) + "K"
-                        )
-                    )
-                );
-            }
-        )
+        .additionalDisplay(SFTMachineDisplays.simpleCoilDisplay)
         .workableCasingModel(
             GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"),
             GTCEu.id("block/multiblock/large_chemical_reactor")
@@ -655,7 +567,7 @@ public final class SFTMultiMachines {
         )
         .recipeType(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
         .tooltips(
-            builder -> SFTTooltipsBuilder.machine(builder.id)
+            builder -> builder
                 .parallelizable()
                 .availableTypes(GCYMRecipeTypes.ALLOY_BLAST_RECIPES)
                 .ebf()
@@ -687,28 +599,54 @@ public final class SFTMultiMachines {
                 .where('M', abilities(PartAbility.MUFFLER))
                 .build()
         )
-        .additionalDisplay(
-            (controller, components) -> {
-                if (!controller.isFormed()) return;
-                if (!(controller instanceof CoilWorkableElectricMultiblockMachine coilMachine))
-                    return;
-                components.add(
-                    Component.translatable(
-                        "gtceu.multiblock.blast_furnace.max_temperature",
-                        Component.translatable(
-                            FormattingUtil.formatNumbers(
-                                coilMachine.getCoilType().getCoilTemperature() + 100 *
-                                    Math.max(0, coilMachine.getTier() - GTValues.MV)
-                            ) +
-                                "K"
-                        )
-                    )
-                );
-            }
-        )
+        .recoverAsh()
+        .additionalDisplay(SFTMachineDisplays.ebfCoilDisplay)
         .workableCasingModel(
             GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
             GTCEu.id("block/multiblock/gcym/mega_blast_furnace")
+        )
+        .register();
+
+    public static final MachineDefinition ORE_PROCESSOR = REGISTRATE
+        .multiblock("ore_processor", WorkableElectricMultiblockMachine::new)
+        .rotationState(RotationState.NON_Y_AXIS)
+        .recipeType(SFTRecipeTypes.ORE_PROCESSING)
+        .recipeModifiers(SFTRecipeModifiers::infiniteParallel, OC_NON_PERFECT, BATCH_MODE)
+        .appearanceBlock(CASING_STAINLESS_TURBINE)
+        .tooltips(
+            builder -> builder
+                .tip("Break Everything. Reconstruct Everything.")
+                .intro("-§7 Has (nearly)§c§l infinite§7 parallels")
+                .allowLaser()
+        )
+        .pattern(
+            definition -> MultiBlockFileReader.start(definition)
+                .where('P', controller(blocks(definition.get())))
+                .where('A', blocks(CASING_LAMINATED_GLASS.get()))
+                .where(
+                    'B', blocks(CASING_STAINLESS_TURBINE.get())
+                        .or(autoAbilities(definition.getRecipeTypes()))
+                        .or(autoAbilities(true, false, false))
+                        .or(abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(1))
+                )
+                .where('C', blocks(CASING_HSSE_STURDY.get()))
+                .where('D', blocks(CASING_TEMPERED_GLASS.get()))
+                .where('E', blocks(CASING_TUNGSTENSTEEL_GEARBOX.get()))
+                .where('F', frames(GTMaterials.TungstenCarbide))
+                .where('G', blocks(FIREBOX_TUNGSTENSTEEL.get()))
+                .where('H', blocks(CRUSHING_WHEELS.get()))
+                .where('I', blocks(CASING_TUNGSTENSTEEL_PIPE.get()))
+                .where('J', blocks(CASING_VIBRATION_SAFE.get()))
+                .where('K', blocks(HEAT_VENT.get()))
+                .where('L', blocks(CASING_STEEL_PIPE.get()))
+                .where('M', abilities(PartAbility.MUFFLER))
+                .where('N', blocks(HERMETIC_CASING_IV.get()))
+                .where('O', blocks(CASING_WATERTIGHT.get()))
+                .build()
+        )
+        .workableCasingModel(
+            GTCEu.id("block/casings/mechanic/machine_casing_turbine_stainless_steel"),
+            GTCEu.id("block/multiblock/gcym/large_mixer")
         )
         .register();
 }

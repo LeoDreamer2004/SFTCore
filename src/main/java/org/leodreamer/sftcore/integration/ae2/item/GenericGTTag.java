@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.integration.ae2.item;
 
-import org.leodreamer.sftcore.util.ReflectUtils;
+import org.leodreamer.sftcore.mixin.gregtech.data.GTBucketItemAccessor;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -118,7 +118,7 @@ public class GenericGTTag {
         if (item instanceof BucketItem bucket) {
             var fluid = bucket.getFluid();
             if (bucket instanceof GTBucketItem gtBucket) {
-                var material = ReflectUtils.getFieldValue(gtBucket, "material", Material.class);
+                var material = ((GTBucketItemAccessor) gtBucket).getMaterial();
                 for (var key : FluidStorageKey.allKeys()) {
                     // test all fluid storage keys for a match
                     if (fluid == getFluidByKey(material, key)) {

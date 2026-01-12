@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "mekanism:item/upgrade_energy",
-    "layer1": "sftcore:item/overlay/super_upgrade"
-  }
-}

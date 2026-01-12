@@ -23,6 +23,9 @@ public record InputFilter(ItemLike item) implements RecipeFilter {
             return false;
         }
         for (var ingredient : recipe.getIngredients()) {
+            // We must use the reflection here instead of ingredient.getItems(),
+            // as getItems has the side effect to load builtin tags and
+            // will cause problems for custom tags in mods.
             var values = ReflectUtils.getFieldValue(ingredient, "values", Ingredient.Value[].class);
             for (var value : values) {
                 if (value instanceof Ingredient.ItemValue itemValue) {

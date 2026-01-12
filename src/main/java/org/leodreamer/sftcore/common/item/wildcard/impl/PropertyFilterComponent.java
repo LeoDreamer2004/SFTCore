@@ -2,10 +2,10 @@ package org.leodreamer.sftcore.common.item.wildcard.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.feature.IMaterialProperties;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
+import org.leodreamer.sftcore.mixin.gregtech.data.MaterialPropertiesAccessor;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -102,8 +102,8 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
             this.example = material;
             var flags = getMaterialPropertyNames(material);
             propertySelector.setCandidates(flags);
-            propertySelector.setValue(flags.getFirst());
-            updateProperty(flags.getFirst());
+            propertySelector.setValue(flags.get(0));
+            updateProperty(flags.get(0));
         }
         return ok;
     }
@@ -135,7 +135,7 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
     private static final String NO_PROPERTY = "sftcore.item.wildcard_pattern.filter.property.no_property";
 
     private static List<String> getMaterialPropertyNames(Material material) {
-        var flags = ((IMaterialProperties) material.getProperties()).sftcore$getProperties();
+        var flags = ((MaterialPropertiesAccessor) material.getProperties()).getProperties().keySet();
         if (flags.isEmpty()) {
             return List.of(Component.translatable(NO_PROPERTY).getString());
         }
