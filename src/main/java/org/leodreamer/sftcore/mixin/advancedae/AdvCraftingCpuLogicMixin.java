@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.mixin.ae2.crafting;
+package org.leodreamer.sftcore.mixin.advancedae;
 
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.integration.ae2.feature.IExecutingCraftingJob;
@@ -17,24 +17,28 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.execution.CraftingCpuHelper;
-import appeng.crafting.execution.CraftingCpuLogic;
-import appeng.crafting.execution.ExecutingCraftingJob;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.crafting.pattern.AEProcessingPattern;
-import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
+import net.pedroksl.advanced_ae.common.cluster.AdvCraftingCPU;
+import net.pedroksl.advanced_ae.common.logic.AdvCraftingCPULogic;
+import net.pedroksl.advanced_ae.common.logic.ExecutingCraftingJob;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(CraftingCpuLogic.class)
-public abstract class CraftingCpuLogicMixin {
+/**
+ * AAE IS JUST A COPIER...
+ * See {@link org.leodreamer.sftcore.mixin.ae2.crafting.CraftingCpuLogicMixin}
+ */
+@Mixin(AdvCraftingCPULogic.class)
+public abstract class AdvCraftingCpuLogicMixin {
 
     @Shadow(remap = false)
     @Final
-    CraftingCPUCluster cluster;
+    AdvCraftingCPU cpu;
 
     @Shadow(remap = false)
     private ExecutingCraftingJob job;
@@ -66,6 +70,9 @@ public abstract class CraftingCpuLogicMixin {
     @Shadow(remap = false)
     protected abstract void finishJob(boolean success);
 
+    @Shadow(remap = false)
+    private boolean markedForDeletion;
+
     /**
      * @author leodreamer
      * @reason add order item judgment
@@ -73,13 +80,15 @@ public abstract class CraftingCpuLogicMixin {
     @Overwrite(remap = false)
     public void tickCraftingLogic(IEnergyService eg, CraftingService cc) {
         // Don't tick if we're not active.
-        if (!cluster.isActive()) return;
+        if (!cpu.isActive()) return;
         cantStoreItems = false;
         // If we don't have a job, just try to dump our items.
         if (job == null) {
             storeItems();
             if (!inventory.list.isEmpty()) {
                 cantStoreItems = true;
+            } else if (markedForDeletion) {
+                cpu.deactivate();
             }
             return;
         }
@@ -91,7 +100,7 @@ public abstract class CraftingCpuLogicMixin {
             return;
         }
 
-        var remainingOperations = cluster.getCoProcessors() + 1 - (usedOps[0] + usedOps[1] + usedOps[2]);
+        var remainingOperations = cpu.getCoProcessors() + 1 - (usedOps[0] + usedOps[1] + usedOps[2]);
         final var started = remainingOperations;
         var finish = getFinalJobOutput();
 
@@ -108,13 +117,13 @@ public abstract class CraftingCpuLogicMixin {
 
         if (remainingOperations > 0) {
             do {
-                var pushedPatterns = executeCrafting(remainingOperations, cc, eg, cluster.getLevel());
+                var pushedPatterns = executeCrafting(remainingOperations, cc, eg, cpu.getLevel());
                 if (isOrder) {
                     long orderDone = getWaitingFor(orderKey);
                     if (finish.amount() <= orderDone) {
                         // skip order waiting
                         finishJob(true);
-                        cluster.updateOutput(null);
+                        cpu.updateOutput(null);
                     }
                 }
 
@@ -217,7 +226,7 @@ public abstract class CraftingCpuLogicMixin {
                             expectedContainerItem.getLongValue() * multiplier, Actionable.MODULATE
                         );
                     }
-                    cluster.markDirty();
+                    cpu.markDirty();
 
                     value -= multiplier;
                     if (value <= 0) {

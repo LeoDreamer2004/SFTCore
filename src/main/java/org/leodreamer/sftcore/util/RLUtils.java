@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class RLUtils {
 
+    public static final ResourceLocation EMPTY = SFTCore.id("empty");
+
     public static ResourceLocation getItemRL(ItemLike item) {
         return ForgeRegistries.ITEMS.getKey(item.asItem());
     }

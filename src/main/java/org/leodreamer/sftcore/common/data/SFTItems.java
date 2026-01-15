@@ -22,7 +22,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
+import appeng.api.stacks.AEKeyType;
 import appeng.core.definitions.AEItems;
+import appeng.items.materials.StorageComponentItem;
+import appeng.items.storage.BasicStorageCell;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -76,6 +79,40 @@ public final class SFTItems {
             generatedModel(
                 ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/card_speed"),
                 SFTCore.id("item/overlay/super_upgrade")
+            )
+        )
+        .register();
+
+    public static final ItemEntry<StorageComponentItem> HUGE_CELL_COMPONENT = REGISTRATE
+        .item("huge_cell_component", p -> new StorageComponentItem(p, Integer.MAX_VALUE / 1024))
+        .register();
+
+    public static final ItemEntry<BasicStorageCell> HUGE_ITEM_CELL = REGISTRATE
+        .item(
+            "huge_item_cell", p -> new BasicStorageCell(
+                p.stacksTo(1),
+                HUGE_CELL_COMPONENT,
+                AEItems.ITEM_CELL_HOUSING,
+                4.0,
+                Integer.MAX_VALUE / 1024,
+                Integer.MAX_VALUE / 1024 / 64,
+                63,
+                AEKeyType.items()
+            )
+        )
+        .register();
+
+    public static final ItemEntry<BasicStorageCell> HUGE_FLUID_CELL = REGISTRATE
+        .item(
+            "huge_fluid_cell", p -> new BasicStorageCell(
+                p.stacksTo(1),
+                HUGE_CELL_COMPONENT,
+                AEItems.FLUID_CELL_HOUSING,
+                4.0,
+                Integer.MAX_VALUE / 1024,
+                Integer.MAX_VALUE / 1024 / 64,
+                63,
+                AEKeyType.fluids()
             )
         )
         .register();

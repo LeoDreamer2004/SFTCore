@@ -20,6 +20,16 @@ public class ReflectUtils {
         }
     }
 
+    public static void setFieldValue(Object obj, String fieldName, Object value) {
+        try {
+            Field field = obj.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(obj, value);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set field value: " + fieldName, e);
+        }
+    }
+
     public static Class<?> getInnerClassByName(Class<?> outerClass, String innerClassName) {
         for (Class<?> innerClass : outerClass.getDeclaredClasses()) {
             if (innerClass.getSimpleName().equals(innerClassName)) {

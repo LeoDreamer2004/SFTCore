@@ -9,6 +9,7 @@ import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -32,27 +33,26 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.EMITTER_LuV;
+import static com.gregtechceu.gtceu.common.data.GTMachines.DUAL_IMPORT_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTMachines.HULL;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.MIXER_RECIPES;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.CERTUS_QUARTZ_CHARGE_RECIPES;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.LARGE_INSCRIBER;
 
 public final class AE2Recipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-        CERTUS_QUARTZ_CHARGE_RECIPES
-            .recipeBuilder("certus_quartz_charge")
-            .inputItems(ChemicalHelper.get(gem, CertusQuartz), 32)
+        CERTUS_QUARTZ_CHARGE_RECIPES.recipeBuilder("certus_quartz_charge")
+            .inputItems(gem, CertusQuartz, 32)
             .inputFluids(GTMaterials.Water.getFluid(1000))
             .outputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem(), 32)
             .duration(50)
             .EUt(VA[MV])
             .save(provider);
 
-        MIXER_RECIPES
-            .recipeBuilder(SFTCore.id("fluix_crystal"))
+        MIXER_RECIPES.recipeBuilder(SFTCore.id("fluix_crystal"))
             .outputItems(AEItems.FLUIX_CRYSTAL.asItem(), 2)
             .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
             .inputItems(dust, Redstone)
@@ -62,8 +62,7 @@ public final class AE2Recipes {
             .EUt(VA[ULV])
             .save(provider);
 
-        MIXER_RECIPES
-            .recipeBuilder(SFTCore.id("sky_steel_ingot"))
+        MIXER_RECIPES.recipeBuilder(SFTCore.id("sky_steel_ingot"))
             .outputItems(MEGAItems.SKY_STEEL_INGOT.asItem(), 2)
             .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
             .inputItems(ingot, Iron)
@@ -71,6 +70,13 @@ public final class AE2Recipes {
             .inputFluids(Lava, 50)
             .duration(20)
             .EUt(VA[ULV])
+            .save(provider);
+
+        MACERATOR_RECIPES.recipeBuilder(SFTCore.id("fluix_crystal_dust"))
+            .outputItems(AEItems.FLUIX_DUST.asItem())
+            .inputItems(AEItems.FLUIX_CRYSTAL.asItem())
+            .duration(10)
+            .EUt(VA[LV])
             .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("wireless_connect")
@@ -140,8 +146,8 @@ public final class AE2Recipes {
         }
 
         var cobblestoneCell = getInfinityCell('i', "minecraft:cobblestone");
-        ASSEMBLER_RECIPES
-            .recipeBuilder(SFTCore.id("cobblestone_cell"))
+
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("cobblestone_cell"))
             .outputItems(cobblestoneCell)
             .inputItems(Items.COBBLESTONE, 4)
             .inputItems(MekanismItems.POLONIUM_PELLET)
@@ -153,8 +159,7 @@ public final class AE2Recipes {
             .save(provider);
 
         var lavaCell = getInfinityCell('f', "minecraft:lava");
-        ASSEMBLER_RECIPES
-            .recipeBuilder(SFTCore.id("lava_cell"))
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("lava_cell"))
             .outputItems(lavaCell)
             .inputItems(AllBlocks.FLUID_TANK.asItem(), 36)
             .inputItems(AllBlocks.HOSE_PULLEY.asItem())
@@ -169,8 +174,7 @@ public final class AE2Recipes {
             .EUt(VA[MV])
             .save(provider);
 
-        ASSEMBLER_RECIPES
-            .recipeBuilder(SFTCore.id("lava_cell_easy"))
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("lava_cell_easy"))
             .outputItems(lavaCell)
             .inputItems(CustomTags.EV_CIRCUITS)
             .inputItems(AEItems.CELL_COMPONENT_64K.asItem())
@@ -181,39 +185,84 @@ public final class AE2Recipes {
             .save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wildcard_pattern"))
-            .inputItems(AEItems.BLANK_PATTERN.asItem(), 16)
-            .inputItems(ChemicalHelper.get(plate, Polyethylene, 4))
             .outputItems(SFTItems.WILDCARD_PATTERN)
+            .inputItems(AEItems.BLANK_PATTERN.asItem(), 16)
+            .inputItems(plate, Polyethylene, 4)
             .duration(200)
             .EUt(VA[MV])
             .save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wireless_controller_sbr"))
+            .outputItems(SFTSingleMachines.WIRELESS_CONTROLLER)
             .inputItems(HULL[IV])
             .inputItems(AEBlocks.INTERFACE.asItem(), 4)
             .inputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
             .inputItems(AEItems.WIRELESS_BOOSTER.asItem(), 64)
             .inputFluids(StyreneButadieneRubber.getFluid(L))
-            .outputItems(SFTSingleMachines.WIRELESS_CONTROLLER)
             .duration(1200)
             .EUt(VA[EV])
             .save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("wireless_controller_sr"))
+            .outputItems(SFTSingleMachines.WIRELESS_CONTROLLER)
             .inputItems(HULL[IV])
             .inputItems(AEBlocks.INTERFACE.asItem(), 4)
             .inputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
             .inputItems(AEItems.WIRELESS_BOOSTER.asItem(), 64)
             .inputFluids(SiliconeRubber.getFluid(2 * L))
-            .outputItems(SFTSingleMachines.WIRELESS_CONTROLLER)
             .duration(1200)
             .EUt(VA[EV])
             .save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("huge_cell_component"))
+            .outputItems(SFTItems.HUGE_CELL_COMPONENT)
+            .inputItems(MEGAItems.CELL_COMPONENT_1M.asItem())
+            .inputItems(CustomTags.EV_CIRCUITS, 8)
+            .inputItems(AEItems.SINGULARITY.asItem(), 4)
+            .duration(2000)
+            .EUt(VA[HV])
+            .save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("huge_item_cell"))
+            .outputItems(SFTItems.HUGE_ITEM_CELL)
+            .inputItems(SFTItems.HUGE_CELL_COMPONENT)
+            .inputItems(AEItems.ITEM_CELL_HOUSING.asItem())
+            .inputFluids(Polytetrafluoroethylene.getFluid(4 * L))
+            .duration(800)
+            .EUt(VA[LV])
+            .save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("huge_fluid_cell"))
+            .outputItems(SFTItems.HUGE_FLUID_CELL)
+            .inputItems(SFTItems.HUGE_CELL_COMPONENT)
+            .inputItems(AEItems.FLUID_CELL_HOUSING.asItem())
+            .inputFluids(Polytetrafluoroethylene.getFluid(4 * L))
+            .duration(800)
+            .EUt(VA[LV])
+            .save(provider);
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id("patter_buffer"))
+            .inputItems(DUAL_IMPORT_HATCH[LuV], 1)
+            .inputItems(EMITTER_LuV, 1)
+            .inputItems(CustomTags.LuV_CIRCUITS, 4)
+            .inputItems(EPPItemAndBlock.EX_PATTERN_PROVIDER.asItem(), 4)
+            .inputItems(EPPItemAndBlock.EX_INTERFACE.asItem(), 2)
+            .inputItems(AEItems.SPEED_CARD.asItem(), 16)
+            .inputItems(AEItems.CAPACITY_CARD.asItem(), 4)
+            .inputItems(wireGtSingle, SamariumIronArsenicOxide, 32)
+            .inputFluids(SolderingAlloy, L * 4)
+            .inputFluids(Lubricant, 500)
+            .outputItems(GTAEMachines.ME_PATTERN_BUFFER)
+            .scannerResearch(
+                b -> b.researchStack(DUAL_IMPORT_HATCH[LuV].asStack())
+                    .duration(1200)
+                    .EUt(VA[LuV])
+            )
+            .duration(600).EUt(VA[LuV]).save(provider);
     }
 
     private static void inscribe(Consumer<FinishedRecipe> provider, String id, Item ingredient, Item processor) {
-        LARGE_INSCRIBER
-            .recipeBuilder(SFTCore.id("inscriber/" + id))
+        LARGE_INSCRIBER.recipeBuilder(SFTCore.id("inscriber/" + id))
             .inputItems(ingredient, 16)
             .inputItems(AEItems.SILICON.asItem(), 12)
             .inputFluids(Redstone.getFluid(16 * L))

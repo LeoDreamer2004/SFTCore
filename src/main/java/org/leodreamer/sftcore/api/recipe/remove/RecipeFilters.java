@@ -5,6 +5,8 @@ import net.minecraft.world.level.ItemLike;
 
 public class RecipeFilters {
 
+    public static final RecipeFilter EMPTY = (rl, id) -> false;
+
     public static IDFilter id(ResourceLocation id) {
         return new IDFilter(id);
     }

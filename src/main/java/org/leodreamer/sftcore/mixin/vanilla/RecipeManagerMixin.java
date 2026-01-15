@@ -32,7 +32,7 @@ public class RecipeManagerMixin {
         var recipe = cir.getReturnValue();
         if (recipe == null) return;
         try {
-            boolean remove = RecipeRemoval.INSTANCE.remove(id, recipe);
+            boolean remove = RecipeRemoval.INSTANCE.test(id, recipe);
             if (remove) {
                 SFTCore.LOGGER.info("Removed recipe {}", id);
                 cir.setReturnValue(null);

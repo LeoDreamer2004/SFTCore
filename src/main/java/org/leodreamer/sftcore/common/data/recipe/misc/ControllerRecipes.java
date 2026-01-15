@@ -5,7 +5,6 @@ import org.leodreamer.sftcore.common.data.machine.SFTMultiMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 
@@ -29,6 +28,8 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.FILTER_CASING;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
 import static com.gregtechceu.gtceu.common.data.machines.GCYMMachines.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.*;
 import static org.leodreamer.sftcore.common.data.SFTBlocks.MULTI_FUNCTIONAL_CASING;
@@ -190,7 +191,7 @@ public final class ControllerRecipes {
             .output(LARGE_CRACKER.asStack())
             .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES
+        ASSEMBLER_RECIPES
             .recipeBuilder(SFTCore.id("common_mekanism_process_factory"))
             .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.INFUSING).asItem())
             .inputItems(MekanismBlocks.getFactory(FactoryTier.ULTIMATE, FactoryType.ENRICHING).asItem())
@@ -217,20 +218,20 @@ public final class ControllerRecipes {
             .output(SFTMultiMachines.COMMON_FACTORY.asStack())
             .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES
+        ASSEMBLER_RECIPES
             .recipeBuilder(SFTCore.id("large_gas_collector"))
-            .outputItems(LARGE_GAS_COLLECTOR.asStack())
+            .outputItems(LARGE_GAS_COLLECTOR)
             .inputItems(frameGt, TungstenSteel, 4)
-            .inputItems(GAS_COLLECTOR[IV].asStack())
+            .inputItems(GAS_COLLECTOR[IV])
             .inputItems(EMITTER_IV, 4)
             .inputItems(ROBOT_ARM_IV, 2)
-            .inputItems(GTCraftingComponents.CABLE_DOUBLE.get(IV), 8)
+            .inputItems(cableGtDouble, NiobiumTitanium, 8)
             .inputFluids(Polybenzimidazole.getFluid(16 * L))
             .duration(1200)
             .EUt(VA[IV])
             .save(provider);
 
-        GTRecipeTypes.ASSEMBLY_LINE_RECIPES
+        ASSEMBLY_LINE_RECIPES
             .recipeBuilder(SFTCore.id("ore_processor"))
             .outputItems(ORE_PROCESSOR.asStack())
             .inputItems(HULL[LuV].asStack(), 4)

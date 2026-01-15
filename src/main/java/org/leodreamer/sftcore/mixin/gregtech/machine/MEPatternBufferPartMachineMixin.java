@@ -5,8 +5,10 @@ import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
+import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
+import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -45,8 +47,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Mixin(MEPatternBufferPartMachine.class)
-public class MEPatternBufferPartMachineMixin extends MEBusPartMachine
-    implements IPromptProvider, IMemoryCardInteraction {
+public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
+    implements IPromptProvider, IMemoryCardInteraction, IScaleUpCraftingProvider {
 
     // custom name now acts as the prompt, instead of the name shown in the pattern group!
     @Shadow(remap = false)
@@ -206,18 +208,37 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         ),
         remap = false
     )
-    private boolean skipSlotCheck(BiMap<?, ?> map, Object key) {
+    private boolean skipSlotCheck(BiMap<?, ?> map, Object detail) {
         return true;
+    }
+
+    @Redirect(
+        method = "pushPattern",
+        at = @At(
+            value = "INVOKE", target = "Lcom/google/common/collect/BiMap;get(Ljava/lang/Object;)Ljava/lang/Object;"
+        ),
+        remap = false
+    )
+    private Object checkSlotForScaleUpPattern(BiMap<?, ?> map, Object details) {
+        if (details instanceof ScaledProcessingPattern spp) {
+            return map.get(spp.original());
+        }
+        return map.get(details);
     }
 
     @Inject(method = "pushPattern", at = @At(value = "RETURN", ordinal = 2), remap = false, cancellable = true)
     private void pushWildcardPattern(
-        IPatternDetails patternDetails, KeyCounter[] inputHolder, CallbackInfoReturnable<Boolean> cir
+        IPatternDetails details, KeyCounter[] inputHolder, CallbackInfoReturnable<Boolean> cir
     ) {
         assert !cir.getReturnValue(); // expected to be false
-        var slot = sftcore$wildcardDetailsSlotMap.get(patternDetails);
+        MEPatternBufferPartMachine.InternalSlot slot;
+        if (details instanceof ScaledProcessingPattern spp) {
+            slot = sftcore$wildcardDetailsSlotMap.get(spp.original());
+        } else {
+            slot = sftcore$wildcardDetailsSlotMap.get(details);
+        }
         if (slot != null) {
-            slot.pushPattern(patternDetails, inputHolder);
+            slot.pushPattern(details, inputHolder);
             cir.setReturnValue(true);
         }
     }

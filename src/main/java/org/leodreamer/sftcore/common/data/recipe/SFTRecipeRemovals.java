@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
+import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 
 import net.minecraft.world.level.ItemLike;
 
@@ -26,30 +27,30 @@ import static org.leodreamer.sftcore.util.RLUtils.getItemById;
 public final class SFTRecipeRemovals {
 
     public static void init(Consumer<RecipeFilter> registry) {
-        ItemLike[] GT_ITEMS = new ItemLike[] {
+        ItemLike[] ITEMS = new ItemLike[] {
             GTMachines.HULL[GTValues.LV].getItem(),
             GTMachines.CLEANING_MAINTENANCE_HATCH.getItem(),
+            GTAEMachines.ME_PATTERN_BUFFER.getItem(),
             GCYMMachines.MEGA_BLAST_FURNACE.getItem(),
             GCYMMachines.MEGA_VACUUM_FREEZER.getItem(),
             GTItems.TERMINAL,
             GTItems.NAQUADAH_BOULE,
-            GTItems.NEUTRONIUM_BOULE
+            GTItems.NEUTRONIUM_BOULE,
+            CustomItems.ADVANCED_TERMINAL,
+            EPPItemAndBlock.INFINITY_CELL,
+            EPPItemAndBlock.WIRELESS_CONNECTOR,
+            EPPItemAndBlock.FISHBIG,
+            MekanismBlocks.SPS_CASING,
+            GeneratorsBlocks.TURBINE_CASING,
+            getItemById(TORCHERINO, "torcherino"),
+            getItemById(IDS, "facade")
         };
 
-        for (ItemLike item : GT_ITEMS) {
-            registry.accept(output(item).and(mod(GTM)));
+        for (ItemLike item : ITEMS) {
+            registry.accept(output(item));
         }
 
         registry.accept(input(GTItems.NAN_CERTIFICATE));
-        registry.accept(output(CustomItems.ADVANCED_TERMINAL).and(mod(GTMT)));
-
-        ItemLike[] EPP_ITEMS = new ItemLike[] {
-            EPPItemAndBlock.INFINITY_CELL, EPPItemAndBlock.WIRELESS_CONNECTOR, EPPItemAndBlock.FISHBIG
-        };
-
-        for (ItemLike item : EPP_ITEMS) {
-            registry.accept(output(item).and(mod(EAE)));
-        }
 
         ItemLike[] AAE_ITEMS = new ItemLike[] {
             AEItems.FLUIX_CRYSTAL,
@@ -66,10 +67,5 @@ public final class SFTRecipeRemovals {
         for (ItemLike item : AAE_ITEMS) {
             registry.accept(output(item).and(mod(AAE)));
         }
-
-        registry.accept(output(MekanismBlocks.SPS_CASING).and(mod(MEK)));
-        registry.accept(output(GeneratorsBlocks.TURBINE_CASING).and(mod(MEKG)));
-        registry.accept(output(getItemById(TORCHERINO, "torcherino")).and(mod(TORCHERINO)));
-        registry.accept(output(getItemById(IDS, "facade")).and(mod(IDS)));
     }
 }

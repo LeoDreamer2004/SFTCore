@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
+import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTBlocks;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
@@ -16,6 +17,11 @@ import mekanism.common.resource.ResourceType;
 
 import java.util.function.Consumer;
 
+import static com.gregtechceu.gtceu.api.GTValues.LV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Lava;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.CHEMICAL_BATH_RECIPES;
+
 public final class VanillaRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
@@ -29,6 +35,14 @@ public final class VanillaRecipes {
             .arg('H', Items.WITHER_SKELETON_SKULL)
             .arg('S', Items.SOUL_SAND)
             .output(Items.NETHER_STAR)
+            .save(provider);
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder(SFTCore.id("soul_sand_gt"))
+            .outputItems(Items.SOUL_SAND)
+            .inputItems(Items.SAND)
+            .inputFluids(Lava.getFluid(50))
+            .duration(20)
+            .EUt(VA[LV])
             .save(provider);
     }
 

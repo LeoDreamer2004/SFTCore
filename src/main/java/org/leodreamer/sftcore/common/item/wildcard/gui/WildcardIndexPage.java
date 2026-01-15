@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTMath;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
@@ -19,7 +18,8 @@ import appeng.api.crafting.IPatternDetails;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.Nullable;
@@ -43,10 +43,14 @@ public class WildcardIndexPage extends WidgetGroup {
         super(x, y, width, height);
 
         patterns = logic.generateAllPatterns(level).toList();
-
         var component = Component.translatable(PATTERNS_AVAILABLE, patterns.size());
-        int fontWidth = Minecraft.getInstance().font.width(component);
-        addWidget(new LabelWidget((width - fontWidth) / 2, 5, component.getString()));
+        // Use TextTextureWidget here will cause weird bugs on LabelWidget in other pages.
+        // IDK why... LDLib what are u doing???
+        var availableText = new ImageWidget(
+            x + 2, y + 2, width - 4, 15,
+            () -> new TextTexture(component.getString())
+        );
+        addWidget(availableText);
 
         initPatternDisplay();
         displayPattern(patterns.isEmpty() ? null : patterns.get(0));

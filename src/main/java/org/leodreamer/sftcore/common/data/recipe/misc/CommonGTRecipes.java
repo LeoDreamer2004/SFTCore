@@ -6,8 +6,10 @@ import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -25,6 +27,7 @@ import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.registries.MekanismItems;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -42,6 +45,7 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.*;
 public final class CommonGTRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
+        integrateMaterialsRecipes(provider);
         transitionStageRecipes(provider);
         desulfurizeRecipes(provider);
         oilDrillingRigRecipes(provider);
@@ -49,6 +53,31 @@ public final class CommonGTRecipes {
         universalCircuitRecipes(provider);
         largeGasCollectorRecipes(provider);
         dualHatchRecipes(provider);
+    }
+
+    private static void integrateMaterialsRecipes(Consumer<FinishedRecipe> provider) {
+        var transferMaterialsIngot = new Material[] {
+            Brass, Bronze, Steel, Uranium238, Osmium, Tin, Lead
+        };
+        for (var material : transferMaterialsIngot) {
+            materialTransfer(provider, ingot, material);
+        }
+
+        var transferMaterialsDust = new Material[] {
+            Bronze, Steel, Uranium238, Osmium, Tin, Lead, Salt, Lithium
+        };
+        for (var material : transferMaterialsDust) {
+            materialTransfer(provider, dust, material);
+        }
+    }
+
+    private static void materialTransfer(Consumer<FinishedRecipe> provider, TagPrefix tag, Material material) {
+        VanillaRecipeHelper.addShapelessRecipe(
+            provider,
+            SFTCore.id("material_transfer_" + material.getName() + "_" + tag.name),
+            ChemicalHelper.get(tag, material),
+            Objects.requireNonNull(ChemicalHelper.getTag(tag, material))
+        );
     }
 
     private static void transitionStageRecipes(Consumer<FinishedRecipe> provider) {

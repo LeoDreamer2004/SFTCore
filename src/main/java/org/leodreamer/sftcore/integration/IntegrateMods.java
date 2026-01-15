@@ -23,5 +23,6 @@ public class IntegrateMods {
     public static final String AE = AppEng.MOD_ID;
     public static final String AAE = AdvancedAE.MOD_ID;
     public static final String EAE = ExtendedAE.MODID;
+    public static final String AE2WT = "ae2wtlib";
     public static final String IDS = "integrateddynamics";
 }

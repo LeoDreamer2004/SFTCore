@@ -4,22 +4,23 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.integration.IntegrateMods;
+import org.leodreamer.sftcore.util.RLUtils;
+
+import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import appeng.core.definitions.AEItems;
 import appeng.core.definitions.AEParts;
 import de.castcrafter.travelanchors.ModItems;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-
-import java.util.List;
-import java.util.function.Consumer;
 
 @DataGenScanned
 @Mod.EventBusSubscriber(modid = SFTCore.MOD_ID)
@@ -87,38 +88,57 @@ public class MixinTooltips {
     @RegisterLanguage("Push TAB to autocraft")
     public static final String EMI_AUTOCRAFT = "sftcore.mixin.emi.autocraft";
 
-    private static final Object2ObjectMap<Item, Consumer<List<Component>>> TOOLTIPS = new Object2ObjectOpenHashMap<>();
+    @RegisterLanguage("- Has been optimized to automatically scale the patterns when crafting")
+    public static final String PATTERN_BUFFER_0 = "sftcore.mixin.ae2.pattern_buffer.tooltip.0";
 
-    static {
-        TOOLTIPS.put(
+    @RegisterLanguage("- Compatible with the Wildcard Pattern")
+    public static final String PATTERN_BUFFER_1 = "sftcore.mixin.ae2.pattern_buffer.tooltip.1";
+
+    private static final Lazy<Object2ObjectMap<Item, SFTTooltipsBuilder>> TOOLTIPS = Lazy.of(MixinTooltips::build);
+
+    private static Object2ObjectMap<Item, SFTTooltipsBuilder> build() {
+        var map = new Object2ObjectOpenHashMap<Item, SFTTooltipsBuilder>();
+
+        var patternEncoders = new Item[] {
             AEParts.PATTERN_ENCODING_TERMINAL.asItem(),
-            SFTTooltipsBuilder.of()
-                .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
-                .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
-                .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
-                .insert(Component.translatable(PATTERN_ENCODER_3).withStyle(ChatFormatting.GOLD))
-                .modifiedBySFT()::addTo
-        );
+            RLUtils.getItemById(IntegrateMods.AE2WT, "wireless_pattern_encoding_terminal"),
+            RLUtils.getItemById(IntegrateMods.AE2WT, "wireless_universal_terminal"),
+        };
 
-        TOOLTIPS.put(
+        for (var patternEncoder : patternEncoders) {
+            map.put(
+                patternEncoder,
+                SFTTooltipsBuilder.of()
+                    .insert(Component.translatable(PATTERN_ENCODER_0).withStyle(ChatFormatting.GOLD))
+                    .insert(Component.translatable(PATTERN_ENCODER_1).withStyle(ChatFormatting.GOLD))
+                    .insert(Component.translatable(PATTERN_ENCODER_2).withStyle(ChatFormatting.GOLD))
+                    .insert(Component.translatable(PATTERN_ENCODER_3).withStyle(ChatFormatting.GOLD))
+                    .modifiedBySFT()
+            );
+        }
+
+        map.put(
             ModItems.travelStaff.asItem(),
             SFTTooltipsBuilder.of()
                 .insert(Component.translatable(TRAVELER_ANCHOR).withStyle(ChatFormatting.AQUA))
-                .modifiedBySFT()::addTo
+                .modifiedBySFT()
         );
 
-        TOOLTIPS.put(
-            AEItems.MEMORY_CARD.asItem(),
+        map.put(
+            GTAEMachines.ME_PATTERN_BUFFER.getItem(),
             SFTTooltipsBuilder.of()
-                .insert(Component.translatable(MEMORY_CARD_CUT_MODE).withStyle(ChatFormatting.AQUA))
-                .modifiedBySFT()::addTo
+                .insert(Component.translatable(PATTERN_BUFFER_0).withStyle(ChatFormatting.GOLD))
+                .insert(Component.translatable(PATTERN_BUFFER_1).withStyle(ChatFormatting.GOLD))
+                .modifiedBySFT()
         );
+
+        return map;
     }
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
         var tooltip = event.getToolTip();
-        var consumer = TOOLTIPS.get(event.getItemStack().getItem());
-        if (consumer != null) consumer.accept(tooltip);
+        var builder = TOOLTIPS.get().get(event.getItemStack().getItem());
+        if (builder != null) builder.addTo(tooltip);
     }
 }

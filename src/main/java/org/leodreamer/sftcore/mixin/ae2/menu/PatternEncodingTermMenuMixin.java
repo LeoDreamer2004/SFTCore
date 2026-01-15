@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.mixin.ae2.menu;
 
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.leodreamer.sftcore.integration.ae2.feature.*;
 import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
@@ -340,8 +341,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         ),
         remap = false
     )
-    private boolean transferStack$skipBlankPattern(RestrictedInputSlot instance, ItemStack itemStack) {
-        return instance.mayPlace(itemStack) && itemStack.getItem() != AEItems.BLANK_PATTERN.asItem();
+    private boolean transferStack$skipBlankAndWildcardPattern(RestrictedInputSlot instance, ItemStack itemStack) {
+        return instance.mayPlace(itemStack) && !itemStack.is(AEItems.BLANK_PATTERN.asItem()) &&
+            !itemStack.is(SFTItems.WILDCARD_PATTERN.asItem());
     }
 
     @Unique

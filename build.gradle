@@ -217,6 +217,9 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:just-enough-characters-250702:6680042")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     runtimeOnly fg.deobf("maven.modrinth:jade:${jade_version}")
+    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
+    runtimeOnly fg.deobf("curse.maven:ftb-teams-forge-404468:6130786")
+    runtimeOnly fg.deobf("curse.maven:ftb-library-forge-404465:6807424")
 
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     annotationProcessor fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
