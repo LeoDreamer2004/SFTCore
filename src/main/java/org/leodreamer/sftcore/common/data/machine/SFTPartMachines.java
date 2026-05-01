@@ -5,7 +5,7 @@ import org.leodreamer.sftcore.api.block.KineticMachineBlock;
 import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
 import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
 import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.api.registry.registrate.SFTMachineBuilder;
 import org.leodreamer.sftcore.common.data.models.SFTMachineModels;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;

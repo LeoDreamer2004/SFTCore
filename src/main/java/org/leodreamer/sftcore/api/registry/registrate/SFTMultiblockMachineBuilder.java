@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.function.TriFunction;
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.BiFunction;

@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.common.data.machine;
 
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
 import org.leodreamer.sftcore.common.machine.OreReplicatorMachine;
 

@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "has_": {
+      "conditions": {},
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.sftcore.root.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:terminal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

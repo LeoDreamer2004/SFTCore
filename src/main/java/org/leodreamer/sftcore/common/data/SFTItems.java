@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.common.data;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.item.OrderBehavior;
 import org.leodreamer.sftcore.common.item.SelectStickBehavior;

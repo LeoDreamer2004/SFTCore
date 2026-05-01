@@ -1,0 +1,38 @@
+{
+  "parent": "sftcore:primitive_blast_furnace",
+  "criteria": {
+    "has_gtceu_steel_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:steel_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.sftcore.steel.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:steel_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.steel.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_steel_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

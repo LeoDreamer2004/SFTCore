@@ -1,0 +1,38 @@
+{
+  "parent": "sftcore:root",
+  "criteria": {
+    "has_gtceu_bronze_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:bronze_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.sftcore.bronze.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:bronze_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.bronze.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_bronze_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

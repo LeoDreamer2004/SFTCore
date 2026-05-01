@@ -1,0 +1,32 @@
+{
+  "parent": "sftcore:bronze",
+  "criteria": {
+    "formed_gtceu_primitive_blast_furnace": {
+      "conditions": {
+        "machine": "gtceu:primitive_blast_furnace"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.sftcore.primitive_blast_furnace.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:primitive_blast_furnace"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.primitive_blast_furnace.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_primitive_blast_furnace"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

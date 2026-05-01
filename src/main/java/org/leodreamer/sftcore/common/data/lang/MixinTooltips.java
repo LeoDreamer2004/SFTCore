@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.common.data.lang;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.integration.IntegrateMods;
 import org.leodreamer.sftcore.util.RLUtils;
 

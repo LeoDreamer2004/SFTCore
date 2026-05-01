@@ -1,4 +1,12 @@
 {
+  "advancements.sftcore.bronze.description": "The first step towards progress",
+  "advancements.sftcore.bronze.title": "Primitive Alloy",
+  "advancements.sftcore.primitive_blast_furnace.description": "We are marching on thhe great road!",
+  "advancements.sftcore.primitive_blast_furnace.title": "Primitive Blast Furnace",
+  "advancements.sftcore.root.description": "This is an unofficial advancement system for GTM, authored by LeoDreamer in Starter For Technology.",
+  "advancements.sftcore.root.title": "Welcome to GregTech Modern",
+  "advancements.sftcore.steel.description": "Mass steel making",
+  "advancements.sftcore.steel.title": "Heavy Industry",
   "block.sftcore.certus_quartz_charger": "Certus Quartz Charger",
   "block.sftcore.chemical_factory": "Chemical Factory",
   "block.sftcore.common_factory": "Common Factory",
