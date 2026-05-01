@@ -3,7 +3,7 @@ package org.leodreamer.sftcore.integration.ponder.scene;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
-import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithPonderTags;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +18,7 @@ import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.*;
 import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.AE_STORAGE;
 
 @PonderSceneScanned
-@WithTags(AE_STORAGE)
+@WithPonderTags(AE_STORAGE)
 public class AEStorageScenes {
 
     @PonderScene(

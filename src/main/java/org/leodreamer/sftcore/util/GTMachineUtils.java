@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
-
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,10 +17,22 @@ public class GTMachineUtils {
 
     public enum GuessResult {
 
-        EXACT, // the machine has this recipe type, and exactly using it
-        OK, // the machine has this recipe type, while not sure if using it
-        MISMATCH, // the machine has this recipe type, but not using it
-        NULL; // the machine does not have this recipe type
+        /**
+         * the machine has this recipe type, and exactly using it
+         */
+        EXACT,
+        /**
+         * the machine has this recipe type, while not sure if using it
+         */
+        OK,
+        /**
+         * the machine has this recipe type, but not using it
+         */
+        MISMATCH,
+        /**
+         * the machine does not have this recipe type
+         */
+        NULL;
 
         public boolean ok() {
             return this == EXACT || this == OK;

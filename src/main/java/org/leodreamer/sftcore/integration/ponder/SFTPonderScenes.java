@@ -5,7 +5,7 @@ import org.leodreamer.sftcore.integration.ponder.api.SFTGeneralStoryBoard;
 import org.leodreamer.sftcore.integration.ponder.api.SFTStoryBoard;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
-import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithPonderTags;
 import org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup;
 import org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag;
 import org.leodreamer.sftcore.util.RLUtils;
@@ -24,7 +24,7 @@ public class SFTPonderScenes {
 
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
         for (var clazz : ReflectUtils.getClassesWithAnnotation(PonderSceneScanned.class)) {
-            var withTags = clazz.getAnnotation(WithTags.class);
+            var withTags = clazz.getAnnotation(WithPonderTags.class);
             List<SFTPonderTag> tags = withTags == null ? new ArrayList<>() : Arrays.asList(withTags.value());
 
             for (var method : clazz.getDeclaredMethods()) {
@@ -35,7 +35,7 @@ public class SFTPonderScenes {
                 var schematic = scene.file();
 
                 var tagsCopy = new ArrayList<>(tags);
-                var extraTags = method.getAnnotation(WithTags.class);
+                var extraTags = method.getAnnotation(WithPonderTags.class);
                 if (extraTags != null) {
                     tagsCopy.addAll(Arrays.asList(extraTags.value()));
                 }

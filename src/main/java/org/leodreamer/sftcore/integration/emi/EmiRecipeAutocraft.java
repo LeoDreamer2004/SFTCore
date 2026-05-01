@@ -100,7 +100,7 @@ public class EmiRecipeAutocraft {
     }
 
     public enum AutocraftScreen {
-        CRAFTING,
+        CRAFT,
         GT,
     }
 
@@ -120,7 +120,7 @@ public class EmiRecipeAutocraft {
                 syn.state == SyntheticFavoritesState.CRAFTABLE ||
                     syn.state == SyntheticFavoritesState.PARTIALLY_CRAFTABLE
             ) {
-                if (screen == AutocraftScreen.CRAFTING && recipe instanceof EmiCraftingRecipe) {
+                if (screen == AutocraftScreen.CRAFT && recipe instanceof EmiCraftingRecipe) {
                     return syn;
                 } else if (
                     screen == AutocraftScreen.GT && openedMachine != null && recipe instanceof GTEmiRecipe gtRecipe
@@ -183,7 +183,7 @@ public class EmiRecipeAutocraft {
             return;
         }
 
-        if (curScreen() == AutocraftScreen.CRAFTING) {
+        if (curScreen() == AutocraftScreen.CRAFT) {
             EmiFavorites.updateSynthetic(EmiPlayerInventory.of(client.player));
 
             for (var syn : EmiFavorites.syntheticFavorites) {
@@ -222,7 +222,7 @@ public class EmiRecipeAutocraft {
     @Nullable
     public static EmiRecipeAutocraft.AutocraftScreen curScreen() {
         if (client.screen instanceof CraftingScreen) {
-            return AutocraftScreen.CRAFTING;
+            return AutocraftScreen.CRAFT;
         }
         if (client.screen instanceof ModularUIGuiContainer) {
             return AutocraftScreen.GT;

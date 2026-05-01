@@ -1,29 +1,27 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
-import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
-import org.leodreamer.sftcore.mixin.gregtech.data.MaterialPropertiesAccessor;
-
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.SelectorWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
+import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
+import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
+import org.leodreamer.sftcore.mixin.gregtech.data.MaterialPropertiesAccessor;
 
 import java.util.List;
 
@@ -47,8 +45,8 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
     private static final IGuiTexture GROUP_BG_BLACK = ResourceBorderTexture.BUTTON_COMMON.copy()
         .setColor(ColorPattern.ORANGE.color);
 
-    private static final PropertyKey<?>[] ALL_PROPERTY_KEYS = new PropertyKey[] { EMPTY, BLAST, ALLOY_BLAST, DUST,
-        FLUID_PIPE, FLUID, GEM, INGOT, POLYMER, ITEM_PIPE, ORE, TOOL, ARMOR, ROTOR, WIRE, WOOD, HAZARD };
+    private static final PropertyKey<?>[] ALL_PROPERTY_KEYS = new PropertyKey[]{EMPTY, BLAST, ALLOY_BLAST, DUST,
+        FLUID_PIPE, FLUID, GEM, INGOT, POLYMER, ITEM_PIPE, ORE, TOOL, ARMOR, ROTOR, WIRE, WOOD, HAZARD};
 
     public static PropertyFilterComponent empty() {
         return new PropertyFilterComponent(EMPTY, GTMaterials.NULL, false);
@@ -89,6 +87,15 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
 
         line.addWidget(exampleSlot);
         line.addWidget(propertySelector);
+    }
+
+    @RegisterLanguage("Property")
+    private static final String PROPERTY_TOOLTIP_KEY = "sftcore.item.wildcard_pattern.tooltip.filter.property";
+
+    @Override
+    public Component createTooltip() {
+        return whitelistTooltip().append(" ").append(Component.translatable(PROPERTY_TOOLTIP_KEY))
+            .append(Component.literal(" " + property).withStyle(ChatFormatting.RED));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTTagSlot;
@@ -68,6 +70,12 @@ public class TagIOComponent implements IWildcardIOComponent {
         line.addWidget(tagLabel);
         line.addWidget(new LabelWidget(70, 7, "x"));
         line.addWidget(amountEdit);
+    }
+
+    @Override
+    public Component createTooltip() {
+        return Component.literal(tag.name()).withStyle(ChatFormatting.LIGHT_PURPLE)
+            .append(Component.literal(" x " + getAmount()).withStyle(ChatFormatting.GRAY));
     }
 
     private boolean updateTag(GenericGTTag tag) {

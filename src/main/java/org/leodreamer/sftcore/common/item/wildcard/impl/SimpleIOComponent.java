@@ -1,34 +1,32 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
-import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
-
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.utils.GTMath;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.fluids.FluidStack;
-
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.utils.GTMath;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
+import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
+import org.leodreamer.sftcore.integration.ae2.gui.PhantomGenericSlotWidget;
 
 public class SimpleIOComponent implements IWildcardIOComponent {
 
     @NotNull
     private GenericStack stack;
-    private SlotWidget itemSlot;
+    private PhantomGenericSlotWidget genericSlot;
     private TextFieldWidget amountEdit;
     private static final IGuiTexture GROUP_BG = ResourceBorderTexture.BUTTON_COMMON.copy()
         .setColor(ColorPattern.CYAN.color);
@@ -58,16 +56,20 @@ public class SimpleIOComponent implements IWildcardIOComponent {
     public void createUILine(WidgetGroup line) {
         line.setBackground(GROUP_BG);
 
-        itemSlot = new PhantomSlotWidget(new CustomItemStackHandler(), 0, 3, 3, (s) -> true);
-        if (stack.what() instanceof AEItemKey item) {
-            itemSlot.setItem(item.toStack());
-        }
+        genericSlot = new PhantomGenericSlotWidget(new CustomItemStackHandler(), 0, 3, 3);
+        genericSlot.setStack(stack);
         amountEdit = new TextFieldWidget(80, 5, 50, 15, this::getAmount, this::setAmount);
         amountEdit.setNumbersOnly(0, Integer.MAX_VALUE);
 
-        line.addWidget(itemSlot);
+        line.addWidget(genericSlot);
         line.addWidget(new LabelWidget(70, 7, "x"));
         line.addWidget(amountEdit);
+    }
+
+    @Override
+    public Component createTooltip() {
+        return stack.what().getDisplayName().copy().withStyle(ChatFormatting.YELLOW)
+            .append(Component.literal(" x " + getAmount()).withStyle(ChatFormatting.GRAY));
     }
 
     private String getAmount() {
@@ -80,11 +82,9 @@ public class SimpleIOComponent implements IWildcardIOComponent {
 
     @Override
     public void onSave() {
-        var itemStack = itemSlot.getItem().copy();
-        int count = Integer.parseInt(amountEdit.getCurrentString());
-        itemStack.setCount(count);
-        var genericStack = GenericStack.fromItemStack(itemStack);
-        stack = genericStack == null ? empty().stack : genericStack;
+        var genericStack = genericSlot.getStack();
+        int amount = Integer.parseInt(amountEdit.getCurrentString());
+        stack = genericStack == null ? empty().stack : new GenericStack(genericStack.what(), amount);
     }
 
     @Override

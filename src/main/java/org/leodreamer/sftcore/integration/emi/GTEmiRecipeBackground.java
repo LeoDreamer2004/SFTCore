@@ -21,8 +21,7 @@ public class GTEmiRecipeBackground extends Widget {
         this.width = width;
         this.height = height;
         var gtRecipe = ((IGTEmiRecipe) recipe).sftcore$recipe();
-        long voltage = RecipeHelper.getRealEUtWithIO(gtRecipe).voltage();
-        this.tier = GTUtil.getTierByVoltage(voltage);
+        this.tier = RecipeHelper.getRecipeEUtTier(gtRecipe);
     }
 
     @Override

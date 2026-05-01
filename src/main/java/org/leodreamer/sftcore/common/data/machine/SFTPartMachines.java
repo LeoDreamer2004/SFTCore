@@ -6,10 +6,12 @@ import org.leodreamer.sftcore.api.blockentity.KineticMachineBlockEntity;
 import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
 import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
 import org.leodreamer.sftcore.api.registry.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.api.registry.registrate.SFTMachineBuilder;
 import org.leodreamer.sftcore.common.data.models.SFTMachineModels;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableAutoMaintenanceHatchPartMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableCleaningMaintenanceHatchPartMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.part.MEAdvancedInputBusPartMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHatchPartMachine;
 import org.leodreamer.sftcore.integration.create.visual.SplitShaftVisual;
 
@@ -24,7 +26,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
-import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
 import net.minecraft.network.chat.Component;
@@ -145,6 +146,15 @@ public final class SFTPartMachines {
         GTValues.tiersBetween(LV, IV)
     );
 
+    public static final MachineDefinition ME_ADVANCED_INPUT_BUS = REGISTRATE
+        .machine("me_advanced_input_bus", MEAdvancedInputBusPartMachine::new)
+        .rotationState(RotationState.ALL)
+        .abilities(PartAbility.IMPORT_ITEMS)
+        .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_input_bus"))
+        .tier(IV)
+        .allowCoverOnFront(true)
+        .register();
+
     public static final KineticMachineDefinition[] KINETIC_INPUT_BOX = registerKineticTieredMachines(
         "kinetic_input_box",
         (tier, id) -> new KineticMachineDefinition(id, false, GTValues.V[tier]).setFrontRotation(true),
@@ -174,7 +184,7 @@ public final class SFTPartMachines {
         String name,
         BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
         BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-        BiFunction<Integer, MachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
+        BiFunction<Integer, SFTMachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
         NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
         boolean renderNormally,
         int[] tiers

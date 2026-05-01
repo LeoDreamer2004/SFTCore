@@ -204,9 +204,6 @@ dependencies {
     implementation fg.deobf("curse.maven:carry-on-274259:4882500")
     implementation fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
     implementation("com.eliotlash.mclib:mclib:20")
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {
-        jarJar.ranged(it, "[0.5.0,)")
-    }
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
@@ -224,7 +221,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     annotationProcessor fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
     annotationProcessor ("io.github.llamalad7:mixinextras-common:0.5.0")
-    annotationProcessor "io.github.llamalad7:mixinextras-common:0.4.1"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 

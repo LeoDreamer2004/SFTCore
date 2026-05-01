@@ -30,16 +30,16 @@ public final class GTMultimachineTweaks {
         GTMegaTweaks();
     }
 
-    @RegisterLanguage("Allows to run up to 64 recipes in parallel.")
+    @RegisterLanguage("Allows to run up to 16 recipes in parallel.")
     static final String PARALLEL_MK5 = "gtceu.machine.parallel_hatch_mk5.tooltip";
 
-    @RegisterLanguage("Allows to run up to 256 recipes in parallel.")
+    @RegisterLanguage("Allows to run up to 64 recipes in parallel.")
     static final String PARALLEL_MK6 = "gtceu.machine.parallel_hatch_mk6.tooltip";
 
-    @RegisterLanguage("Allows to run up to 1024 recipes in parallel.")
+    @RegisterLanguage("Allows to run up to 256 recipes in parallel.")
     static final String PARALLEL_MK7 = "gtceu.machine.parallel_hatch_mk7.tooltip";
 
-    @RegisterLanguage("Allows to run up to 4096 recipes in parallel.")
+    @RegisterLanguage("Allows to run up to 1024 recipes in parallel.")
     static final String PARALLEL_MK8 = "gtceu.machine.parallel_hatch_mk8.tooltip";
 
     public static void ParallelHatchTweaks() {

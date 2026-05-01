@@ -15,6 +15,9 @@ import java.util.function.Predicate;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.ItemMaterialData.*;
 
+/**
+ * A proxy widget to mark GT Materials
+ */
 public class PhantomGTMaterialSlot extends PhantomSlotWidget {
 
     public PhantomGTMaterialSlot(

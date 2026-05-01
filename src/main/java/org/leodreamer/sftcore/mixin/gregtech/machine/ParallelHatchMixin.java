@@ -22,7 +22,7 @@ public abstract class ParallelHatchMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void sftcore$modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
-        this.maxParallel *= 16;
+        this.maxParallel *= 4;
         this.setCurrentParallel(this.maxParallel);
     }
 

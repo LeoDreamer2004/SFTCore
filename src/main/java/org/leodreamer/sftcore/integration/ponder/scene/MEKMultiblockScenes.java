@@ -3,7 +3,7 @@ package org.leodreamer.sftcore.integration.ponder.scene;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
-import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithPonderTags;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
@@ -24,7 +24,7 @@ import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.*;
 import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.MEK_MULTIBLOCK;
 
 @PonderSceneScanned
-@WithTags(MEK_MULTIBLOCK)
+@WithPonderTags(MEK_MULTIBLOCK)
 public class MEKMultiblockScenes {
 
     @PonderScene(groups = TURBINE, file = "ponder_turbine")

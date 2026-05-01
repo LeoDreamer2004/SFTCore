@@ -3,7 +3,7 @@ package org.leodreamer.sftcore.integration.ponder.scene;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
-import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithPonderTags;
 
 import net.minecraft.core.Direction;
 
@@ -20,7 +20,7 @@ import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.QUAN
 import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.AE_NETWORK;
 
 @PonderSceneScanned
-@WithTags(AE_NETWORK)
+@WithPonderTags(AE_NETWORK)
 public class AENetworkScenes {
 
     @PonderScene(groups = CONTROLLER, file = "ponder_me_controller")

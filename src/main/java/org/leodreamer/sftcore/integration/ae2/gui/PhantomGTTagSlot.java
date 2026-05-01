@@ -10,6 +10,9 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.function.Predicate;
 
+/**
+ * A proxy widget to mark {@link GenericGTTag}
+ */
 public class PhantomGTTagSlot extends PhantomSlotWidget {
 
     public PhantomGTTagSlot(

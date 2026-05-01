@@ -3,6 +3,7 @@ package org.leodreamer.sftcore;
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
 import org.leodreamer.sftcore.common.data.*;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
+import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import appeng.api.crafting.PatternDetailsHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -82,6 +84,7 @@ public class SFTCore {
 
     @SubscribeEvent
     public void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
+        PatternDetailsHelper.registerDecoder(WildcardPatternDecoder.INSTANCE);
         SFTCreativeTabs.init();
         SFTBlocks.init();
         SFTItems.init();

@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @NoArgsConstructor
 @DataGenScanned
-public class RPMCondition extends RecipeCondition {
+public class RPMCondition extends RecipeCondition<RPMCondition> {
 
     public static final Codec<RPMCondition> CODEC = RecordCodecBuilder.create(
         instance -> RecipeCondition.isReverse(instance)
@@ -42,7 +42,7 @@ public class RPMCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
+    public RecipeConditionType<RPMCondition> getType() {
         return SFTRecipeConditions.RPM;
     }
 
@@ -69,7 +69,7 @@ public class RPMCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeCondition createTemplate() {
+    public RPMCondition createTemplate() {
         return new RPMCondition();
     }
 }

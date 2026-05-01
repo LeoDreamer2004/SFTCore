@@ -44,6 +44,7 @@
     "gregtech.machine.DualHatchMixin",
     "gregtech.machine.MEBusPartMachineMixin",
     "gregtech.machine.MEHatchPartMachineMixin",
+    "gregtech.machine.MEInputBusPartMachineMixin",
     "gregtech.machine.MEPatternBufferPartMachineMixin",
     "gregtech.machine.MetaMachineBlockMixin",
     "gregtech.machine.ParallelHatchMixin",

@@ -3,7 +3,7 @@ package org.leodreamer.sftcore.integration.ponder.scene;
 import org.leodreamer.sftcore.integration.ponder.api.SFTSceneBuilder;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderScene;
 import org.leodreamer.sftcore.integration.ponder.api.annotation.PonderSceneScanned;
-import org.leodreamer.sftcore.integration.ponder.api.annotation.WithTags;
+import org.leodreamer.sftcore.integration.ponder.api.annotation.WithPonderTags;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Items;
@@ -21,7 +21,7 @@ import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderGroup.INFU
 import static org.leodreamer.sftcore.integration.ponder.misc.SFTPonderTag.AE_AUTOMATION_EXAMPLES;
 
 @PonderSceneScanned
-@WithTags(AE_AUTOMATION_EXAMPLES)
+@WithPonderTags(AE_AUTOMATION_EXAMPLES)
 public class AEAutomationExamplesScenes {
 
     @PonderScene(groups = INFUSING_FACTORY, file = "ponder_infusion_automation")
