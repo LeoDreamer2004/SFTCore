@@ -1,25 +1,22 @@
 package org.leodreamer.sftcore.common.machine.multiblock;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
-
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.utils.GTUtil;
-
+import com.gregtechceu.gtceu.utils.ISubscription;
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
 
 import java.util.List;
 
@@ -70,8 +67,8 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
     @Getter
     private boolean voltageValid = false;
 
-    public CommonFactoryMachine(IMachineBlockEntity holder) {
-        super(holder);
+    public CommonFactoryMachine(BlockEntityCreationInfo info) {
+        super(info);
     }
 
     @NotNull
@@ -102,6 +99,10 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
     }
 
     private void checkVoltageValid() {
+        if (energyContainer == null) {
+            voltageValid = false;
+            return;
+        }
         long maxVoltage = energyContainer.getInputVoltage();
         int voltageTier = GTUtil.getFloorTierByVoltage(maxVoltage);
         voltageValid = voltageTier == tier;

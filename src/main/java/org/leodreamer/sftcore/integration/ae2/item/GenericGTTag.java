@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.integration.ae2.item;
 
+import com.gregtechceu.gtceu.common.item.GTBucketItem;
 import org.leodreamer.sftcore.mixin.gregtech.data.GTBucketItemAccessor;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -8,7 +9,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKey;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
-import com.gregtechceu.gtceu.api.item.GTBucketItem;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

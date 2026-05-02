@@ -1,18 +1,15 @@
 package org.leodreamer.sftcore.api.feature;
 
-import org.leodreamer.sftcore.util.RLUtils;
-
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-
+import com.gregtechceu.gtceu.utils.ISubscription;
 import net.minecraft.world.item.ItemStack;
-
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.util.RLUtils;
 
 import java.util.function.Consumer;
 

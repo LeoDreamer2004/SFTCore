@@ -12,7 +12,6 @@ import net.minecraft.world.level.ItemLike;
 
 import appeng.core.definitions.AEItems;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
-import com.hepdd.gtmthings.data.CustomItems;
 import gripe._90.megacells.definition.MEGAItems;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.generators.common.registries.GeneratorsBlocks;
@@ -36,7 +35,7 @@ public final class SFTRecipeRemovals {
             GTItems.TERMINAL,
             GTItems.NAQUADAH_BOULE,
             GTItems.NEUTRONIUM_BOULE,
-            CustomItems.ADVANCED_TERMINAL,
+            // CustomItems.ADVANCED_TERMINAL,
             EPPItemAndBlock.INFINITY_CELL,
             EPPItemAndBlock.WIRELESS_CONNECTOR,
             EPPItemAndBlock.FISHBIG,

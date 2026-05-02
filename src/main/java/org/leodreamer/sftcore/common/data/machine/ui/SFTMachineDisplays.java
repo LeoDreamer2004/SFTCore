@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.common.data.machine.ui;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 public final class SFTMachineDisplays {
 
-    public static BiConsumer<IMultiController, List<Component>> coilMachineTempDisplay(
+    public static BiConsumer<MultiblockControllerMachine, List<Component>> coilMachineTempDisplay(
         Function<CoilWorkableElectricMultiblockMachine, Integer> tempFunc
     ) {
         return (controller, components) -> {
@@ -34,11 +34,11 @@ public final class SFTMachineDisplays {
         };
     }
 
-    public static final BiConsumer<IMultiController, List<Component>> simpleCoilDisplay = coilMachineTempDisplay(
+    public static final BiConsumer<MultiblockControllerMachine, List<Component>> simpleCoilDisplay = coilMachineTempDisplay(
         coilMachine -> coilMachine.getCoilType().getCoilTemperature()
     );
 
-    public static final BiConsumer<IMultiController, List<Component>> ebfCoilDisplay = coilMachineTempDisplay(
+    public static final BiConsumer<MultiblockControllerMachine, List<Component>> ebfCoilDisplay = coilMachineTempDisplay(
         coilMachine -> coilMachine.getCoilType().getCoilTemperature() +
             100 * Math.max(0, coilMachine.getTier() - GTValues.MV)
     );

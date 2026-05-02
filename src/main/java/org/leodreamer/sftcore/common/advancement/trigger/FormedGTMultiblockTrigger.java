@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.common.advancement.trigger;
 
 import com.google.gson.JsonObject;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
@@ -41,15 +41,14 @@ public class FormedGTMultiblockTrigger extends SimpleCriterionTrigger<FormedGTMu
     /**
      * Helper function to trigger the advancement for the player nearest to the machine when a GTM multiblock is formed.
      *
-     * @param controller The multiblock controller that was formed
+     * @param machine The multiblock controller that was formed
      */
-    public void trigger(IMultiController controller) {
-        var machine = controller.self();
+    public void trigger(MultiblockControllerMachine machine) {
         if (!(machine.getLevel() instanceof ServerLevel level)) {
             return;
         }
 
-        var pos = machine.getPos();
+        var pos = machine.getBlockPos();
         var player = TriggerUtils.findNearestPlayer(level, pos);
         if (player instanceof ServerPlayer serverPlayer) {
             trigger(serverPlayer, machine.getDefinition().getId());

@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.common.data;
 
+import com.gregtechceu.gtceu.common.item.behavior.CoverPlaceBehavior;
+import com.gregtechceu.gtceu.common.item.behavior.TooltipBehavior;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
@@ -14,8 +16,6 @@ import org.leodreamer.sftcore.integration.mek.SuperUpgradeItem;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
-import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
-import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.network.chat.Component;

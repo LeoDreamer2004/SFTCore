@@ -27,7 +27,7 @@ public class DimensionConditionMixin {
     @Inject(method = "testCondition", at = @At("HEAD"), cancellable = true)
     private void enableVoid(GTRecipe recipe, RecipeLogic recipeLogic, CallbackInfoReturnable<Boolean> cir) {
         if (dimension.location().getPath().equals("overworld")) {
-            Level level = recipeLogic.machine.self().getLevel();
+            Level level = recipeLogic.getMachine().getLevel();
             if (level != null && level.dimension() == SFTDimensions.VOID_DIMENSION) {
                 cir.cancel();
                 cir.setReturnValue(true);

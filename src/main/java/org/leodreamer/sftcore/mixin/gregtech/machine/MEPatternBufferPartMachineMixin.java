@@ -1,7 +1,25 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import appeng.api.crafting.IPatternDetails;
+import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.inventories.InternalInventory;
+import appeng.api.stacks.KeyCounter;
+import appeng.core.definitions.AEBlocks;
+import appeng.crafting.pattern.ProcessingPatternItem;
+import com.google.common.collect.BiMap;
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
+import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
@@ -9,28 +27,6 @@ import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
-
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.TickTask;
-import net.minecraft.world.entity.player.Player;
-
-import appeng.api.crafting.IPatternDetails;
-import appeng.api.crafting.PatternDetailsHelper;
-import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.inventories.InternalInventory;
-import appeng.api.stacks.KeyCounter;
-import appeng.core.definitions.AEBlocks;
-import appeng.crafting.pattern.ProcessingPatternItem;
-import com.google.common.collect.BiMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,23 +42,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Mixin(MEPatternBufferPartMachine.class)
+@Mixin(value = MEPatternBufferPartMachine.class, remap = false)
 public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     implements IPromptProvider, IMemoryCardInteraction, IScaleUpCraftingProvider {
 
     // custom name now acts as the prompt, instead of the name shown in the pattern group!
-    @Shadow(remap = false)
+    @Shadow
     private String customName;
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private CustomItemStackHandler patternInventory;
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private BiMap<IPatternDetails, MEPatternBufferPartMachine.InternalSlot> detailsSlotMap;
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     protected MEPatternBufferPartMachine.InternalSlot[] internalInventory;
 
@@ -70,15 +66,15 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     @Unique
     private final Map<IPatternDetails, MEPatternBufferPartMachine.InternalSlot> sftcore$wildcardDetailsSlotMap = new ConcurrentHashMap<>();
 
-    @Shadow(remap = false)
+    @Shadow
     private boolean needPatternSync;
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private InternalInventory internalPatternInventory;
 
-    public MEPatternBufferPartMachineMixin(IMachineBlockEntity holder, IO io, Object... args) {
-        super(holder, io, args);
+    public MEPatternBufferPartMachineMixin(BlockEntityCreationInfo info, IO io) {
+        super(info, io);
     }
 
     /* --- Prompt Support --- */
@@ -100,8 +96,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         at = @At(
             value = "INVOKE",
             target = "Ljava/lang/String;isEmpty()Z"
-        ),
-        remap = false
+        )
     )
     private boolean sftcore$passCustomName(String instance) {
         return true;
@@ -110,12 +105,11 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     @Inject(
         method = "getTerminalGroup",
         at = @At("RETURN"),
-        remap = false,
         cancellable = true
     )
     private void recordThePosition(CallbackInfoReturnable<PatternContainerGroup> cir) {
         if (!isFormed()) return;
-        var pos = getControllers().first().self().getPos();
+        var pos = getControllers().first().getBlockPos();
         var group = cir.getReturnValue();
         group = HackyContainerGroupProxy.of(group).setBlockPos(pos)
             .recordPartFrom(Component.translatable(getDefinition().getDescriptionId()))
@@ -128,38 +122,28 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     /* --- Wildcard pattern integration --- */
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void allowWildcardPattern(IMachineBlockEntity holder, Object[] args, CallbackInfo ci) {
+    private void allowWildcardPattern(BlockEntityCreationInfo info, CallbackInfo ci) {
         patternInventory.setFilter(
             (stack) -> stack.getItem() instanceof ProcessingPatternItem || stack.is(SFTItems.WILDCARD_PATTERN.asItem())
         );
     }
 
-    @Redirect(method = "onLoad()V", at = @At(value = "NEW", target = "net/minecraft/server/TickTask"), remap = false)
-    private TickTask changeTickTaskForWildcard(int pTick, Runnable pRunnable) {
-        return new TickTask(1, () -> {
-            var level = getLevel();
-            for (int i = 0; i < patternInventory.getSlots(); i++) {
-                var pattern = patternInventory.getStackInSlot(i);
-
-                // injected by SFT
-                if (pattern.is(SFTItems.WILDCARD_PATTERN.asItem())) {
-                    int finalI = i;
-                    WildcardPatternLogic.decodePatterns(pattern, level).forEach(
-                        detail -> sftcore$wildcardDetailsSlotMap.put(detail, internalInventory[finalI])
-                    );
-                    continue;
-                }
-
-                var patternDetails = PatternDetailsHelper.decodePattern(pattern, getLevel());
-                if (patternDetails != null) {
-                    detailsSlotMap.put(patternDetails, internalInventory[i]);
-                }
+    @Inject(method = "onLoad()V", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/integration/ae2/machine/MEBusPartMachine;onLoad()V", shift = At.Shift.AFTER))
+    private void changeTickTaskForWildcard(CallbackInfo ci) {
+        var level = getLevel();
+        for (int i = 0; i < patternInventory.getSlots(); i++) {
+            var stack = patternInventory.getStackInSlot(i);
+            if (WildcardPatternDecoder.INSTANCE.isEncodedPattern(stack)) {
+                int finalI = i;
+                WildcardPatternLogic.decodePatterns(stack, level).forEach(
+                    detail -> sftcore$wildcardDetailsSlotMap.put(detail, internalInventory[finalI])
+                );
             }
-            needPatternSync = true;
-        });
+        }
+
     }
 
-    @Inject(method = "onPatternChange", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "onPatternChange", at = @At("HEAD"), cancellable = true)
     private void detectWildcardPattern(int index, CallbackInfo ci) {
         if (isRemote()) return;
 
@@ -193,7 +177,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         // for general patterns, use the original logic
     }
 
-    @Inject(method = "getAvailablePatterns", at = @At("RETURN"), cancellable = true, remap = false)
+    @Inject(method = "getAvailablePatterns", at = @At("RETURN"), cancellable = true)
     private void addWildcardPatterns(CallbackInfoReturnable<List<IPatternDetails>> cir) {
         var cur = new ArrayList<>(cir.getReturnValue()); // change to mutable list
         cur.addAll(sftcore$wildcardDetailsSlotMap.keySet());
@@ -205,8 +189,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         at = @At(
             value = "INVOKE",
             target = "Lcom/google/common/collect/BiMap;containsKey(Ljava/lang/Object;)Z"
-        ),
-        remap = false
+        )
     )
     private boolean skipSlotCheck(BiMap<?, ?> map, Object detail) {
         return true;
@@ -216,8 +199,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         method = "pushPattern",
         at = @At(
             value = "INVOKE", target = "Lcom/google/common/collect/BiMap;get(Ljava/lang/Object;)Ljava/lang/Object;"
-        ),
-        remap = false
+        )
     )
     private Object checkSlotForScaleUpPattern(BiMap<?, ?> map, Object details) {
         if (details instanceof ScaledProcessingPattern spp) {
@@ -226,7 +208,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         return map.get(details);
     }
 
-    @Inject(method = "pushPattern", at = @At(value = "RETURN", ordinal = 2), remap = false, cancellable = true)
+    @Inject(method = "pushPattern", at = @At(value = "RETURN", ordinal = 2), cancellable = true)
     private void pushWildcardPattern(
         IPatternDetails details, KeyCounter[] inputHolder, CallbackInfoReturnable<Boolean> cir
     ) {

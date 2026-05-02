@@ -1,11 +1,11 @@
 package org.leodreamer.sftcore.mixin.ae2.block;
 
+import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
-import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -48,9 +48,8 @@ public abstract class PatternContainerGroupMixin {
             if (GTMachineUtils.isIngredientIOPort(machine)) {
                 var iController = GTMachineUtils.tryGetController(machine);
                 if (iController != null) {
-                    var controllerMachine = iController.self();
-                    var controller = controllerMachine.getDefinition();
-                    var cpos = controllerMachine.getPos();
+                    var controller = iController.getDefinition();
+                    var cpos = iController.getBlockPos();
                     var group = new PatternContainerGroup(
                         AEItemKey.of(controller.asStack()),
                         Component.translatable(controller.getDescriptionId()), List.of()

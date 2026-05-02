@@ -3,13 +3,12 @@ package org.leodreamer.sftcore.util;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.HugeBusPartMachine;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
@@ -62,7 +61,7 @@ public class GTMachineUtils {
     }
 
     @Nullable
-    public static IMultiController tryGetController(MetaMachine machine) {
+    public static MultiblockControllerMachine tryGetController(MetaMachine machine) {
         if (machine instanceof MultiblockPartMachine partMachine && partMachine.isFormed()) {
             return partMachine.getControllers().first();
         }
@@ -70,15 +69,14 @@ public class GTMachineUtils {
     }
 
     public static boolean isIngredientIOPort(MetaMachine machine) {
-        return machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine ||
-            machine instanceof HugeBusPartMachine;
+        return machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine;
     }
 
     public static MetaMachine thisOrController(MetaMachine machine, Predicate<MultiblockPartMachine> filter) {
         if (
             machine instanceof MultiblockPartMachine partMachine && partMachine.isFormed() && filter.test(partMachine)
         ) {
-            return partMachine.getControllers().first().self();
+            return partMachine.getControllers().first();
         }
         return machine;
     }

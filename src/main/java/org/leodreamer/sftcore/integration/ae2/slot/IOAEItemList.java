@@ -1,7 +1,6 @@
 package org.leodreamer.sftcore.integration.ae2.slot;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -21,8 +20,8 @@ public class IOAEItemList extends ExportOnlyAEItemList {
 
     private CustomItemStackHandler itemHandler;
 
-    public IOAEItemList(MetaMachine holder, int slots) {
-        super(holder, slots);
+    public IOAEItemList(int slots) {
+        super(slots);
         // overwrite the inventory with `IOAEItemSlot`
         inventory = new IOAEItemSlot[slots];
         for (int i = 0; i < slots; i++) {

@@ -1,9 +1,9 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 
 import net.minecraft.core.BlockPos;
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MetaMachineBlock.class)
-public abstract class MetaMachineBlockMixin implements IMachineBlock {
+public abstract class MetaMachineBlockMixin  {
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void allowAEMemoryCard(
@@ -35,7 +35,7 @@ public abstract class MetaMachineBlockMixin implements IMachineBlock {
             return;
         }
 
-        var machine = getMachine(world, pos);
+        var machine = MetaMachine.getMachine(world, pos);
         if (machine instanceof IMemoryCardInteraction interaction) {
             var stack = player.getItemInHand(hand);
             if (stack.getItem() instanceof MemoryCardItem card) {

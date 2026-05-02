@@ -1,10 +1,10 @@
 package org.leodreamer.sftcore.integration.jade;
 
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import org.leodreamer.sftcore.integration.jade.provider.ConfigurableMaintenanceHatchProvider;
 import org.leodreamer.sftcore.integration.jade.provider.PatternContainerProvider;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,7 +20,7 @@ public class SFTJadePlugin implements IWailaPlugin {
     @Override
     public void register(IWailaCommonRegistration registration) {
         registration.registerBlockDataProvider(
-            ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachineBlockEntity.class
+            ConfigurableMaintenanceHatchProvider.INSTANCE, MetaMachine.class
         );
         registration.registerBlockDataProvider(
             PatternContainerProvider.INSTANCE, BlockEntity.class

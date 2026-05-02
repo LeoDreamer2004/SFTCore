@@ -1,27 +1,24 @@
 package org.leodreamer.sftcore.common.machine;
 
-import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
-import org.leodreamer.sftcore.common.save.WirelessSavedData;
-import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
-
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import appeng.api.networking.GridHelper;
+import appeng.api.networking.IManagedGridNode;
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-
-import appeng.api.networking.GridHelper;
-import appeng.api.networking.IManagedGridNode;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
+import org.leodreamer.sftcore.common.save.WirelessSavedData;
+import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
 
 import java.util.Map;
 import java.util.Objects;
@@ -42,8 +39,8 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
 
     private final Map<BlockPos, TickableSubscription> waitTasks = new Object2ObjectOpenHashMap<>();
 
-    public GTWirelessControllerMachine(IMachineBlockEntity holder) {
-        super(holder);
+    public GTWirelessControllerMachine(BlockEntityCreationInfo info) {
+        super(info);
         nodeHolder = new GridNodeHolder(this);
     }
 
@@ -54,7 +51,7 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
 
     public void join(IWirelessAEMachine other) {
         if (grid == null) return;
-        if (grid.members().add(other.self().holder.pos())) {
+        if (grid.members().add(other.self().getBlockPos())) {
             WirelessSavedData.INSTANCE.setDirty();
             connect(other);
         }
@@ -67,7 +64,8 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
         try {
             GridHelper.createConnection(node, otherNode);
             otherMachine.sftcore$getWirelessHolder().setGrid(grid);
-        } catch (IllegalStateException ignored) {}
+        } catch (IllegalStateException ignored) {
+        }
     }
 
     @Override
@@ -76,7 +74,7 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
         if (grid == null) {
             var level = getLevel();
             if (level == null) return;
-            grid = WirelessSavedData.INSTANCE.createOrGetGrid(level.dimension(), getPos());
+            grid = WirelessSavedData.INSTANCE.createOrGetGrid(level.dimension(), getBlockPos());
         }
         for (var member : grid.members()) {
             if (!waitTasks.containsKey(member)) {
@@ -130,11 +128,7 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
 
     @Nullable
     private IWirelessAEMachine getWirelessMachineAt(BlockPos pos) {
-        var be = Objects.requireNonNull(getLevel()).getBlockEntity(pos);
-        if (
-            be instanceof IMachineBlockEntity mbe &&
-                mbe.getMetaMachine() instanceof IWirelessAEMachine machine
-        ) {
+        if (MetaMachine.getMachine(getLevel(), pos) instanceof IWirelessAEMachine machine) {
             return machine;
         }
         return null;

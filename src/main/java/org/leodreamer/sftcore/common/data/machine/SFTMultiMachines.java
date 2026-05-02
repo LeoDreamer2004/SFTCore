@@ -1,7 +1,6 @@
 package org.leodreamer.sftcore.common.data.machine;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.pattern.MultiBlockFileReader;
 import org.leodreamer.sftcore.common.data.machine.ui.SFTMachineDisplays;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
@@ -39,7 +38,7 @@ public final class SFTMultiMachines {
     public static void init() {}
 
     public static final MachineDefinition FISHBIG_MAKER = REGISTRATE
-        .multiblock("fishbig_maker", WorkableKineticMultiblockMachine::new)
+        .multiblock("fishbig_maker", WorkableElectricMultiblockMachine::new)
         .rotationState(RotationState.ALL)
         .recipeType(SFTRecipeTypes.FISHBIG_MAKER_RECIPES)
         .appearanceBlock(CASING_STEEL_SOLID)

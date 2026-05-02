@@ -1,12 +1,9 @@
 package org.leodreamer.sftcore.api.blockentity;
 
-import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
-
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
-
-import net.minecraft.world.level.block.Block;
-
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import net.createmod.catnip.data.Couple;
+import net.minecraft.world.level.block.Block;
+import org.leodreamer.sftcore.api.machine.KineticMachineDefinition;
 
 import javax.annotation.Nullable;
 
@@ -18,7 +15,7 @@ public class BlockStressValues {
 
     public static double getImpact(Block block) {
         if (
-            block instanceof IMachineBlock machineBlock &&
+            block instanceof MetaMachineBlock machineBlock &&
                 machineBlock.getDefinition() instanceof KineticMachineDefinition definition
         ) {
             if (!definition.isSource()) {
@@ -30,7 +27,7 @@ public class BlockStressValues {
 
     public static double getCapacity(Block block) {
         if (
-            block instanceof IMachineBlock machineBlock &&
+            block instanceof MetaMachineBlock machineBlock &&
                 machineBlock.getDefinition() instanceof KineticMachineDefinition definition
         ) {
             if (definition.isSource()) {
@@ -42,7 +39,7 @@ public class BlockStressValues {
 
     public boolean hasImpact(Block block) {
         if (
-            block instanceof IMachineBlock machineBlock &&
+            block instanceof MetaMachineBlock machineBlock &&
                 machineBlock.getDefinition() instanceof KineticMachineDefinition definition
         ) {
             return !definition.isSource();
@@ -52,7 +49,7 @@ public class BlockStressValues {
 
     public boolean hasCapacity(Block block) {
         if (
-            block instanceof IMachineBlock machineBlock &&
+            block instanceof MetaMachineBlock machineBlock &&
                 machineBlock.getDefinition() instanceof KineticMachineDefinition definition
         ) {
             return definition.isSource();

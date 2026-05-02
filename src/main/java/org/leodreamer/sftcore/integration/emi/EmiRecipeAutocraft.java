@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.integration.emi;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
@@ -71,8 +70,8 @@ public class EmiRecipeAutocraft {
 
         var pos = event.getPos();
         var level = event.getLevel();
-        if (level.getBlockEntity(pos) instanceof IMachineBlockEntity mbe) {
-            openedMachine = GTMachineUtils.thisOrController(mbe.getMetaMachine());
+        if (level.getBlockEntity(pos) instanceof MetaMachine machine) {
+            openedMachine = GTMachineUtils.thisOrController(machine);
         } else {
             openedMachine = null;
         }

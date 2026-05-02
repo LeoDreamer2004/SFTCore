@@ -1,13 +1,11 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
-import org.leodreamer.sftcore.api.machine.trait.WirelessGridHolder;
-
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
-
+import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
+import org.leodreamer.sftcore.api.machine.trait.WirelessGridHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,13 +18,13 @@ public abstract class MEBusPartMachineMixin extends ItemBusPartMachine implement
     @Unique
     private WirelessGridHolder sftcore$wirelessHolder;
 
-    public MEBusPartMachineMixin(IMachineBlockEntity holder, int tier, IO io, Object... args) {
-        super(holder, tier, io, args);
+    public MEBusPartMachineMixin(BlockEntityCreationInfo info, int tier, IO io) {
+        super(info, tier, io);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addWirelessHolder(IMachineBlockEntity holder, IO io, Object[] args, CallbackInfo ci) {
-        sftcore$wirelessHolder = new WirelessGridHolder(this);
+    private void addWirelessHolder(BlockEntityCreationInfo info, IO io, CallbackInfo ci) {
+        sftcore$wirelessHolder = attachTrait(new WirelessGridHolder());
     }
 
     @Override

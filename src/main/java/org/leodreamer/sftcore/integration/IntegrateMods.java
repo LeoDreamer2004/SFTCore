@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.GTCEu;
 
 import appeng.core.AppEng;
 import com.glodblock.github.extendedae.ExtendedAE;
-import com.hepdd.gtmthings.GTMThings;
 import com.simibubi.create.Create;
 import mekanism.common.Mekanism;
 import mekanism.generators.common.MekanismGenerators;
@@ -13,7 +12,6 @@ import net.pedroksl.advanced_ae.AdvancedAE;
 public class IntegrateMods {
 
     public static final String GTM = GTCEu.MOD_ID;
-    public static final String GTMT = GTMThings.MOD_ID;
     public static final String MEK = Mekanism.MODID;
     public static final String MEKG = MekanismGenerators.MODID;
     public static final String CREATE = Create.ID;

@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 
 import org.spongepowered.asm.mixin.Final;
@@ -21,7 +21,7 @@ public abstract class ParallelHatchMixin {
     private int maxParallel;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void sftcore$modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
+    private void sftcore$modifyMaxParallel(BlockEntityCreationInfo info, int tier, CallbackInfo ci) {
         this.maxParallel *= 4;
         this.setCurrentParallel(this.maxParallel);
     }

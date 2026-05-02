@@ -1,36 +1,26 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
-import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
-
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
-
-import net.minecraft.world.item.ItemStack;
-
+import com.gregtechceu.gtceu.utils.ISubscription;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
 
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 
 public class MachineAdjustmentHatchPartMachine extends ItemBusPartMachine
-    implements IMachineLife, IMachineAdjustment, IInteractedMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-        MachineAdjustmentHatchPartMachine.class, ItemBusPartMachine.MANAGED_FIELD_HOLDER
-    );
+    implements IMachineAdjustment {
 
     @Getter
     @NotNull
@@ -39,20 +29,14 @@ public class MachineAdjustmentHatchPartMachine extends ItemBusPartMachine
     @Getter
     private int tier;
 
-    public MachineAdjustmentHatchPartMachine(IMachineBlockEntity holder) {
-        super(holder, GTValues.LV, IO.IN);
+    public MachineAdjustmentHatchPartMachine(BlockEntityCreationInfo info) {
+        super(info, GTValues.LV, IO.IN);
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
         updateMachineSubscription();
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

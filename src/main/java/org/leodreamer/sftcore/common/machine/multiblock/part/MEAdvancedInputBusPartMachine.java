@@ -1,18 +1,5 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
-import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
-import org.leodreamer.sftcore.integration.ae2.slot.IOAEItemList;
-import org.leodreamer.sftcore.integration.ae2.slot.MEInputUpgradeInventory;
-import org.leodreamer.sftcore.integration.ae2.utils.SerializableMultiCraftingTracker;
-
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
-
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.nbt.CompoundTag;
-
 import appeng.api.config.Actionable;
 import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.crafting.ICraftingRequester;
@@ -20,12 +7,21 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.core.definitions.AEItems;
 import com.google.common.collect.ImmutableSet;
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.ReadOnlyManaged;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
+import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
+import org.leodreamer.sftcore.integration.ae2.slot.IOAEItemList;
+import org.leodreamer.sftcore.integration.ae2.slot.MEInputUpgradeInventory;
+import org.leodreamer.sftcore.integration.ae2.utils.SerializableMultiCraftingTracker;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -33,13 +29,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine implements ICraftingRequester {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-        MEAdvancedInputBusPartMachine.class,
-        MEInputBusPartMachine.MANAGED_FIELD_HOLDER
-    );
-
     @Persisted
-    @DescSynced
+    @SaveField
     private final MEInputUpgradeInventory upgradeInventory;
 
     @Persisted
@@ -50,20 +41,15 @@ public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine impleme
     )
     public SerializableMultiCraftingTracker craftingTracker;
 
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
-    public MEAdvancedInputBusPartMachine(IMachineBlockEntity holder) {
-        super(holder, MEAdvancedInputBusPartMachine.class); // a hacky marker to notify the super constructor
+    public MEAdvancedInputBusPartMachine(BlockEntityCreationInfo holder) {
+        super(holder);
         craftingTracker = new SerializableMultiCraftingTracker(this, CONFIG_SIZE);
-        upgradeInventory = new MEInputUpgradeInventory();
+        upgradeInventory = attachTrait(new MEInputUpgradeInventory());
     }
 
     @Override
-    protected NotifiableItemStackHandler createInventory(Object... args) {
-        this.aeItemHandler = new IOAEItemList(this, CONFIG_SIZE);
+    protected NotifiableItemStackHandler createInventory() {
+        this.aeItemHandler = new IOAEItemList(CONFIG_SIZE);
         return this.aeItemHandler;
     }
 
@@ -85,7 +71,7 @@ public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine impleme
             if (req == null || req.amount() <= 0) continue;
 
             craftingTracker
-                .handleCrafting(idx, req.what(), req.amount(), holder.level(), grid.getCraftingService(), actionSource);
+                .handleCrafting(idx, req.what(), req.amount(), getLevel(), grid.getCraftingService(), actionSource);
         }
     }
 

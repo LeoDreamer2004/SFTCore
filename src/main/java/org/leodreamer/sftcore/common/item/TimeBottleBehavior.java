@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.item;
 
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
@@ -14,17 +15,14 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * These codes are partially from <a href=
@@ -45,53 +43,57 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
-        if (context.getLevel().isClientSide()) return InteractionResult.PASS;
-        Player player = context.getPlayer();
-        if (player == null) return InteractionResult.PASS;
-
-        var container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
-        if (accelerate(container, context)) {
-            return InteractionResult.CONSUME;
-        }
+        // if (context.getLevel().isClientSide()) return InteractionResult.PASS;
+        // Player player = context.getPlayer();
+        // if (player == null) return InteractionResult.PASS;
+        //
+        // var container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
+        // if (accelerate(container, context)) {
+        //     return InteractionResult.CONSUME;
+        // }
         return InteractionResult.PASS;
     }
 
-    private static boolean accelerate(WirelessEnergyContainer container, UseOnContext context) {
-        var logic = GTCapabilityHelper.getRecipeLogic(context.getLevel(), context.getClickedPos(), null);
-        if (logic == null || !logic.isWorking()) {
-            return false;
-        }
-        MetaMachine machine = logic.getMachine();
-
-        if (!(machine instanceof IOverclockMachine overclockMachine)) {
-            return false;
-        }
-
-        GTRecipe recipe = logic.getLastOriginRecipe();
-        if (recipe == null || recipe.getOutputEUt().getTotalEU() > 0) {
-            return false;
-        }
-
-        int leftDuration = (int) ((logic.getDuration() - logic.getProgress()) * 0.95);
-        long eu = leftDuration * overclockMachine.getOverclockVoltage();
-        if (eu == 0) {
-            return false;
-        }
-
-        if (container.removeEnergy(eu, null) != eu) {
-            Objects.requireNonNull(context.getPlayer())
-                .displayClientMessage(Component.translatable(ENERGY_LACK), true);
-            return false;
-        }
-
-        logic.setProgress(logic.getProgress() + leftDuration);
-        Objects.requireNonNull(context.getPlayer())
-            .displayClientMessage(
-                Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration),
-                true
-            );
-        return true;
-    }
+    // private static boolean accelerate(WirelessEnergyContainer container, UseOnContext context) {
+    //     var metaMachine = MetaMachine.getMachine(context.getLevel(), context.getClickedPos());
+    //     if (!(metaMachine instanceof IRecipeLogicMachine rlm)) {
+    //         return false;
+    //     }
+    //     var logic = rlm.getRecipeLogic();
+    //     if (!logic.isWorking()) {
+    //         return false;
+    //     }
+    //     MetaMachine machine = logic.getMachine();
+    //
+    //     if (!(machine instanceof IOverclockMachine overclockMachine)) {
+    //         return false;
+    //     }
+    //
+    //     GTRecipe recipe = logic.getLastOriginRecipe();
+    //     if (recipe == null || recipe.getOutputEUt().getTotalEU() > 0) {
+    //         return false;
+    //     }
+    //
+    //     int leftDuration = (int) ((logic.getDuration() - logic.getProgress()) * 0.95);
+    //     long eu = leftDuration * overclockMachine.getOverclockVoltage();
+    //     if (eu == 0) {
+    //         return false;
+    //     }
+    //
+    //     if (container.removeEnergy(eu, null) != eu) {
+    //         Objects.requireNonNull(context.getPlayer())
+    //             .displayClientMessage(Component.translatable(ENERGY_LACK), true);
+    //         return false;
+    //     }
+    //
+    //     logic.setProgress(logic.getProgress() + leftDuration);
+    //     Objects.requireNonNull(context.getPlayer())
+    //         .displayClientMessage(
+    //             Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration),
+    //             true
+    //         );
+    //     return true;
+    // }
 
     @Override
     public void appendHoverText(

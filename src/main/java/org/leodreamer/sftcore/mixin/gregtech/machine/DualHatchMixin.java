@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(DualHatchPartMachine.class)
 public abstract class DualHatchMixin extends ItemBusPartMachine {
 
-    public DualHatchMixin(IMachineBlockEntity holder, int tier, IO io, Object... args) {
-        super(holder, tier, io, args);
+    public DualHatchMixin(BlockEntityCreationInfo info, int tier, IO io) {
+        super(info, tier, io);
     }
 
     @Inject(method = "getInventorySize", at = @At("HEAD"), cancellable = true, remap = false)

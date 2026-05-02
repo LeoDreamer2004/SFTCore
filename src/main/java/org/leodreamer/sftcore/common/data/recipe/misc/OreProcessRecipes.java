@@ -43,7 +43,7 @@ public class OreProcessRecipes {
         long mass = material.getMass();
         int dur = (int) Math.max(4, Math.sqrt(mass));
         crushedStack.setCount(Math.max(oreMultiplier * 6, 1));
-        var tag = TagPrefix.ore.getItemTags(material)[0];
+        var tag = TagPrefix.ore.getItemTags(material).get(0);
         var byproductMaterial = property.getOreByProduct(0, material);
         var byproductStack = ChemicalHelper.get(gem, byproductMaterial).isEmpty() ?
             ChemicalHelper.get(dust, byproductMaterial) : ChemicalHelper.get(gem, byproductMaterial);

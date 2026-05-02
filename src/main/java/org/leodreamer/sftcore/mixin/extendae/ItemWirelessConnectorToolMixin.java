@@ -1,12 +1,7 @@
 package org.leodreamer.sftcore.mixin.extendae;
 
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
-import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
-import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
-
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-
+import com.glodblock.github.extendedae.common.items.ItemWirelessConnectTool;
+import com.glodblock.github.extendedae.common.tileentities.TileWirelessConnector;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
@@ -14,10 +9,11 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-
-import com.glodblock.github.extendedae.common.items.ItemWirelessConnectTool;
-import com.glodblock.github.extendedae.common.tileentities.TileWirelessConnector;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
+import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
+import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Optional;
@@ -46,7 +42,7 @@ public class ItemWirelessConnectorToolMixin extends Item {
 
         var toTag = tag.get("to");
 
-        if (be instanceof IMachineBlockEntity mbe && mbe.getMetaMachine() instanceof GTWirelessControllerMachine) {
+        if (be instanceof GTWirelessControllerMachine) {
             var posTag = BlockPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).getOrThrow(false, SFTCore.LOGGER::error);
             tag.put("to", posTag);
 
@@ -59,7 +55,7 @@ public class ItemWirelessConnectorToolMixin extends Item {
             return InteractionResult.SUCCESS;
         }
 
-        if (be instanceof IMachineBlockEntity mbe && mbe.getMetaMachine() instanceof IWirelessAEMachine wireless) {
+        if (be instanceof IWirelessAEMachine wireless) {
             var node = wireless.getGridNode();
             if (node == null) {
                 return InteractionResult.FAIL; // client
@@ -76,8 +72,7 @@ public class ItemWirelessConnectorToolMixin extends Item {
             var another = context.getLevel().getBlockEntity(targetPos);
 
             if (
-                another instanceof IMachineBlockEntity otherMbe &&
-                    otherMbe.getMetaMachine() instanceof GTWirelessControllerMachine controller
+                another instanceof GTWirelessControllerMachine controller
             ) {
                 controller.join(wireless);
                 player.displayClientMessage(Component.translatable(MixinTooltips.WIRELESS_CONNECT), true);

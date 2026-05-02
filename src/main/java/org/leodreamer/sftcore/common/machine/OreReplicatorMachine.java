@@ -1,10 +1,11 @@
 package org.leodreamer.sftcore.common.machine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
+import com.gregtechceu.gtceu.utils.ISubscription;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,8 +29,8 @@ public class OreReplicatorMachine extends ItemBusPartMachine {
     @Nullable
     private ISubscription oreInventorySubs;
 
-    public OreReplicatorMachine(IMachineBlockEntity holder) {
-        super(holder, GTValues.ULV, IO.OUT);
+    public OreReplicatorMachine(BlockEntityCreationInfo info) {
+        super(info, GTValues.ULV, IO.OUT);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class OreReplicatorMachine extends ItemBusPartMachine {
     @Override
     public void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
-        if (fromPos.equals(getPos().above())) {
+        if (fromPos.equals(getBlockPos().above())) {
             redetectAboveOre();
         }
     }
@@ -63,7 +63,7 @@ public class OreReplicatorMachine extends ItemBusPartMachine {
         var world = getLevel();
         if (world == null) return;
 
-        var above = world.getBlockState(getPos().above());
+        var above = world.getBlockState(getBlockPos().above());
         if (isOre(above)) {
             oreCache = above.getBlock().asItem();
             fillInventory();
