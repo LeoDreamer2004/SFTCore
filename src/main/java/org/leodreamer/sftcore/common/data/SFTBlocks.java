@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.common.data;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.block.VoidPortalBlock;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;

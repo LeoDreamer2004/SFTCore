@@ -1,10 +1,12 @@
 package org.leodreamer.sftcore.common.data;
 
-import com.tterrag.registrate.providers.ProviderType;
-import net.minecraftforge.data.event.GatherDataEvent;
 import org.leodreamer.sftcore.common.data.lang.SFTLangHandler;
 import org.leodreamer.sftcore.common.data.tag.SFTItemTagLoader;
 import org.leodreamer.sftcore.integration.create.SFTCreateDataGen;
+
+import net.minecraftforge.data.event.GatherDataEvent;
+
+import com.tterrag.registrate.providers.ProviderType;
 
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 

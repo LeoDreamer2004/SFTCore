@@ -1,0 +1,31 @@
+{
+  "parent": "sftcore:steel",
+  "criteria": {
+    "wire_burned": {
+      "conditions": {},
+      "trigger": "sftcore:wire_burned"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.wire_burned.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "gtceu:copper_single_wire"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.wire_burned.title"
+    }
+  },
+  "requirements": [
+    [
+      "wire_burned"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

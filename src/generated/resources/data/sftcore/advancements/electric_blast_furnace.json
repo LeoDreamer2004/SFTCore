@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:steel",
+  "criteria": {
+    "formed_gtceu_electric_blast_furnace": {
+      "conditions": {
+        "machine": "gtceu:electric_blast_furnace"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.electric_blast_furnace.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:electric_blast_furnace"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.electric_blast_furnace.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_electric_blast_furnace"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

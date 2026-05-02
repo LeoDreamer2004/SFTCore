@@ -1,8 +1,10 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

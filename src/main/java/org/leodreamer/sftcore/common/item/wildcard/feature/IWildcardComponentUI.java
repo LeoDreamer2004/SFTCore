@@ -1,7 +1,8 @@
 package org.leodreamer.sftcore.common.item.wildcard.feature;
 
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import net.minecraft.network.chat.Component;
+
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
 public interface IWildcardComponentUI {
 
@@ -9,6 +10,5 @@ public interface IWildcardComponentUI {
 
     Component createTooltip();
 
-    default void onSave() {
-    }
+    default void onSave() {}
 }

@@ -1,11 +1,13 @@
 package org.leodreamer.sftcore.common.item.wildcard.feature;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 
 import java.util.function.Predicate;
 

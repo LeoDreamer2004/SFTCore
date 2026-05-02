@@ -1,15 +1,17 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
 @DataGenScanned
 public class WildcardTooltips {
+
     private final WildcardPatternLogic logic;
 
     @RegisterLanguage("Input: ")
@@ -27,19 +29,25 @@ public class WildcardTooltips {
 
     public void createTooltips(List<Component> tooltips) {
         for (var input : logic.getIOComponents(WildcardPatternLogic.IO.IN)) {
-            tooltips.add(Component.translatable(INPUT_TOOLTIP_KEY)
-                .withStyle(ChatFormatting.AQUA)
-                .append(input.createTooltip()));
+            tooltips.add(
+                Component.translatable(INPUT_TOOLTIP_KEY)
+                    .withStyle(ChatFormatting.AQUA)
+                    .append(input.createTooltip())
+            );
         }
         for (var output : logic.getIOComponents(WildcardPatternLogic.IO.OUT)) {
-            tooltips.add(Component.translatable(OUTPUT_TOOLTIP_KEY)
-                .withStyle(ChatFormatting.GREEN)
-                .append(output.createTooltip()));
+            tooltips.add(
+                Component.translatable(OUTPUT_TOOLTIP_KEY)
+                    .withStyle(ChatFormatting.GREEN)
+                    .append(output.createTooltip())
+            );
         }
         for (var filter : logic.getFilterComponents()) {
-            tooltips.add(Component.translatable(FILTER_TOOLTIP_KEY)
-                .withStyle(ChatFormatting.GOLD)
-                .append(filter.createTooltip()));
+            tooltips.add(
+                Component.translatable(FILTER_TOOLTIP_KEY)
+                    .withStyle(ChatFormatting.GOLD)
+                    .append(filter.createTooltip())
+            );
         }
     }
 }

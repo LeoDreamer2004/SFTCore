@@ -1,12 +1,14 @@
 package org.leodreamer.sftcore.integration.ae2.gui;
 
-import appeng.api.stacks.AEFluidKey;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.GenericStack;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
+
 import net.minecraft.world.item.BucketItem;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
+
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.GenericStack;
 import org.jetbrains.annotations.Nullable;
 
 /**

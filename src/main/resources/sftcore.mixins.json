@@ -35,6 +35,7 @@
     "extendae.ItemWirelessConnectorToolMixin",
     "extendae.PartExPatternProviderMixin",
     "forge.FluidStackMixin",
+    "gregtech.blockentity.CableBlockEntityMixin",
     "gregtech.data.GTBucketItemAccessor",
     "gregtech.data.MaterialBuilderMixin",
     "gregtech.data.MaterialFlagsAccessor",
@@ -60,6 +61,7 @@
     "gtmthings.MEOutputPartMachineMixin",
     "travelarchor.EventListenerMixin",
     "vanilla.ChunkMapMixin",
+    "vanilla.IExplosionMachineMixin",
     "vanilla.RecipeManagerMixin",
     "vanilla.ServerChunkCacheMixin"
   ],

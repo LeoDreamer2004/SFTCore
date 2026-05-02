@@ -1,7 +1,5 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTTagSlot;
@@ -10,7 +8,9 @@ import org.leodreamer.sftcore.integration.ae2.item.GenericGTTag;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 
 import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;

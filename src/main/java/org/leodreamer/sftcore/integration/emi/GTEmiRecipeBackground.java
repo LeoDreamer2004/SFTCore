@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.integration.emi;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
-import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.client.gui.GuiGraphics;
 

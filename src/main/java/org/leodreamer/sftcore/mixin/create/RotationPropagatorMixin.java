@@ -17,13 +17,13 @@ public abstract class RotationPropagatorMixin {
 
     @Inject(method = "getAxisModifier", at = @At(value = "RETURN"), remap = false, cancellable = true)
     private static void injectAxisModifier(
-        KineticBlockEntity block,
+        KineticBlockEntity be,
         Direction direction,
         CallbackInfoReturnable<Float> cir
     ) {
         if (
-            (block.hasSource() || block.isSource()) &&
-                block instanceof KineticMachineBlockEntity kineticMachineBlockEntity
+            (be.hasSource() || be.isSource()) &&
+                be instanceof KineticMachineBlockEntity kineticMachineBlockEntity
         ) {
             if (kineticMachineBlockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine) {
                 cir.setReturnValue(kineticMachine.getRotationSpeedModifier(direction));

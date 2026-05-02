@@ -1,26 +1,29 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.GenericStack;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
+import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
+import org.leodreamer.sftcore.integration.ae2.gui.PhantomGenericSlotWidget;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTMath;
-import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
+
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.GenericStack;
+import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
-import org.leodreamer.sftcore.integration.ae2.gui.PhantomGenericSlotWidget;
 
 public class SimpleIOComponent implements IWildcardIOComponent {
 

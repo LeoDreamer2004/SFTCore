@@ -9,10 +9,12 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine.InternalSlot;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.InternalSlotRecipeHandler;
-import lombok.Getter;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
+
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class SFTInternalSlotRecipeHandler {
             itemRecipeHandler = new SlotItemRecipeHandler(machine, slot, idx);
             fluidRecipeHandler = new SlotFluidRecipeHandler(machine, slot, idx);
             // addHandlers(buffer.getCircuitInventory(), buffer.getShareInventory(), buffer.getShareTank(),
-            //     itemRecipeHandler, fluidRecipeHandler);
+            // itemRecipeHandler, fluidRecipeHandler);
             this.setGroup(RecipeHandlerGroupDistinctness.BUS_DISTINCT);
         }
 
@@ -114,8 +116,10 @@ public class SFTInternalSlotRecipeHandler {
         }
 
         @Override
-        public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left,
-                                                       boolean simulate) {
+        public List<FluidIngredient> handleRecipeInner(
+            IO io, GTRecipe recipe, List<FluidIngredient> left,
+            boolean simulate
+        ) {
             if (io != IO.IN || slot.isFluidEmpty()) return left;
             return slot.handleFluidInternal(left, simulate);
         }

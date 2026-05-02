@@ -18,7 +18,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class FormedGTMultiblockTrigger extends SimpleCriterionTrigger<FormedGTMultiblockTrigger.Instance> {
 
     public static final ResourceLocation ID = SFTCore.id("formed_gt_multiblock");
-    private static final double FORMED_MULTIBLOCK_TRIGGER_RANGE = 32.0D;
 
     @Override
     public ResourceLocation getId() {
@@ -51,8 +50,7 @@ public class FormedGTMultiblockTrigger extends SimpleCriterionTrigger<FormedGTMu
         }
 
         var pos = machine.getPos();
-        var player = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), FORMED_MULTIBLOCK_TRIGGER_RANGE, false);
-
+        var player = TriggerUtils.findNearestPlayer(level, pos);
         if (player instanceof ServerPlayer serverPlayer) {
             trigger(serverPlayer, machine.getDefinition().getId());
         }

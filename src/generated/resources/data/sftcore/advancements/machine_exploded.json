@@ -1,0 +1,31 @@
+{
+  "parent": "sftcore:wire_burned",
+  "criteria": {
+    "machine_exploded": {
+      "conditions": {},
+      "trigger": "sftcore:machine_exploded"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.machine_exploded.description"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:tnt"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.machine_exploded.title"
+    }
+  },
+  "requirements": [
+    [
+      "machine_exploded"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

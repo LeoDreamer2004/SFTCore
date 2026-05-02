@@ -1,9 +1,10 @@
 package org.leodreamer.sftcore.integration.ae2.utils;
 
+import net.minecraft.nbt.CompoundTag;
+
 import appeng.api.networking.crafting.ICraftingRequester;
 import appeng.helpers.MultiCraftingTracker;
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable;
-import net.minecraft.nbt.CompoundTag;
 
 public class SerializableMultiCraftingTracker extends MultiCraftingTracker implements ITagSerializable<CompoundTag> {
 

@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:vacuum_tube",
+  "criteria": {
+    "has_gtceu_basic_electronic_circuit": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:basic_electronic_circuit"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.basic_electronic_circuit.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:basic_electronic_circuit"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.basic_electronic_circuit.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_basic_electronic_circuit"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,21 +1,24 @@
 package org.leodreamer.sftcore.common.item;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
+import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardFancyUIProvider;
+import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardHeldItemUI;
+import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardTooltips;
+
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
-import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
+import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
-import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardFancyUIProvider;
-import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardHeldItemUI;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardTooltips;
 
 import java.util.List;
 import java.util.function.Consumer;

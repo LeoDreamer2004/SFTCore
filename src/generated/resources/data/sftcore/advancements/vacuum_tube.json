@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:bronze",
+  "criteria": {
+    "has_gtceu_vacuum_tube": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:vacuum_tube"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.vacuum_tube.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:vacuum_tube"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.vacuum_tube.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_vacuum_tube"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

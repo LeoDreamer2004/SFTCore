@@ -1,11 +1,13 @@
 package org.leodreamer.sftcore.integration.ae2.slot;
 
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.GenericStack;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot;
 import com.gregtechceu.gtceu.utils.GTMath;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
+
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.GenericStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

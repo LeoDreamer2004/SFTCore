@@ -6,12 +6,14 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -90,7 +92,8 @@ public class IOAEItemList extends ExportOnlyAEItemList {
         protected void validateSlotIndex(int slot) {
             if (slot < 0 || slot >= getSlots())
                 throw new RuntimeException(
-                    "Slot " + slot + " not in valid range - [0," + getSlots() + ")");
+                    "Slot " + slot + " not in valid range - [0," + getSlots() + ")"
+                );
         }
 
         @Override
