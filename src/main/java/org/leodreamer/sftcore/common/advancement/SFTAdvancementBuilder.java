@@ -17,7 +17,7 @@ public class SFTAdvancementBuilder {
     private final String id;
     private final Advancement.Builder builder;
     private boolean show = true;
-    private static final ResourceLocation BACKGROUND = null;
+    private static final ResourceLocation BACKGROUND = SFTCore.id("textures/gui/base/advancement_background.png");
     public static final Object2ObjectArrayMap<String, String> ADVANCEMENT_LANG = new Object2ObjectArrayMap<>();
 
     private SFTAdvancementBuilder(String id) {

@@ -51,7 +51,7 @@ public class FormedGTMultiblockTrigger extends SimpleCriterionTrigger<FormedGTMu
         }
 
         var pos = machine.getPos();
-        var player = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), FORMED_MULTIBLOCK_TRIGGER_RANGE, true);
+        var player = level.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), FORMED_MULTIBLOCK_TRIGGER_RANGE, false);
 
         if (player instanceof ServerPlayer serverPlayer) {
             trigger(serverPlayer, machine.getDefinition().getId());

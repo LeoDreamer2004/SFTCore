@@ -1,10 +1,6 @@
 package org.leodreamer.sftcore;
 
-import org.leodreamer.sftcore.api.registry.SFTRegistrate;
-import org.leodreamer.sftcore.common.data.*;
-import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
-
+import appeng.api.crafting.PatternDetailsHelper;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
@@ -13,7 +9,6 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -21,11 +16,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-
-import appeng.api.crafting.PatternDetailsHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.leodreamer.sftcore.api.registry.SFTRegistrate;
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+import org.leodreamer.sftcore.common.data.*;
+import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
+import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 
 @Mod(SFTCore.MOD_ID)
 public class SFTCore {
@@ -41,6 +40,7 @@ public class SFTCore {
 
         var bus = context.getModEventBus();
         bus.register(this);
+        bus.addListener(this::commonSetup);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
         bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
@@ -67,6 +67,11 @@ public class SFTCore {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
+    public void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(SFTCriteriaTriggers::register);
+        event.enqueueWork(() -> PatternDetailsHelper.registerDecoder(WildcardPatternDecoder.INSTANCE));
+    }
+
     @SubscribeEvent
     public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         SFTRecipeTypes.init();
@@ -84,7 +89,6 @@ public class SFTCore {
 
     @SubscribeEvent
     public void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
-        PatternDetailsHelper.registerDecoder(WildcardPatternDecoder.INSTANCE);
         SFTCreativeTabs.init();
         SFTBlocks.init();
         SFTItems.init();

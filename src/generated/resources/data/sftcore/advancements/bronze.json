@@ -16,6 +16,7 @@
   },
   "display": {
     "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
       "translate": "advancements.sftcore.bronze.description"
     },

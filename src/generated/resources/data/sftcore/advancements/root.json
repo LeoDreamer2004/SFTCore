@@ -6,7 +6,8 @@
     }
   },
   "display": {
-    "announce_to_chat": true,
+    "announce_to_chat": false,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
       "translate": "advancements.sftcore.root.description"
     },
@@ -15,7 +16,7 @@
     "icon": {
       "item": "gtceu:terminal"
     },
-    "show_toast": true,
+    "show_toast": false,
     "title": {
       "translate": "advancements.sftcore.root.title"
     }
