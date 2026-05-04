@@ -1,22 +1,5 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import appeng.api.crafting.IPatternDetails;
-import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.inventories.InternalInventory;
-import appeng.api.stacks.KeyCounter;
-import appeng.core.definitions.AEBlocks;
-import appeng.crafting.pattern.ProcessingPatternItem;
-import com.google.common.collect.BiMap;
-import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
@@ -27,6 +10,26 @@ import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
+
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+
+import appeng.api.crafting.IPatternDetails;
+import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.inventories.InternalInventory;
+import appeng.api.stacks.KeyCounter;
+import appeng.core.definitions.AEBlocks;
+import appeng.crafting.pattern.ProcessingPatternItem;
+import com.google.common.collect.BiMap;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -128,7 +131,13 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         );
     }
 
-    @Inject(method = "onLoad()V", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/integration/ae2/machine/MEBusPartMachine;onLoad()V", shift = At.Shift.AFTER))
+    @Inject(
+        method = "onLoad()V",
+        at = @At(
+            value = "INVOKE", target = "Lcom/gregtechceu/gtceu/integration/ae2/machine/MEBusPartMachine;onLoad()V",
+            shift = At.Shift.AFTER
+        )
+    )
     private void changeTickTaskForWildcard(CallbackInfo ci) {
         var level = getLevel();
         for (int i = 0; i < patternInventory.getSlots(); i++) {
@@ -140,7 +149,6 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
                 );
             }
         }
-
     }
 
     @Inject(method = "onPatternChange", at = @At("HEAD"), cancellable = true)

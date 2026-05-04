@@ -1,10 +1,10 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MetaMachineBlock.class)
-public abstract class MetaMachineBlockMixin  {
+public abstract class MetaMachineBlockMixin {
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void allowAEMemoryCard(

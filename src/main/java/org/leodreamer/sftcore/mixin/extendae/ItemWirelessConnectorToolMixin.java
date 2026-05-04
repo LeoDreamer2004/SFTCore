@@ -1,7 +1,10 @@
 package org.leodreamer.sftcore.mixin.extendae;
 
-import com.glodblock.github.extendedae.common.items.ItemWirelessConnectTool;
-import com.glodblock.github.extendedae.common.tileentities.TileWirelessConnector;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
+import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
+import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
@@ -9,11 +12,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+
+import com.glodblock.github.extendedae.common.items.ItemWirelessConnectTool;
+import com.glodblock.github.extendedae.common.tileentities.TileWirelessConnector;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
-import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
-import org.leodreamer.sftcore.common.machine.GTWirelessControllerMachine;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.Optional;

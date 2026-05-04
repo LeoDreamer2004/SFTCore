@@ -1,11 +1,11 @@
 package org.leodreamer.sftcore.mixin.ae2.block;
 
-import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
+import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

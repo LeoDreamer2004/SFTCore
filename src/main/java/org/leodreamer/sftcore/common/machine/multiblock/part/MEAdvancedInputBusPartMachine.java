@@ -1,5 +1,19 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
+import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
+import org.leodreamer.sftcore.integration.ae2.slot.IOAEItemList;
+import org.leodreamer.sftcore.integration.ae2.slot.MEInputUpgradeInventory;
+import org.leodreamer.sftcore.integration.ae2.utils.SerializableMultiCraftingTracker;
+
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
+
 import appeng.api.config.Actionable;
 import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.crafting.ICraftingRequester;
@@ -7,21 +21,10 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.core.definitions.AEItems;
 import com.google.common.collect.ImmutableSet;
-import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.ReadOnlyManaged;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.nbt.CompoundTag;
-import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
-import org.leodreamer.sftcore.integration.ae2.slot.IOAEItemList;
-import org.leodreamer.sftcore.integration.ae2.slot.MEInputUpgradeInventory;
-import org.leodreamer.sftcore.integration.ae2.utils.SerializableMultiCraftingTracker;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

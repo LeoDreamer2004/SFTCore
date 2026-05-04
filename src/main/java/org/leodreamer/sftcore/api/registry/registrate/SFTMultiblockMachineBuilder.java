@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.api.registry.registrate;
 
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
+
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -10,16 +12,17 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -27,10 +30,12 @@ public class SFTMultiblockMachineBuilder
     extends MultiblockMachineBuilder<MultiblockMachineDefinition, SFTMultiblockMachineBuilder> {
 
     public SFTMultiblockMachineBuilder(
-        GTRegistrate registrate, String name,
+        GTRegistrate registrate,
+        String name,
         BiFunction<BlockBehaviour.Properties, MultiblockMachineDefinition, MetaMachineBlock> blockFactory,
         BiFunction<MetaMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-        Function<BlockEntityCreationInfo, MetaMachine> blockEntityFactory) {
+        Function<BlockEntityCreationInfo, MetaMachine> blockEntityFactory
+    ) {
         super(registrate, name, blockFactory, itemFactory, blockEntityFactory);
     }
 
@@ -42,7 +47,7 @@ public class SFTMultiblockMachineBuilder
 
     public SFTMultiblockMachineBuilder recoverAsh() {
         recoveryItems(
-            () -> new ItemLike[]{
+            () -> new ItemLike[] {
                 GTMaterialItems.MATERIAL_ITEMS.get(TagPrefix.dustTiny, GTMaterials.Ash)
             }
         );

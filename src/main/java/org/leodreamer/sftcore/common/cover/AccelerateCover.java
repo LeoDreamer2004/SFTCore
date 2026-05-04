@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore.common.cover;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
@@ -9,13 +13,12 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.cover.detector.DetectorCover;
-import lombok.Getter;
+
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+
+import lombok.Getter;
 import org.apache.commons.lang3.math.Fraction;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 
 import javax.annotation.Nullable;
 

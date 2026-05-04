@@ -42,9 +42,6 @@ public abstract class MaintenanceHatchPartMachineMixin {
         });
     }
 
-    /**
-     * Prevent initializing when loading
-     */
     @Inject(method = "onLoad", at = @At("RETURN"), remap = false)
     private void sftcore$startTrackingAfterLoad(CallbackInfo ci) {
         MaintenanceHatchPartMachine self = (MaintenanceHatchPartMachine) (Object) this;
@@ -57,13 +54,6 @@ public abstract class MaintenanceHatchPartMachineMixin {
         this.sftcore$trackDuctTapeInsertion = true;
     }
 
-    /**
-     * 入口 2：
-     * 玩家手持胶带右键维护仓。
-     *
-     * 只在 GTM 原逻辑成功接受胶带时触发：
-     * 也就是 onUseWithItem 返回 InteractionResult.SUCCESS。
-     */
     @Inject(method = "onUseWithItem", at = @At("RETURN"), remap = false)
     private void sftcore$triggerWhenHeldDuctTapeUsed(
         ExtendedUseOnContext context,
@@ -74,7 +64,6 @@ public abstract class MaintenanceHatchPartMachineMixin {
         }
 
         Player player = context.getPlayer();
-
         if (player != null) {
             SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE.trigger(player);
         }
@@ -95,12 +84,10 @@ public abstract class MaintenanceHatchPartMachineMixin {
             return;
         }
 
-        // 只在数量增加时触发。
-        // 机器消费胶带时数量减少，不会触发。
+        // Only trigger when tape become MORE
         if (newCount > this.sftcore$lastDuctTapeCount) {
             SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE.trigger(self);
         }
-
         this.sftcore$lastDuctTapeCount = newCount;
     }
 

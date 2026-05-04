@@ -1,16 +1,20 @@
 package org.leodreamer.sftcore.common.data;
 
+import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
+import org.leodreamer.sftcore.common.advancement.trigger.DuctTapedMaintenanceTrigger;
+import org.leodreamer.sftcore.common.advancement.trigger.MachineExplodedTrigger;
+import org.leodreamer.sftcore.common.advancement.trigger.WireBurnedTrigger;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.world.item.Items;
-import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
-import org.leodreamer.sftcore.common.advancement.trigger.MachineExplodedTrigger;
-import org.leodreamer.sftcore.common.advancement.trigger.WireBurnedTrigger;
+
+import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 
 public final class SFTAdvancements {
 
@@ -25,6 +29,7 @@ public final class SFTAdvancements {
 
     public static final Advancement BRONZE = SFTAdvancementBuilder.create("bronze")
         .parent(ROOT)
+        .goal()
         .display(
             ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Bronze).getItem(),
             "Primitive Alloy",
@@ -61,6 +66,7 @@ public final class SFTAdvancements {
 
     public static final Advancement STEEL = SFTAdvancementBuilder.create("steel")
         .parent(PRIMITIVE_BLAST_FURNACE)
+        .goal()
         .display(
             ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Steel).getItem(),
             "Heavy Industry",
@@ -100,14 +106,34 @@ public final class SFTAdvancements {
         )
         .onFormed(GTMultiMachines.ELECTRIC_BLAST_FURNACE).build();
 
+    public static final Advancement DUCT_TAPED_MAINTENANCE = SFTAdvancementBuilder.create("duct_taped_maintenance")
+        .parent(ELECTRIC_BLAST_FURNACE)
+        .display(
+            GTItems.DUCT_TAPE,
+            "Tape!",
+            "Use duct tape on a maintenance hatch to keep it working for a while"
+        )
+        .criterion("duct_taped_maintenance", DuctTapedMaintenanceTrigger.Instance.taped())
+        .build();
+
     public static final Advancement ALUMINIUM = SFTAdvancementBuilder.create("aluminum")
-        .parent(STEEL)
+        .parent(ELECTRIC_BLAST_FURNACE)
+        .goal()
         .display(
             ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium).getItem(),
             "\"Light\" Industry",
             "Get an aluminum ingot from your blast furnace"
         )
         .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium).getItem()).build();
+
+    public static final Advancement SILICON_BOULE = SFTAdvancementBuilder.create("silicon_boule")
+        .parent(ELECTRIC_BLAST_FURNACE)
+        .display(
+            GTItems.SILICON_BOULE,
+            "Semiconductor",
+            "Develop... or blast a silicon boule"
+        )
+        .obtain(GTItems.SILICON_BOULE).build();
 
     public static void init(RegistrateAdvancementProvider provider) {
         provider.accept(ROOT);
@@ -119,6 +145,8 @@ public final class SFTAdvancements {
         provider.accept(WIRE_BURNED);
         provider.accept(MACHINE_EXPLODED);
         provider.accept(ELECTRIC_BLAST_FURNACE);
+        provider.accept(DUCT_TAPED_MAINTENANCE);
         provider.accept(ALUMINIUM);
+        provider.accept(SILICON_BOULE);
     }
 }

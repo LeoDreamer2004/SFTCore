@@ -9,25 +9,25 @@
 //
 // public interface IKineticMachine extends IMachineFeature {
 //
-//     default KineticMachineBlockEntity getKineticHolder() {
-//         return (KineticMachineBlockEntity) self().getHolder();
-//     }
+// default KineticMachineBlockEntity getKineticHolder() {
+// return (KineticMachineBlockEntity) self().getHolder();
+// }
 //
-//     default KineticMachineDefinition getKineticDefinition() {
-//         return (KineticMachineDefinition) self().getDefinition();
-//     }
+// default KineticMachineDefinition getKineticDefinition() {
+// return (KineticMachineDefinition) self().getDefinition();
+// }
 //
-//     default float getRotationSpeedModifier(Direction direction) {
-//         return 1;
-//     }
+// default float getRotationSpeedModifier(Direction direction) {
+// return 1;
+// }
 //
-//     default Direction getRotationFacing() {
-//         var frontFacing = self().getFrontFacing();
-//         return getKineticDefinition().isFrontRotation() ? frontFacing :
-//             (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
-//     }
+// default Direction getRotationFacing() {
+// var frontFacing = self().getFrontFacing();
+// return getKineticDefinition().isFrontRotation() ? frontFacing :
+// (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
+// }
 //
-//     default boolean hasShaftTowards(Direction face) {
-//         return face.getAxis() == getRotationFacing().getAxis();
-//     }
+// default boolean hasShaftTowards(Direction face) {
+// return face.getAxis() == getRotationFacing().getAxis();
+// }
 // }

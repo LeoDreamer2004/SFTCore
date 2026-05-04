@@ -13,12 +13,12 @@
 // @Mixin(HugeDualHatchPartMachine.class)
 // public class HugeDualHatchPartMachineMixin extends HugeBusPartMachine {
 //
-//     public HugeDualHatchPartMachineMixin(IMachineBlockEntity holder, int tier, IO io, Object... args) {
-//         super(holder, tier, io, 9, args);
-//     }
+// public HugeDualHatchPartMachineMixin(IMachineBlockEntity holder, int tier, IO io, Object... args) {
+// super(holder, tier, io, 9, args);
+// }
 //
-//     @Inject(method = "getTankInventorySize", at = @At("TAIL"), cancellable = true, remap = false)
-//     private void setTankInventorySize(CallbackInfoReturnable<Integer> cir) {
-//         cir.setReturnValue(getTier());
-//     }
+// @Inject(method = "getTankInventorySize", at = @At("TAIL"), cancellable = true, remap = false)
+// private void setTankInventorySize(CallbackInfoReturnable<Integer> cir) {
+// cir.setReturnValue(getTier());
+// }
 // }

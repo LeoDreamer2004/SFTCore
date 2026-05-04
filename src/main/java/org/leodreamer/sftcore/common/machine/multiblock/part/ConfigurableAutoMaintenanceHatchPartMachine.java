@@ -7,15 +7,17 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.Mth;
+
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.util.Mth;
 
 public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachine
     implements IMaintenanceMachine {
@@ -42,8 +44,7 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
     }
 
     @Override
-    public void setTaped(boolean isTaped) {
-    }
+    public void setTaped(boolean isTaped) {}
 
     @Override
     public boolean isTaped() {
@@ -61,8 +62,7 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
     }
 
     @Override
-    public void setMaintenanceProblems(byte problems) {
-    }
+    public void setMaintenanceProblems(byte problems) {}
 
     @Override
     public int getTimeActive() {
@@ -70,8 +70,7 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
     }
 
     @Override
-    public void setTimeActive(int time) {
-    }
+    public void setTimeActive(int time) {}
 
     @Override
     public Widget createUIWidget() {
@@ -137,9 +136,9 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
             );
         }
         return Component.translatable(
-                "gtceu.maintenance.configurable_duration",
-                FormattingUtil.formatNumber2Places(durationMultiplier)
-            )
+            "gtceu.maintenance.configurable_duration",
+            FormattingUtil.formatNumber2Places(durationMultiplier)
+        )
             .setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tooltip)));
     }
 }

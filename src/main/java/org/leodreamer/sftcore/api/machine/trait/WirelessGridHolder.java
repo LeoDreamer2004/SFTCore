@@ -1,14 +1,17 @@
 package org.leodreamer.sftcore.api.machine.trait;
 
-import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
-import lombok.Getter;
-import lombok.Setter;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.server.level.ServerLevel;
-import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.common.save.WirelessSavedData;
 import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
+
+import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
+import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.server.level.ServerLevel;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

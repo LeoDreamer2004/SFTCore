@@ -1,17 +1,11 @@
 package org.leodreamer.sftcore.common.item;
 
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 
-import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -49,50 +43,50 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
         //
         // var container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
         // if (accelerate(container, context)) {
-        //     return InteractionResult.CONSUME;
+        // return InteractionResult.CONSUME;
         // }
         return InteractionResult.PASS;
     }
 
     // private static boolean accelerate(WirelessEnergyContainer container, UseOnContext context) {
-    //     var metaMachine = MetaMachine.getMachine(context.getLevel(), context.getClickedPos());
-    //     if (!(metaMachine instanceof IRecipeLogicMachine rlm)) {
-    //         return false;
-    //     }
-    //     var logic = rlm.getRecipeLogic();
-    //     if (!logic.isWorking()) {
-    //         return false;
-    //     }
-    //     MetaMachine machine = logic.getMachine();
+    // var metaMachine = MetaMachine.getMachine(context.getLevel(), context.getClickedPos());
+    // if (!(metaMachine instanceof IRecipeLogicMachine rlm)) {
+    // return false;
+    // }
+    // var logic = rlm.getRecipeLogic();
+    // if (!logic.isWorking()) {
+    // return false;
+    // }
+    // MetaMachine machine = logic.getMachine();
     //
-    //     if (!(machine instanceof IOverclockMachine overclockMachine)) {
-    //         return false;
-    //     }
+    // if (!(machine instanceof IOverclockMachine overclockMachine)) {
+    // return false;
+    // }
     //
-    //     GTRecipe recipe = logic.getLastOriginRecipe();
-    //     if (recipe == null || recipe.getOutputEUt().getTotalEU() > 0) {
-    //         return false;
-    //     }
+    // GTRecipe recipe = logic.getLastOriginRecipe();
+    // if (recipe == null || recipe.getOutputEUt().getTotalEU() > 0) {
+    // return false;
+    // }
     //
-    //     int leftDuration = (int) ((logic.getDuration() - logic.getProgress()) * 0.95);
-    //     long eu = leftDuration * overclockMachine.getOverclockVoltage();
-    //     if (eu == 0) {
-    //         return false;
-    //     }
+    // int leftDuration = (int) ((logic.getDuration() - logic.getProgress()) * 0.95);
+    // long eu = leftDuration * overclockMachine.getOverclockVoltage();
+    // if (eu == 0) {
+    // return false;
+    // }
     //
-    //     if (container.removeEnergy(eu, null) != eu) {
-    //         Objects.requireNonNull(context.getPlayer())
-    //             .displayClientMessage(Component.translatable(ENERGY_LACK), true);
-    //         return false;
-    //     }
+    // if (container.removeEnergy(eu, null) != eu) {
+    // Objects.requireNonNull(context.getPlayer())
+    // .displayClientMessage(Component.translatable(ENERGY_LACK), true);
+    // return false;
+    // }
     //
-    //     logic.setProgress(logic.getProgress() + leftDuration);
-    //     Objects.requireNonNull(context.getPlayer())
-    //         .displayClientMessage(
-    //             Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration),
-    //             true
-    //         );
-    //     return true;
+    // logic.setProgress(logic.getProgress() + leftDuration);
+    // Objects.requireNonNull(context.getPlayer())
+    // .displayClientMessage(
+    // Component.translatable(ACCELERATE, FormattingUtil.formatNumbers(eu), leftDuration),
+    // true
+    // );
+    // return true;
     // }
 
     @Override

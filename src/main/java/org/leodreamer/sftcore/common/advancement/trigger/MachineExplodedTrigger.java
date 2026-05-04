@@ -1,6 +1,8 @@
 package org.leodreamer.sftcore.common.advancement.trigger;
 
-import com.google.gson.JsonObject;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import org.leodreamer.sftcore.SFTCore;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.BlockPos;
@@ -8,7 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import org.leodreamer.sftcore.SFTCore;
+
+import com.google.gson.JsonObject;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -39,17 +42,12 @@ public class MachineExplodedTrigger extends SimpleCriterionTrigger<MachineExplod
     /**
      * Helper function to trigger the advancement for the player nearest to the machine when a GTM machine explodes.
      *
-     * @param level The world
-     * @param pos   position of the machine
+     * @param machine The machine that exploded
      */
-    public void trigger(Level level, BlockPos pos) {
-        if (!(level instanceof ServerLevel)) {
-            return;
-        }
-
-        var player = TriggerUtils.findNearestPlayer(level, pos);
-        if (player instanceof ServerPlayer serverPlayer) {
-            trigger(serverPlayer);
+    public void trigger(MetaMachine machine) {
+        var player = TriggerUtils.findOwnerOrNearestPlayer(machine);
+        if (player != null) {
+            trigger(player);
         }
     }
 

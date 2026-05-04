@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
-import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
 import org.leodreamer.sftcore.Config;
 
+import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.data.recipes.FinishedRecipe;

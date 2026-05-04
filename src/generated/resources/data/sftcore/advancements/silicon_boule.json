@@ -1,12 +1,12 @@
 {
-  "parent": "sftcore:primitive_blast_furnace",
+  "parent": "sftcore:electric_blast_furnace",
   "criteria": {
-    "has_gtceu_steel_ingot": {
+    "has_gtceu_silicon_boule": {
       "conditions": {
         "items": [
           {
             "items": [
-              "gtceu:steel_ingot"
+              "gtceu:silicon_boule"
             ]
           }
         ]
@@ -18,21 +18,21 @@
     "announce_to_chat": true,
     "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
-      "translate": "advancements.sftcore.steel.description"
+      "translate": "advancements.sftcore.silicon_boule.description"
     },
-    "frame": "goal",
+    "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "gtceu:steel_ingot"
+      "item": "gtceu:silicon_boule"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.sftcore.steel.title"
+      "translate": "advancements.sftcore.silicon_boule.title"
     }
   },
   "requirements": [
     [
-      "has_gtceu_steel_ingot"
+      "has_gtceu_silicon_boule"
     ]
   ],
   "sends_telemetry_event": true

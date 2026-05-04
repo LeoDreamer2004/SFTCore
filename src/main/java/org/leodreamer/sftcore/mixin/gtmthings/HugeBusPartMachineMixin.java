@@ -18,22 +18,22 @@
 // @Mixin(HugeBusPartMachine.class)
 // public class HugeBusPartMachineMixin extends TieredIOPartMachine implements IHasCircuitSlot {
 //
-//     @Shadow(remap = false)
-//     @Final
-//     protected NotifiableItemStackHandler circuitInventory;
+// @Shadow(remap = false)
+// @Final
+// protected NotifiableItemStackHandler circuitInventory;
 //
-//     public HugeBusPartMachineMixin(IMachineBlockEntity holder, int tier, IO io) {
-//         super(holder, tier, io);
-//     }
+// public HugeBusPartMachineMixin(IMachineBlockEntity holder, int tier, IO io) {
+// super(holder, tier, io);
+// }
 //
-//     @Override
-//     @Unique
-//     public NotifiableItemStackHandler getCircuitInventory() {
-//         return circuitInventory;
-//     }
+// @Override
+// @Unique
+// public NotifiableItemStackHandler getCircuitInventory() {
+// return circuitInventory;
+// }
 //
-//     @Inject(method = "getInventorySize", at = @At("HEAD"), cancellable = true, remap = false)
-//     private void setInventorySize(CallbackInfoReturnable<Integer> cir) {
-//         cir.setReturnValue((getTier() + 1) * 2);
-//     }
+// @Inject(method = "getInventorySize", at = @At("HEAD"), cancellable = true, remap = false)
+// private void setInventorySize(CallbackInfoReturnable<Integer> cir) {
+// cir.setReturnValue((getTier() + 1) * 2);
+// }
 // }

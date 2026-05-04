@@ -17,20 +17,20 @@
 // @Mixin(MEOutputPartMachine.class)
 // public abstract class MEOutputPartMachineMixin extends DualHatchPartMachine implements IWirelessAEMachine {
 //
-//     @Unique
-//     private WirelessGridHolder sftcore$wirelessHolder;
+// @Unique
+// private WirelessGridHolder sftcore$wirelessHolder;
 //
-//     public MEOutputPartMachineMixin(IMachineBlockEntity holder, int tier, IO io, Object... args) {
-//         super(holder, tier, io, args);
-//     }
+// public MEOutputPartMachineMixin(IMachineBlockEntity holder, int tier, IO io, Object... args) {
+// super(holder, tier, io, args);
+// }
 //
-//     @Inject(method = "<init>", at = @At("TAIL"))
-//     private void addWirelessHolder(IMachineBlockEntity holder, CallbackInfo ci) {
-//         sftcore$wirelessHolder = new WirelessGridHolder(this);
-//     }
+// @Inject(method = "<init>", at = @At("TAIL"))
+// private void addWirelessHolder(IMachineBlockEntity holder, CallbackInfo ci) {
+// sftcore$wirelessHolder = new WirelessGridHolder(this);
+// }
 //
-//     @Override
-//     public WirelessGridHolder sftcore$getWirelessHolder() {
-//         return sftcore$wirelessHolder;
-//     }
+// @Override
+// public WirelessGridHolder sftcore$getWirelessHolder() {
+// return sftcore$wirelessHolder;
+// }
 // }

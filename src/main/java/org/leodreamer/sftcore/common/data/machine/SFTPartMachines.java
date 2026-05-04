@@ -1,5 +1,12 @@
 package org.leodreamer.sftcore.common.data.machine;
 
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
+import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableAutoMaintenanceHatchPartMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableCleaningMaintenanceHatchPartMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.part.MEAdvancedInputBusPartMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHatchPartMachine;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -8,13 +15,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
+
 import net.minecraft.network.chat.Component;
-import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
-import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
-import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableAutoMaintenanceHatchPartMachine;
-import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableCleaningMaintenanceHatchPartMachine;
-import org.leodreamer.sftcore.common.machine.multiblock.part.MEAdvancedInputBusPartMachine;
-import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHatchPartMachine;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
@@ -135,62 +137,61 @@ public final class SFTPartMachines {
         .register();
 
     // public static final KineticMachineDefinition[] KINETIC_INPUT_BOX = registerKineticTieredMachines(
-    //     "kinetic_input_box",
-    //     (tier, id) -> new KineticMachineDefinition(id, false, GTValues.V[tier]).setFrontRotation(true),
-    //     (holder, tier) -> new KineticPartMachine(holder, tier, IO.IN),
-    //     (tier, builder) -> builder
-    //         .langValue("%s Kinetic Input Box %s".formatted(VLVH[tier], VLVT[tier]))
-    //         .rotationState(RotationState.ALL)
-    //         .blockProp(BlockBehaviour.Properties::dynamicShape)
-    //         .blockProp(BlockBehaviour.Properties::noOcclusion)
-    //         .abilities(SFTPartAbility.INPUT_KINETIC)
-    //         .modelProperty(GTMachineModelProperties.IS_FORMED, false)
-    //         .model(
-    //             SFTMachineModels.createTieredCustomModel(
-    //                 SFTCore.id("block/machine/part/kinetic_input_box")
-    //             )
-    //         )
-    //         .tier(tier)
-    //         .register(),
-    //     () -> (
-    //         VisualizationContext var1, KineticMachineBlockEntity var2, float var3
-    //     ) -> new SplitShaftVisual(var1, var2, var3),
-    //     false,
-    //     GTValues.tiersBetween(LV, EV)
+    // "kinetic_input_box",
+    // (tier, id) -> new KineticMachineDefinition(id, false, GTValues.V[tier]).setFrontRotation(true),
+    // (holder, tier) -> new KineticPartMachine(holder, tier, IO.IN),
+    // (tier, builder) -> builder
+    // .langValue("%s Kinetic Input Box %s".formatted(VLVH[tier], VLVT[tier]))
+    // .rotationState(RotationState.ALL)
+    // .blockProp(BlockBehaviour.Properties::dynamicShape)
+    // .blockProp(BlockBehaviour.Properties::noOcclusion)
+    // .abilities(SFTPartAbility.INPUT_KINETIC)
+    // .modelProperty(GTMachineModelProperties.IS_FORMED, false)
+    // .model(
+    // SFTMachineModels.createTieredCustomModel(
+    // SFTCore.id("block/machine/part/kinetic_input_box")
+    // )
+    // )
+    // .tier(tier)
+    // .register(),
+    // () -> (
+    // VisualizationContext var1, KineticMachineBlockEntity var2, float var3
+    // ) -> new SplitShaftVisual(var1, var2, var3),
+    // false,
+    // GTValues.tiersBetween(LV, EV)
     // );
     //
     // public static KineticMachineDefinition[] registerKineticTieredMachines(
-    //     String name,
-    //     BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
-    //     BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-    //     BiFunction<Integer, SFTMachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
-    //     NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
-    //     boolean renderNormally,
-    //     int[] tiers
+    // String name,
+    // BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
+    // BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
+    // BiFunction<Integer, SFTMachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
+    // NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
+    // boolean renderNormally,
+    // int[] tiers
     // ) {
-    //     KineticMachineDefinition[] definitions = new KineticMachineDefinition[GTValues.TIER_COUNT];
-    //     for (int tier : tiers) {
-    //         var register = REGISTRATE
-    //             .machine(
-    //                 GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
-    //                 id -> definitionFactory.apply(tier, id),
-    //                 holder -> factory.apply(holder, tier),
-    //                 KineticMachineBlock::new,
-    //                 MetaMachineItem::new,
-    //                 KineticMachineBlockEntity::create
-    //             )
-    //             .tier(tier)
-    //             .hasBER(visualFactory != null)
-    //             .onBlockEntityRegister(
-    //                 type -> KineticMachineBlockEntity.onBlockEntityRegister(
-    //                     type, visualFactory, renderNormally
-    //                 )
-    //             );
-    //         definitions[tier] = builder.apply(tier, register);
-    //     }
-    //     return definitions;
+    // KineticMachineDefinition[] definitions = new KineticMachineDefinition[GTValues.TIER_COUNT];
+    // for (int tier : tiers) {
+    // var register = REGISTRATE
+    // .machine(
+    // GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
+    // id -> definitionFactory.apply(tier, id),
+    // holder -> factory.apply(holder, tier),
+    // KineticMachineBlock::new,
+    // MetaMachineItem::new,
+    // KineticMachineBlockEntity::create
+    // )
+    // .tier(tier)
+    // .hasBER(visualFactory != null)
+    // .onBlockEntityRegister(
+    // type -> KineticMachineBlockEntity.onBlockEntityRegister(
+    // type, visualFactory, renderNormally
+    // )
+    // );
+    // definitions[tier] = builder.apply(tier, register);
+    // }
+    // return definitions;
     // }
 
-    public static void init() {
-    }
+    public static void init() {}
 }

@@ -173,44 +173,50 @@ repositories {
         name = 'ModdingX Maven'
         url = 'https://maven.moddingx.org/'
     }
+    maven {
+        // Configuration
+        name 'Configuration'
+        url 'https://repo.repsy.io/mvn/toma/public/'
+    }
     mavenLocal()
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:1.0.41.b") { transitive = false }
-    implementation fg.deobf(files('libs/gtceu-1.20.1-8.0.0-dev.jar'))
+    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}") { transitive = false }
+    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${mc_version}:1.0.41.b") { transitive = false }
+    implementation fg.deobf(files('libs/gtceu-1.20.1-8.0.0.jar'))
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136")
     implementation fg.deobf("curse.maven:mega-cells-622112:6175008")
-    implementation(fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false })
-    implementation(fg.deobf("net.createmod.ponder:Ponder-Forge-${minecraft_version}:${ponder_version}"))
+    implementation(fg.deobf("com.simibubi.create:create-${mc_version}:${create_version}:slim") { transitive = false })
+    implementation(fg.deobf("net.createmod.ponder:Ponder-Forge-${mc_version}:${ponder_version}"))
     implementation fg.deobf("curse.maven:glodium-957920:5226922")
     implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
     implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
-    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
     implementation fg.deobf("dev.emi:emi-forge:${emi_version}")
     implementation fg.deobf("curse.maven:ex-pattern-provider-892005:6677843")
     implementation fg.deobf("curse.maven:ae2addonlib-1366135:7159767")
     implementation fg.deobf("curse.maven:advancedae-1084104:7159779")
-    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:${geckolib_version}")
 //    implementation fg.deobf("curse.maven:gtmthings-1104310:6843500")
     implementation fg.deobf("curse.maven:jade-324717:6855440")
-    implementation fg.deobf("com.blakebr0.cucumber:Cucumber:${minecraft_version}-${cucumber_version}")
-    implementation fg.deobf("com.blakebr0.extendedcrafting:ExtendedCrafting:${minecraft_version}-${extended_crafting_version}")
+    implementation fg.deobf("com.blakebr0.cucumber:Cucumber:${mc_version}-${cucumber_version}")
+    implementation fg.deobf("com.blakebr0.extendedcrafting:ExtendedCrafting:${mc_version}-${extended_crafting_version}")
     implementation fg.deobf("curse.maven:travel-anchors-413234:4683662")
     implementation fg.deobf("curse.maven:carry-on-274259:4882500")
-    implementation fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
+    implementation fg.deobf("org.moddingx:LibX:${mc_version}-${libx_version}")
     implementation("com.eliotlash.mclib:mclib:20")
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
-    compileOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${minecraft_version}:${flywheel_version}"))
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
+    compileOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${mc_version}:${flywheel_version}"))
 
-    runtimeOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-${minecraft_version}:${flywheel_version}"))
+    implementation fg.deobf("dev.toma.configuration:configuration-forge-1.20.1:${configuration_version}") {transitive = false }
+    runtimeOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-${mc_version}:${flywheel_version}"))
     runtimeOnly fg.deobf("curse.maven:just-enough-characters-250702:6680042")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     runtimeOnly fg.deobf("maven.modrinth:jade:${jade_version}")
@@ -219,13 +225,13 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:ftb-library-forge-404465:6807424")
 
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor fg.deobf("org.moddingx:LibX:${minecraft_version}-${libx_version}")
+    annotationProcessor fg.deobf("org.moddingx:LibX:${mc_version}-${libx_version}")
     annotationProcessor ("io.github.llamalad7:mixinextras-common:0.5.0")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+    var replaceProperties = [minecraft_version   : mc_version, minecraft_version_range: minecraft_version_range,
                              forge_version       : forge_version, forge_version_range: forge_version_range,
                              loader_version_range: loader_version_range,
                              mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,

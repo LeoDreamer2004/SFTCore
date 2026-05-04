@@ -26,121 +26,122 @@
 // import javax.annotation.ParametersAreNonnullByDefault;
 //
 // /**
-//  * A base block class for kinetic machines.
-//  * <p>
-//  * All codes about integration between GTM and Create are from <a href="https://github.com/CTNH-Team/CTNH-Core">Create:
-//  * New Horizon</a>.
-//  * Many thanks to CTNH-Team for their open source contributions.
-//  * </p>
-//  */
+// * A base block class for kinetic machines.
+// * <p>
+// * All codes about integration between GTM and Create are from <a
+// href="https://github.com/CTNH-Team/CTNH-Core">Create:
+// * New Horizon</a>.
+// * Many thanks to CTNH-Team for their open source contributions.
+// * </p>
+// */
 // @ParametersAreNonnullByDefault
 // @MethodsReturnNonnullByDefault
 // public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
 //
-//     public KineticMachineBlock(Properties properties, KineticMachineDefinition definition) {
-//         super(properties, definition);
-//     }
+// public KineticMachineBlock(Properties properties, KineticMachineDefinition definition) {
+// super(properties, definition);
+// }
 //
-//     @Override
-//     public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
-//         if (MetaMachine.getMachine(world, pos) instanceof IKineticMachine kineticMachine) {
-//             return kineticMachine.hasShaftTowards(face);
-//         }
-//         return false;
-//     }
+// @Override
+// public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
+// if (MetaMachine.getMachine(world, pos) instanceof IKineticMachine kineticMachine) {
+// return kineticMachine.hasShaftTowards(face);
+// }
+// return false;
+// }
 //
-//     public Direction getRotationFacing(BlockState state) {
-//         var frontFacing = getFrontFacing(state);
-//         return ((KineticMachineDefinition) definition).isFrontRotation() ? frontFacing :
-//             (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
-//     }
+// public Direction getRotationFacing(BlockState state) {
+// var frontFacing = getFrontFacing(state);
+// return ((KineticMachineDefinition) definition).isFrontRotation() ? frontFacing :
+// (frontFacing.getAxis() == Direction.Axis.Y ? Direction.NORTH : frontFacing.getClockWise());
+// }
 //
-//     @Override
-//     public Direction.Axis getRotationAxis(BlockState state) {
-//         return getRotationFacing(state).getAxis();
-//     }
+// @Override
+// public Direction.Axis getRotationAxis(BlockState state) {
+// return getRotationFacing(state).getAxis();
+// }
 //
-//     @Override
-//     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-//         // onBlockAdded is useless for init, as sometimes the TE gets re-instantiated
+// @Override
+// public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+// // onBlockAdded is useless for init, as sometimes the TE gets re-instantiated
 //
-//         // however, if a block change occurs that does not change kinetic connections,
-//         // we can prevent a major re-propagation here
+// // however, if a block change occurs that does not change kinetic connections,
+// // we can prevent a major re-propagation here
 //
-//         BlockEntity tileEntity = level.getBlockEntity(pos);
-//         if (tileEntity instanceof KineticBlockEntity kineticTileEntity) {
-//             kineticTileEntity.preventSpeedUpdate = 0;
+// BlockEntity tileEntity = level.getBlockEntity(pos);
+// if (tileEntity instanceof KineticBlockEntity kineticTileEntity) {
+// kineticTileEntity.preventSpeedUpdate = 0;
 //
-//             if (oldState.getBlock() != state.getBlock()) return;
-//             if (state.hasBlockEntity() != oldState.hasBlockEntity()) return;
-//             if (!areStatesKineticallyEquivalent(oldState, state)) return;
+// if (oldState.getBlock() != state.getBlock()) return;
+// if (state.hasBlockEntity() != oldState.hasBlockEntity()) return;
+// if (!areStatesKineticallyEquivalent(oldState, state)) return;
 //
-//             kineticTileEntity.preventSpeedUpdate = 2;
-//         }
-//     }
+// kineticTileEntity.preventSpeedUpdate = 2;
+// }
+// }
 //
-//     @Override
-//     public BlockState rotate(BlockState pState, Rotation pRotation) {
-//         return pState.setValue(
-//             this.getRotationState().property,
-//             pRotation.rotate(pState.getValue(this.getRotationState().property))
-//         );
-//     }
+// @Override
+// public BlockState rotate(BlockState pState, Rotation pRotation) {
+// return pState.setValue(
+// this.getRotationState().property,
+// pRotation.rotate(pState.getValue(this.getRotationState().property))
+// );
+// }
 //
-//     public boolean areStatesKineticallyEquivalent(BlockState oldState, BlockState newState) {
-//         if (oldState.getBlock() != newState.getBlock()) return false;
-//         return getRotationAxis(newState) == getRotationAxis(oldState);
-//     }
+// public boolean areStatesKineticallyEquivalent(BlockState oldState, BlockState newState) {
+// if (oldState.getBlock() != newState.getBlock()) return false;
+// return getRotationAxis(newState) == getRotationAxis(oldState);
+// }
 //
-//     @Override
-//     public void updateIndirectNeighbourShapes(
-//         BlockState stateIn,
-//         LevelAccessor worldIn,
-//         BlockPos pos,
-//         int flags,
-//         int count
-//     ) {
-//         if (worldIn.isClientSide()) return;
+// @Override
+// public void updateIndirectNeighbourShapes(
+// BlockState stateIn,
+// LevelAccessor worldIn,
+// BlockPos pos,
+// int flags,
+// int count
+// ) {
+// if (worldIn.isClientSide()) return;
 //
-//         BlockEntity tileEntity = worldIn.getBlockEntity(pos);
-//         if (!(tileEntity instanceof KineticBlockEntity kte)) return;
+// BlockEntity tileEntity = worldIn.getBlockEntity(pos);
+// if (!(tileEntity instanceof KineticBlockEntity kte)) return;
 //
-//         if (kte.preventSpeedUpdate > 0) return;
+// if (kte.preventSpeedUpdate > 0) return;
 //
-//         // Remove previous information when block is added
-//         kte.warnOfMovement();
-//         kte.clearKineticInformation();
-//         kte.updateSpeed = true;
-//     }
+// // Remove previous information when block is added
+// kte.warnOfMovement();
+// kte.clearKineticInformation();
+// kte.updateSpeed = true;
+// }
 //
-//     @Override
-//     @Nullable
-//     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-//         Level level,
-//         BlockState state,
-//         BlockEntityType<T> blockEntityType
-//     ) {
-//         if (blockEntityType == getDefinition().getBlockEntityType()) {
-//             if (!level.isClientSide) {
-//                 return (pLevel, pPos, pState, pTile) -> {
-//                     if (pTile instanceof MetaMachine metaMachine) {
-//                         metaMachine.serverTick();
-//                     }
-//                     if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
-//                         kineticMachineBlockEntity.tick();
-//                     }
-//                 };
-//             } else {
-//                 return (pLevel, pPos, pState, pTile) -> {
-//                     if (pTile instanceof MetaMachine metaMachine) {
-//                         metaMachine.clientTick();
-//                     }
-//                     if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
-//                         kineticMachineBlockEntity.tick();
-//                     }
-//                 };
-//             }
-//         }
-//         return null;
-//     }
+// @Override
+// @Nullable
+// public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+// Level level,
+// BlockState state,
+// BlockEntityType<T> blockEntityType
+// ) {
+// if (blockEntityType == getDefinition().getBlockEntityType()) {
+// if (!level.isClientSide) {
+// return (pLevel, pPos, pState, pTile) -> {
+// if (pTile instanceof MetaMachine metaMachine) {
+// metaMachine.serverTick();
+// }
+// if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
+// kineticMachineBlockEntity.tick();
+// }
+// };
+// } else {
+// return (pLevel, pPos, pState, pTile) -> {
+// if (pTile instanceof MetaMachine metaMachine) {
+// metaMachine.clientTick();
+// }
+// if (pTile instanceof KineticMachineBlockEntity kineticMachineBlockEntity) {
+// kineticMachineBlockEntity.tick();
+// }
+// };
+// }
+// }
+// return null;
+// }
 // }

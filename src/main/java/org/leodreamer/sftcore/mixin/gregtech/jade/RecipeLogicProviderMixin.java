@@ -21,7 +21,9 @@ public class RecipeLogicProviderMixin {
         method = "write(Lnet/minecraft/nbt/CompoundTag;Lsnownee/jade/api/BlockAccessor;Lcom/gregtechceu/gtceu/api/machine/trait/RecipeLogic;)V",
         at = @At("TAIL"), remap = false
     )
-    private void fixVoltageInfoForWirelessHatches(CompoundTag data, BlockAccessor blockAccessor, RecipeLogic capability, CallbackInfo ci) {
+    private void fixVoltageInfoForWirelessHatches(
+        CompoundTag data, BlockAccessor blockAccessor, RecipeLogic capability, CallbackInfo ci
+    ) {
         if (capability.getMachine() instanceof WorkableElectricMultiblockMachine) {
             var recipe = data.getCompound("Recipe");
             long eut = recipe.getLong("EUt");

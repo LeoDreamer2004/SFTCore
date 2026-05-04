@@ -1,10 +1,13 @@
 package org.leodreamer.sftcore.mixin.gregtech.util;
 
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,10 +27,11 @@ public abstract class GTUtilMixin {
             return;
         }
 
-        if (MetaMachine.getMachine(level, pos) == null) {
+        var machine = MetaMachine.getMachine(level, pos);
+        if (machine == null) {
             return;
         }
 
-        SFTCriteriaTriggers.MACHINE_EXPLODED.trigger(level, pos);
+        SFTCriteriaTriggers.MACHINE_EXPLODED.trigger(machine);
     }
 }

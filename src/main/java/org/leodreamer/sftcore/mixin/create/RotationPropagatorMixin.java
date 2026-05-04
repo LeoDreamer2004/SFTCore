@@ -15,19 +15,19 @@
 // @Mixin(RotationPropagator.class)
 // public abstract class RotationPropagatorMixin {
 //
-//     @Inject(method = "getAxisModifier", at = @At(value = "RETURN"), remap = false, cancellable = true)
-//     private static void injectAxisModifier(
-//         KineticBlockEntity be,
-//         Direction direction,
-//         CallbackInfoReturnable<Float> cir
-//     ) {
-//         if (
-//             (be.hasSource() || be.isSource()) &&
-//                 be instanceof KineticMachineBlockEntity kineticMachineBlockEntity
-//         ) {
-//             if (kineticMachineBlockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine) {
-//                 cir.setReturnValue(kineticMachine.getRotationSpeedModifier(direction));
-//             }
-//         }
-//     }
+// @Inject(method = "getAxisModifier", at = @At(value = "RETURN"), remap = false, cancellable = true)
+// private static void injectAxisModifier(
+// KineticBlockEntity be,
+// Direction direction,
+// CallbackInfoReturnable<Float> cir
+// ) {
+// if (
+// (be.hasSource() || be.isSource()) &&
+// be instanceof KineticMachineBlockEntity kineticMachineBlockEntity
+// ) {
+// if (kineticMachineBlockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine) {
+// cir.setReturnValue(kineticMachine.getRotationSpeedModifier(direction));
+// }
+// }
+// }
 // }

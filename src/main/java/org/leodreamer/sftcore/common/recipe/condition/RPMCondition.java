@@ -2,8 +2,6 @@ package org.leodreamer.sftcore.common.recipe.condition;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-// import org.leodreamer.sftcore.api.feature.IKineticMachine;
-// import org.leodreamer.sftcore.api.machine.multiblock.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.common.data.SFTRecipeConditions;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -57,13 +55,13 @@ public class RPMCondition extends RecipeCondition<RPMCondition> {
     @Override
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         // if (
-        //     recipeLogic.getMachine() instanceof IKineticMachine kineticMachine &&
-        //         Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm
+        // recipeLogic.getMachine() instanceof IKineticMachine kineticMachine &&
+        // Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm
         // ) {
-        //     return true;
+        // return true;
         // }
         // if (recipeLogic.getMachine() instanceof WorkableKineticMultiblockMachine controller) {
-        //     return controller.speed >= rpm;
+        // return controller.speed >= rpm;
         // }
         // return false;
         return true;

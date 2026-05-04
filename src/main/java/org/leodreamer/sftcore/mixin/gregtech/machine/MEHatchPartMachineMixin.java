@@ -1,9 +1,9 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
 import org.leodreamer.sftcore.api.machine.trait.WirelessGridHolder;
 
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEHatchPartMachine;
@@ -23,7 +23,6 @@ public abstract class MEHatchPartMachineMixin extends FluidHatchPartMachine impl
     public MEHatchPartMachineMixin(BlockEntityCreationInfo info, int tier, IO io, int initialCapacity, int slots) {
         super(info, tier, io, initialCapacity, slots);
     }
-
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void addWirelessHolder(BlockEntityCreationInfo info, IO io, CallbackInfo ci) {

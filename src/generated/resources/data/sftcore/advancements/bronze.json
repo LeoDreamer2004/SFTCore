@@ -20,7 +20,7 @@
     "description": {
       "translate": "advancements.sftcore.bronze.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "hidden": false,
     "icon": {
       "item": "gtceu:bronze_ingot"

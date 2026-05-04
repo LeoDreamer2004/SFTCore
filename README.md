@@ -1,5 +1,6 @@
 # SFT Core
 整合包 Starter For Technology 的 Core Mod。
+为适应即将到来的 GTM V8，参见 v8 分支。
 
 ## Credit
 

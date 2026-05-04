@@ -3,11 +3,7 @@ package org.leodreamer.sftcore.common.advancement.trigger;
 import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.SerializationContext;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,6 +39,7 @@ public class DuctTapedMaintenanceTrigger extends SimpleCriterionTrigger<DuctTape
     /**
      * Helper function to trigger when a player right-clicks the
      * maintenance hatch with duct tape in hand. It will trigger the advancement for the player.
+     *
      * @param player The player fix the hatch
      */
     public void trigger(Player player) {
@@ -54,17 +51,14 @@ public class DuctTapedMaintenanceTrigger extends SimpleCriterionTrigger<DuctTape
     /**
      * Helper function to trigger when a player placed some tapes in a maintenance hatch/
      * No player context here, so use the nearest.
+     *
      * @param hatch The hatch which got more tapes
      */
     public void trigger(MaintenanceHatchPartMachine hatch) {
-        if (!(hatch.getLevel() instanceof ServerLevel level)) {
-            return;
-        }
+        var player = TriggerUtils.findOwnerOrNearestPlayer(hatch);
 
-        var player = TriggerUtils.findNearestPlayer(level, hatch.getBlockPos());
-
-        if (player instanceof ServerPlayer serverPlayer) {
-            trigger(serverPlayer);
+        if (player != null) {
+            trigger(player);
         }
     }
 

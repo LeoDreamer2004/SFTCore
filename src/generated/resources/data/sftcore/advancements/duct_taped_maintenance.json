@@ -1,0 +1,31 @@
+{
+  "parent": "sftcore:electric_blast_furnace",
+  "criteria": {
+    "duct_taped_maintenance": {
+      "conditions": {},
+      "trigger": "sftcore:duct_taped_maintenance"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.duct_taped_maintenance.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:duct_tape"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.duct_taped_maintenance.title"
+    }
+  },
+  "requirements": [
+    [
+      "duct_taped_maintenance"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

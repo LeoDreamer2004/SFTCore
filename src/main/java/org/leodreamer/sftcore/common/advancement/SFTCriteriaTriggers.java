@@ -1,10 +1,11 @@
 package org.leodreamer.sftcore.common.advancement;
 
-import net.minecraft.advancements.CriteriaTriggers;
 import org.leodreamer.sftcore.common.advancement.trigger.DuctTapedMaintenanceTrigger;
 import org.leodreamer.sftcore.common.advancement.trigger.FormedGTMultiblockTrigger;
 import org.leodreamer.sftcore.common.advancement.trigger.MachineExplodedTrigger;
 import org.leodreamer.sftcore.common.advancement.trigger.WireBurnedTrigger;
+
+import net.minecraft.advancements.CriteriaTriggers;
 
 public final class SFTCriteriaTriggers {
 

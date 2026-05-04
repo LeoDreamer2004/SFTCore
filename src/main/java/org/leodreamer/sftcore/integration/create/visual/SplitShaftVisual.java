@@ -22,67 +22,67 @@
 //
 // public class SplitShaftVisual extends KineticBlockEntityVisual<KineticMachineBlockEntity> {
 //
-//     protected final ArrayList<RotatingInstance> keys;
+// protected final ArrayList<RotatingInstance> keys;
 //
-//     public SplitShaftVisual(
-//         VisualizationContext context,
-//         KineticMachineBlockEntity blockEntity,
-//         float partialTick
-//     ) {
-//         super(context, blockEntity, partialTick);
+// public SplitShaftVisual(
+// VisualizationContext context,
+// KineticMachineBlockEntity blockEntity,
+// float partialTick
+// ) {
+// super(context, blockEntity, partialTick);
 //
-//         keys = new ArrayList<>(2);
+// keys = new ArrayList<>(2);
 //
-//         float speed = blockEntity.getSpeed();
+// float speed = blockEntity.getSpeed();
 //
-//         for (Direction dir : Iterate.directionsInAxis(rotationAxis())) {
+// for (Direction dir : Iterate.directionsInAxis(rotationAxis())) {
 //
-//             RotatingInstance half = instancerProvider()
-//                 .instancer(AllInstanceTypes.ROTATING, Models.partial(AllPartialModels.SHAFT_HALF))
-//                 .createInstance();
+// RotatingInstance half = instancerProvider()
+// .instancer(AllInstanceTypes.ROTATING, Models.partial(AllPartialModels.SHAFT_HALF))
+// .createInstance();
 //
-//             float splitSpeed = speed * (blockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine ?
-//                 kineticMachine.getRotationSpeedModifier(dir) : 1);
-//             half.setup(blockEntity, splitSpeed)
-//                 .setPosition(getVisualPosition())
-//                 .rotateToFace(Direction.SOUTH, dir)
-//                 .setChanged();
-//             keys.add(half);
-//         }
-//     }
+// float splitSpeed = speed * (blockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine ?
+// kineticMachine.getRotationSpeedModifier(dir) : 1);
+// half.setup(blockEntity, splitSpeed)
+// .setPosition(getVisualPosition())
+// .rotateToFace(Direction.SOUTH, dir)
+// .setChanged();
+// keys.add(half);
+// }
+// }
 //
-//     @Override
-//     public void update(float pt) {
-//         Block block = blockState.getBlock();
-//         final Direction.Axis boxAxis = ((IRotate) block).getRotationAxis(blockState);
+// @Override
+// public void update(float pt) {
+// Block block = blockState.getBlock();
+// final Direction.Axis boxAxis = ((IRotate) block).getRotationAxis(blockState);
 //
-//         Direction[] directions = Iterate.directionsInAxis(boxAxis);
+// Direction[] directions = Iterate.directionsInAxis(boxAxis);
 //
-//         for (int i : Iterate.zeroAndOne) {
-//             keys.get(i)
-//                 .setup(
-//                     blockEntity,
-//                     blockEntity.getSpeed() *
-//                         (blockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine ?
-//                             kineticMachine.getRotationSpeedModifier(directions[i]) : 1)
-//                 )
-//                 .setChanged();
-//         }
-//     }
+// for (int i : Iterate.zeroAndOne) {
+// keys.get(i)
+// .setup(
+// blockEntity,
+// blockEntity.getSpeed() *
+// (blockEntity.getMetaMachine() instanceof IKineticMachine kineticMachine ?
+// kineticMachine.getRotationSpeedModifier(directions[i]) : 1)
+// )
+// .setChanged();
+// }
+// }
 //
-//     @Override
-//     protected void _delete() {
-//         keys.forEach(RotatingInstance::delete);
-//         keys.clear();
-//     }
+// @Override
+// protected void _delete() {
+// keys.forEach(RotatingInstance::delete);
+// keys.clear();
+// }
 //
-//     @Override
-//     public void collectCrumblingInstances(Consumer<@Nullable Instance> consumer) {
-//         keys.forEach(consumer);
-//     }
+// @Override
+// public void collectCrumblingInstances(Consumer<@Nullable Instance> consumer) {
+// keys.forEach(consumer);
+// }
 //
-//     @Override
-//     public void updateLight(float v) {
-//         keys.forEach(rotatingInstance -> relight(pos, rotatingInstance));
-//     }
+// @Override
+// public void updateLight(float v) {
+// keys.forEach(rotatingInstance -> relight(pos, rotatingInstance));
+// }
 // }

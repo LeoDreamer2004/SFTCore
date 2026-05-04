@@ -1,15 +1,17 @@
 package org.leodreamer.sftcore.integration.ae2.slot;
 
-import appeng.core.definitions.AEItems;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+
 import net.minecraft.world.level.ItemLike;
+
+import appeng.core.definitions.AEItems;
 
 import java.util.Arrays;
 
 public class MEInputUpgradeInventory extends NotifiableItemStackHandler {
 
-    public static final ItemLike[] availableUpgrades = new ItemLike[]{
+    public static final ItemLike[] availableUpgrades = new ItemLike[] {
         AEItems.CRAFTING_CARD
     };
 

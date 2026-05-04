@@ -1,14 +1,17 @@
 package org.leodreamer.sftcore.integration.ae2.logic;
 
-import appeng.api.networking.IGridNode;
-import appeng.helpers.patternprovider.PatternContainer;
-import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import net.minecraft.world.level.block.Block;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
 import org.leodreamer.sftcore.util.GTMachineUtils;
+
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+
+import net.minecraft.world.level.block.Block;
+
+import appeng.api.networking.IGridNode;
+import appeng.helpers.patternprovider.PatternContainer;
 
 import java.util.Optional;
 

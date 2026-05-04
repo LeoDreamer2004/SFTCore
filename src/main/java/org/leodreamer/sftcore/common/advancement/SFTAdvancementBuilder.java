@@ -65,6 +65,8 @@ public class SFTAdvancementBuilder {
         return this;
     }
 
+    public SFTAdvancementBuilder goal() { return frame(FrameType.GOAL); }
+
     public SFTAdvancementBuilder challenge() {
         return frame(FrameType.CHALLENGE);
     }

@@ -1,15 +1,18 @@
 package org.leodreamer.sftcore.common.advancement.trigger;
 
-import com.google.gson.JsonObject;
+import org.leodreamer.sftcore.SFTCore;
+
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
+
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.SFTCore;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -44,14 +47,9 @@ public class FormedGTMultiblockTrigger extends SimpleCriterionTrigger<FormedGTMu
      * @param machine The multiblock controller that was formed
      */
     public void trigger(MultiblockControllerMachine machine) {
-        if (!(machine.getLevel() instanceof ServerLevel level)) {
-            return;
-        }
-
-        var pos = machine.getBlockPos();
-        var player = TriggerUtils.findNearestPlayer(level, pos);
-        if (player instanceof ServerPlayer serverPlayer) {
-            trigger(serverPlayer, machine.getDefinition().getId());
+        var player = TriggerUtils.findOwnerOrNearestPlayer(machine);
+        if (player != null) {
+            trigger(player, machine.getDefinition().getId());
         }
     }
 
