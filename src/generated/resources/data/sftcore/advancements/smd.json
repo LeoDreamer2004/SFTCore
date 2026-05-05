@@ -1,0 +1,99 @@
+{
+  "parent": "sftcore:stainless_steel",
+  "criteria": {
+    "has_gtceu_smd_capacitor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:smd_capacitor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_smd_diode": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:smd_diode"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_smd_inductor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:smd_inductor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_smd_resistor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:smd_resistor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_smd_transistor": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:smd_transistor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.smd.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:smd_capacitor"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.smd.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_smd_capacitor"
+    ],
+    [
+      "has_gtceu_smd_diode"
+    ],
+    [
+      "has_gtceu_smd_inductor"
+    ],
+    [
+      "has_gtceu_smd_resistor"
+    ],
+    [
+      "has_gtceu_smd_transistor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

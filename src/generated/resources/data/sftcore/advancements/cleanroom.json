@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:stainless_steel",
+  "criteria": {
+    "formed_gtceu_cleanroom": {
+      "conditions": {
+        "machine": "gtceu:cleanroom"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.cleanroom.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:cleanroom"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.cleanroom.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_cleanroom"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

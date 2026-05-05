@@ -1,0 +1,44 @@
+{
+  "parent": "sftcore:aluminum",
+  "criteria": {
+    "execute_gtceu_chemical_bath_kanthal_cool_down_kanthal_cool_down_distilled_water_silicon_cool_down_silicon_cool_down_distilled_water_black_steel_cool_down_black_steel_cool_down_distilled_water_red_steel_cool_down_red_steel_cool_down_distilled_water_blue_steel_cool_down_blue_steel_cool_down_distilled_water": {
+      "conditions": {
+        "recipes": [
+          "gtceu:chemical_bath/black_steel_cool_down",
+          "gtceu:chemical_bath/black_steel_cool_down_distilled_water",
+          "gtceu:chemical_bath/blue_steel_cool_down",
+          "gtceu:chemical_bath/blue_steel_cool_down_distilled_water",
+          "gtceu:chemical_bath/kanthal_cool_down",
+          "gtceu:chemical_bath/kanthal_cool_down_distilled_water",
+          "gtceu:chemical_bath/red_steel_cool_down",
+          "gtceu:chemical_bath/red_steel_cool_down_distilled_water",
+          "gtceu:chemical_bath/silicon_cool_down",
+          "gtceu:chemical_bath/silicon_cool_down_distilled_water"
+        ]
+      },
+      "trigger": "sftcore:recipe_executed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.bathing_to_cool.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:distilled_water_bucket"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.bathing_to_cool.title"
+    }
+  },
+  "requirements": [
+    [
+      "execute_gtceu_chemical_bath_kanthal_cool_down_kanthal_cool_down_distilled_water_silicon_cool_down_silicon_cool_down_distilled_water_black_steel_cool_down_black_steel_cool_down_distilled_water_red_steel_cool_down_red_steel_cool_down_distilled_water_blue_steel_cool_down_blue_steel_cool_down_distilled_water"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

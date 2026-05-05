@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:blast_alloy_smelter",
+  "criteria": {
+    "has_gtceu_rhodium_plated_palladium_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:rhodium_plated_palladium_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.rhodium_plated_palladium.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:rhodium_plated_palladium_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.rhodium_plated_palladium.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_rhodium_plated_palladium_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

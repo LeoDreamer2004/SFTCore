@@ -1,0 +1,114 @@
+{
+  "parent": "sftcore:titanium",
+  "criteria": {
+    "has_gtceu_iridium_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:iridium_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_osmium_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:osmium_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_palladium_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:palladium_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_platinum_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:platinum_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_rhodium_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:rhodium_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ruthenium_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ruthenium_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.platinum_group.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:platinum_dust"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.platinum_group.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_platinum_dust"
+    ],
+    [
+      "has_gtceu_palladium_dust"
+    ],
+    [
+      "has_gtceu_ruthenium_dust"
+    ],
+    [
+      "has_gtceu_rhodium_dust"
+    ],
+    [
+      "has_gtceu_iridium_dust"
+    ],
+    [
+      "has_gtceu_osmium_dust"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

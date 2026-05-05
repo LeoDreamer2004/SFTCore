@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:cleanroom",
+  "criteria": {
+    "has_gtceu_micro_processor_mainframe": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:micro_processor_mainframe"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.micro_processor_mainframe.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:micro_processor_mainframe"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.micro_processor_mainframe.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_micro_processor_mainframe"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

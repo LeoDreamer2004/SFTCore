@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
 
@@ -42,7 +41,7 @@ public class FormedGTMultiblockTrigger extends SimpleCriterionTrigger<FormedGTMu
     }
 
     /**
-     * Helper function to trigger the advancement for the player nearest to the machine when a GTM multiblock is formed.
+     * Helper function to trigger the advancement for the player when a GTM multiblock is formed.
      *
      * @param machine The multiblock controller that was formed
      */

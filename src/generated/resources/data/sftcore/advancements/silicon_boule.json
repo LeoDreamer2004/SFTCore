@@ -1,17 +1,13 @@
 {
   "parent": "sftcore:electric_blast_furnace",
   "criteria": {
-    "has_gtceu_silicon_boule": {
+    "execute_gtceu_electric_blast_furnace_silicon_boule": {
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "gtceu:silicon_boule"
-            ]
-          }
+        "recipes": [
+          "gtceu:electric_blast_furnace/silicon_boule"
         ]
       },
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "sftcore:recipe_executed"
     }
   },
   "display": {
@@ -32,7 +28,7 @@
   },
   "requirements": [
     [
-      "has_gtceu_silicon_boule"
+      "execute_gtceu_electric_blast_furnace_silicon_boule"
     ]
   ],
   "sends_telemetry_event": true

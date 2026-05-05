@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:tungsten",
+  "criteria": {
+    "has_gtceu_tungsten_steel_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:tungsten_steel_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.tungsten_steel.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:tungsten_steel_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.tungsten_steel.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_tungsten_steel_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

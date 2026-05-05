@@ -2,13 +2,16 @@ package org.leodreamer.sftcore.common.advancement.trigger;
 
 import org.leodreamer.sftcore.SFTCore;
 
-import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.advancements.critereon.*;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.SerializationContext;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 
 import com.google.gson.JsonObject;
 
@@ -16,9 +19,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class DuctTapedMaintenanceTrigger extends SimpleCriterionTrigger<DuctTapedMaintenanceTrigger.Instance> {
+public class MaxCleanroomCleanTrigger extends SimpleCriterionTrigger<MaxCleanroomCleanTrigger.Instance> {
 
-    public static final ResourceLocation ID = SFTCore.id("duct_taped_maintenance");
+    public static final ResourceLocation ID = SFTCore.id("max_cleanroom_clean");
 
     @Override
     public ResourceLocation getId() {
@@ -39,25 +42,12 @@ public class DuctTapedMaintenanceTrigger extends SimpleCriterionTrigger<DuctTape
     }
 
     /**
-     * Helper function to trigger when a player right-clicks the
-     * maintenance hatch with duct tape in hand. It will trigger the advancement for the player.
+     * Helper function to trigger the advancement for the player when a cleanroom with max size is cleaned up.
      *
-     * @param player The player fix the hatch
+     * @param machine The cleanroom
      */
-    public void trigger(Player player) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            trigger(serverPlayer);
-        }
-    }
-
-    /**
-     * Helper function to trigger when a player placed some tapes in a maintenance hatch
-     * No player context here, so use the nearest (probably the player who placed the taps).
-     *
-     * @param hatch The hatch which got more tapes
-     */
-    public void trigger(MaintenanceHatchPartMachine hatch) {
-        var player = TriggerUtils.findNearestPlayer(hatch.getLevel(), hatch.getBlockPos());
+    public void trigger(CleanroomMachine machine) {
+        var player = TriggerUtils.findOwnerOrNearestPlayer(machine);
 
         if (player != null) {
             trigger(player);
@@ -70,7 +60,7 @@ public class DuctTapedMaintenanceTrigger extends SimpleCriterionTrigger<DuctTape
             super(ID, player);
         }
 
-        public static Instance taped() {
+        public static Instance cleaned() {
             return new Instance(ContextAwarePredicate.ANY);
         }
 

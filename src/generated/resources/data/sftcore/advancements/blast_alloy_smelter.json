@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:platinum_group",
+  "criteria": {
+    "formed_gtceu_alloy_blast_smelter": {
+      "conditions": {
+        "machine": "gtceu:alloy_blast_smelter"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.blast_alloy_smelter.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:alloy_blast_smelter"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.blast_alloy_smelter.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_alloy_blast_smelter"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

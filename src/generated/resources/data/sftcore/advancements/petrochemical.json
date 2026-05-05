@@ -1,0 +1,51 @@
+{
+  "parent": "sftcore:large_chemical_reactor",
+  "criteria": {
+    "formed_gtceu_cracker": {
+      "conditions": {
+        "machine": "gtceu:cracker"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_distillation_tower": {
+      "conditions": {
+        "machine": "gtceu:distillation_tower"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_chemical_reactor": {
+      "conditions": {
+        "machine": "gtceu:large_chemical_reactor"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.petrochemical.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:distillation_tower"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.petrochemical.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_distillation_tower"
+    ],
+    [
+      "formed_gtceu_cracker"
+    ],
+    [
+      "formed_gtceu_large_chemical_reactor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

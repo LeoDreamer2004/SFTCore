@@ -1,30 +1,30 @@
 {
-  "parent": "sftcore:steel",
+  "parent": "sftcore:cleanroom",
   "criteria": {
-    "wire_burned": {
+    "max_cleanroom_clean": {
       "conditions": {},
-      "trigger": "sftcore:wire_burned"
+      "trigger": "sftcore:max_cleanroom_clean"
     }
   },
   "display": {
     "announce_to_chat": true,
     "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
-      "translate": "advancements.sftcore.wire_burned.description"
+      "translate": "advancements.sftcore.max_cleanroom_clean.description"
     },
     "frame": "goal",
-    "hidden": true,
+    "hidden": false,
     "icon": {
-      "item": "gtceu:copper_single_wire"
+      "item": "gtceu:cleanroom"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.sftcore.wire_burned.title"
+      "translate": "advancements.sftcore.max_cleanroom_clean.title"
     }
   },
   "requirements": [
     [
-      "wire_burned"
+      "max_cleanroom_clean"
     ]
   ],
   "sends_telemetry_event": true

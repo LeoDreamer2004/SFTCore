@@ -1,15 +1,13 @@
 package org.leodreamer.sftcore.common.advancement.trigger;
 
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import org.leodreamer.sftcore.SFTCore;
+
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 
 import com.google.gson.JsonObject;
 
@@ -40,7 +38,7 @@ public class MachineExplodedTrigger extends SimpleCriterionTrigger<MachineExplod
     }
 
     /**
-     * Helper function to trigger the advancement for the player nearest to the machine when a GTM machine explodes.
+     * Helper function to trigger the advancement for the player when a GTM machine explodes.
      *
      * @param machine The machine that exploded
      */

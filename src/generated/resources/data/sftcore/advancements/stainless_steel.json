@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:bathing_to_cool",
+  "criteria": {
+    "has_gtceu_stainless_steel_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:stainless_steel_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.stainless_steel.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:stainless_steel_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.stainless_steel.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_stainless_steel_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

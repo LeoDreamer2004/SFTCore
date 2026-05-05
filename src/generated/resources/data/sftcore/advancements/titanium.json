@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:large_chemical_reactor",
+  "criteria": {
+    "has_gtceu_titanium_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:titanium_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.titanium.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:titanium_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.titanium.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_titanium_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:duct_taped_maintenance",
+  "criteria": {
+    "has_gtceu_auto_maintenance_hatch": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:auto_maintenance_hatch"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.auto_maintenance.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:auto_maintenance_hatch"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.auto_maintenance.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_auto_maintenance_hatch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

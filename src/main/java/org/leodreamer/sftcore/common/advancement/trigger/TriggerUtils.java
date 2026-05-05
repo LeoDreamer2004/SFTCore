@@ -1,19 +1,20 @@
 package org.leodreamer.sftcore.common.advancement.trigger;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.Nullable;
 
 public final class TriggerUtils {
 
     public static final double DETECT_PLAYER_RANGE = 128.0D;
 
-    private TriggerUtils() {
-    }
+    private TriggerUtils() {}
 
     /**
      * Find the nearest player to the given position. The search range is defined by DETECT_PLAYER_RANGE.
@@ -29,7 +30,9 @@ public final class TriggerUtils {
     }
 
     /**
-     * Find the owner of the machine, if the owner is not online or in spectator mode, find the nearest player to the machine.
+     * Find the owner of the machine, if the owner is not online or in spectator mode, find the nearest player to the
+     * machine.
+     * 
      * @param machine The GT Machine
      * @return Player found. Null if the world is client side or player not found
      */

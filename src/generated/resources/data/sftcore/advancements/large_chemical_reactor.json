@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:oil",
+  "criteria": {
+    "formed_gtceu_large_chemical_reactor": {
+      "conditions": {
+        "machine": "gtceu:large_chemical_reactor"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.large_chemical_reactor.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:large_chemical_reactor"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.large_chemical_reactor.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_large_chemical_reactor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

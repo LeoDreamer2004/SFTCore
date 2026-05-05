@@ -1,0 +1,46 @@
+{
+  "parent": "sftcore:aluminum",
+  "criteria": {
+    "execute_gtceu_chemical_reactor_polyethylene_from_air_polyethylene_from_oxygen": {
+      "conditions": {
+        "recipes": [
+          "gtceu:chemical_reactor/polyethylene_from_air",
+          "gtceu:chemical_reactor/polyethylene_from_oxygen"
+        ]
+      },
+      "trigger": "sftcore:recipe_executed"
+    },
+    "execute_gtceu_large_chemical_reactor_polyethylene_from_tetrachloride_air_polyethylene_from_tetrachloride_oxygen": {
+      "conditions": {
+        "recipes": [
+          "gtceu:large_chemical_reactor/polyethylene_from_tetrachloride_air",
+          "gtceu:large_chemical_reactor/polyethylene_from_tetrachloride_oxygen"
+        ]
+      },
+      "trigger": "sftcore:recipe_executed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.polyethene.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:polyethylene_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.polyethene.title"
+    }
+  },
+  "requirements": [
+    [
+      "execute_gtceu_chemical_reactor_polyethylene_from_air_polyethylene_from_oxygen",
+      "execute_gtceu_large_chemical_reactor_polyethylene_from_tetrachloride_air_polyethylene_from_tetrachloride_oxygen"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

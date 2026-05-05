@@ -1,0 +1,78 @@
+{
+  "parent": "sftcore:tungsten_steel",
+  "criteria": {
+    "has_gtceu_iv_parallel_hatch": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:iv_parallel_hatch"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_luv_parallel_hatch": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:luv_parallel_hatch"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uv_parallel_hatch": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uv_parallel_hatch"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_zpm_parallel_hatch": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:zpm_parallel_hatch"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.parallel_hatch.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:iv_parallel_hatch"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.parallel_hatch.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_iv_parallel_hatch",
+      "has_gtceu_luv_parallel_hatch",
+      "has_gtceu_zpm_parallel_hatch",
+      "has_gtceu_uv_parallel_hatch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

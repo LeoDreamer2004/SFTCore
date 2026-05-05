@@ -1,0 +1,173 @@
+{
+  "parent": "sftcore:parallel_hatch",
+  "criteria": {
+    "formed_gtceu_large_arc_smelter": {
+      "conditions": {
+        "machine": "gtceu:large_arc_smelter"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_assembler": {
+      "conditions": {
+        "machine": "gtceu:large_assembler"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_autoclave": {
+      "conditions": {
+        "machine": "gtceu:large_autoclave"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_brewer": {
+      "conditions": {
+        "machine": "gtceu:large_brewer"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_centrifuge": {
+      "conditions": {
+        "machine": "gtceu:large_centrifuge"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_chemical_bath": {
+      "conditions": {
+        "machine": "gtceu:large_chemical_bath"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_circuit_assembler": {
+      "conditions": {
+        "machine": "gtceu:large_circuit_assembler"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_cutter": {
+      "conditions": {
+        "machine": "gtceu:large_cutter"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_distillery": {
+      "conditions": {
+        "machine": "gtceu:large_distillery"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_electrolyzer": {
+      "conditions": {
+        "machine": "gtceu:large_electrolyzer"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_electromagnet": {
+      "conditions": {
+        "machine": "gtceu:large_electromagnet"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_engraving_laser": {
+      "conditions": {
+        "machine": "gtceu:large_engraving_laser"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_extractor": {
+      "conditions": {
+        "machine": "gtceu:large_extractor"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_extruder": {
+      "conditions": {
+        "machine": "gtceu:large_extruder"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_maceration_tower": {
+      "conditions": {
+        "machine": "gtceu:large_maceration_tower"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_material_press": {
+      "conditions": {
+        "machine": "gtceu:large_material_press"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_mixer": {
+      "conditions": {
+        "machine": "gtceu:large_mixer"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_packer": {
+      "conditions": {
+        "machine": "gtceu:large_packer"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_sifting_funnel": {
+      "conditions": {
+        "machine": "gtceu:large_sifting_funnel"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_solidifier": {
+      "conditions": {
+        "machine": "gtceu:large_solidifier"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_large_wiremill": {
+      "conditions": {
+        "machine": "gtceu:large_wiremill"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.large_machine.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:large_assembler"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.large_machine.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_large_arc_smelter",
+      "formed_gtceu_large_assembler",
+      "formed_gtceu_large_autoclave",
+      "formed_gtceu_large_brewer",
+      "formed_gtceu_large_centrifuge",
+      "formed_gtceu_large_chemical_bath",
+      "formed_gtceu_large_circuit_assembler",
+      "formed_gtceu_large_cutter",
+      "formed_gtceu_large_distillery",
+      "formed_gtceu_large_electrolyzer",
+      "formed_gtceu_large_electromagnet",
+      "formed_gtceu_large_engraving_laser",
+      "formed_gtceu_large_extractor",
+      "formed_gtceu_large_extruder",
+      "formed_gtceu_large_maceration_tower",
+      "formed_gtceu_large_material_press",
+      "formed_gtceu_large_mixer",
+      "formed_gtceu_large_packer",
+      "formed_gtceu_large_sifting_funnel",
+      "formed_gtceu_large_solidifier",
+      "formed_gtceu_large_wiremill"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
