@@ -1,8 +1,6 @@
 package org.leodreamer.sftcore;
 
-import org.leodreamer.sftcore.common.data.SFTOres;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
-import org.leodreamer.sftcore.common.data.recipe.SFTRecipeCapabilities;
 
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
@@ -31,15 +29,5 @@ public class SFTGTAddon implements IGTAddon {
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
         SFTRecipes.init(provider);
-    }
-
-    @Override
-    public void registerOreVeins() {
-        SFTOres.init();
-    }
-
-    @Override
-    public void registerRecipeCapabilities() {
-        SFTRecipeCapabilities.init();
     }
 }

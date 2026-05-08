@@ -3,15 +3,12 @@ package org.leodreamer.sftcore.common.data.lang;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
-import org.leodreamer.sftcore.integration.ponder.SFTPonderPlugin;
 import org.leodreamer.sftcore.util.ReflectUtils;
 
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.data.lang.LangHandler;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-import net.createmod.ponder.foundation.PonderIndex;
 
 public class SFTLangHandler extends LangHandler {
 
@@ -31,10 +28,6 @@ public class SFTLangHandler extends LangHandler {
             provider.add(entry.getKey(), entry.getValue());
         }
 
-        for (var entry : SFTAdvancementBuilder.ADVANCEMENT_LANG.entrySet()) {
-            provider.add(entry.getKey(), entry.getValue());
-        }
-
         for (var clazz : ReflectUtils.getClassesWithAnnotation(DataGenScanned.class)) {
             var langMap = ReflectUtils.getStaticFieldsWithAnnotation(clazz, RegisterLanguage.class, String.class);
             for (var entry : langMap.entrySet()) {
@@ -43,9 +36,6 @@ public class SFTLangHandler extends LangHandler {
                 provider.add(key, translation);
             }
         }
-
-        PonderIndex.addPlugin(new SFTPonderPlugin());
-        PonderIndex.getLangAccess().provideLang(SFTCore.MOD_ID, provider::add);
 
         //// Cover the tooltip of GTCEu ////
 

@@ -17,7 +17,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import appeng.core.definitions.AEParts;
-import de.castcrafter.travelanchors.ModItems;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
@@ -69,9 +68,6 @@ public class MixinTooltips {
     @RegisterLanguage("Do not have the cooldown time")
     public static final String TRAVELER_ANCHOR = "sftcore.mixin.travel_anchor.travel_staff.tooltip";
 
-    @RegisterLanguage("Also available in the void")
-    public static final String AVAILABLE_IN_VOID = "sftcore.mixin.gtceu.condition.demension.available_in_void";
-
     @RegisterLanguage("Select Target: %d, %d, %d")
     public static final String WIRELESS_SELECTED = "sftcore.mixin.extended_ae.wireless_connector.selected";
 
@@ -115,13 +111,6 @@ public class MixinTooltips {
                     .modifiedBySFT()
             );
         }
-
-        map.put(
-            ModItems.travelStaff.asItem(),
-            SFTTooltipsBuilder.of()
-                .insert(Component.translatable(TRAVELER_ANCHOR).withStyle(ChatFormatting.AQUA))
-                .modifiedBySFT()
-        );
 
         map.put(
             GTAEMachines.ME_PATTERN_BUFFER.getItem(),

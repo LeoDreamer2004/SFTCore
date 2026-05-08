@@ -28,7 +28,7 @@ public final class SFTCreativeTabs {
                     )
                 )
                 .title(Component.translatable(CREATIVE_TAB))
-                .icon(SFTItems.UU_MATTER::asStack)
+                .icon(SFTItems.WILDCARD_PATTERN::asStack)
                 .build()
         )
         .register();

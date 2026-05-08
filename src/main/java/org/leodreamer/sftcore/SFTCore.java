@@ -1,18 +1,16 @@
 package org.leodreamer.sftcore;
 
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
-import org.leodreamer.sftcore.common.data.*;
-import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
+import org.leodreamer.sftcore.common.data.SFTCreativeTabs;
+import org.leodreamer.sftcore.common.data.SFTDataGen;
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.SFTMachines;
 import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
-import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.resources.ResourceLocation;
@@ -44,9 +42,7 @@ public class SFTCore {
         var bus = context.getModEventBus();
         bus.register(this);
         bus.addListener(this::commonSetup);
-        bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
-        bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
         bus.addGenericListener(CoverDefinition.class, this::registerCovers);
         bus.addListener(EventPriority.LOWEST, SFTDataGen::gatherData);
 
@@ -71,13 +67,7 @@ public class SFTCore {
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(SFTCriteriaTriggers::register);
         event.enqueueWork(() -> PatternDetailsHelper.registerDecoder(WildcardPatternDecoder.INSTANCE));
-    }
-
-    @SubscribeEvent
-    public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-        SFTRecipeTypes.init();
     }
 
     @SubscribeEvent
@@ -86,20 +76,9 @@ public class SFTCore {
     }
 
     @SubscribeEvent
-    public void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {
-        SFTRecipeConditions.init();
-    }
-
-    @SubscribeEvent
     public void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
         SFTCreativeTabs.init();
-        SFTBlocks.init();
         SFTItems.init();
-    }
-
-    @SubscribeEvent
-    public void registerMaterials(MaterialEvent event) {
-        SFTMaterials.init();
     }
 
     @SubscribeEvent
