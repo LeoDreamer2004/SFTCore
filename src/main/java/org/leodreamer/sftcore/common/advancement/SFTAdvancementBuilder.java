@@ -131,7 +131,7 @@ public class SFTAdvancementBuilder {
         return criterion(key.toString(), InventoryChangeTrigger.TriggerInstance.hasItems(what));
     }
 
-    public SFTAdvancementBuilder onFormed(MachineDefinition controller) {
+    public SFTAdvancementBuilder form(MachineDefinition controller) {
         var id = controller.getId();
         return criterion(
             "formed_" + rlToStr(controller.getId()),
@@ -139,7 +139,7 @@ public class SFTAdvancementBuilder {
         );
     }
 
-    public SFTAdvancementBuilder onRecipeExecuted(GTRecipeType recipeType, String... recipeIds) {
+    public SFTAdvancementBuilder recipeExecute(GTRecipeType recipeType, String... recipeIds) {
         // execute_{recipeType}_{recipeId}*
         var typeId = recipeType.registryName;
 

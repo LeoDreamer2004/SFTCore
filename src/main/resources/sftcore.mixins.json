@@ -49,6 +49,7 @@
     "gregtech.machine.MEPatternBufferPartMachineMixin",
     "gregtech.machine.MetaMachineBlockMixin",
     "gregtech.machine.MultiblockControllerMachineMixin",
+    "gregtech.machine.NotifiableLaserContainerMixin",
     "gregtech.machine.ParallelHatchMixin",
     "gregtech.recipe.DimensionConditionMixin",
     "gregtech.recipe.GTRecipeBuilderMixin",

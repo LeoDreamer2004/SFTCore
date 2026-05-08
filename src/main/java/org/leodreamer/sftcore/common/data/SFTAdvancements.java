@@ -1,25 +1,25 @@
 package org.leodreamer.sftcore.common.data;
 
-import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
-import org.leodreamer.sftcore.common.advancement.trigger.DuctTapedMaintenanceTrigger;
-import org.leodreamer.sftcore.common.advancement.trigger.MachineExplodedTrigger;
-import org.leodreamer.sftcore.common.advancement.trigger.MaxCleanroomCleanTrigger;
-import org.leodreamer.sftcore.common.advancement.trigger.WireBurnedTrigger;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-
+import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
+import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.world.item.Items;
+import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
+import org.leodreamer.sftcore.common.advancement.trigger.*;
 
-import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public final class SFTAdvancements {
 
@@ -76,7 +76,7 @@ public final class SFTAdvancements {
             "We are marching on the great road!",
             "Build a primitive blast furnace and make it formed"
         )
-        .onFormed(GTMultiMachines.PRIMITIVE_BLAST_FURNACE)
+        .form(GTMultiMachines.PRIMITIVE_BLAST_FURNACE)
         .build();
 
     // LV
@@ -122,7 +122,7 @@ public final class SFTAdvancements {
             "Joule's Law",
             "Heat your metal with electricity and coils!"
         )
-        .onFormed(GTMultiMachines.ELECTRIC_BLAST_FURNACE)
+        .form(GTMultiMachines.ELECTRIC_BLAST_FURNACE)
         .build();
 
     public static final Advancement DUCT_TAPED_MAINTENANCE = SFTAdvancementBuilder.create("duct_taped_maintenance")
@@ -145,6 +145,16 @@ public final class SFTAdvancements {
         .obtain(GTMachines.AUTO_MAINTENANCE_HATCH.getItem())
         .build();
 
+    public static final Advancement SHARED_MULTIBLOCK_PART = SFTAdvancementBuilder.create("shared_multiblock_part")
+        .parent(ELECTRIC_BLAST_FURNACE)
+        .display(
+            Items.CHAIN,
+            "Cut corners",
+            "Share a part with another machine"
+        )
+        .criterion("shared_multiblock_part", SharedMultiblockPartTrigger.Instance.shared())
+        .build();
+
     // MV
     public static final Advancement ALUMINIUM = SFTAdvancementBuilder.create("aluminum")
         .parent(ELECTRIC_BLAST_FURNACE)
@@ -157,6 +167,29 @@ public final class SFTAdvancements {
         .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium).getItem())
         .build();
 
+    public static final Advancement TRANSFORMER = Stream.of(
+            GTMachines.TRANSFORMER,
+            GTMachines.HI_AMP_TRANSFORMER_2A,
+            GTMachines.HI_AMP_TRANSFORMER_4A,
+            GTMachines.POWER_TRANSFORMER
+        )
+        .flatMap(Arrays::stream)
+        .filter(Objects::nonNull)
+        .map(MachineDefinition::getItem)
+        .reduce(
+            SFTAdvancementBuilder.create("transformer")
+                .parent(ALUMINIUM)
+                .any()
+                .display(
+                    GTMachines.TRANSFORMER[GTValues.LV].getItem(),
+                    "Transformer architecture",
+                    "Craft a transformer to step down/up your voltage"
+                ),
+            SFTAdvancementBuilder::obtain,
+            (b1, b2) -> b1
+        )
+        .build();
+
     public static final Advancement POLYETHYLENE = SFTAdvancementBuilder.create("polyethene")
         .parent(ALUMINIUM)
         .any()
@@ -165,12 +198,12 @@ public final class SFTAdvancements {
             "Plastic",
             "Craft polyethene from chemical reactor"
         )
-        .onRecipeExecuted(
+        .recipeExecute(
             GTRecipeTypes.CHEMICAL_RECIPES,
             "polyethylene_from_air",
             "polyethylene_from_oxygen"
         )
-        .onRecipeExecuted(
+        .recipeExecute(
             GTRecipeTypes.LARGE_CHEMICAL_RECIPES,
             "polyethylene_from_tetrachloride_air",
             "polyethylene_from_tetrachloride_oxygen"
@@ -184,7 +217,7 @@ public final class SFTAdvancements {
             "7 Minutes for Silicon",
             "Develop... or blast a silicon boule"
         )
-        .onRecipeExecuted(
+        .recipeExecute(
             GTRecipeTypes.BLAST_RECIPES, "silicon_boule"
         )
         .build();
@@ -196,7 +229,7 @@ public final class SFTAdvancements {
             "Take a bath",
             "Cool down a hot ingot with bathing"
         )
-        .onRecipeExecuted(
+        .recipeExecute(
             GTRecipeTypes.CHEMICAL_BATH_RECIPES,
             "kanthal_cool_down",
             "kanthal_cool_down_distilled_water",
@@ -230,7 +263,7 @@ public final class SFTAdvancements {
             "Spotless",
             "Build a cleanroom to craft advanced circuits."
         )
-        .onFormed(GTMultiMachines.CLEANROOM)
+        .form(GTMultiMachines.CLEANROOM)
         .build();
 
     public static final Advancement MAX_CLEANROOM_CLEAN = SFTAdvancementBuilder.create("max_cleanroom_clean")
@@ -263,9 +296,9 @@ public final class SFTAdvancements {
             "Black Gold",
             "Mine endless oil with a drilling dig"
         )
-        .onFormed(GTMultiMachines.FLUID_DRILLING_RIG[GTValues.MV])
-        .onFormed(GTMultiMachines.FLUID_DRILLING_RIG[GTValues.HV])
-        .onFormed(GTMultiMachines.FLUID_DRILLING_RIG[GTValues.EV])
+        .form(GTMultiMachines.FLUID_DRILLING_RIG[GTValues.MV])
+        .form(GTMultiMachines.FLUID_DRILLING_RIG[GTValues.HV])
+        .form(GTMultiMachines.FLUID_DRILLING_RIG[GTValues.EV])
         .build();
 
     public static final Advancement LARGE_CHEMICAL_REACTOR = SFTAdvancementBuilder.create("large_chemical_reactor")
@@ -275,7 +308,7 @@ public final class SFTAdvancements {
             "Dark Mage",
             "Build a large chemical reactor to process on a large scale"
         )
-        .onFormed(GTMultiMachines.LARGE_CHEMICAL_REACTOR)
+        .form(GTMultiMachines.LARGE_CHEMICAL_REACTOR)
         .build();
 
     public static final Advancement PETROCHEMICAL = SFTAdvancementBuilder.create("petrochemical")
@@ -286,9 +319,9 @@ public final class SFTAdvancements {
             "Petrochemical",
             "Process oil into petrochemical products"
         )
-        .onFormed(GTMultiMachines.DISTILLATION_TOWER)
-        .onFormed(GTMultiMachines.CRACKER)
-        .onFormed(GTMultiMachines.LARGE_CHEMICAL_REACTOR)
+        .form(GTMultiMachines.DISTILLATION_TOWER)
+        .form(GTMultiMachines.CRACKER)
+        .form(GTMultiMachines.LARGE_CHEMICAL_REACTOR)
         .build();
 
     public static final Advancement SMD = SFTAdvancementBuilder.create("smd")
@@ -349,7 +382,7 @@ public final class SFTAdvancements {
             "Melt! Melt!",
             "Build an alloy blast furnace to make advanced alloys"
         )
-        .onFormed(GCYMMachines.BLAST_ALLOY_SMELTER)
+        .form(GCYMMachines.BLAST_ALLOY_SMELTER)
         .build();
 
     // IV
@@ -386,27 +419,27 @@ public final class SFTAdvancements {
             "Large-scale Processing",
             "Build a large machine"
         )
-        .onFormed(GCYMMachines.LARGE_ARC_SMELTER)
-        .onFormed(GCYMMachines.LARGE_ASSEMBLER)
-        .onFormed(GCYMMachines.LARGE_AUTOCLAVE)
-        .onFormed(GCYMMachines.LARGE_BREWER)
-        .onFormed(GCYMMachines.LARGE_CENTRIFUGE)
-        .onFormed(GCYMMachines.LARGE_CHEMICAL_BATH)
-        .onFormed(GCYMMachines.LARGE_CIRCUIT_ASSEMBLER)
-        .onFormed(GCYMMachines.LARGE_CUTTER)
-        .onFormed(GCYMMachines.LARGE_DISTILLERY)
-        .onFormed(GCYMMachines.LARGE_ELECTROLYZER)
-        .onFormed(GCYMMachines.LARGE_ELECTROMAGNET)
-        .onFormed(GCYMMachines.LARGE_ENGRAVING_LASER)
-        .onFormed(GCYMMachines.LARGE_EXTRACTOR)
-        .onFormed(GCYMMachines.LARGE_EXTRUDER)
-        .onFormed(GCYMMachines.LARGE_MACERATION_TOWER)
-        .onFormed(GCYMMachines.LARGE_MATERIAL_PRESS)
-        .onFormed(GCYMMachines.LARGE_MIXER)
-        .onFormed(GCYMMachines.LARGE_PACKER)
-        .onFormed(GCYMMachines.LARGE_SIFTING_FUNNEL)
-        .onFormed(GCYMMachines.LARGE_SOLIDIFIER)
-        .onFormed(GCYMMachines.LARGE_WIREMILL)
+        .form(GCYMMachines.LARGE_ARC_SMELTER)
+        .form(GCYMMachines.LARGE_ASSEMBLER)
+        .form(GCYMMachines.LARGE_AUTOCLAVE)
+        .form(GCYMMachines.LARGE_BREWER)
+        .form(GCYMMachines.LARGE_CENTRIFUGE)
+        .form(GCYMMachines.LARGE_CHEMICAL_BATH)
+        .form(GCYMMachines.LARGE_CIRCUIT_ASSEMBLER)
+        .form(GCYMMachines.LARGE_CUTTER)
+        .form(GCYMMachines.LARGE_DISTILLERY)
+        .form(GCYMMachines.LARGE_ELECTROLYZER)
+        .form(GCYMMachines.LARGE_ELECTROMAGNET)
+        .form(GCYMMachines.LARGE_ENGRAVING_LASER)
+        .form(GCYMMachines.LARGE_EXTRACTOR)
+        .form(GCYMMachines.LARGE_EXTRUDER)
+        .form(GCYMMachines.LARGE_MACERATION_TOWER)
+        .form(GCYMMachines.LARGE_MATERIAL_PRESS)
+        .form(GCYMMachines.LARGE_MIXER)
+        .form(GCYMMachines.LARGE_PACKER)
+        .form(GCYMMachines.LARGE_SIFTING_FUNNEL)
+        .form(GCYMMachines.LARGE_SOLIDIFIER)
+        .form(GCYMMachines.LARGE_WIREMILL)
         .build();
 
     public static final Advancement GCYM_COLLECTOR = SFTAdvancementBuilder.create("gcym_collector")
@@ -417,27 +450,27 @@ public final class SFTAdvancements {
             "Full Metal Panic!",
             "Build all parallelizable GCYM machines"
         )
-        .onFormed(GCYMMachines.LARGE_ARC_SMELTER)
-        .onFormed(GCYMMachines.LARGE_ASSEMBLER)
-        .onFormed(GCYMMachines.LARGE_AUTOCLAVE)
-        .onFormed(GCYMMachines.LARGE_BREWER)
-        .onFormed(GCYMMachines.LARGE_CENTRIFUGE)
-        .onFormed(GCYMMachines.LARGE_CHEMICAL_BATH)
-        .onFormed(GCYMMachines.LARGE_CIRCUIT_ASSEMBLER)
-        .onFormed(GCYMMachines.LARGE_CUTTER)
-        .onFormed(GCYMMachines.LARGE_DISTILLERY)
-        .onFormed(GCYMMachines.LARGE_ELECTROLYZER)
-        .onFormed(GCYMMachines.LARGE_ELECTROMAGNET)
-        .onFormed(GCYMMachines.LARGE_ENGRAVING_LASER)
-        .onFormed(GCYMMachines.LARGE_EXTRACTOR)
-        .onFormed(GCYMMachines.LARGE_EXTRUDER)
-        .onFormed(GCYMMachines.LARGE_MACERATION_TOWER)
-        .onFormed(GCYMMachines.LARGE_MATERIAL_PRESS)
-        .onFormed(GCYMMachines.LARGE_MIXER)
-        .onFormed(GCYMMachines.LARGE_PACKER)
-        .onFormed(GCYMMachines.LARGE_SIFTING_FUNNEL)
-        .onFormed(GCYMMachines.LARGE_SOLIDIFIER)
-        .onFormed(GCYMMachines.LARGE_WIREMILL)
+        .form(GCYMMachines.LARGE_ARC_SMELTER)
+        .form(GCYMMachines.LARGE_ASSEMBLER)
+        .form(GCYMMachines.LARGE_AUTOCLAVE)
+        .form(GCYMMachines.LARGE_BREWER)
+        .form(GCYMMachines.LARGE_CENTRIFUGE)
+        .form(GCYMMachines.LARGE_CHEMICAL_BATH)
+        .form(GCYMMachines.LARGE_CIRCUIT_ASSEMBLER)
+        .form(GCYMMachines.LARGE_CUTTER)
+        .form(GCYMMachines.LARGE_DISTILLERY)
+        .form(GCYMMachines.LARGE_ELECTROLYZER)
+        .form(GCYMMachines.LARGE_ELECTROMAGNET)
+        .form(GCYMMachines.LARGE_ENGRAVING_LASER)
+        .form(GCYMMachines.LARGE_EXTRACTOR)
+        .form(GCYMMachines.LARGE_EXTRUDER)
+        .form(GCYMMachines.LARGE_MACERATION_TOWER)
+        .form(GCYMMachines.LARGE_MATERIAL_PRESS)
+        .form(GCYMMachines.LARGE_MIXER)
+        .form(GCYMMachines.LARGE_PACKER)
+        .form(GCYMMachines.LARGE_SIFTING_FUNNEL)
+        .form(GCYMMachines.LARGE_SOLIDIFIER)
+        .form(GCYMMachines.LARGE_WIREMILL)
         .build();
 
     public static final Advancement ASSEMBLY_LINE = SFTAdvancementBuilder.create("assembly_line")
@@ -447,7 +480,18 @@ public final class SFTAdvancements {
             "16 Slots, not 16 Bits",
             "Build an assembly line"
         )
-        .onFormed(GTMultiMachines.ASSEMBLY_LINE)
+        .form(GTMultiMachines.ASSEMBLY_LINE)
+        .build();
+
+    public static final Advancement COMPUTER = SFTAdvancementBuilder.create("computer")
+        .parent(ASSEMBLY_LINE)
+        .display(
+            GTResearchMachines.RESEARCH_STATION.getItem(),
+            "This is not MySQL",
+            "Build the research station and data bank to provide data"
+        )
+        .form(GTResearchMachines.RESEARCH_STATION)
+        .form(GTResearchMachines.DATA_BANK)
         .build();
 
     // LuV
@@ -462,6 +506,17 @@ public final class SFTAdvancements {
         .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.RhodiumPlatedPalladium).getItem())
         .build();
 
+    public static final Advancement ADVANCED_RUBBER = SFTAdvancementBuilder.create("advanced_rubber")
+        .parent(RHODIUM_PLATED_PALLADIUM)
+        .display(
+            ChemicalHelper.get(TagPrefix.ingot, GTMaterials.SiliconeRubber).getItem(),
+            "Advanced Rubber",
+            "Craft an advanced rubber ingot"
+        )
+        .recipeExecute(GTRecipeTypes.CHEMICAL_RECIPES, "silicone_rubber")
+        .recipeExecute(GTRecipeTypes.CHEMICAL_RECIPES, "styrene_butadiene_rubber")
+        .build();
+
     public static final Advancement FUSION_REACTOR = SFTAdvancementBuilder.create("fusion_reactor")
         .parent(RHODIUM_PLATED_PALLADIUM)
         .display(
@@ -469,7 +524,56 @@ public final class SFTAdvancements {
             "Tasty Doughnut",
             "Build a fusion reactor"
         )
-        .onFormed(GTMultiMachines.FUSION_REACTOR[GTValues.LuV])
+        .form(GTMultiMachines.FUSION_REACTOR[GTValues.LuV])
+        .build();
+
+    public static final Advancement CRYSTAL_CYCLE = SFTAdvancementBuilder.create("crystal_cycle")
+        .parent(FUSION_REACTOR)
+        .display(
+            GTItems.RAW_CRYSTAL_CHIP,
+            "How Can It Grow?",
+            "Complete the cycling production of the crystal chips"
+        )
+        .recipeExecute(
+            GTRecipeTypes.AUTOCLAVE_RECIPES,
+            "raw_crystal_chip_from_part_europium",
+            "raw_crystal_chip_from_part_mutagen",
+            "raw_crystal_chip_from_part_bacterial_sludge"
+        )
+        .recipeExecute(GTRecipeTypes.FORGE_HAMMER_RECIPES, "raw_crystal_chip_part")
+        .build();
+
+    public static final Advancement ACTIVE_TRANSFORMER = SFTAdvancementBuilder.create("active_transformer")
+        .parent(ADVANCED_RUBBER)
+        .display(
+            GTMultiMachines.ACTIVE_TRANSFORMER.getItem(),
+            "Not Only A Transformer",
+            "Build an active transformer"
+        )
+        .form(GTMultiMachines.ACTIVE_TRANSFORMER)
+        .build();
+
+    public static final Advancement ACTIVE_TRANSFORMER_LASER = SFTAdvancementBuilder
+        .create("active_transformer_laser")
+        .parent(ACTIVE_TRANSFORMER)
+        .display(
+            GTMultiMachines.ACTIVE_TRANSFORMER.getItem(),
+            "Be Careful of your eyes!",
+            "Use active transformer to transmit a laser beam"
+        )
+        .criterion("active_transformer_laser", ActiveTransformerLaserTrigger.Instance.transmitted())
+        .build();
+
+    // ZPM
+    public static final Advancement NAQUADAH_ALLOY = SFTAdvancementBuilder.create("naquadah_alloy")
+        .parent(RHODIUM_PLATED_PALLADIUM)
+        .goal()
+        .display(
+            ChemicalHelper.get(TagPrefix.ingot, GTMaterials.NaquadahAlloy).getItem(),
+            "Deep Dark Fantasy",
+            "Get a Naquadah alloy ingot"
+        )
+        .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.NaquadahAlloy).getItem())
         .build();
 
     public static void init(RegistrateAdvancementProvider provider) {
@@ -486,8 +590,10 @@ public final class SFTAdvancements {
         provider.accept(ELECTRIC_BLAST_FURNACE);
         provider.accept(DUCT_TAPED_MAINTENANCE);
         provider.accept(AUTO_MAINTENANCE);
+        provider.accept(SHARED_MULTIBLOCK_PART);
 
         provider.accept(ALUMINIUM);
+        provider.accept(TRANSFORMER);
         provider.accept(POLYETHYLENE);
         provider.accept(SILICON_BOULE);
         provider.accept(BATHING_TO_COOL);
@@ -511,8 +617,15 @@ public final class SFTAdvancements {
         provider.accept(LARGE_MACHINE);
         provider.accept(GCYM_COLLECTOR);
         provider.accept(ASSEMBLY_LINE);
+        provider.accept(COMPUTER);
 
         provider.accept(RHODIUM_PLATED_PALLADIUM);
         provider.accept(FUSION_REACTOR);
+        provider.accept(CRYSTAL_CYCLE);
+        provider.accept(ADVANCED_RUBBER);
+        provider.accept(ACTIVE_TRANSFORMER);
+        provider.accept(ACTIVE_TRANSFORMER_LASER);
+
+        provider.accept(NAQUADAH_ALLOY);
     }
 }
