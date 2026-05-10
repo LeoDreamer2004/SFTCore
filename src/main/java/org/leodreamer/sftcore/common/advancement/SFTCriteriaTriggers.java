@@ -1,27 +1,38 @@
 package org.leodreamer.sftcore.common.advancement;
 
-import org.leodreamer.sftcore.common.advancement.trigger.*;
-
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.ActiveTransformerMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import net.minecraft.advancements.CriteriaTriggers;
+import org.leodreamer.sftcore.common.advancement.trigger.*;
 
 public final class SFTCriteriaTriggers {
 
-    public static final FormedGTMultiblockTrigger FORMED_GT_MULTIBLOCK = new FormedGTMultiblockTrigger();
-    public static final SharedMultiblockPartTrigger SHARED_MULTIBLOCK_PART =
-        new SharedMultiblockPartTrigger();
-    public static final RecipeExecutedTrigger RECIPE_EXECUTED = new RecipeExecutedTrigger();
-    public static final WireBurnedTrigger WIRE_BURNED = new WireBurnedTrigger();
-    public static final MachineExplodedTrigger MACHINE_EXPLODED = new MachineExplodedTrigger();
-    public static final DuctTapedMaintenanceTrigger DUCT_TAPED_MAINTENANCE = new DuctTapedMaintenanceTrigger();
-    public static final MaxCleanroomCleanTrigger MAX_CLEANROOM_CLEAN = new MaxCleanroomCleanTrigger();
-    public static final ActiveTransformerLaserTrigger ACTIVE_TRANSFORMER_LASER =
-        new ActiveTransformerLaserTrigger();
-    public static final UltimateBatteryFullTrigger ULTIMATE_BATTERY_FULL = new UltimateBatteryFullTrigger();
-
+    public static final FormedGTMultiblockTrigger FORMED_GT_MULTIBLOCK =
+        new FormedGTMultiblockTrigger();
+    public static final SimpleGTMachineTrigger<MultiblockControllerMachine> SHARED_MULTIBLOCK_PART =
+        new SimpleGTMachineTrigger<>("shared_multiblock_part");
+    public static final RecipeExecutedTrigger RECIPE_EXECUTED =
+        new RecipeExecutedTrigger();
+    public static final WireBurnedTrigger WIRE_BURNED =
+        new WireBurnedTrigger();
+    public static final SimpleGTMachineTrigger<MetaMachine> MACHINE_EXPLODED =
+        new SimpleGTMachineTrigger<>("machine_exploded");
+    public static final SimpleGTMachineTrigger<MaintenanceHatchPartMachine> DUCT_TAPED_MAINTENANCE =
+        new SimpleGTMachineTrigger<>("duct_taped_maintenance");
+    public static final SimpleGTMachineTrigger<CleanroomMachine> MAX_CLEANROOM_CLEAN =
+        new SimpleGTMachineTrigger<>("max_cleanroom_clean");
+    public static final SimpleGTMachineTrigger<ActiveTransformerMachine> ACTIVE_TRANSFORMER_LASER =
+        new SimpleGTMachineTrigger<>("active_transformer_laser");
+    public static final SimpleAnyTrigger ULTIMATE_BATTERY_FULL =
+        new SimpleAnyTrigger("ultimate_battery_full");
 
     private static boolean registered = false;
 
-    private SFTCriteriaTriggers() {}
+    private SFTCriteriaTriggers() {
+    }
 
     public static void register() {
         if (registered) {

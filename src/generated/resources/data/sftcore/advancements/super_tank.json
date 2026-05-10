@@ -1,0 +1,78 @@
+{
+  "parent": "sftcore:polyethene",
+  "criteria": {
+    "has_gtceu_ev_super_tank": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ev_super_tank"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_hv_super_tank": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:hv_super_tank"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_lv_super_tank": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:lv_super_tank"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_mv_super_tank": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:mv_super_tank"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.super_tank.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:lv_super_tank"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.super_tank.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_lv_super_tank",
+      "has_gtceu_mv_super_tank",
+      "has_gtceu_hv_super_tank",
+      "has_gtceu_ev_super_tank"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

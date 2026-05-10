@@ -1,15 +1,15 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
-
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.utils.ExtendedUseOnContext;
-
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = MaintenanceHatchPartMachine.class, remap = false)
-public abstract class MaintenanceHatchPartMachineMixin {
+public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements IMaintenanceMachine {
 
     @Shadow
     @Final
@@ -31,6 +31,10 @@ public abstract class MaintenanceHatchPartMachineMixin {
 
     @Unique
     private int sftcore$lastDuctTapeCount;
+
+    public MaintenanceHatchPartMachineMixin(BlockEntityCreationInfo info, int tier) {
+        super(info, tier);
+    }
 
     @Inject(method = "createInventory", at = @At("RETURN"), remap = false)
     private void sftcore$wrapMaintenanceInventory(
@@ -66,17 +70,14 @@ public abstract class MaintenanceHatchPartMachineMixin {
             return;
         }
 
-        Player player = context.getPlayer();
-        if (player != null) {
+        if (context.getPlayer() instanceof ServerPlayer player) {
             SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE.trigger(player);
         }
     }
 
     @Unique
     private void sftcore$onMaintenanceInventoryChanged(NotifiableItemStackHandler handler) {
-        MaintenanceHatchPartMachine self = (MaintenanceHatchPartMachine) (Object) this;
-
-        if (self.isRemote()) {
+        if (isRemote()) {
             return;
         }
 
@@ -89,7 +90,9 @@ public abstract class MaintenanceHatchPartMachineMixin {
 
         // Only trigger when tape become MORE
         if (newCount > this.sftcore$lastDuctTapeCount) {
-            SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE.trigger(self);
+            SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE.trigger(
+                (MaintenanceHatchPartMachine) (Object) this
+            );
         }
         this.sftcore$lastDuctTapeCount = newCount;
     }

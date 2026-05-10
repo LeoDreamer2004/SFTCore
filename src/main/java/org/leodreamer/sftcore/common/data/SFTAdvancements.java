@@ -15,6 +15,7 @@ import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.world.item.Items;
 import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 import org.leodreamer.sftcore.common.advancement.trigger.*;
 
 import java.util.Arrays;
@@ -112,7 +113,7 @@ public final class SFTAdvancements {
             "GregTech? Piece of Cake!",
             "Maybe it is time to think very carefully about rolling back that save..."
         )
-        .criterion("machine_exploded", MachineExplodedTrigger.Instance.exploded())
+        .criterion("machine_exploded", SFTCriteriaTriggers.MACHINE_EXPLODED.instance())
         .build();
 
     public static final Advancement ELECTRIC_BLAST_FURNACE = SFTAdvancementBuilder.create("electric_blast_furnace")
@@ -132,7 +133,7 @@ public final class SFTAdvancements {
             "Tape!",
             "Use duct tape on a maintenance hatch to keep it working for a while"
         )
-        .criterion("duct_taped_maintenance", DuctTapedMaintenanceTrigger.Instance.taped())
+        .criterion("duct_taped_maintenance", SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE.instance())
         .build();
 
     public static final Advancement AUTO_MAINTENANCE = SFTAdvancementBuilder.create("auto_maintenance")
@@ -152,7 +153,7 @@ public final class SFTAdvancements {
             "Cut corners",
             "Share a part with another machine"
         )
-        .criterion("shared_multiblock_part", SharedMultiblockPartTrigger.Instance.shared())
+        .criterion("shared_multiblock_part", SFTCriteriaTriggers.ACTIVE_TRANSFORMER_LASER.instance())
         .build();
 
     // MV
@@ -207,6 +208,22 @@ public final class SFTAdvancements {
             GTRecipeTypes.LARGE_CHEMICAL_RECIPES,
             "polyethylene_from_tetrachloride_air",
             "polyethylene_from_tetrachloride_oxygen"
+        )
+        .build();
+
+    public static final Advancement SUPER_TANK = Arrays.stream(GTMachines.SUPER_TANK)
+        .filter(Objects::nonNull)
+        .map(MachineDefinition::getItem)
+        .reduce(SFTAdvancementBuilder.create("super_tank")
+                .parent(POLYETHYLENE)
+                .any()
+                .display(
+                    GTMachines.SUPER_TANK[GTValues.LV].getItem(),
+                    "Compact Power, Profound Impact",
+                    "Craft a super tank"
+                ),
+            SFTAdvancementBuilder::obtain,
+            (b1, b2) -> b1
         )
         .build();
 
@@ -274,7 +291,7 @@ public final class SFTAdvancements {
             "Technology is dear to me, but dearer still is cleanliness",
             "Make a max size cleanroom clean up"
         )
-        .criterion("max_cleanroom_clean", MaxCleanroomCleanTrigger.Instance.cleaned())
+        .criterion("max_cleanroom_clean", SFTCriteriaTriggers.MAX_CLEANROOM_CLEAN.instance())
         .build();
 
     public static final Advancement MICRO_MAINFRAME = SFTAdvancementBuilder
@@ -635,7 +652,7 @@ public final class SFTAdvancements {
             "Be Careful of your eyes!",
             "Use active transformer to transmit a laser beam"
         )
-        .criterion("active_transformer_laser", ActiveTransformerLaserTrigger.Instance.transmitted())
+        .criterion("active_transformer_laser", SFTCriteriaTriggers.ACTIVE_TRANSFORMER_LASER.instance())
         .build();
 
     // ZPM
@@ -754,7 +771,7 @@ public final class SFTAdvancements {
             "Infinity Achieved, Eternity Charged",
             "Fully charge the ultimate battery..."
         )
-        .criterion("ultimate_battery_full", UltimateBatteryFullTrigger.Instance.full())
+        .criterion("ultimate_battery_full", SFTCriteriaTriggers.ULTIMATE_BATTERY_FULL.instance())
         .build();
 
     public static final Advancement NAN_CERTIFICATE = SFTAdvancementBuilder.create("nan_certificate")
@@ -787,6 +804,7 @@ public final class SFTAdvancements {
         provider.accept(ALUMINIUM);
         provider.accept(TRANSFORMER);
         provider.accept(POLYETHYLENE);
+        provider.accept(SUPER_TANK);
         provider.accept(SILICON_BOULE);
         provider.accept(BATHING_TO_COOL);
 

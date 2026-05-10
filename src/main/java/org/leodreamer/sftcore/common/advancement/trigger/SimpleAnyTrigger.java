@@ -2,26 +2,32 @@ package org.leodreamer.sftcore.common.advancement.trigger;
 
 import com.google.gson.JsonObject;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.SerializationContext;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.leodreamer.sftcore.SFTCore;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class UltimateBatteryFullTrigger extends SimpleCriterionTrigger<UltimateBatteryFullTrigger.Instance> {
+public class SimpleAnyTrigger extends SimpleCriterionTrigger<SimpleAnyTrigger.Instance> {
 
-    public static final ResourceLocation ID = SFTCore.id("ultimate_battery_full");
+    protected final ResourceLocation id;
+    protected Instance instance;
+
+    public SimpleAnyTrigger(ResourceLocation id) {
+        this.id = id;
+    }
+
+    public SimpleAnyTrigger(String id) {
+        this(SFTCore.id(id));
+    }
 
     @Override
     public ResourceLocation getId() {
-        return ID;
+        return id;
     }
 
     @Override
@@ -30,21 +36,23 @@ public class UltimateBatteryFullTrigger extends SimpleCriterionTrigger<UltimateB
         ContextAwarePredicate player,
         DeserializationContext context
     ) {
-        return new Instance(player);
+        return instance();
+    }
+
+    public Instance instance() {
+        if (instance == null) {
+            instance = new Instance();
+        }
+        return instance;
     }
 
     public void trigger(ServerPlayer player) {
         this.trigger(player, instance -> true);
     }
 
-    public static class Instance extends AbstractCriterionTriggerInstance {
-
-        public Instance(ContextAwarePredicate player) {
-            super(ID, player);
-        }
-
-        public static Instance full() {
-            return new Instance(ContextAwarePredicate.ANY);
+    public class Instance extends AbstractCriterionTriggerInstance {
+        public Instance() {
+            super(id, ContextAwarePredicate.ANY);
         }
 
         @Override
