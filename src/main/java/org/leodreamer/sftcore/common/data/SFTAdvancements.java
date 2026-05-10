@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore.common.data;
 
+import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+import org.leodreamer.sftcore.common.advancement.trigger.*;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -11,12 +15,11 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GCYMMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
-import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.world.item.Items;
-import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
-import org.leodreamer.sftcore.common.advancement.trigger.*;
+
+import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -113,7 +116,7 @@ public final class SFTAdvancements {
             "GregTech? Piece of Cake!",
             "Maybe it is time to think very carefully about rolling back that save..."
         )
-        .criterion("machine_exploded", SFTCriteriaTriggers.MACHINE_EXPLODED.instance())
+        .simple(SFTCriteriaTriggers.MACHINE_EXPLODED)
         .build();
 
     public static final Advancement ELECTRIC_BLAST_FURNACE = SFTAdvancementBuilder.create("electric_blast_furnace")
@@ -133,7 +136,7 @@ public final class SFTAdvancements {
             "Tape!",
             "Use duct tape on a maintenance hatch to keep it working for a while"
         )
-        .criterion("duct_taped_maintenance", SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE.instance())
+        .simple(SFTCriteriaTriggers.DUCT_TAPED_MAINTENANCE)
         .build();
 
     public static final Advancement AUTO_MAINTENANCE = SFTAdvancementBuilder.create("auto_maintenance")
@@ -153,7 +156,7 @@ public final class SFTAdvancements {
             "Cut corners",
             "Share a part with another machine"
         )
-        .criterion("shared_multiblock_part", SFTCriteriaTriggers.ACTIVE_TRANSFORMER_LASER.instance())
+        .simple(SFTCriteriaTriggers.ACTIVE_TRANSFORMER_LASER)
         .build();
 
     // MV
@@ -169,11 +172,11 @@ public final class SFTAdvancements {
         .build();
 
     public static final Advancement TRANSFORMER = Stream.of(
-            GTMachines.TRANSFORMER,
-            GTMachines.HI_AMP_TRANSFORMER_2A,
-            GTMachines.HI_AMP_TRANSFORMER_4A,
-            GTMachines.POWER_TRANSFORMER
-        )
+        GTMachines.TRANSFORMER,
+        GTMachines.HI_AMP_TRANSFORMER_2A,
+        GTMachines.HI_AMP_TRANSFORMER_4A,
+        GTMachines.POWER_TRANSFORMER
+    )
         .flatMap(Arrays::stream)
         .filter(Objects::nonNull)
         .map(MachineDefinition::getItem)
@@ -214,7 +217,8 @@ public final class SFTAdvancements {
     public static final Advancement SUPER_TANK = Arrays.stream(GTMachines.SUPER_TANK)
         .filter(Objects::nonNull)
         .map(MachineDefinition::getItem)
-        .reduce(SFTAdvancementBuilder.create("super_tank")
+        .reduce(
+            SFTAdvancementBuilder.create("super_tank")
                 .parent(POLYETHYLENE)
                 .any()
                 .display(
@@ -291,7 +295,7 @@ public final class SFTAdvancements {
             "Technology is dear to me, but dearer still is cleanliness",
             "Make a max size cleanroom clean up"
         )
-        .criterion("max_cleanroom_clean", SFTCriteriaTriggers.MAX_CLEANROOM_CLEAN.instance())
+        .simple(SFTCriteriaTriggers.MAX_CLEANROOM_CLEAN)
         .build();
 
     public static final Advancement MICRO_MAINFRAME = SFTAdvancementBuilder
@@ -339,6 +343,17 @@ public final class SFTAdvancements {
         .form(GTMultiMachines.DISTILLATION_TOWER)
         .form(GTMultiMachines.CRACKER)
         .form(GTMultiMachines.LARGE_CHEMICAL_REACTOR)
+        .build();
+
+    public static final Advancement OXYGEN_BOOSTED_COMBUSTION = SFTAdvancementBuilder
+        .create("oxygen_boosted_combustion")
+        .parent(OIL)
+        .display(
+            GTMultiMachines.LARGE_COMBUSTION_ENGINE.getItem(),
+            "Oxy-Fuel Combustion",
+            "Feed oxygen or liquid oxygen into a large combustion engine to boost its output."
+        )
+        .simple(SFTCriteriaTriggers.OXYGEN_BOOSTED_COMBUSTION)
         .build();
 
     public static final Advancement SMD = SFTAdvancementBuilder.create("smd")
@@ -652,7 +667,7 @@ public final class SFTAdvancements {
             "Be Careful of your eyes!",
             "Use active transformer to transmit a laser beam"
         )
-        .criterion("active_transformer_laser", SFTCriteriaTriggers.ACTIVE_TRANSFORMER_LASER.instance())
+        .simple(SFTCriteriaTriggers.ACTIVE_TRANSFORMER_LASER)
         .build();
 
     // ZPM
@@ -771,7 +786,7 @@ public final class SFTAdvancements {
             "Infinity Achieved, Eternity Charged",
             "Fully charge the ultimate battery..."
         )
-        .criterion("ultimate_battery_full", SFTCriteriaTriggers.ULTIMATE_BATTERY_FULL.instance())
+        .simple(SFTCriteriaTriggers.ULTIMATE_BATTERY_FULL)
         .build();
 
     public static final Advancement NAN_CERTIFICATE = SFTAdvancementBuilder.create("nan_certificate")
@@ -815,6 +830,7 @@ public final class SFTAdvancements {
         provider.accept(OIL);
         provider.accept(LARGE_CHEMICAL_REACTOR);
         provider.accept(PETROCHEMICAL);
+        provider.accept(OXYGEN_BOOSTED_COMBUSTION);
         provider.accept(SMD);
 
         provider.accept(TITANIUM);

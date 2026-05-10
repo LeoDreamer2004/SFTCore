@@ -1,30 +1,30 @@
 {
-  "parent": "sftcore:electric_blast_furnace",
+  "parent": "sftcore:oil",
   "criteria": {
-    "active_transformer_laser": {
+    "oxygen_combustion_engine": {
       "conditions": {},
-      "trigger": "sftcore:active_transformer_laser"
+      "trigger": "sftcore:oxygen_combustion_engine"
     }
   },
   "display": {
     "announce_to_chat": true,
     "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
-      "translate": "advancements.sftcore.shared_multiblock_part.description"
+      "translate": "advancements.sftcore.oxygen_boosted_combustion.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "minecraft:chain"
+      "item": "gtceu:large_combustion_engine"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.sftcore.shared_multiblock_part.title"
+      "translate": "advancements.sftcore.oxygen_boosted_combustion.title"
     }
   },
   "requirements": [
     [
-      "active_transformer_laser"
+      "oxygen_combustion_engine"
     ]
   ],
   "sends_telemetry_event": true

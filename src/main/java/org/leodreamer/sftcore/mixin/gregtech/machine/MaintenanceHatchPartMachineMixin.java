@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
@@ -7,9 +9,10 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.utils.ExtendedUseOnContext;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

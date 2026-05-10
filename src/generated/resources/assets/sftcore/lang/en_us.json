@@ -69,6 +69,8 @@
   "advancements.sftcore.neutronium.title": "Only 300 Million Tons",
   "advancements.sftcore.oil.description": "Mine endless oil with a drilling dig",
   "advancements.sftcore.oil.title": "Black Gold",
+  "advancements.sftcore.oxygen_boosted_combustion.description": "Feed oxygen or liquid oxygen into a large combustion engine to boost its output.",
+  "advancements.sftcore.oxygen_boosted_combustion.title": "Oxy-Fuel Combustion",
   "advancements.sftcore.parallel_hatch.description": "Build a parallel hatch and put it on a large machine",
   "advancements.sftcore.parallel_hatch.title": "Parallelization",
   "advancements.sftcore.petrochemical.description": "Process oil into petrochemical products",

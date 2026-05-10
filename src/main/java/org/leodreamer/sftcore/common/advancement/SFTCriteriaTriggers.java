@@ -1,15 +1,19 @@
 package org.leodreamer.sftcore.common.advancement;
 
+import org.leodreamer.sftcore.common.advancement.trigger.*;
+
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.ActiveTransformerMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeCombustionEngineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
+
 import net.minecraft.advancements.CriteriaTriggers;
-import org.leodreamer.sftcore.common.advancement.trigger.*;
 
 public final class SFTCriteriaTriggers {
 
+    // spotless:off
     public static final FormedGTMultiblockTrigger FORMED_GT_MULTIBLOCK =
         new FormedGTMultiblockTrigger();
     public static final SimpleGTMachineTrigger<MultiblockControllerMachine> SHARED_MULTIBLOCK_PART =
@@ -28,11 +32,13 @@ public final class SFTCriteriaTriggers {
         new SimpleGTMachineTrigger<>("active_transformer_laser");
     public static final SimpleAnyTrigger ULTIMATE_BATTERY_FULL =
         new SimpleAnyTrigger("ultimate_battery_full");
+    public static final SimpleGTMachineTrigger<LargeCombustionEngineMachine> OXYGEN_BOOSTED_COMBUSTION =
+        new SimpleGTMachineTrigger<>("oxygen_combustion_engine");
+    // spotless:on
 
     private static boolean registered = false;
 
-    private SFTCriteriaTriggers() {
-    }
+    private SFTCriteriaTriggers() {}
 
     public static void register() {
         if (registered) {
@@ -48,6 +54,7 @@ public final class SFTCriteriaTriggers {
         CriteriaTriggers.register(MAX_CLEANROOM_CLEAN);
         CriteriaTriggers.register(ACTIVE_TRANSFORMER_LASER);
         CriteriaTriggers.register(ULTIMATE_BATTERY_FULL);
+        CriteriaTriggers.register(OXYGEN_BOOSTED_COMBUSTION);
 
         registered = true;
     }

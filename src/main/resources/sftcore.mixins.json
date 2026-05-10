@@ -43,6 +43,7 @@
     "gregtech.machine.CleaningMaintenanceMixin",
     "gregtech.machine.CleanroomMachineMixin",
     "gregtech.machine.DualHatchMixin",
+    "gregtech.machine.LargeCombustionEngineMachineMixin",
     "gregtech.machine.MaintenanceHatchPartMachineMixin",
     "gregtech.machine.MEBusPartMachineMixin",
     "gregtech.machine.MEHatchPartMachineMixin",

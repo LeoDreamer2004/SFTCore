@@ -1,14 +1,15 @@
 package org.leodreamer.sftcore.common.advancement.trigger;
 
-import com.google.gson.JsonObject;
+import org.leodreamer.sftcore.SFTCore;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import org.leodreamer.sftcore.SFTCore;
+
+import com.google.gson.JsonObject;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -51,6 +52,7 @@ public class SimpleAnyTrigger extends SimpleCriterionTrigger<SimpleAnyTrigger.In
     }
 
     public class Instance extends AbstractCriterionTriggerInstance {
+
         public Instance() {
             super(id, ContextAwarePredicate.ANY);
         }

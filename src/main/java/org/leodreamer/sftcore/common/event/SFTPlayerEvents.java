@@ -1,20 +1,21 @@
 package org.leodreamer.sftcore.common.event;
 
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
+
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 
 @Mod.EventBusSubscriber(modid = SFTCore.MOD_ID)
 public final class SFTPlayerEvents {
 
-    private SFTPlayerEvents() {
-    }
+    private SFTPlayerEvents() {}
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {

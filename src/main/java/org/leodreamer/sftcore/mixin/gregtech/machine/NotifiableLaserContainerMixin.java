@@ -1,10 +1,12 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableLaserContainer;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.ActiveTransformerMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +19,13 @@ public abstract class NotifiableLaserContainerMixin extends NotifiableEnergyCont
     @Unique
     private long sftcore$energyBeforeLaserTick;
 
-    public NotifiableLaserContainerMixin(long maxCapacity, long maxInputVoltage, long maxInputAmperage, long maxOutputVoltage, long maxOutputAmperage) {
+    public NotifiableLaserContainerMixin(
+        long maxCapacity,
+        long maxInputVoltage,
+        long maxInputAmperage,
+        long maxOutputVoltage,
+        long maxOutputAmperage
+    ) {
         super(maxCapacity, maxInputVoltage, maxInputAmperage, maxOutputVoltage, maxOutputAmperage);
     }
 

@@ -3,6 +3,7 @@ package org.leodreamer.sftcore.common.advancement;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.advancement.trigger.FormedGTMultiblockTrigger;
 import org.leodreamer.sftcore.common.advancement.trigger.RecipeExecutedTrigger;
+import org.leodreamer.sftcore.common.advancement.trigger.SimpleAnyTrigger;
 import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -129,6 +130,10 @@ public class SFTAdvancementBuilder {
         }
 
         return criterion(key.toString(), InventoryChangeTrigger.TriggerInstance.hasItems(what));
+    }
+
+    public SFTAdvancementBuilder simple(SimpleAnyTrigger trigger) {
+        return criterion(trigger.getId().getPath(), trigger.instance());
     }
 
     public SFTAdvancementBuilder form(MachineDefinition controller) {

@@ -1,8 +1,10 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -47,9 +49,10 @@ public abstract class MultiblockControllerMachineMixin {
         IMultiPart part,
         MultiblockControllerMachine controller
     ) {
-        if (!this.sftcore$wasFormedBeforeStructureFormed
-            && !this.sftcore$sharedPartTriggeredThisFormation
-            && sftcore$isAlreadyControlledByAnotherFormedMachine(part, controller)) {
+        if (
+            !this.sftcore$wasFormedBeforeStructureFormed && !this.sftcore$sharedPartTriggeredThisFormation &&
+                sftcore$isAlreadyControlledByAnotherFormedMachine(part, controller)
+        ) {
             this.sftcore$sharedPartTriggeredThisFormation = true;
             SFTCriteriaTriggers.SHARED_MULTIBLOCK_PART.trigger(controller);
         }
