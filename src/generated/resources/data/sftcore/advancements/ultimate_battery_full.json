@@ -1,0 +1,31 @@
+{
+  "parent": "sftcore:battery",
+  "criteria": {
+    "ultimate_battery_full": {
+      "conditions": {},
+      "trigger": "sftcore:ultimate_battery_full"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.ultimate_battery_full.description"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "item": "gtceu:max_battery"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.ultimate_battery_full.title"
+    }
+  },
+  "requirements": [
+    [
+      "ultimate_battery_full"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

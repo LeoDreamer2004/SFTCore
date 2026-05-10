@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:neutronium",
+  "criteria": {
+    "has_gtceu_max_battery": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:max_battery"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.battery.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:max_battery"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.battery.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_max_battery"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

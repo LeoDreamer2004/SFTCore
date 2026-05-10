@@ -277,8 +277,8 @@ public final class SFTAdvancements {
         .criterion("max_cleanroom_clean", MaxCleanroomCleanTrigger.Instance.cleaned())
         .build();
 
-    public static final Advancement MICRO_PROCESSOR_MAINFRAME = SFTAdvancementBuilder
-        .create("micro_processor_mainframe")
+    public static final Advancement MICRO_MAINFRAME = SFTAdvancementBuilder
+        .create("micro_mainframe")
         .parent(CLEANROOM)
         .display(
             GTItems.MAINFRAME_IV,
@@ -350,6 +350,16 @@ public final class SFTAdvancements {
         .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Titanium).getItem())
         .build();
 
+    public static final Advancement NANO_MAINFRAME = SFTAdvancementBuilder.create("nano_mainframe")
+        .parent(TITANIUM)
+        .display(
+            GTItems.NANO_MAINFRAME_LuV,
+            "Do you believe in Moore's Law?",
+            "Craft a nano mainframe"
+        )
+        .obtain(GTItems.NANO_MAINFRAME_LuV)
+        .build();
+
     public static final Advancement TUNGSTEN = SFTAdvancementBuilder.create("tungsten")
         .parent(TITANIUM)
         .display(
@@ -395,6 +405,30 @@ public final class SFTAdvancements {
             "Make the IV alloy Tungsten steel"
         )
         .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.TungstenSteel).getItem())
+        .build();
+
+    public static final Advancement ADVANCED_SMD = SFTAdvancementBuilder.create("advanced_smd")
+        .parent(TUNGSTEN_STEEL)
+        .display(
+            GTItems.ADVANCED_SMD_CAPACITOR,
+            "Advanced Circuit Fab",
+            "Craft all 5 advanced SMDs"
+        )
+        .obtain(GTItems.ADVANCED_SMD_CAPACITOR)
+        .obtain(GTItems.ADVANCED_SMD_DIODE)
+        .obtain(GTItems.ADVANCED_SMD_RESISTOR)
+        .obtain(GTItems.ADVANCED_SMD_INDUCTOR)
+        .obtain(GTItems.ADVANCED_SMD_TRANSISTOR)
+        .build();
+
+    public static final Advancement QUANTUM_MAINFRAME = SFTAdvancementBuilder.create("quantum_mainframe")
+        .parent(ADVANCED_SMD)
+        .display(
+            GTItems.QUANTUM_MAINFRAME_ZPM,
+            "Quantum Singer",
+            "Craft a quantum mainframe"
+        )
+        .obtain(GTItems.QUANTUM_MAINFRAME_ZPM)
         .build();
 
     public static final Advancement PARALLEL_HATCH = SFTAdvancementBuilder.create("parallel_hatch")
@@ -473,11 +507,21 @@ public final class SFTAdvancements {
         .form(GCYMMachines.LARGE_WIREMILL)
         .build();
 
+    public static final Advancement POWER_SUBSTATION = SFTAdvancementBuilder.create("power_substation")
+        .parent(TUNGSTEN_STEEL)
+        .display(
+            GTMultiMachines.POWER_SUBSTATION.getItem(),
+            "Global Power Grid",
+            "Build a power substation to distribute power to multiple machines"
+        )
+        .form(GTMultiMachines.POWER_SUBSTATION)
+        .build();
+
     public static final Advancement ASSEMBLY_LINE = SFTAdvancementBuilder.create("assembly_line")
         .parent(TUNGSTEN_STEEL)
         .display(
             GTMultiMachines.ASSEMBLY_LINE.getItem(),
-            "16 Slots, not 16 Bits",
+            "16 Slots, Not 16 Bits",
             "Build an assembly line"
         )
         .form(GTMultiMachines.ASSEMBLY_LINE)
@@ -487,11 +531,31 @@ public final class SFTAdvancements {
         .parent(ASSEMBLY_LINE)
         .display(
             GTResearchMachines.RESEARCH_STATION.getItem(),
-            "This is not MySQL",
+            "This Is Not MySQL",
             "Build the research station and data bank to provide data"
         )
         .form(GTResearchMachines.RESEARCH_STATION)
         .form(GTResearchMachines.DATA_BANK)
+        .build();
+
+    public static final Advancement HPCA = SFTAdvancementBuilder.create("hpca")
+        .parent(COMPUTER)
+        .display(
+            GTResearchMachines.HIGH_PERFORMANCE_COMPUTING_ARRAY.getItem(),
+            "FLOPs Rules Everything",
+            "Build an HPCA"
+        )
+        .form(GTResearchMachines.HIGH_PERFORMANCE_COMPUTING_ARRAY)
+        .build();
+
+    public static final Advancement NETWORK_SWITCH = SFTAdvancementBuilder.create("network_switch")
+        .parent(HPCA)
+        .display(
+            GTResearchMachines.NETWORK_SWITCH.getItem(),
+            "5G WIFI",
+            "Build a network switch"
+        )
+        .form(GTResearchMachines.NETWORK_SWITCH)
         .build();
 
     // LuV
@@ -511,13 +575,13 @@ public final class SFTAdvancements {
         .display(
             ChemicalHelper.get(TagPrefix.ingot, GTMaterials.SiliconeRubber).getItem(),
             "Advanced Rubber",
-            "Craft an advanced rubber ingot"
+            "Craft advanced rubber"
         )
         .recipeExecute(GTRecipeTypes.CHEMICAL_RECIPES, "silicone_rubber")
         .recipeExecute(GTRecipeTypes.CHEMICAL_RECIPES, "styrene_butadiene_rubber")
         .build();
 
-    public static final Advancement FUSION_REACTOR = SFTAdvancementBuilder.create("fusion_reactor")
+    public static final Advancement FUSION_REACTOR_MK1 = SFTAdvancementBuilder.create("fusion_reactor_mk1")
         .parent(RHODIUM_PLATED_PALLADIUM)
         .display(
             GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getItem(),
@@ -528,7 +592,7 @@ public final class SFTAdvancements {
         .build();
 
     public static final Advancement CRYSTAL_CYCLE = SFTAdvancementBuilder.create("crystal_cycle")
-        .parent(FUSION_REACTOR)
+        .parent(FUSION_REACTOR_MK1)
         .display(
             GTItems.RAW_CRYSTAL_CHIP,
             "How Can It Grow?",
@@ -541,6 +605,16 @@ public final class SFTAdvancements {
             "raw_crystal_chip_from_part_bacterial_sludge"
         )
         .recipeExecute(GTRecipeTypes.FORGE_HAMMER_RECIPES, "raw_crystal_chip_part")
+        .build();
+
+    public static final Advancement CRYSTAL_MAINFRAME = SFTAdvancementBuilder.create("crystal_mainframe")
+        .parent(CRYSTAL_CYCLE)
+        .display(
+            GTItems.CRYSTAL_MAINFRAME_UV,
+            "Crystal Clear",
+            "Craft a crystal mainframe"
+        )
+        .obtain(GTItems.CRYSTAL_MAINFRAME_UV)
         .build();
 
     public static final Advancement ACTIVE_TRANSFORMER = SFTAdvancementBuilder.create("active_transformer")
@@ -576,6 +650,124 @@ public final class SFTAdvancements {
         .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.NaquadahAlloy).getItem())
         .build();
 
+    public static final Advancement ZERO_POINT_MODULE = SFTAdvancementBuilder.create("zero_point_module")
+        .parent(NAQUADAH_ALLOY)
+        .hidden()
+        .display(
+            GTItems.ZERO_POINT_MODULE,
+            "Gift of the Pharaoh",
+            "Find a zero point module from the jungle temple"
+        )
+        .obtain(GTItems.ZERO_POINT_MODULE)
+        .build();
+
+    public static final Advancement FUSION_REACTOR_MK2 = SFTAdvancementBuilder.create("fusion_reactor_mk2")
+        .parent(NAQUADAH_ALLOY)
+        .display(
+            GTMultiMachines.FUSION_REACTOR[GTValues.ZPM].getItem(),
+            "Golden Doughnut?",
+            "Upgrade your fusion reactor to MK2"
+        )
+        .form(GTMultiMachines.FUSION_REACTOR[GTValues.ZPM])
+        .build();
+
+    public static final Advancement TRITANIUM = SFTAdvancementBuilder.create("tritanium")
+        .parent(FUSION_REACTOR_MK2)
+        .display(
+            ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Tritanium).getItem(),
+            "Tritanium is tri-titanium",
+            "Fuse three titanium ingot into a tritanium ingot"
+        )
+        .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Tritanium).getItem())
+        .build();
+
+    public static final Advancement STEM_CELLS = SFTAdvancementBuilder.create("stem_cells")
+        .parent(NAQUADAH_ALLOY)
+        .display(
+            GTItems.STEM_CELLS,
+            "Life Finds a Way",
+            "Develop stem cells"
+        )
+        .obtain(GTItems.STEM_CELLS)
+        .build();
+
+    public static final Advancement WETWARE_MAINFRAME = SFTAdvancementBuilder.create("wetware_mainframe")
+        .parent(STEM_CELLS)
+        .display(
+            GTItems.WETWARE_MAINFRAME_UHV,
+            "\"Neural\" Network",
+            "Craft a wetware mainframe"
+        )
+        .obtain(GTItems.WETWARE_MAINFRAME_UHV)
+        .build();
+
+    // UV
+    public static final Advancement DARMSTADTIUM = SFTAdvancementBuilder.create("darmstadtium")
+        .parent(FUSION_REACTOR_MK2)
+        .goal()
+        .display(
+            ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Darmstadtium).getItem(),
+            "Entropic Stasis",
+            "Fuse a darmstadtium ingot. Have you ever thought why the element never decay?"
+        )
+        .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Darmstadtium).getItem())
+        .build();
+
+    public static final Advancement FUSION_REACTOR_MK3 = SFTAdvancementBuilder.create("fusion_reactor_mk3")
+        .parent(DARMSTADTIUM)
+        .display(
+            GTMultiMachines.FUSION_REACTOR[GTValues.UV].getItem(),
+            "That Seems Spicy",
+            "Upgrade your fusion reactor to MK3"
+        )
+        .form(GTMultiMachines.FUSION_REACTOR[GTValues.UV])
+        .build();
+
+    // UHV
+    public static final Advancement NEUTRONIUM = SFTAdvancementBuilder.create("neutronium")
+        .parent(FUSION_REACTOR_MK3)
+        .goal()
+        .display(
+            ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Neutronium).getItem(),
+            "Only 300 Million Tons",
+            "This is Neutronium, the heaviest matter in this world"
+        )
+        .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Neutronium).getItem())
+        .build();
+
+    public static final Advancement ULTIMATE_BATTERY = SFTAdvancementBuilder.create("battery")
+        .parent(NEUTRONIUM)
+        .display(
+            GTItems.ULTIMATE_BATTERY,
+            "Grasp of the Threshold",
+            "Craft the most powerful battery in GregTech Modern"
+        )
+        .obtain(GTItems.ULTIMATE_BATTERY)
+        .build();
+
+    public static final Advancement ULTIMATE_BATTERY_FULL = SFTAdvancementBuilder.create("ultimate_battery_full")
+        .parent(ULTIMATE_BATTERY)
+        .challenge()
+        .hidden()
+        .display(
+            GTItems.ULTIMATE_BATTERY,
+            "Infinity Achieved, Eternity Charged",
+            "Fully charge the ultimate battery..."
+        )
+        .criterion("ultimate_battery_full", UltimateBatteryFullTrigger.Instance.full())
+        .build();
+
+    public static final Advancement NAN_CERTIFICATE = SFTAdvancementBuilder.create("nan_certificate")
+        .parent(NEUTRONIUM)
+        .challenge()
+        .display(
+            GTItems.NAN_CERTIFICATE,
+            "CONQUER THE WORLD!",
+            "Prove you are an expert, and take a rest now!"
+        )
+        .obtain(GTItems.NAN_CERTIFICATE)
+        .build();
+
     public static void init(RegistrateAdvancementProvider provider) {
         provider.accept(ROOT);
 
@@ -601,31 +793,51 @@ public final class SFTAdvancements {
         provider.accept(STAINLESS_STEEL);
         provider.accept(CLEANROOM);
         provider.accept(MAX_CLEANROOM_CLEAN);
-        provider.accept(MICRO_PROCESSOR_MAINFRAME);
+        provider.accept(MICRO_MAINFRAME);
         provider.accept(OIL);
         provider.accept(LARGE_CHEMICAL_REACTOR);
         provider.accept(PETROCHEMICAL);
         provider.accept(SMD);
 
         provider.accept(TITANIUM);
+        provider.accept(NANO_MAINFRAME);
         provider.accept(TUNGSTEN);
         provider.accept(PLATINUM_GROUP);
         provider.accept(BLAST_ALLOY_SMELTER);
 
         provider.accept(TUNGSTEN_STEEL);
+        provider.accept(ADVANCED_SMD);
+        provider.accept(QUANTUM_MAINFRAME);
         provider.accept(PARALLEL_HATCH);
         provider.accept(LARGE_MACHINE);
         provider.accept(GCYM_COLLECTOR);
+        provider.accept(POWER_SUBSTATION);
         provider.accept(ASSEMBLY_LINE);
         provider.accept(COMPUTER);
+        provider.accept(HPCA);
+        provider.accept(NETWORK_SWITCH);
 
         provider.accept(RHODIUM_PLATED_PALLADIUM);
-        provider.accept(FUSION_REACTOR);
+        provider.accept(FUSION_REACTOR_MK1);
         provider.accept(CRYSTAL_CYCLE);
+        provider.accept(CRYSTAL_MAINFRAME);
         provider.accept(ADVANCED_RUBBER);
         provider.accept(ACTIVE_TRANSFORMER);
         provider.accept(ACTIVE_TRANSFORMER_LASER);
 
         provider.accept(NAQUADAH_ALLOY);
+        provider.accept(FUSION_REACTOR_MK2);
+        provider.accept(TRITANIUM);
+        provider.accept(ZERO_POINT_MODULE);
+        provider.accept(STEM_CELLS);
+        provider.accept(WETWARE_MAINFRAME);
+
+        provider.accept(DARMSTADTIUM);
+        provider.accept(FUSION_REACTOR_MK3);
+
+        provider.accept(NEUTRONIUM);
+        provider.accept(ULTIMATE_BATTERY);
+        provider.accept(ULTIMATE_BATTERY_FULL);
+        provider.accept(NAN_CERTIFICATE);
     }
 }

@@ -1,12 +1,12 @@
 {
-  "parent": "sftcore:cleanroom",
+  "parent": "sftcore:fusion_reactor_mk3",
   "criteria": {
-    "has_gtceu_micro_processor_mainframe": {
+    "has_gtceu_neutronium_ingot": {
       "conditions": {
         "items": [
           {
             "items": [
-              "gtceu:micro_processor_mainframe"
+              "gtceu:neutronium_ingot"
             ]
           }
         ]
@@ -18,21 +18,21 @@
     "announce_to_chat": true,
     "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
-      "translate": "advancements.sftcore.micro_processor_mainframe.description"
+      "translate": "advancements.sftcore.neutronium.description"
     },
-    "frame": "task",
+    "frame": "goal",
     "hidden": false,
     "icon": {
-      "item": "gtceu:micro_processor_mainframe"
+      "item": "gtceu:neutronium_ingot"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.sftcore.micro_processor_mainframe.title"
+      "translate": "advancements.sftcore.neutronium.title"
     }
   },
   "requirements": [
     [
-      "has_gtceu_micro_processor_mainframe"
+      "has_gtceu_neutronium_ingot"
     ]
   ],
   "sends_telemetry_event": true

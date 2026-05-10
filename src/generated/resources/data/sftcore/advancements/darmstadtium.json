@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:fusion_reactor_mk2",
+  "criteria": {
+    "has_gtceu_darmstadtium_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:darmstadtium_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.darmstadtium.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:darmstadtium_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.darmstadtium.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_darmstadtium_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

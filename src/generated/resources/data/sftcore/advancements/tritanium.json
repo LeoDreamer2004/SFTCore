@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:fusion_reactor_mk2",
+  "criteria": {
+    "has_gtceu_tritanium_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:tritanium_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.tritanium.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:tritanium_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.tritanium.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_tritanium_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:naquadah_alloy",
+  "criteria": {
+    "has_gtceu_zero_point_module": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:zero_point_module"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.zero_point_module.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "gtceu:zero_point_module"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.zero_point_module.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_zero_point_module"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

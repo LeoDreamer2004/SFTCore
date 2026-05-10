@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:neutronium",
+  "criteria": {
+    "has_gtceu_nan_certificate": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:nan_certificate"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.nan_certificate.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:nan_certificate"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.nan_certificate.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_nan_certificate"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

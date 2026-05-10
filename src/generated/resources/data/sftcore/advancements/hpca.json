@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:computer",
+  "criteria": {
+    "formed_gtceu_high_performance_computation_array": {
+      "conditions": {
+        "machine": "gtceu:high_performance_computation_array"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.hpca.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:high_performance_computation_array"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.hpca.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_high_performance_computation_array"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

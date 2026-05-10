@@ -1,0 +1,46 @@
+{
+  "parent": "sftcore:rhodium_plated_palladium",
+  "criteria": {
+    "execute_gtceu_chemical_reactor_silicone_rubber": {
+      "conditions": {
+        "recipes": [
+          "gtceu:chemical_reactor/silicone_rubber"
+        ]
+      },
+      "trigger": "sftcore:recipe_executed"
+    },
+    "execute_gtceu_chemical_reactor_styrene_butadiene_rubber": {
+      "conditions": {
+        "recipes": [
+          "gtceu:chemical_reactor/styrene_butadiene_rubber"
+        ]
+      },
+      "trigger": "sftcore:recipe_executed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.advanced_rubber.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:silicone_rubber_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.advanced_rubber.title"
+    }
+  },
+  "requirements": [
+    [
+      "execute_gtceu_chemical_reactor_silicone_rubber"
+    ],
+    [
+      "execute_gtceu_chemical_reactor_styrene_butadiene_rubber"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:tungsten_steel",
+  "criteria": {
+    "formed_gtceu_power_substation": {
+      "conditions": {
+        "machine": "gtceu:power_substation"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.power_substation.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:power_substation"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.power_substation.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_power_substation"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

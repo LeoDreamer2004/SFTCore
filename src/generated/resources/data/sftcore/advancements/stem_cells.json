@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:naquadah_alloy",
+  "criteria": {
+    "has_gtceu_stem_cells": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:stem_cells"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.stem_cells.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:stem_cells"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.stem_cells.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_stem_cells"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

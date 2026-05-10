@@ -1,0 +1,39 @@
+{
+  "parent": "sftcore:rhodium_plated_palladium",
+  "criteria": {
+    "has_gtceu_naquadah_alloy_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:naquadah_alloy_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.naquadah_alloy.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:naquadah_alloy_ingot"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.naquadah_alloy.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_naquadah_alloy_ingot"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

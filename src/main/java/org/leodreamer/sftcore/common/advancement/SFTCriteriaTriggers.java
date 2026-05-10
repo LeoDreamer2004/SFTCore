@@ -16,6 +16,7 @@ public final class SFTCriteriaTriggers {
     public static final MaxCleanroomCleanTrigger MAX_CLEANROOM_CLEAN = new MaxCleanroomCleanTrigger();
     public static final ActiveTransformerLaserTrigger ACTIVE_TRANSFORMER_LASER =
         new ActiveTransformerLaserTrigger();
+    public static final UltimateBatteryFullTrigger ULTIMATE_BATTERY_FULL = new UltimateBatteryFullTrigger();
 
 
     private static boolean registered = false;
@@ -35,7 +36,7 @@ public final class SFTCriteriaTriggers {
         CriteriaTriggers.register(DUCT_TAPED_MAINTENANCE);
         CriteriaTriggers.register(MAX_CLEANROOM_CLEAN);
         CriteriaTriggers.register(ACTIVE_TRANSFORMER_LASER);
-
+        CriteriaTriggers.register(ULTIMATE_BATTERY_FULL);
 
         registered = true;
     }

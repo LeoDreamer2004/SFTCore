@@ -1,0 +1,754 @@
+{
+  "parent": "sftcore:aluminum",
+  "criteria": {
+    "has_gtceu_ev_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ev_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ev_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ev_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ev_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ev_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ev_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ev_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_hv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:hv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_hv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:hv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_hv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:hv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_hv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:hv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_iv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:iv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_iv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:iv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_iv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:iv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_iv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:iv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_luv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:luv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_luv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:luv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_luv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:luv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_luv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:luv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_lv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:lv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_lv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:lv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_lv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:lv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_lv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:lv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_mv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:mv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_mv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:mv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_mv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:mv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_mv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:mv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_opv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:opv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_opv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:opv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_opv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:opv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_opv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:opv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uev_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uev_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uev_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uev_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uev_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uev_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uev_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uev_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uhv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uhv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uhv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uhv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uhv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uhv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uhv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uhv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uiv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uiv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uiv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uiv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uiv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uiv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uiv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uiv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ulv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ulv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ulv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ulv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ulv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ulv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_ulv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ulv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uxv_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uxv_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uxv_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uxv_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uxv_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uxv_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uxv_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uxv_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_zpm_transformer_16a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:zpm_transformer_16a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_zpm_transformer_1a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:zpm_transformer_1a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_zpm_transformer_2a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:zpm_transformer_2a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_zpm_transformer_4a": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:zpm_transformer_4a"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.transformer.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:lv_transformer_1a"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.transformer.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_ulv_transformer_1a",
+      "has_gtceu_lv_transformer_1a",
+      "has_gtceu_mv_transformer_1a",
+      "has_gtceu_hv_transformer_1a",
+      "has_gtceu_ev_transformer_1a",
+      "has_gtceu_iv_transformer_1a",
+      "has_gtceu_luv_transformer_1a",
+      "has_gtceu_zpm_transformer_1a",
+      "has_gtceu_uv_transformer_1a",
+      "has_gtceu_uhv_transformer_1a",
+      "has_gtceu_uev_transformer_1a",
+      "has_gtceu_uiv_transformer_1a",
+      "has_gtceu_uxv_transformer_1a",
+      "has_gtceu_opv_transformer_1a",
+      "has_gtceu_ulv_transformer_2a",
+      "has_gtceu_lv_transformer_2a",
+      "has_gtceu_mv_transformer_2a",
+      "has_gtceu_hv_transformer_2a",
+      "has_gtceu_ev_transformer_2a",
+      "has_gtceu_iv_transformer_2a",
+      "has_gtceu_luv_transformer_2a",
+      "has_gtceu_zpm_transformer_2a",
+      "has_gtceu_uv_transformer_2a",
+      "has_gtceu_uhv_transformer_2a",
+      "has_gtceu_uev_transformer_2a",
+      "has_gtceu_uiv_transformer_2a",
+      "has_gtceu_uxv_transformer_2a",
+      "has_gtceu_opv_transformer_2a",
+      "has_gtceu_ulv_transformer_4a",
+      "has_gtceu_lv_transformer_4a",
+      "has_gtceu_mv_transformer_4a",
+      "has_gtceu_hv_transformer_4a",
+      "has_gtceu_ev_transformer_4a",
+      "has_gtceu_iv_transformer_4a",
+      "has_gtceu_luv_transformer_4a",
+      "has_gtceu_zpm_transformer_4a",
+      "has_gtceu_uv_transformer_4a",
+      "has_gtceu_uhv_transformer_4a",
+      "has_gtceu_uev_transformer_4a",
+      "has_gtceu_uiv_transformer_4a",
+      "has_gtceu_uxv_transformer_4a",
+      "has_gtceu_opv_transformer_4a",
+      "has_gtceu_ulv_transformer_16a",
+      "has_gtceu_lv_transformer_16a",
+      "has_gtceu_mv_transformer_16a",
+      "has_gtceu_hv_transformer_16a",
+      "has_gtceu_ev_transformer_16a",
+      "has_gtceu_iv_transformer_16a",
+      "has_gtceu_luv_transformer_16a",
+      "has_gtceu_zpm_transformer_16a",
+      "has_gtceu_uv_transformer_16a",
+      "has_gtceu_uhv_transformer_16a",
+      "has_gtceu_uev_transformer_16a",
+      "has_gtceu_uiv_transformer_16a",
+      "has_gtceu_uxv_transformer_16a",
+      "has_gtceu_opv_transformer_16a"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

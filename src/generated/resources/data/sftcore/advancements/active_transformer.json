@@ -1,9 +1,9 @@
 {
-  "parent": "sftcore:rhodium_plated_palladium",
+  "parent": "sftcore:advanced_rubber",
   "criteria": {
-    "formed_gtceu_luv_fusion_reactor": {
+    "formed_gtceu_active_transformer": {
       "conditions": {
-        "machine": "gtceu:luv_fusion_reactor"
+        "machine": "gtceu:active_transformer"
       },
       "trigger": "sftcore:formed_gt_multiblock"
     }
@@ -12,21 +12,21 @@
     "announce_to_chat": true,
     "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
-      "translate": "advancements.sftcore.fusion_reactor.description"
+      "translate": "advancements.sftcore.active_transformer.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "gtceu:luv_fusion_reactor"
+      "item": "gtceu:active_transformer"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.sftcore.fusion_reactor.title"
+      "translate": "advancements.sftcore.active_transformer.title"
     }
   },
   "requirements": [
     [
-      "formed_gtceu_luv_fusion_reactor"
+      "formed_gtceu_active_transformer"
     ]
   ],
   "sends_telemetry_event": true

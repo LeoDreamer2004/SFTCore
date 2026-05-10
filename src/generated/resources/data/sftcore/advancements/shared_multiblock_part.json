@@ -1,0 +1,31 @@
+{
+  "parent": "sftcore:electric_blast_furnace",
+  "criteria": {
+    "shared_multiblock_part": {
+      "conditions": {},
+      "trigger": "sftcore:shared_multiblock_part"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.shared_multiblock_part.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:chain"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.shared_multiblock_part.title"
+    }
+  },
+  "requirements": [
+    [
+      "shared_multiblock_part"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

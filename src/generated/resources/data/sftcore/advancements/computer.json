@@ -1,0 +1,42 @@
+{
+  "parent": "sftcore:assembly_line",
+  "criteria": {
+    "formed_gtceu_data_bank": {
+      "conditions": {
+        "machine": "gtceu:data_bank"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_research_station": {
+      "conditions": {
+        "machine": "gtceu:research_station"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.computer.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:research_station"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.computer.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_research_station"
+    ],
+    [
+      "formed_gtceu_data_bank"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

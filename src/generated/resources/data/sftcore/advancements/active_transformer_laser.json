@@ -1,0 +1,31 @@
+{
+  "parent": "sftcore:active_transformer",
+  "criteria": {
+    "active_transformer_laser": {
+      "conditions": {},
+      "trigger": "sftcore:active_transformer_laser"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.active_transformer_laser.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:active_transformer"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.active_transformer_laser.title"
+    }
+  },
+  "requirements": [
+    [
+      "active_transformer_laser"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

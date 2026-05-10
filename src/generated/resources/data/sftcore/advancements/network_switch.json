@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:hpca",
+  "criteria": {
+    "formed_gtceu_network_switch": {
+      "conditions": {
+        "machine": "gtceu:network_switch"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.network_switch.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:network_switch"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.network_switch.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_network_switch"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

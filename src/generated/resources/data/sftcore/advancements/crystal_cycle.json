@@ -1,0 +1,48 @@
+{
+  "parent": "sftcore:fusion_reactor_mk1",
+  "criteria": {
+    "execute_gtceu_autoclave_raw_crystal_chip_from_part_europium_raw_crystal_chip_from_part_mutagen_raw_crystal_chip_from_part_bacterial_sludge": {
+      "conditions": {
+        "recipes": [
+          "gtceu:autoclave/raw_crystal_chip_from_part_bacterial_sludge",
+          "gtceu:autoclave/raw_crystal_chip_from_part_europium",
+          "gtceu:autoclave/raw_crystal_chip_from_part_mutagen"
+        ]
+      },
+      "trigger": "sftcore:recipe_executed"
+    },
+    "execute_gtceu_forge_hammer_raw_crystal_chip_part": {
+      "conditions": {
+        "recipes": [
+          "gtceu:forge_hammer/raw_crystal_chip_part"
+        ]
+      },
+      "trigger": "sftcore:recipe_executed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.crystal_cycle.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:raw_crystal_chip"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.crystal_cycle.title"
+    }
+  },
+  "requirements": [
+    [
+      "execute_gtceu_autoclave_raw_crystal_chip_from_part_europium_raw_crystal_chip_from_part_mutagen_raw_crystal_chip_from_part_bacterial_sludge"
+    ],
+    [
+      "execute_gtceu_forge_hammer_raw_crystal_chip_part"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
