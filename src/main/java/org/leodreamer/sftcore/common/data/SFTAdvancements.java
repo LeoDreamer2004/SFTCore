@@ -1,16 +1,19 @@
 package org.leodreamer.sftcore.common.data;
 
+import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
+import org.leodreamer.sftcore.common.advancement.trigger.MachineExplodedTrigger;
+import org.leodreamer.sftcore.common.advancement.trigger.WireBurnedTrigger;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.world.item.Items;
-import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
-import org.leodreamer.sftcore.common.advancement.trigger.MachineExplodedTrigger;
-import org.leodreamer.sftcore.common.advancement.trigger.WireBurnedTrigger;
+
+import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 
 public final class SFTAdvancements {
 

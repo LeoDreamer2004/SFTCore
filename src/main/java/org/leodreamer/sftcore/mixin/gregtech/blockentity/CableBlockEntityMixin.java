@@ -1,7 +1,9 @@
 package org.leodreamer.sftcore.mixin.gregtech.blockentity;
 
-import com.gregtechceu.gtceu.common.blockentity.CableBlockEntity;
 import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
+import com.gregtechceu.gtceu.common.blockentity.CableBlockEntity;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

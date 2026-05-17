@@ -1,15 +1,18 @@
 package org.leodreamer.sftcore.common.advancement.trigger;
 
-import com.google.gson.JsonObject;
+import org.leodreamer.sftcore.SFTCore;
+
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
+
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.SFTCore;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
