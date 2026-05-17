@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -49,6 +51,7 @@ public class DumpCommand {
     public static final String FOLDER = "dumps";
     public static final String ID_FILENAME = "vocabulary.json";
     public static final String MULTI_BLOCK_FILENAME = "multiblock.txt";
+    public static final String TRANSLATIONS_FILENAME = "translations.json";
 
     private static final String ALIASES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%";
 
@@ -98,6 +101,10 @@ public class DumpCommand {
             .then(identifierDump("blocks", Mode.BLOCK))
             .then(identifierDump("fluid", Mode.FLUID))
             .then(
+                Commands.literal("translations")
+                    .executes(context -> dumpTranslations(context.getSource()))
+            )
+            .then(
                 Commands.literal("multiblock")
                     .executes(context -> dumpMultiblock(context.getSource()))
             );
@@ -110,6 +117,10 @@ public class DumpCommand {
 
     private static int dumpIdentifiers(CommandSourceStack stack, Mode mode) {
         return write(stack, ID_FILENAME, getIdentifierString(mode));
+    }
+
+    private static int dumpTranslations(CommandSourceStack stack) {
+        return write(stack, TRANSLATIONS_FILENAME, getTranslationString());
     }
 
     private static int dumpMultiblock(CommandSourceStack stack) throws CommandSyntaxException {
@@ -198,6 +209,16 @@ public class DumpCommand {
         return GSON.toJson(result);
     }
 
+    private static String getTranslationString() {
+        var result = new LinkedHashMap<String, String>();
+
+        for (var target : DumpTarget.values()) {
+            target.translations().forEach(result::putIfAbsent);
+        }
+
+        return GSON.toJson(result);
+    }
+
     private static String getMultiblockString(
         CommandSourceStack stack,
         BoundingBox box
@@ -216,9 +237,9 @@ public class DumpCommand {
 
         for (
             var pos : BlockPos.betweenClosed(
-                box.minX(), box.minY(), box.minZ(),
-                box.maxX(), box.maxY(), box.maxZ()
-            )
+            box.minX(), box.minY(), box.minZ(),
+            box.maxX(), box.maxY(), box.maxZ()
+        )
         ) {
             var state = stack.getLevel().getBlockState(pos);
 
@@ -351,6 +372,44 @@ public class DumpCommand {
                 });
 
             return result;
+        }
+
+        public Map<String, String> translations() {
+            var result = new LinkedHashMap<String, String>();
+
+            registry.getKeys().stream()
+                .sorted(RESOURCE_LOCATION_ORDER)
+                .forEach(location -> {
+                    var name = getTranslation(location);
+                    if (name != null) {
+                        result.put(location.toString(), name);
+                    }
+                });
+
+            return result;
+        }
+
+        private String getTranslation(ResourceLocation location) {
+            return switch (this) {
+                case BLOCK -> {
+                    var block = ForgeRegistries.BLOCKS.getValue(location);
+                    yield block == null ? null : translate(block.getDescriptionId());
+                }
+                case ITEM -> {
+                    var item = ForgeRegistries.ITEMS.getValue(location);
+                    yield item == null ? null : translate(item.getDescriptionId());
+                }
+                case FLUID -> {
+                    var fluid = ForgeRegistries.FLUIDS.getValue(location);
+                    yield fluid == null ? null : fluid.getFluidType()
+                                                 .getDescription(new FluidStack(fluid, 1))
+                                                 .getString();
+                }
+            };
+        }
+
+        private static String translate(String key) {
+            return Language.getInstance().getOrDefault(key);
         }
     }
 
