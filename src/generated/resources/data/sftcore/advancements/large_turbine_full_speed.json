@@ -1,0 +1,31 @@
+{
+  "parent": "sftcore:stainless_steel",
+  "criteria": {
+    "large_turbine_full_speed": {
+      "conditions": {},
+      "trigger": "sftcore:large_turbine_full_speed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.large_turbine_full_speed.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "gtceu:steam_large_turbine"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.large_turbine_full_speed.title"
+    }
+  },
+  "requirements": [
+    [
+      "large_turbine_full_speed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

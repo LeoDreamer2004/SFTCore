@@ -26,7 +26,7 @@ public class SFTTooltipsBuilder {
     @Nullable
     private final ResourceLocation id;
 
-    public static final Object2ObjectArrayMap<String, String> TOOLTIPS_LANG = new Object2ObjectArrayMap<>();
+    public static final Object2ObjectArrayMap<String, String> LANG = new Object2ObjectArrayMap<>();
 
     SFTTooltipsBuilder(@Nullable ResourceLocation id) {
         tooltips = new ArrayList<>();
@@ -68,7 +68,7 @@ public class SFTTooltipsBuilder {
             throw new IllegalStateException("Cannot insert a tip without an id");
         }
         var key = id.getNamespace() + ".machine." + id.getPath() + ".tooltip";
-        TOOLTIPS_LANG.put(key, tooltip); // the tooltip is auto-shown
+        LANG.put(key, tooltip); // the tooltip is auto-shown
 
         return this;
     }
@@ -82,7 +82,7 @@ public class SFTTooltipsBuilder {
 
         for (int i = 0; i < contents.length; i++) {
             var key = id.getNamespace() + ".machine." + id.getPath() + ".tooltip." + i;
-            TOOLTIPS_LANG.put(key, contents[i]);
+            LANG.put(key, contents[i]);
             keys.add(key);
         }
         tooltips.addAll(keys.stream().map(Component::translatable).toList());

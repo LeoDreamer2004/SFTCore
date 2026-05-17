@@ -5,8 +5,10 @@ import org.leodreamer.sftcore.common.advancement.trigger.*;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.ActiveTransformerMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.CentralMonitorMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeCombustionEngineMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 
 import net.minecraft.advancements.CriteriaTriggers;
@@ -34,6 +36,10 @@ public final class SFTCriteriaTriggers {
         new SimpleAnyTrigger("ultimate_battery_full");
     public static final SimpleGTMachineTrigger<LargeCombustionEngineMachine> OXYGEN_BOOSTED_COMBUSTION =
         new SimpleGTMachineTrigger<>("oxygen_combustion_engine");
+    public static final SimpleGTMachineTrigger<CentralMonitorMachine> CENTRAL_MONITOR_MODULE_INSTALLED =
+        new SimpleGTMachineTrigger<>("central_monitor_module_installed");
+    public static final SimpleGTMachineTrigger<LargeTurbineMachine> LARGE_TURBINE_FULL_SPEED =
+        new SimpleGTMachineTrigger<>("large_turbine_full_speed");
     // spotless:on
 
     private static boolean registered = false;
@@ -55,6 +61,8 @@ public final class SFTCriteriaTriggers {
         CriteriaTriggers.register(ACTIVE_TRANSFORMER_LASER);
         CriteriaTriggers.register(ULTIMATE_BATTERY_FULL);
         CriteriaTriggers.register(OXYGEN_BOOSTED_COMBUSTION);
+        CriteriaTriggers.register(CENTRAL_MONITOR_MODULE_INSTALLED);
+        CriteriaTriggers.register(LARGE_TURBINE_FULL_SPEED);
 
         registered = true;
     }

@@ -215,7 +215,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
     compileOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${mc_version}:${flywheel_version}"))
 
-    implementation fg.deobf("dev.toma.configuration:configuration-forge-1.20.1:${configuration_version}") {transitive = false }
+    implementation fg.deobf("dev.toma.configuration:configuration-1.20.1:${configuration_version}-forge") {transitive = false }
     runtimeOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-${mc_version}:${flywheel_version}"))
     runtimeOnly fg.deobf("curse.maven:just-enough-characters-250702:6680042")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")

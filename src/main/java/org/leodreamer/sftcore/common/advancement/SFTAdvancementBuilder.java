@@ -16,6 +16,7 @@ import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -30,7 +31,7 @@ public class SFTAdvancementBuilder {
     private boolean hidden = false;
     private FrameType frame = FrameType.TASK;
     private static final ResourceLocation BACKGROUND = SFTCore.id("textures/gui/base/advancement_background.png");
-    public static final Object2ObjectArrayMap<String, String> ADVANCEMENT_LANG = new Object2ObjectArrayMap<>();
+    public static final Object2ObjectArrayMap<String, String> LANG = new Object2ObjectArrayMap<>();
 
     private SFTAdvancementBuilder(String id) {
         this.id = id;
@@ -82,8 +83,8 @@ public class SFTAdvancementBuilder {
     public SFTAdvancementBuilder display(ItemLike icon, String title, String description) {
         var titleKey = "advancements.sftcore." + id + ".title";
         var descriptionKey = "advancements.sftcore." + id + ".description";
-        ADVANCEMENT_LANG.put(titleKey, title);
-        ADVANCEMENT_LANG.put(descriptionKey, description);
+        LANG.put(titleKey, title);
+        LANG.put(descriptionKey, description);
 
         builder.display(
             icon,
@@ -111,7 +112,7 @@ public class SFTAdvancementBuilder {
     }
 
     public SFTAdvancementBuilder free() {
-        return obtain();
+        return criterion("free", InventoryChangeTrigger.TriggerInstance.hasItems(new Item[0]));
     }
 
     private static String rlToStr(ResourceLocation rl) {
@@ -119,17 +120,21 @@ public class SFTAdvancementBuilder {
     }
 
     public SFTAdvancementBuilder obtain(ItemLike... what) {
-        // has_{namespace}_{path}*
-        var key = new StringBuilder("has_");
-        for (int i = 0; i < what.length; i++) {
-            if (i > 0) {
-                key.append("_");
-            }
-            var rl = RLUtils.getItemRL(what[i]);
-            key.append(rlToStr(rl));
+        for (var item : what) {
+            var rl = RLUtils.getItemRL(item);
+            criterion("has_" + rlToStr(rl), InventoryChangeTrigger.TriggerInstance.hasItems(item));
         }
 
-        return criterion(key.toString(), InventoryChangeTrigger.TriggerInstance.hasItems(what));
+        return this;
+    }
+
+    public SFTAdvancementBuilder obtain(Iterable<? extends ItemLike> what) {
+        for (var item : what) {
+            var rl = RLUtils.getItemRL(item);
+            criterion("has_" + rlToStr(rl), InventoryChangeTrigger.TriggerInstance.hasItems(item));
+        }
+
+        return this;
     }
 
     public SFTAdvancementBuilder simple(SimpleAnyTrigger trigger) {

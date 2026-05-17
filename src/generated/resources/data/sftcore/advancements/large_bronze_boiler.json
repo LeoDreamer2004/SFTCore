@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:primitive_pump",
+  "criteria": {
+    "formed_gtceu_bronze_large_boiler": {
+      "conditions": {
+        "machine": "gtceu:bronze_large_boiler"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.large_bronze_boiler.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:bronze_large_boiler"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.large_bronze_boiler.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_bronze_large_boiler"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -24,7 +24,7 @@ public class HandCommand {
     @RegisterLanguage("NBT: ")
     private static final String NBT = "commands.sftcore.hand.nbt";
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static LiteralArgumentBuilder<CommandSourceStack> builder() {
         return Commands.literal("hand")
@@ -56,6 +56,6 @@ public class HandCommand {
         if (tag == null) {
             return "empty";
         }
-        return pretty ? gson.toJson(gson.fromJson(tag.toString(), Object.class)) : tag.toString();
+        return pretty ? GSON.toJson(GSON.fromJson(tag.toString(), Object.class)) : tag.toString();
     }
 }

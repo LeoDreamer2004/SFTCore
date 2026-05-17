@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.common.item;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.command.dump.DumpCommand;
+import org.leodreamer.sftcore.common.command.DumpCommand;
 
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 

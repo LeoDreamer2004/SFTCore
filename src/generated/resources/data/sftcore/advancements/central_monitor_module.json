@@ -1,30 +1,30 @@
 {
-  "parent": "sftcore:electric_blast_furnace",
+  "parent": "sftcore:aluminum",
   "criteria": {
-    "shared_multiblock_part": {
+    "central_monitor_module_installed": {
       "conditions": {},
-      "trigger": "sftcore:shared_multiblock_part"
+      "trigger": "sftcore:central_monitor_module_installed"
     }
   },
   "display": {
     "announce_to_chat": true,
     "background": "sftcore:textures/gui/base/advancement_background.png",
     "description": {
-      "translate": "advancements.sftcore.shared_multiblock_part.description"
+      "translate": "advancements.sftcore.central_monitor_module.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "minecraft:chain"
+      "item": "gtceu:central_monitor"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.sftcore.shared_multiblock_part.title"
+      "translate": "advancements.sftcore.central_monitor_module.title"
     }
   },
   "requirements": [
     [
-      "shared_multiblock_part"
+      "central_monitor_module_installed"
     ]
   ],
   "sends_telemetry_event": true

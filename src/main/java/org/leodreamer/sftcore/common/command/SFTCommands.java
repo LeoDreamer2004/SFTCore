@@ -1,7 +1,6 @@
 package org.leodreamer.sftcore.common.command;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.command.dump.DumpCommand;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;

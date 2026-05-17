@@ -1,0 +1,40 @@
+{
+  "parent": "sftcore:large_bronze_boiler",
+  "criteria": {
+    "formed_gtceu_steam_grinder": {
+      "conditions": {
+        "machine": "gtceu:steam_grinder"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    },
+    "formed_gtceu_steam_oven": {
+      "conditions": {
+        "machine": "gtceu:steam_oven"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.steam_parallel_multiblock.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:steam_grinder"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.steam_parallel_multiblock.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_steam_grinder",
+      "formed_gtceu_steam_oven"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

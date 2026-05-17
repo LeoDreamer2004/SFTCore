@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.common.data;
 
 import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
 import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
-import org.leodreamer.sftcore.common.advancement.trigger.*;
+import org.leodreamer.sftcore.common.advancement.trigger.WireBurnedTrigger;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -71,6 +71,49 @@ public final class SFTAdvancements {
             "Craft your first circuit"
         )
         .obtain(GTItems.ELECTRONIC_CIRCUIT_LV)
+        .build();
+
+    public static final Advancement COKE_OVEN = SFTAdvancementBuilder.create("coke_oven")
+        .parent(BRONZE)
+        .display(
+            GTMultiMachines.COKE_OVEN.getItem(),
+            "Better Than Furnaces!",
+            "Build a coke oven"
+        )
+        .form(GTMultiMachines.COKE_OVEN)
+        .build();
+
+    public static final Advancement PRIMITIVE_PUMP = SFTAdvancementBuilder.create("primitive_pump")
+        .parent(COKE_OVEN)
+        .display(
+            GTMultiMachines.PRIMITIVE_PUMP.getItem(),
+            "Remember the One Who Dug the Well",
+            "Build a primitive pump to obtain infinite water"
+        )
+        .form(GTMultiMachines.PRIMITIVE_PUMP)
+        .build();
+
+    public static final Advancement LARGE_BRONZE_BOILER = SFTAdvancementBuilder.create("large_bronze_boiler")
+        .parent(PRIMITIVE_PUMP)
+        .display(
+            GTMultiMachines.LARGE_BOILER_BRONZE.getItem(),
+            "All Industry Comes Down to Boiling Water",
+            "Build a large bronze boiler"
+        )
+        .form(GTMultiMachines.LARGE_BOILER_BRONZE)
+        .build();
+
+    public static final Advancement STEAM_PARALLEL_MULTIBLOCK = SFTAdvancementBuilder
+        .create("steam_parallel_multiblock")
+        .parent(LARGE_BRONZE_BOILER)
+        .any()
+        .display(
+            GTMultiMachines.STEAM_GRINDER.getItem(),
+            "The Mighty Power of the Steam Age",
+            "Build a steam multiblock with parallels"
+        )
+        .form(GTMultiMachines.STEAM_GRINDER)
+        .form(GTMultiMachines.STEAM_OVEN)
         .build();
 
     public static final Advancement PRIMITIVE_BLAST_FURNACE = SFTAdvancementBuilder.create("primitive_blast_furnace")
@@ -153,10 +196,26 @@ public final class SFTAdvancements {
         .parent(ELECTRIC_BLAST_FURNACE)
         .display(
             Items.CHAIN,
-            "Cut corners",
+            "Cut Corners",
             "Share a part with another machine"
         )
-        .simple(SFTCriteriaTriggers.ACTIVE_TRANSFORMER_LASER)
+        .simple(SFTCriteriaTriggers.SHARED_MULTIBLOCK_PART)
+        .build();
+
+    public static final Advancement WORLD_ACCELERATOR = SFTAdvancementBuilder.create("world_accelerator")
+        .parent(ELECTRIC_BLAST_FURNACE)
+        .any()
+        .display(
+            GTMachines.WORLD_ACCELERATOR[GTValues.LV].getItem(),
+            "Accel World",
+            "Craft a world accelerator"
+        )
+        .obtain(
+            Arrays.stream(GTMachines.WORLD_ACCELERATOR)
+                .filter(Objects::nonNull)
+                .map(MachineDefinition::getItem)
+                .toList()
+        )
         .build();
 
     // MV
@@ -171,27 +230,37 @@ public final class SFTAdvancements {
         .obtain(ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium).getItem())
         .build();
 
-    public static final Advancement TRANSFORMER = Stream.of(
-        GTMachines.TRANSFORMER,
-        GTMachines.HI_AMP_TRANSFORMER_2A,
-        GTMachines.HI_AMP_TRANSFORMER_4A,
-        GTMachines.POWER_TRANSFORMER
-    )
-        .flatMap(Arrays::stream)
-        .filter(Objects::nonNull)
-        .map(MachineDefinition::getItem)
-        .reduce(
-            SFTAdvancementBuilder.create("transformer")
-                .parent(ALUMINIUM)
-                .any()
-                .display(
-                    GTMachines.TRANSFORMER[GTValues.LV].getItem(),
-                    "Transformer architecture",
-                    "Craft a transformer to step down/up your voltage"
-                ),
-            SFTAdvancementBuilder::obtain,
-            (b1, b2) -> b1
+    public static final Advancement TRANSFORMER = SFTAdvancementBuilder.create("transformer")
+        .parent(ALUMINIUM)
+        .any()
+        .display(
+            GTMachines.TRANSFORMER[GTValues.LV].getItem(),
+            "Transformer architecture",
+            "Craft a transformer to step down/up your voltage"
         )
+        .obtain(
+            Stream.of(
+                GTMachines.TRANSFORMER,
+                GTMachines.HI_AMP_TRANSFORMER_2A,
+                GTMachines.HI_AMP_TRANSFORMER_4A,
+                GTMachines.POWER_TRANSFORMER
+            )
+                .flatMap(Arrays::stream)
+                .filter(Objects::nonNull)
+                .map(MachineDefinition::getItem)
+                .toList()
+        )
+        .build();
+
+    public static final Advancement CENTRAL_MONITOR_MODULE = SFTAdvancementBuilder
+        .create("central_monitor_module")
+        .parent(ALUMINIUM)
+        .display(
+            GTMultiMachines.CENTRAL_MONITOR.getItem(),
+            "Factory Dashboard",
+            "Install any module into a Central Monitor group."
+        )
+        .simple(SFTCriteriaTriggers.CENTRAL_MONITOR_MODULE_INSTALLED)
         .build();
 
     public static final Advancement POLYETHYLENE = SFTAdvancementBuilder.create("polyethene")
@@ -214,20 +283,19 @@ public final class SFTAdvancements {
         )
         .build();
 
-    public static final Advancement SUPER_TANK = Arrays.stream(GTMachines.SUPER_TANK)
-        .filter(Objects::nonNull)
-        .map(MachineDefinition::getItem)
-        .reduce(
-            SFTAdvancementBuilder.create("super_tank")
-                .parent(POLYETHYLENE)
-                .any()
-                .display(
-                    GTMachines.SUPER_TANK[GTValues.LV].getItem(),
-                    "Compact Power, Profound Impact",
-                    "Craft a super tank"
-                ),
-            SFTAdvancementBuilder::obtain,
-            (b1, b2) -> b1
+    public static final Advancement SUPER_TANK = SFTAdvancementBuilder.create("super_tank")
+        .parent(POLYETHYLENE)
+        .any()
+        .display(
+            GTMachines.SUPER_TANK[GTValues.LV].getItem(),
+            "Compact Power, Profound Impact",
+            "Craft a super tank"
+        )
+        .obtain(
+            Arrays.stream(GTMachines.SUPER_TANK)
+                .filter(Objects::nonNull)
+                .map(MachineDefinition::getItem)
+                .toList()
         )
         .build();
 
@@ -368,6 +436,18 @@ public final class SFTAdvancements {
         .obtain(GTItems.SMD_INDUCTOR)
         .obtain(GTItems.SMD_RESISTOR)
         .obtain(GTItems.SMD_TRANSISTOR)
+        .build();
+
+    public static final Advancement LARGE_TURBINE_FULL_SPEED = SFTAdvancementBuilder
+        .create("large_turbine_full_speed")
+        .hidden()
+        .parent(STAINLESS_STEEL)
+        .display(
+            GTMultiMachines.LARGE_STEAM_TURBINE.getItem(),
+            "Run with the Wind",
+            "Run a large turbine until its rotor reaches maximum speed."
+        )
+        .simple(SFTCriteriaTriggers.LARGE_TURBINE_FULL_SPEED)
         .build();
 
     // EV
@@ -807,6 +887,10 @@ public final class SFTAdvancements {
         provider.accept(PRIMITIVE_BLAST_FURNACE);
         provider.accept(VACUUM_TUBE);
         provider.accept(BASIC_ELECTRONIC_CIRCUIT);
+        provider.accept(COKE_OVEN);
+        provider.accept(PRIMITIVE_PUMP);
+        provider.accept(LARGE_BRONZE_BOILER);
+        provider.accept(STEAM_PARALLEL_MULTIBLOCK);
 
         provider.accept(STEEL);
         provider.accept(WIRE_BURNED);
@@ -815,8 +899,10 @@ public final class SFTAdvancements {
         provider.accept(DUCT_TAPED_MAINTENANCE);
         provider.accept(AUTO_MAINTENANCE);
         provider.accept(SHARED_MULTIBLOCK_PART);
+        provider.accept(WORLD_ACCELERATOR);
 
         provider.accept(ALUMINIUM);
+        provider.accept(CENTRAL_MONITOR_MODULE);
         provider.accept(TRANSFORMER);
         provider.accept(POLYETHYLENE);
         provider.accept(SUPER_TANK);
@@ -832,6 +918,7 @@ public final class SFTAdvancements {
         provider.accept(PETROCHEMICAL);
         provider.accept(OXYGEN_BOOSTED_COMBUSTION);
         provider.accept(SMD);
+        provider.accept(LARGE_TURBINE_FULL_SPEED);
 
         provider.accept(TITANIUM);
         provider.accept(NANO_MAINFRAME);

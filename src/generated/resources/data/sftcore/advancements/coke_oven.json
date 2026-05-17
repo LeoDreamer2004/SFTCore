@@ -1,0 +1,33 @@
+{
+  "parent": "sftcore:bronze",
+  "criteria": {
+    "formed_gtceu_coke_oven": {
+      "conditions": {
+        "machine": "gtceu:coke_oven"
+      },
+      "trigger": "sftcore:formed_gt_multiblock"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.coke_oven.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:coke_oven"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.coke_oven.title"
+    }
+  },
+  "requirements": [
+    [
+      "formed_gtceu_coke_oven"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,130 @@
+{
+  "parent": "sftcore:electric_blast_furnace",
+  "criteria": {
+    "has_gtceu_ev_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:ev_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_hv_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:hv_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_iv_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:iv_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_luv_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:luv_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_lv_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:lv_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_mv_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:mv_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_uv_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:uv_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gtceu_zpm_world_accelerator": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "gtceu:zpm_world_accelerator"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "sftcore:textures/gui/base/advancement_background.png",
+    "description": {
+      "translate": "advancements.sftcore.world_accelerator.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "gtceu:lv_world_accelerator"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.sftcore.world_accelerator.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_gtceu_lv_world_accelerator",
+      "has_gtceu_mv_world_accelerator",
+      "has_gtceu_hv_world_accelerator",
+      "has_gtceu_ev_world_accelerator",
+      "has_gtceu_iv_world_accelerator",
+      "has_gtceu_luv_world_accelerator",
+      "has_gtceu_zpm_world_accelerator",
+      "has_gtceu_uv_world_accelerator"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

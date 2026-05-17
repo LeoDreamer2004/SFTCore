@@ -1,6 +1,6 @@
 {
   "criteria": {
-    "has_": {
+    "free": {
       "conditions": {},
       "trigger": "minecraft:inventory_changed"
     }
@@ -23,7 +23,7 @@
   },
   "requirements": [
     [
-      "has_"
+      "free"
     ]
   ],
   "sends_telemetry_event": true

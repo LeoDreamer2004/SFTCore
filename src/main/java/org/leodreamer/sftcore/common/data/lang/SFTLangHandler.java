@@ -27,11 +27,11 @@ public class SFTLangHandler extends LangHandler {
             }
         }
 
-        for (var entry : SFTTooltipsBuilder.TOOLTIPS_LANG.entrySet()) {
+        for (var entry : SFTTooltipsBuilder.LANG.entrySet()) {
             provider.add(entry.getKey(), entry.getValue());
         }
 
-        for (var entry : SFTAdvancementBuilder.ADVANCEMENT_LANG.entrySet()) {
+        for (var entry : SFTAdvancementBuilder.LANG.entrySet()) {
             provider.add(entry.getKey(), entry.getValue());
         }
 
