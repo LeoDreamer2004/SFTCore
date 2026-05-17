@@ -14,9 +14,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
-import appeng.api.config.Actionable;
 import appeng.api.crafting.PatternDetailsHelper;
-import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.ITerminalHost;
 import appeng.core.definitions.AEItems;
@@ -49,13 +47,6 @@ import javax.annotation.Nullable;
 public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     implements IMenuCraftingPacket, ISendToGTMachine,
     ISendToAssemblyMatrix, IPatternMultiply {
-
-    @Unique
-    private static final AEItemKey sftcore$key = AEItemKey.of(AEItems.BLANK_PATTERN);
-
-    @Shadow(remap = false)
-    @Final
-    private RestrictedInputSlot blankPatternSlot;
 
     // server side
     @Unique
@@ -115,9 +106,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         boolean bindInventory,
         CallbackInfo ci
     ) {
-        blankPatternSlot.setAllowEdit(false);
-        blankPatternSlot.setStackLimit(Integer.MAX_VALUE);
-
         registerClientAction(TRANSFER_TO_MATRIX, Boolean.class, this::sftcore$setTransferToMatrix);
         registerClientAction(
             SET_GT_RECIPE_INFO,
@@ -180,37 +168,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
         sftcore$multiplySlotStack(encodedOutputsInv, multiplier);
         sftcore$multiplySlotStack(encodedInputsInv, multiplier);
-    }
-
-    @Inject(method = "broadcastChanges", at = @At("TAIL"))
-    private void updateSlotOnChanged(CallbackInfo ci) {
-        sftcore$updateSlot();
-    }
-
-    @Unique
-    private void sftcore$updateSlot() {
-        var host = getHost();
-        if (host == null) {
-            blankPatternSlot.set(ItemStack.EMPTY);
-            return;
-        }
-
-        var inventory = host.getInventory();
-        if (inventory == null) {
-            return;
-        }
-
-        int left = (int) inventory.getAvailableStacks().get(sftcore$key);
-        if (left == 0) {
-            blankPatternSlot.set(ItemStack.EMPTY);
-            return;
-        }
-        var stack = blankPatternSlot.getItem();
-        if (stack.isEmpty()) {
-            blankPatternSlot.set(new ItemStack(AEItems.BLANK_PATTERN, left));
-        } else {
-            stack.setCount(left); // faster
-        }
     }
 
     @Inject(method = "encode", at = @At("HEAD"), remap = false, cancellable = true)
@@ -319,16 +276,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         SFTCore.LOGGER.info("Found {} machines to provide pattern", rows.size());
         sftcore$gtContainerTargets = rows.stream().map(rowMap::get).toList();
         return new AvailableGTMachinesPacket(rows);
-    }
-
-    @Redirect(
-        method = "encode",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V")
-    )
-    private void extractPatternFromStorage(ItemStack instance, int pDecrement) {
-        if (storage != null) {
-            storage.extract(sftcore$key, 1, Actionable.MODULATE, getActionSource());
-        }
     }
 
     @Redirect(
