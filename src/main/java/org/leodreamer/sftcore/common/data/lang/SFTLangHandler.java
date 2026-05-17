@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.common.data.lang;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.advancement.SFTAdvancementBuilder;
 import org.leodreamer.sftcore.integration.ponder.SFTPonderPlugin;
 import org.leodreamer.sftcore.util.ReflectUtils;
 
@@ -28,10 +27,6 @@ public class SFTLangHandler extends LangHandler {
         }
 
         for (var entry : SFTTooltipsBuilder.TOOLTIPS_LANG.entrySet()) {
-            provider.add(entry.getKey(), entry.getValue());
-        }
-
-        for (var entry : SFTAdvancementBuilder.ADVANCEMENT_LANG.entrySet()) {
             provider.add(entry.getKey(), entry.getValue());
         }
 

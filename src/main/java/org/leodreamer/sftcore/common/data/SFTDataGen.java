@@ -13,7 +13,6 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 public class SFTDataGen {
 
     public static void gatherData(GatherDataEvent event) {
-        REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, SFTAdvancements::init);
         REGISTRATE.addDataGenerator(ProviderType.LANG, SFTLangHandler::init);
         REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, SFTItemTagLoader::init);
         SFTCreateDataGen.gatherData(event);

@@ -1,7 +1,6 @@
 package org.leodreamer.sftcore;
 
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 import org.leodreamer.sftcore.common.data.*;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
@@ -71,7 +70,6 @@ public class SFTCore {
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(SFTCriteriaTriggers::register);
         event.enqueueWork(() -> PatternDetailsHelper.registerDecoder(WildcardPatternDecoder.INSTANCE));
     }
 
