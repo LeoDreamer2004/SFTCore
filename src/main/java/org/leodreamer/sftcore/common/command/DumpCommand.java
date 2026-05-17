@@ -237,9 +237,9 @@ public class DumpCommand {
 
         for (
             var pos : BlockPos.betweenClosed(
-            box.minX(), box.minY(), box.minZ(),
-            box.maxX(), box.maxY(), box.maxZ()
-        )
+                box.minX(), box.minY(), box.minZ(),
+                box.maxX(), box.maxY(), box.maxZ()
+            )
         ) {
             var state = stack.getLevel().getBlockState(pos);
 
@@ -402,8 +402,8 @@ public class DumpCommand {
                 case FLUID -> {
                     var fluid = ForgeRegistries.FLUIDS.getValue(location);
                     yield fluid == null ? null : fluid.getFluidType()
-                                                 .getDescription(new FluidStack(fluid, 1))
-                                                 .getString();
+                        .getDescription(new FluidStack(fluid, 1))
+                        .getString();
                 }
             };
         }
