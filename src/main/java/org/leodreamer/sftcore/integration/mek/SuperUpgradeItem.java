@@ -7,17 +7,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 import mekanism.api.Upgrade;
-import mekanism.common.tile.component.TileComponentUpgrade;
 import mekanism.common.tile.interfaces.IUpgradeTile;
 import mekanism.common.util.WorldUtils;
 import org.jetbrains.annotations.Nullable;
@@ -40,15 +37,15 @@ public class SuperUpgradeItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        Player player = context.getPlayer();
+        var player = context.getPlayer();
         if (player == null || !player.isShiftKeyDown()) {
             return InteractionResult.PASS;
         }
 
-        Level world = context.getLevel();
-        BlockEntity tile = WorldUtils.getTileEntity(world, context.getClickedPos());
+        var world = context.getLevel();
+        var tile = WorldUtils.getTileEntity(world, context.getClickedPos());
         if (tile instanceof IUpgradeTile upgradeTile && upgradeTile.supportsUpgrades()) {
-            TileComponentUpgrade component = upgradeTile.getComponent();
+            var component = upgradeTile.getComponent();
             if (component.supports(this.upgrade)) {
                 if (!world.isClientSide) {
                     component.addUpgrades(this.upgrade, Integer.MAX_VALUE);

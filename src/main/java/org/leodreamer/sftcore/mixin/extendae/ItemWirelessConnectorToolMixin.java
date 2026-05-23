@@ -10,15 +10,12 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 
 import com.glodblock.github.extendedae.common.items.ItemWirelessConnectTool;
 import com.glodblock.github.extendedae.common.tileentities.TileWirelessConnector;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
-
-import java.util.Optional;
 
 @Mixin(ItemWirelessConnectTool.class)
 public class ItemWirelessConnectorToolMixin extends Item {
@@ -32,7 +29,7 @@ public class ItemWirelessConnectorToolMixin extends Item {
         var player = context.getPlayer();
         if (player == null) return super.useOn(context);
 
-        ItemStack stack = context.getItemInHand();
+        var stack = context.getItemInHand();
         var tag = stack.getOrCreateTag();
 
         var pos = context.getClickedPos();
@@ -63,14 +60,14 @@ public class ItemWirelessConnectorToolMixin extends Item {
                 return InteractionResult.FAIL; // client
             }
 
-            Optional<BlockPos> anotherPos = BlockPos.CODEC.parse(NbtOps.INSTANCE, toTag).result();
+            var anotherPos = BlockPos.CODEC.parse(NbtOps.INSTANCE, toTag).result();
 
             if (anotherPos.isEmpty()) {
                 player.displayClientMessage(Component.translatable(MixinTooltips.WIRELESS_MISSING), true);
                 return InteractionResult.FAIL;
             }
 
-            BlockPos targetPos = anotherPos.get();
+            var targetPos = anotherPos.get();
             var another = context.getLevel().getBlockEntity(targetPos);
 
             if (

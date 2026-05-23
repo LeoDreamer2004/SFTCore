@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(EmiEncodePatternHandler.class)
+@Mixin(value = EmiEncodePatternHandler.class, remap = false)
 public class EmiEncodePatternHandlerMixin<T extends PatternEncodingTermMenu> {
 
-    @Inject(method = "craft", at = @At("TAIL"), remap = false)
+    @Inject(method = "craft", at = @At("TAIL"))
     private void handleEmiRecipe(
         EmiRecipe recipe,
         EmiCraftContext<T> context,

@@ -1,22 +1,29 @@
 package org.leodreamer.sftcore.common.data.machine;
 
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.client.renderer.machine.KineticPartMachineRenderer;
+import org.leodreamer.sftcore.common.block.KineticMachineBlock;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
-import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableAutoMaintenanceHatchPartMachine;
-import org.leodreamer.sftcore.common.machine.multiblock.part.ConfigurableCleaningMaintenanceHatchPartMachine;
-import org.leodreamer.sftcore.common.machine.multiblock.part.MEAdvancedInputBusPartMachine;
-import org.leodreamer.sftcore.common.machine.multiblock.part.MachineAdjustmentHatchPartMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.part.*;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
+import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+
+import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
@@ -24,9 +31,6 @@ import static com.gregtechceu.gtceu.api.capability.recipe.IO.OUT;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.*;
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
-
-// import org.leodreamer.sftcore.api.block.KineticMachineBlock;
-// import org.leodreamer.sftcore.api.machine.multiblock.part.KineticPartMachine;
 
 public final class SFTPartMachines {
 
@@ -136,62 +140,49 @@ public final class SFTPartMachines {
         .allowCoverOnFront(true)
         .register();
 
-    // public static final KineticMachineDefinition[] KINETIC_INPUT_BOX = registerKineticTieredMachines(
-    // "kinetic_input_box",
-    // (tier, id) -> new KineticMachineDefinition(id, false, GTValues.V[tier]).setFrontRotation(true),
-    // (holder, tier) -> new KineticPartMachine(holder, tier, IO.IN),
-    // (tier, builder) -> builder
-    // .langValue("%s Kinetic Input Box %s".formatted(VLVH[tier], VLVT[tier]))
-    // .rotationState(RotationState.ALL)
-    // .blockProp(BlockBehaviour.Properties::dynamicShape)
-    // .blockProp(BlockBehaviour.Properties::noOcclusion)
-    // .abilities(SFTPartAbility.INPUT_KINETIC)
-    // .modelProperty(GTMachineModelProperties.IS_FORMED, false)
-    // .model(
-    // SFTMachineModels.createTieredCustomModel(
-    // SFTCore.id("block/machine/part/kinetic_input_box")
-    // )
-    // )
-    // .tier(tier)
-    // .register(),
-    // () -> (
-    // VisualizationContext var1, KineticMachineBlockEntity var2, float var3
-    // ) -> new SplitShaftVisual(var1, var2, var3),
-    // false,
-    // GTValues.tiersBetween(LV, EV)
-    // );
-    //
-    // public static KineticMachineDefinition[] registerKineticTieredMachines(
-    // String name,
-    // BiFunction<Integer, ResourceLocation, KineticMachineDefinition> definitionFactory,
-    // BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-    // BiFunction<Integer, SFTMachineBuilder<KineticMachineDefinition>, KineticMachineDefinition> builder,
-    // NonNullSupplier<SimpleBlockEntityVisualizer.Factory<? extends KineticBlockEntity>> visualFactory,
-    // boolean renderNormally,
-    // int[] tiers
-    // ) {
-    // KineticMachineDefinition[] definitions = new KineticMachineDefinition[GTValues.TIER_COUNT];
-    // for (int tier : tiers) {
-    // var register = REGISTRATE
-    // .machine(
-    // GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
-    // id -> definitionFactory.apply(tier, id),
-    // holder -> factory.apply(holder, tier),
-    // KineticMachineBlock::new,
-    // MetaMachineItem::new,
-    // KineticMachineBlockEntity::create
-    // )
-    // .tier(tier)
-    // .hasBER(visualFactory != null)
-    // .onBlockEntityRegister(
-    // type -> KineticMachineBlockEntity.onBlockEntityRegister(
-    // type, visualFactory, renderNormally
-    // )
-    // );
-    // definitions[tier] = builder.apply(tier, register);
-    // }
-    // return definitions;
-    // }
+    public static final MachineDefinition[] KINETIC_INPUT_BOX = registerKineticInputBoxes();
+
+    private static MachineDefinition[] registerKineticInputBoxes() {
+        var definitions = new MachineDefinition[GTValues.TIER_COUNT];
+
+        for (int tier : GTValues.tiersBetween(LV, EV)) {
+            String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+            String id = tierName + "_kinetic_input_box";
+
+            definitions[tier] = REGISTRATE.machine(
+                id,
+                MachineDefinition::new,
+                KineticMachineBlock::new,
+                MetaMachineItem::new,
+                info -> new KineticPartMachine(info, tier, IO.IN)
+            )
+                .langValue("%s Kinetic Input Box".formatted(GTValues.VNF[tier]))
+                .rotationState(RotationState.ALL)
+                .abilities(SFTPartAbility.INPUT_KINETIC)
+                .tier(tier)
+                .blockProp(BlockBehaviour.Properties::dynamicShape)
+                .blockProp(BlockBehaviour.Properties::noOcclusion)
+                .model((ctx, prov, builder) -> {
+                    var parentModel = prov.models()
+                        .getExistingFile(SFTCore.id("block/machine/kinetic_electric_machine"));
+
+                    var model = prov.models().nested().parent(parentModel);
+                    GTMachineModels.casingTextures(model, GTCEu.id("block/casings/voltage/" + tierName));
+                    builder.forAllStatesModels(state -> model);
+                })
+                .hasBER(true)
+                .onBlockEntityRegister(type -> {
+                    if (GTCEu.isClientSide()) {
+                        BlockEntityRenderers.register(
+                            type, KineticPartMachineRenderer::new
+                        );
+                    }
+                })
+                .register();
+        }
+
+        return definitions;
+    }
 
     public static void init() {}
 }

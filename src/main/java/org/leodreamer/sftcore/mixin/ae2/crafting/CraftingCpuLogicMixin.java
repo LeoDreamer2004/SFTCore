@@ -29,48 +29,48 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(CraftingCpuLogic.class)
+@Mixin(value = CraftingCpuLogic.class, remap = false)
 public abstract class CraftingCpuLogicMixin {
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     CraftingCPUCluster cluster;
 
-    @Shadow(remap = false)
+    @Shadow
     private ExecutingCraftingJob job;
 
-    @Shadow(remap = false)
+    @Shadow
     private boolean cantStoreItems;
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract void storeItems();
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private ListCraftingInventory inventory;
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract void cancel();
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private int[] usedOps;
 
-    @Shadow(remap = false)
+    @Shadow
     @Nullable
     public abstract GenericStack getFinalJobOutput();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract long getWaitingFor(AEKey template);
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract void finishJob(boolean success);
 
     /**
      * @author leodreamer
      * @reason add order item judgment
      */
-    @Overwrite(remap = false)
+    @Overwrite
     public void tickCraftingLogic(IEnergyService eg, CraftingService cc) {
         // Don't tick if we're not active.
         if (!cluster.isActive()) return;
@@ -134,7 +134,7 @@ public abstract class CraftingCpuLogicMixin {
      * @author LeoDreamer
      * @reason Optimize of automatically scaling up
      */
-    @Overwrite(remap = false)
+    @Overwrite
     public int executeCrafting(
         int maxPatterns, CraftingService craftingService, IEnergyService energyService,
         Level level

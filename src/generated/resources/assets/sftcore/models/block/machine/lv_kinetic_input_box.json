@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "sftcore:lv_kinetic_input_box",
+  "variants": {
+    "": {
+      "model": {
+        "parent": "sftcore:block/machine/kinetic_electric_machine",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/lv/bottom",
+          "side": "gtceu:block/casings/voltage/lv/side",
+          "top": "gtceu:block/casings/voltage/lv/top"
+        }
+      }
+    }
+  }
+}

@@ -12,18 +12,18 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.Map;
 
 // I Hate you AE2! Why your code are all private??
-@Mixin(ExecutingCraftingJob.class)
+@Mixin(value = ExecutingCraftingJob.class, remap = false)
 public interface ExecutingCraftingJobAccessor extends IExecutingCraftingJob {
 
-    @Accessor(value = "link", remap = false)
+    @Accessor(value = "link")
     @Override
     CraftingLink sftcore$getLink();
 
-    @Accessor(value = "waitingFor", remap = false)
+    @Accessor(value = "waitingFor")
     @Override
     ListCraftingInventory sftcore$getWaitingFor();
 
-    @Accessor(value = "tasks", remap = false)
+    @Accessor(value = "tasks")
     @Override
     Map<IPatternDetails, ?> sftcore$getTasks();
 }

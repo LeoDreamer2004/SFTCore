@@ -63,13 +63,13 @@ public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu>
     @Inject(method = "renderSlot", at = @At("HEAD"), cancellable = true)
     private void renderBlankPatternWithSmallFontAndCraftable(GuiGraphics guiGraphics, Slot s, CallbackInfo ci) {
         if (menu.getSlotSemantic(s) == SlotSemantics.BLANK_PATTERN && s.hasItem()) {
-            AEItemKey what = AEItemKey.of(AEItems.BLANK_PATTERN);
+            var what = AEItemKey.of(AEItems.BLANK_PATTERN);
             long storedAmount = s.getItem().getCount();
             AEKeyRendering.drawInGui(minecraft, guiGraphics, s.x, s.y, what);
 
             boolean useLargeFonts = config.isUseLargeFonts();
-            AmountFormat format = useLargeFonts ? AmountFormat.SLOT_LARGE_FONT : AmountFormat.SLOT;
-            String text = what.formatAmount(storedAmount, format);
+            var format = useLargeFonts ? AmountFormat.SLOT_LARGE_FONT : AmountFormat.SLOT;
+            var text = what.formatAmount(storedAmount, format);
             StackSizeRenderer.renderSizeLabel(guiGraphics, this.font, s.x, s.y, text, useLargeFonts);
 
             if (repo.isCraftable(what)) {

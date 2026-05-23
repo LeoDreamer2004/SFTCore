@@ -11,20 +11,20 @@ import net.minecraft.nbt.CompoundTag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import snownee.jade.api.BlockAccessor;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(RecipeLogicProvider.class)
 public class RecipeLogicProviderMixin {
 
     @Inject(
-        method = "write(Lnet/minecraft/nbt/CompoundTag;Lsnownee/jade/api/BlockAccessor;Lcom/gregtechceu/gtceu/api/machine/trait/RecipeLogic;)V",
+        method = "write(Lcom/gregtechceu/gtceu/api/machine/trait/RecipeLogic;)Lnet/minecraft/nbt/CompoundTag;",
         at = @At("TAIL"), remap = false
     )
     private void fixVoltageInfoForWirelessHatches(
-        CompoundTag data, BlockAccessor blockAccessor, RecipeLogic capability, CallbackInfo ci
+        RecipeLogic capability, CallbackInfoReturnable<CompoundTag> cir
     ) {
         if (capability.getMachine() instanceof WorkableElectricMultiblockMachine) {
+            var data = cir.getReturnValue();
             var recipe = data.getCompound("Recipe");
             long eut = recipe.getLong("EUt");
             long voltage = GTValues.VEX[GTUtil.getFloorTierByVoltage(eut)];

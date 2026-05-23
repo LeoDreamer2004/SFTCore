@@ -9,7 +9,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
 import appeng.api.crafting.IPatternDetails;
-import appeng.api.networking.IManagedGridNode;
 import appeng.api.stacks.AEKey;
 import appeng.helpers.patternprovider.PatternProviderLogic;
 import appeng.helpers.patternprovider.PatternProviderLogicHost;
@@ -40,10 +39,6 @@ public abstract class PatternProviderLogicMixin implements IPatternClear {
     @Shadow
     @Final
     private PatternProviderLogicHost host;
-
-    @Shadow
-    @Final
-    private IManagedGridNode mainNode;
 
     @Shadow
     protected abstract void clearPatternInventory(Player player);

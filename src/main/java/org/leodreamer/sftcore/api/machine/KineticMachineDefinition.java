@@ -6,23 +6,23 @@ import net.minecraft.resources.ResourceLocation;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
-@Accessors(chain = true)
+@Getter
 public class KineticMachineDefinition extends MachineDefinition {
 
-    @Getter
-    public final boolean isSource;
-    @Getter
-    public final float torque;
-
-    @Getter
+    private final boolean source;
+    private final float torque;
+    /**
+     * false: rotation axis is front-facing clockwise axis.
+     * true: rotation axis is front-facing axis.
+     */
     @Setter
-    public boolean frontRotation;
+    private boolean frontRotation;
 
-    public KineticMachineDefinition(ResourceLocation id, boolean isSource, float torque) {
+    public KineticMachineDefinition(ResourceLocation id, boolean source, float torque) {
         super(id);
-        this.isSource = isSource;
+        this.source = source;
         this.torque = torque;
+        this.frontRotation = false;
     }
 }

@@ -4,6 +4,7 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.advancement.trigger.FormedGTMultiblockTrigger;
 import org.leodreamer.sftcore.common.advancement.trigger.RecipeExecutedTrigger;
 import org.leodreamer.sftcore.common.advancement.trigger.SimpleAnyTrigger;
+import org.leodreamer.sftcore.common.data.SFTAdvancements;
 import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -47,8 +48,10 @@ public class SFTAdvancementBuilder {
         return this;
     }
 
-    public Advancement build() {
-        return builder.build(SFTCore.id(id));
+    public Advancement buildAndRegister() {
+        var advancement = builder.build(SFTCore.id(id));
+        SFTAdvancements.ADVANCEMENTS.add(advancement);
+        return advancement;
     }
 
     /// ---------- Display ---------- ///

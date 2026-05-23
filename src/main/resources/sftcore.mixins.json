@@ -27,6 +27,8 @@
     "ae2.sync.BasePacketMixin",
     "ae2.sync.NetworkHandlerMixin",
     "carryon.PickupHandlerMixin",
+    "create.KineticNetworkMixin",
+    "create.RotationPropagatorMixin",
     "emi.EmiScreenManagerMixin",
     "emi.SidebarPanelMixin",
     "emi.SyntheticMixin",
