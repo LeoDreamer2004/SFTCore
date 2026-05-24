@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.common.command;
 
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 import org.leodreamer.sftcore.Config;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
@@ -302,7 +304,7 @@ public class DumpCommand {
         return builder.toString();
     }
 
-    private static Character nextAlias(int index) throws CommandSyntaxException {
+    private static char nextAlias(int index) throws CommandSyntaxException {
         if (index >= ALIASES.length()) {
             throw ERROR_TOO_MANY_BLOCK_TYPES.create();
         }
@@ -414,24 +416,25 @@ public class DumpCommand {
     }
 
     public static class SelectedData {
-
         private static final Map<UUID, SelectedArea> AREA_MAP = new HashMap<>();
 
         public static void setSelectedPos1(@NotNull Player player, BlockPos pos) {
-            getOrCreate(player).pos1 = pos.immutable();
+            var area = getOrCreate(player);
+            area.updateDimension(player);
+            area.pos1 = pos.immutable();
         }
 
         public static void setSelectedPos2(@NotNull Player player, BlockPos pos) {
-            getOrCreate(player).pos2 = pos.immutable();
+            var area = getOrCreate(player);
+            area.updateDimension(player);
+            area.pos2 = pos.immutable();
         }
 
         public static Optional<SelectedArea> getCompleteSelectedArea(@NotNull Player player) {
             var area = AREA_MAP.get(player.getUUID());
-
-            if (area == null || !area.isComplete()) {
+            if (area == null || !area.isComplete() || !area.isInDimension(player.level())) {
                 return Optional.empty();
             }
-
             return Optional.of(area);
         }
 
@@ -440,9 +443,22 @@ public class DumpCommand {
         }
 
         public static final class SelectedArea {
-
             public BlockPos pos1;
             public BlockPos pos2;
+            public ResourceKey<Level> dimension;
+
+            private void updateDimension(Player player) {
+                var current = player.level().dimension();
+                if (dimension != null && dimension != current) {
+                    pos1 = null;
+                    pos2 = null;
+                }
+                dimension = current;
+            }
+
+            public boolean isInDimension(Level level) {
+                return dimension == null || dimension == level.dimension();
+            }
 
             public boolean isComplete() {
                 return pos1 != null && pos2 != null;

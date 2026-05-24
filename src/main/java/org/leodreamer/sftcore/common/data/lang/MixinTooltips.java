@@ -87,6 +87,9 @@ public class MixinTooltips {
     @RegisterLanguage("Push TAB to autocraft")
     public static final String EMI_AUTOCRAFT = "sftcore.mixin.emi.autocraft";
 
+    @RegisterLanguage("Crafting: %s")
+    public static final String EMI_CRAFTING = "tooltip.sftcore.emi.crafting_progress";
+
     @RegisterLanguage("- Has been optimized to automatically scale the patterns when crafting")
     public static final String PATTERN_BUFFER_0 = "sftcore.mixin.ae2.pattern_buffer.tooltip.0";
 

@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.common.data.machine;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.client.renderer.machine.KineticPartMachineRenderer;
+import org.leodreamer.sftcore.client.renderer.KineticPartMachineRenderer;
 import org.leodreamer.sftcore.common.block.KineticMachineBlock;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;

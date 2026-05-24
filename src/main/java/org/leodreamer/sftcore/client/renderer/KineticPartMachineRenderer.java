@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.client.renderer.machine;
+package org.leodreamer.sftcore.client.renderer;
 
 import org.leodreamer.sftcore.common.machine.multiblock.part.KineticPartMachine;
 
