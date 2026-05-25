@@ -1,5 +1,6 @@
 # SFT Core
 整合包 Starter For Technology 的 Core Mod。
+本分支已不再维护，参见 v8 分支。
 
 ## Credit
 
