@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
+import cn.qiuye.gtmoremachine.common.machine.multiblock.part.HugeBusPartMachine;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
@@ -69,7 +70,8 @@ public class GTMachineUtils {
     }
 
     public static boolean isIngredientIOPort(MetaMachine machine) {
-        return machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine;
+        return machine instanceof ItemBusPartMachine || machine instanceof FluidHatchPartMachine ||
+            machine instanceof HugeBusPartMachine;
     }
 
     public static MetaMachine thisOrController(MetaMachine machine, Predicate<MultiblockPartMachine> filter) {

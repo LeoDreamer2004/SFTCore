@@ -21,6 +21,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 
 import appeng.core.definitions.AEParts;
+import cn.qiuye.gtmoremachine.common.data.GTMMItems;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.registries.MekanismItems;
@@ -137,13 +138,13 @@ public final class CommonGTRecipes {
             .output(GTItems.TERMINAL.asStack())
             .save(provider);
 
-        // SFTVanillaRecipeHelper.addShapedRecipe("advanced_terminal")
-        // .pattern("AAA", "CBC", "AAA")
-        // .arg('A', DIAMOND_BLOCK)
-        // .arg('B', GTItems.TERMINAL)
-        // .arg('C', CustomTags.MV_CIRCUITS)
-        // .output(CustomItems.ADVANCED_TERMINAL.asStack())
-        // .save(provider);
+        SFTVanillaRecipeHelper.addShapedRecipe("advanced_terminal")
+            .pattern("AAA", "CBC", "AAA")
+            .arg('A', DIAMOND_BLOCK)
+            .arg('B', GTItems.TERMINAL)
+            .arg('C', CustomTags.MV_CIRCUITS)
+            .output(GTMMItems.ADVANCED_TERMINAL.asStack())
+            .save(provider);
     }
 
     private static void desulfurizeRecipes(Consumer<FinishedRecipe> provider) {

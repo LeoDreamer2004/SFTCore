@@ -9,7 +9,6 @@ import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
-import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
@@ -38,10 +37,10 @@ public class SFTCore {
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 
     public SFTCore(FMLJavaModLoadingContext context) {
-        REGISTRATE.registerRegistrate();
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         var bus = context.getModEventBus();
+        REGISTRATE.registerEventListeners(bus);
         bus.register(this);
         bus.addListener(this::commonSetup);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
@@ -100,10 +99,5 @@ public class SFTCore {
     @SubscribeEvent
     public void registerMaterials(MaterialEvent event) {
         SFTMaterials.init();
-    }
-
-    @SubscribeEvent
-    public void registerMaterialRegistry(MaterialRegistryEvent event) {
-        GTCEuAPI.materialManager.createRegistry(MOD_ID);
     }
 }

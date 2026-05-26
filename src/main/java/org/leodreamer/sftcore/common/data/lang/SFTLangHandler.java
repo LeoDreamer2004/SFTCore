@@ -27,6 +27,16 @@ public class SFTLangHandler extends LangHandler {
             }
         }
 
+        // materials either
+        for (var k: GTRegistries.MATERIALS.keys()) {
+            if (k.getNamespace().equals(SFTCore.MOD_ID)) {
+                provider.add(
+                    "material.%s.%s".formatted(SFTCore.MOD_ID, k.getPath()),
+                    RegistrateLangProvider.toEnglishName(k.getPath())
+                );
+            }
+        }
+
         for (var entry : SFTTooltipsBuilder.LANG.entrySet()) {
             provider.add(entry.getKey(), entry.getValue());
         }

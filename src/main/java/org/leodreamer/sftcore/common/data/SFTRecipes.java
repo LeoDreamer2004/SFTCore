@@ -17,7 +17,7 @@ public class SFTRecipes {
         AE2Recipes.init(provider);
         CreateRecipes.init(provider);
         ControllerRecipes.init(provider);
-        GTMTRecipes.init(provider);
+        GTMMRecipes.init(provider);
         OreProcessRecipes.init(provider);
     }
 }

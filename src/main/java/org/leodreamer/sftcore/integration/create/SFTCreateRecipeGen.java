@@ -4,9 +4,9 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.integration.IntegrateMods;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -135,7 +135,7 @@ public class SFTCreateRecipeGen {
         TagPrefix to,
         BiFunction<String, UnaryOperator<ProcessingRecipeBuilder<T>>, GeneratedRecipe> createFactory
     ) {
-        return GTCEuAPI.materialManager.getRegisteredMaterials().stream()
+        return GTRegistries.MATERIALS.values().stream()
             .filter(
                 material -> material.shouldGenerateRecipesFor(to) &&
                     !ChemicalHelper.get(from, material).isEmpty()

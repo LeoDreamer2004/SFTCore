@@ -196,7 +196,7 @@ dependencies {
 
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}") { transitive = false }
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${mc_version}:1.0.50") { transitive = false }
-    implementation files('libs/gtceu-1.20.1-8.0.0.jar')
+    implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${mc_version}:${gtm_version}:slim") { transitive = false }
     implementation files('libs/gtmoremachine-1.20.1-2.0.0.jar')
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")

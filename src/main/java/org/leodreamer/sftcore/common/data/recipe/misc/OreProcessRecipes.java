@@ -1,11 +1,11 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -26,7 +26,7 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.ORE_PROCE
 public class OreProcessRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-        for (Material material : GTCEuAPI.materialManager.getRegisteredMaterials()) {
+        for (var material : GTRegistries.MATERIALS.values()) {
             var property = material.getProperty(PropertyKey.ORE);
             if (property == null || !material.shouldGenerateRecipesFor(ore)) {
                 continue;

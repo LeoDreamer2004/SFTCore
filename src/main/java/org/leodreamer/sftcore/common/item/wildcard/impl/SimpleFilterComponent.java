@@ -6,8 +6,8 @@ import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -135,7 +135,7 @@ public class SimpleFilterComponent implements IWildcardFilterComponent {
         public @NotNull IWildcardFilterComponent deserialize(CompoundTag nbt) {
             var whitelist = nbt.getBoolean("whitelist");
             var materialId = nbt.getString("material");
-            var material = GTCEuAPI.materialManager.getMaterial(materialId);
+            var material = GTRegistries.MATERIALS.get(materialId);
             if (material == null) material = GTMaterials.NULL;
             return new SimpleFilterComponent(material, whitelist);
         }

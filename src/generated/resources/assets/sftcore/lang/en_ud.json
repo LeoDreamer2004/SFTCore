@@ -528,5 +528,6 @@
   "sftcore.structure_come_from": "%s :ɯoɹɟ ǝɯoɔ sǝɹnʇɔnɹʇS",
   "sftcore.texture_come_from": "%s :ɯoɹɟ ǝɯoɔ sǝɹnʇxǝ⟘",
   "sftcore.void_portal.tooltip": "uǝddɐɥ ןןıʍ ʇɐɥʍ ǝǝs puɐ ʞɔıןɔ ʇɥbıᴚ",
-  "sftcore.wool_to_string.tooltip": "buıɹʇs ʇǝb oʇ sʞɔoןq ןooʍ ʞɔıןɔ ʇɥbıᴚ"
+  "sftcore.wool_to_string.tooltip": "buıɹʇs ʇǝb oʇ sʞɔoןq ןooʍ ʞɔıןɔ ʇɥbıᴚ",
+  "tooltip.sftcore.emi.crafting_progress": "%s :buıʇɟɐɹƆ"
 }

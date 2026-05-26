@@ -3,6 +3,7 @@ package org.leodreamer.sftcore.integration;
 import com.gregtechceu.gtceu.GTCEu;
 
 import appeng.core.AppEng;
+import cn.qiuye.gtmoremachine.GTmm;
 import com.glodblock.github.extendedae.ExtendedAE;
 import com.simibubi.create.Create;
 import mekanism.common.Mekanism;
@@ -12,6 +13,7 @@ import net.pedroksl.advanced_ae.AdvancedAE;
 public class IntegrateMods {
 
     public static final String GTM = GTCEu.MOD_ID;
+    public static final String GTMM = GTmm.MOD_ID;
     public static final String MEK = Mekanism.MODID;
     public static final String MEKG = MekanismGenerators.MODID;
     public static final String CREATE = Create.ID;

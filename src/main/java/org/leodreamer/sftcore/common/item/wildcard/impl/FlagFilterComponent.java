@@ -7,10 +7,10 @@ import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterCompon
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
 import org.leodreamer.sftcore.mixin.gregtech.data.MaterialFlagsAccessor;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -174,7 +174,7 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
             if (!flagName.isEmpty()) {
                 flag = MaterialFlag.getByName(flagName);
             }
-            var material = GTCEuAPI.materialManager.getMaterial(materialId);
+            var material = GTRegistries.MATERIALS.get(materialId);
             if (material == null) material = GTMaterials.NULL;
             return new FlagFilterComponent(flag, material, whitelist);
         }

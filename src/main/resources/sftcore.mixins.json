@@ -64,6 +64,7 @@
     "gregtech.xei.AE2PatternTerminalHandlerMixin",
     "gregtech.xei.GTEmiRecipeMixin",
     "gregtech.xei.MultiblockInfoEmiRecipeMixin",
+    "gtmoremachine.MEOutputPartMachineMixin",
     "travelarchor.EventListenerMixin",
     "vanilla.ChunkMapMixin",
     "vanilla.RecipeManagerMixin",

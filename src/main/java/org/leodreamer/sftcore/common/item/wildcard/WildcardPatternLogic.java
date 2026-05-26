@@ -3,8 +3,8 @@ package org.leodreamer.sftcore.common.item.wildcard;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -85,7 +85,7 @@ public class WildcardPatternLogic {
     }
 
     public Stream<IPatternDetails> generateAllPatterns(Level level) {
-        return GTCEuAPI.materialManager.getRegisteredMaterials().parallelStream()
+        return GTRegistries.MATERIALS.values().parallelStream()
             .filter(this::test)
             .map(material -> {
                 var input = getIOStacks(IO.IN, material);

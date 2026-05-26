@@ -7,10 +7,10 @@ import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterCompon
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
 import org.leodreamer.sftcore.mixin.gregtech.data.MaterialPropertiesAccessor;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -174,7 +174,7 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
             var whitelist = nbt.getBoolean("whitelist");
             var materialId = nbt.getString("example");
             var flag = getPropertyByName(nbt.getString("flag"));
-            var material = GTCEuAPI.materialManager.getMaterial(materialId);
+            var material = GTRegistries.MATERIALS.get(materialId);
             if (material == null) material = GTMaterials.NULL;
             return new PropertyFilterComponent(flag, material, whitelist);
         }

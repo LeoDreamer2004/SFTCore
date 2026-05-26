@@ -528,5 +528,6 @@
   "sftcore.structure_come_from": "Structures come from: %s",
   "sftcore.texture_come_from": "Textures come from: %s",
   "sftcore.void_portal.tooltip": "Right click and see what will happen",
-  "sftcore.wool_to_string.tooltip": "Right click wool blocks to get string"
+  "sftcore.wool_to_string.tooltip": "Right click wool blocks to get string",
+  "tooltip.sftcore.emi.crafting_progress": "Crafting: %s"
 }

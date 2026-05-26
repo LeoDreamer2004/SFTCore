@@ -2,8 +2,8 @@ package org.leodreamer.sftcore.integration.ae2.gui;
 
 import org.leodreamer.sftcore.integration.ae2.item.GenericGTTag;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -34,7 +34,7 @@ public class PhantomGTTagSlot extends PhantomSlotWidget {
     }
 
     private static ItemStack findExampleForTag(GenericGTTag tag) {
-        for (var mat : GTCEuAPI.materialManager.getRegisteredMaterials()) {
+        for (var mat : GTRegistries.MATERIALS.values()) {
             var stack = tag.createItemOrBucket(mat);
             if (!stack.isEmpty()) return stack;
         }
