@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
     }
 }
 
@@ -15,9 +16,11 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.diffplug.spotless' version '6.25.0'
+    id 'org.jetbrains.kotlin.jvm' version "${kotlin_version}"
 }
 
 apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'kotlin'
 
 group = mod_group_id
 version = mod_version
@@ -91,6 +94,10 @@ repositories {
     maven {
         name = "BMCLAPI"
         url = "https://bmclapi2.bangbang93.com/maven/"
+    }
+    maven {
+        name = "KotlinForForge"
+        url = "https://thedarkcolour.github.io/KotlinForForge/"
     }
     maven {
         // GregTech
@@ -184,9 +191,13 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
+    implementation fg.deobf("thedarkcolour:kotlinforforge:4.11.0")
+    implementation fg.deobf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
+
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}") { transitive = false }
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${mc_version}:1.0.41.b") { transitive = false }
-    implementation fg.deobf(files('libs/gtceu-1.20.1-8.0.0.jar'))
+    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${mc_version}:1.0.50") { transitive = false }
+    implementation files('libs/gtceu-1.20.1-8.0.0.jar')
+    implementation files('libs/gtmoremachine-1.20.1-2.0.0.jar')
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136")
@@ -202,7 +213,6 @@ dependencies {
     implementation fg.deobf("curse.maven:ae2addonlib-1366135:7159767")
     implementation fg.deobf("curse.maven:advancedae-1084104:7159779")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${mc_version}:${geckolib_version}")
-//    implementation fg.deobf("curse.maven:gtmthings-1104310:6843500")
     implementation fg.deobf("curse.maven:jade-324717:6855440")
     implementation fg.deobf("com.blakebr0.cucumber:Cucumber:${mc_version}-${cucumber_version}")
     implementation fg.deobf("com.blakebr0.extendedcrafting:ExtendedCrafting:${mc_version}-${extended_crafting_version}")
@@ -279,8 +289,8 @@ spotless {
     java {
         target 'src/main/java/**/*.java', 'src/test/java/**/*.java'
 
-        def orderFile = file("$rootDir/spotless/spotless.importorder")
-        def formatFile = file("$rootDir/spotless/spotless.eclipseformat.xml")
+        def orderFile = file("$rootDir/gradle/spotless/spotless.importorder")
+        def formatFile = file("$rootDir/gradle/spotless/spotless.eclipseformat.xml")
 
         toggleOffOn()
         importOrderFile(orderFile)
@@ -288,5 +298,9 @@ spotless {
         endWithNewline()
         eclipse('4.31').configFile(formatFile)
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 

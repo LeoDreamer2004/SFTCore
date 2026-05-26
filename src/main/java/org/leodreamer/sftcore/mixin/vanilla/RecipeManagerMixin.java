@@ -34,7 +34,7 @@ public class RecipeManagerMixin {
         try {
             boolean remove = RecipeRemoval.INSTANCE.test(id, recipe);
             if (remove) {
-                SFTCore.LOGGER.info("Removed recipe {}", id);
+                SFTCore.LOGGER.debug("Removed recipe {}", id);
                 cir.setReturnValue(null);
             }
         } catch (RuntimeException ignored) {}

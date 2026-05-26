@@ -1,7 +1,9 @@
 package org.leodreamer.sftcore.client.renderer;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.command.DumpCommand;
+import org.leodreamer.sftcore.common.data.SFTItems;
+
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,10 +15,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import org.joml.Matrix4f;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.command.DumpCommand;
-import org.leodreamer.sftcore.common.data.SFTItems;
 
 @Mod.EventBusSubscriber(
     modid = SFTCore.MOD_ID,
@@ -24,6 +26,7 @@ import org.leodreamer.sftcore.common.data.SFTItems;
     bus = Mod.EventBusSubscriber.Bus.FORGE
 )
 public final class SelectStickSelectionRenderer {
+
     private static final float FILL_R = 0.15F;
     private static final float FILL_G = 0.75F;
     private static final float FILL_B = 1.00F;

@@ -1,7 +1,5 @@
 package org.leodreamer.sftcore.common.command;
 
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.Level;
 import org.leodreamer.sftcore.Config;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
@@ -13,10 +11,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -416,6 +416,7 @@ public class DumpCommand {
     }
 
     public static class SelectedData {
+
         private static final Map<UUID, SelectedArea> AREA_MAP = new HashMap<>();
 
         public static void setSelectedPos1(@NotNull Player player, BlockPos pos) {
@@ -443,6 +444,7 @@ public class DumpCommand {
         }
 
         public static final class SelectedArea {
+
             public BlockPos pos1;
             public BlockPos pos2;
             public ResourceKey<Level> dimension;

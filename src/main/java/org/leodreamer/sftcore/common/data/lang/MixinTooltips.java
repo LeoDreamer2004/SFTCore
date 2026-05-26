@@ -18,8 +18,9 @@ import net.minecraftforge.fml.common.Mod;
 
 import appeng.core.definitions.AEParts;
 import de.castcrafter.travelanchors.ModItems;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+
+import java.util.Map;
 
 @DataGenScanned
 @Mod.EventBusSubscriber(modid = SFTCore.MOD_ID)
@@ -96,9 +97,9 @@ public class MixinTooltips {
     @RegisterLanguage("- Compatible with the Wildcard Pattern")
     public static final String PATTERN_BUFFER_1 = "sftcore.mixin.ae2.pattern_buffer.tooltip.1";
 
-    private static final Lazy<Object2ObjectMap<Item, SFTTooltipsBuilder>> TOOLTIPS = Lazy.of(MixinTooltips::build);
+    private static final Lazy<Map<Item, SFTTooltipsBuilder>> TOOLTIPS = Lazy.of(MixinTooltips::build);
 
-    private static Object2ObjectMap<Item, SFTTooltipsBuilder> build() {
+    private static Map<Item, SFTTooltipsBuilder> build() {
         var map = new Object2ObjectOpenHashMap<Item, SFTTooltipsBuilder>();
 
         var patternEncoders = new Item[] {
