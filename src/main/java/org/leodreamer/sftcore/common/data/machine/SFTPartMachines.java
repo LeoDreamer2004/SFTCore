@@ -8,7 +8,6 @@ import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 import org.leodreamer.sftcore.common.machine.multiblock.part.*;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
@@ -26,8 +25,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
-import static com.gregtechceu.gtceu.api.capability.recipe.IO.OUT;
+import static com.gregtechceu.gtceu.api.GTValues.ALL_TIERS;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.*;
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
@@ -77,7 +75,7 @@ public final class SFTPartMachines {
     public static final MachineDefinition[] DUAL_IMPORT_HATCH = registerTieredMachines(
         REGISTRATE,
         "dual_input_hatch",
-        (info, tier) -> new DualHatchPartMachine(info, tier, IN),
+        (info, tier) -> new DualHatchPartMachine(info, tier, IO.IN),
         (tier, builder) -> builder
             .langValue("%s Dual Input Hatch".formatted(VNF[tier]))
             .rotationState(RotationState.ALL)
@@ -100,13 +98,13 @@ public final class SFTPartMachines {
             )
             .tooltips(SFTTooltipsBuilder.of().modifiedBySFT().list())
             .register(),
-        GTValues.tiersBetween(LV, IV)
+        tiersBetween(LV, IV)
     );
 
     public static final MachineDefinition[] DUAL_EXPORT_HATCH = registerTieredMachines(
         REGISTRATE,
         "dual_output_hatch",
-        (info, tier) -> new DualHatchPartMachine(info, tier, OUT),
+        (info, tier) -> new DualHatchPartMachine(info, tier, IO.OUT),
         (tier, builder) -> builder
             .langValue("%s Dual Output Hatch".formatted(VNF[tier]))
             .rotationState(RotationState.ALL)
@@ -128,7 +126,7 @@ public final class SFTPartMachines {
             )
             .tooltips(SFTTooltipsBuilder.of().enableSharing().modifiedBySFT().list())
             .register(),
-        GTValues.tiersBetween(LV, IV)
+        tiersBetween(LV, IV)
     );
 
     public static final MachineDefinition ME_ADVANCED_INPUT_BUS = REGISTRATE
@@ -143,10 +141,10 @@ public final class SFTPartMachines {
     public static final MachineDefinition[] KINETIC_INPUT_BOX = registerKineticInputBoxes();
 
     private static MachineDefinition[] registerKineticInputBoxes() {
-        var definitions = new MachineDefinition[GTValues.TIER_COUNT];
+        var definitions = new MachineDefinition[TIER_COUNT];
 
-        for (int tier : GTValues.tiersBetween(LV, EV)) {
-            String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+        for (int tier : tiersBetween(LV, EV)) {
+            String tierName = VN[tier].toLowerCase(Locale.ROOT);
             String id = tierName + "_kinetic_input_box";
 
             definitions[tier] = REGISTRATE.machine(
@@ -156,7 +154,7 @@ public final class SFTPartMachines {
                 MetaMachineItem::new,
                 info -> new KineticPartMachine(info, tier, IO.IN)
             )
-                .langValue("%s Kinetic Input Box".formatted(GTValues.VNF[tier]))
+                .langValue("%s Kinetic Input Box".formatted(VNF[tier]))
                 .rotationState(RotationState.ALL)
                 .abilities(SFTPartAbility.INPUT_KINETIC)
                 .tier(tier)
@@ -182,6 +180,101 @@ public final class SFTPartMachines {
         }
 
         return definitions;
+    }
+
+    public static final MachineDefinition[] GAS_IMPORT_HATCH = registerGasHatches(
+        "gas_import_hatch",
+        "Gas Input Hatch",
+        IO.IN,
+        GasHatchPartMachine.INITIAL_TANK_CAPACITY_1X,
+        1,
+        SFTPartAbility.IMPORT_GASES,
+        SFTPartAbility.IMPORT_GASES_1X
+    );
+
+    public static final MachineDefinition[] GAS_EXPORT_HATCH = registerGasHatches(
+        "gas_export_hatch",
+        "Gas Output Hatch",
+        IO.OUT,
+        GasHatchPartMachine.INITIAL_TANK_CAPACITY_1X,
+        1,
+        SFTPartAbility.EXPORT_GASES,
+        SFTPartAbility.EXPORT_GASES_1X
+    );
+
+    public static final MachineDefinition[] GAS_IMPORT_HATCH_4X = registerGasHatches(
+        "gas_import_hatch_4x",
+        "Quadruple Gas Input Hatch",
+        IO.IN,
+        GasHatchPartMachine.INITIAL_TANK_CAPACITY_4X,
+        4,
+        SFTPartAbility.IMPORT_GASES,
+        SFTPartAbility.IMPORT_GASES_4X
+    );
+
+    public static final MachineDefinition[] GAS_EXPORT_HATCH_4X = registerGasHatches(
+        "gas_export_hatch_4x",
+        "Quadruple Gas Output Hatch",
+        IO.OUT,
+        GasHatchPartMachine.INITIAL_TANK_CAPACITY_4X,
+        4,
+        SFTPartAbility.EXPORT_GASES,
+        SFTPartAbility.EXPORT_GASES_4X
+    );
+
+    public static final MachineDefinition[] GAS_IMPORT_HATCH_9X = registerGasHatches(
+        "gas_import_hatch_9x",
+        "Nonuple Gas Input Hatch",
+        IO.IN,
+        GasHatchPartMachine.INITIAL_TANK_CAPACITY_9X,
+        9,
+        SFTPartAbility.IMPORT_GASES,
+        SFTPartAbility.IMPORT_GASES_9X
+    );
+
+    public static final MachineDefinition[] GAS_EXPORT_HATCH_9X = registerGasHatches(
+        "gas_export_hatch_9x",
+        "Nonuple Gas Output Hatch",
+        IO.OUT,
+        GasHatchPartMachine.INITIAL_TANK_CAPACITY_9X,
+        9,
+        SFTPartAbility.EXPORT_GASES,
+        SFTPartAbility.EXPORT_GASES_9X
+    );
+
+    private static MachineDefinition[] registerGasHatches(
+        String name,
+        String lang,
+        IO io,
+        long initialCapacity,
+        int slots,
+        PartAbility commonAbility,
+        PartAbility exactAbility
+    ) {
+        final String pipeOverlay;
+        if (slots >= 9) {
+            pipeOverlay = "overlay_pipe_9x";
+        } else if (slots >= 4) {
+            pipeOverlay = "overlay_pipe_4x";
+        } else {
+            pipeOverlay = null;
+        }
+        final String ioOverlay = io == IO.OUT ? GTMachineModels.OVERLAY_FLUID_HATCH_OUTPUT : GTMachineModels.OVERLAY_FLUID_HATCH_INPUT;
+        final String emissiveOverlay = io == IO.OUT ? "overlay_pipe_out_emissive" : "overlay_pipe_in_emissive";
+
+        return registerTieredMachines(
+            name,
+            (holder, tier) -> new GasHatchPartMachine(holder, tier, io, initialCapacity, slots),
+            (tier, builder) -> builder
+                .langValue("%s %s".formatted(VNF[tier], lang))
+                .rotationState(RotationState.ALL)
+                .abilities(commonAbility, exactAbility)
+                .colorOverlayTieredHullModel(ioOverlay, pipeOverlay, emissiveOverlay)
+                .modelProperty(IS_FORMED, false)
+                .allowCoverOnFront(true)
+                .register(),
+            ALL_TIERS
+        );
     }
 
     public static void init() {}

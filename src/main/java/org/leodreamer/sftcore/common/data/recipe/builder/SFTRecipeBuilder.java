@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore.common.data.recipe.builder;
 
+import mekanism.api.chemical.gas.Gas;
+import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.providers.IGasProvider;
+import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
 import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
 
@@ -36,10 +40,22 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
         return new SFTRecipeBuilder(id, recipeType);
     }
 
+    @Override
+    public final <T> SFTRecipeBuilder input(RecipeCapability<T> capability, T obj) {
+        super.input(capability, obj);
+        return this;
+    }
+
     @SafeVarargs
     @Override
     public final <T> SFTRecipeBuilder input(RecipeCapability<T> capability, T... obj) {
         super.input(capability, obj);
+        return this;
+    }
+
+    @Override
+    public final <T> SFTRecipeBuilder output(RecipeCapability<T> capability, T obj) {
+        super.output(capability, obj);
         return this;
     }
 
@@ -153,5 +169,13 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
 
     public SFTRecipeBuilder rpm(float rpm) {
         return rpm(rpm, false);
+    }
+
+    public SFTRecipeBuilder inputGas(IGasProvider gas, long amount) {
+        return input(GasRecipeCapability.CAP, new GasStack(gas, amount));
+    }
+
+    public SFTRecipeBuilder outputGas(IGasProvider gas, long amount) {
+        return output(GasRecipeCapability.CAP, new GasStack(gas, amount));
     }
 }
