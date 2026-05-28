@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
+import org.leodreamer.sftcore.api.gui.GasSlotWidget;
 import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
@@ -16,7 +17,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -36,8 +36,6 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
     @SaveField
     public final NotifiableGasTank tank;
 
-    private final int slots;
-
     @Nullable
     protected TickableSubscription autoIOSubs;
 
@@ -46,7 +44,6 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
 
     public GasHatchPartMachine(BlockEntityCreationInfo info, int tier, IO io, long initialCapacity, int slots) {
         super(info, tier, io);
-        this.slots = slots;
         this.tank = attachTrait(createTank(initialCapacity, slots));
     }
 
@@ -135,25 +132,37 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
 
     @Override
     public Widget createUIWidget() {
-        if (slots == 1) {
+        if (tank.getTanks() == 1) {
             return createSingleSlotGUI();
         }
         return createMultiSlotGUI();
     }
 
     protected Widget createSingleSlotGUI() {
-        var group = new WidgetGroup(0, 0, 89, 63);
-        group.addWidget(new ImageWidget(4, 4, 81, 55, GuiTextures.DISPLAY));
+        var group = new WidgetGroup(0, 0, 176, 64);
+        group.setBackground(GuiTextures.BACKGROUND);
 
-        group.addWidget(new LabelWidget(8, 8, "sftcore.gui.gas_amount"));
-        group.addWidget(new LabelWidget(8, 18, () -> formatGasAmount(tank.getChemicalInTank(0))));
-        group.addWidget(new LabelWidget(8, 28, () -> getGasName(tank.getChemicalInTank(0)).getString()));
+        var gasSlot = new GasSlotWidget(tank, 0, 67, 22)
+            .setBackground(GuiTextures.FLUID_SLOT)
+            .setShowAmount(true)
+            .setDrawHoverTips(true);
 
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        group.addWidget(gasSlot);
+
+        group.addWidget(new LabelWidget(8, 8, GasSlotWidget.GAS));
+        group.addWidget(new LabelWidget(8, 20, () -> getGasName(tank.getChemicalInTank(0)).getString()));
+        group.addWidget(new LabelWidget(8, 32, () -> Component.translatable(
+            GasSlotWidget.GAS_AMOUNT,
+            formatGasAmount(tank.getChemicalInTank(0))
+        ).getString()));
+
         return group;
     }
 
     protected Widget createMultiSlotGUI() {
+        int slots = tank.getTanks();
+
+        // 1x / 4x / 9x -> 1 / 2 / 3
         int size = (int) Math.sqrt(slots);
 
         var group = new WidgetGroup(0, 0, 18 * size + 16, 18 * size + 16);
@@ -162,14 +171,15 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
         int index = 0;
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                int tankIndex = index++;
-                container.addWidget(
-                    new LabelWidget(
-                        4 + x * 18,
-                        6 + y * 18,
-                        () -> shortGasAmount(tank.getChemicalInTank(tankIndex))
-                    )
-                );
+                if (index >= slots) {
+                    break;
+                }
+                container.addWidget(new GasSlotWidget(tank, index, 4 + x * 18, 4 + y * 18)
+                    .setBackground(GuiTextures.FLUID_SLOT)
+                    .setShowAmount(true)
+                    .setDrawHoverTips(true));
+
+                index++;
             }
         }
 
@@ -179,14 +189,13 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
     }
 
     private static Component getGasName(GasStack stack) {
-        return stack.isEmpty() ? Component.translatable("gtceu.gui.empty") : stack.getTextComponent();
+        if (stack.isEmpty()) {
+            return Component.translatable(GasSlotWidget.GAS_EMPTY);
+        }
+        return stack.getTextComponent();
     }
 
     private static String formatGasAmount(GasStack stack) {
-        return String.format("%,d", stack.isEmpty() ? 0 : stack.getAmount());
-    }
-
-    private static String shortGasAmount(GasStack stack) {
         if (stack.isEmpty()) {
             return "-";
         }
