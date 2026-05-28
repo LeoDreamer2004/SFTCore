@@ -1,8 +1,9 @@
 package org.leodreamer.sftcore.common.data.recipe;
 
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
+
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 public class SFTRecipeCapabilities {
 

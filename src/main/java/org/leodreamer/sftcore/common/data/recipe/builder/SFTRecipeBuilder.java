@@ -1,8 +1,5 @@
 package org.leodreamer.sftcore.common.data.recipe.builder;
 
-import mekanism.api.chemical.gas.Gas;
-import mekanism.api.chemical.gas.GasStack;
-import mekanism.api.providers.IGasProvider;
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
 import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
@@ -17,6 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+
+import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.providers.IGasProvider;
 
 import java.util.function.Supplier;
 

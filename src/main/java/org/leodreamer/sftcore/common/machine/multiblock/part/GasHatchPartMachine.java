@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
+import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
+
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -7,24 +9,26 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.utils.ISubscription;
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import mekanism.api.chemical.gas.GasStack;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
+
+import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import mekanism.api.chemical.gas.GasStack;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class GasHatchPartMachine extends TieredIOPartMachine {
+
     public static final long INITIAL_TANK_CAPACITY_1X = 8_000;
     public static final long INITIAL_TANK_CAPACITY_4X = 2_000;
     public static final long INITIAL_TANK_CAPACITY_9X = 1_000;
@@ -159,11 +163,13 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
                 int tankIndex = index++;
-                container.addWidget(new LabelWidget(
-                    4 + x * 18,
-                    6 + y * 18,
-                    () -> shortGasAmount(tank.getChemicalInTank(tankIndex))
-                ));
+                container.addWidget(
+                    new LabelWidget(
+                        4 + x * 18,
+                        6 + y * 18,
+                        () -> shortGasAmount(tank.getChemicalInTank(tankIndex))
+                    )
+                );
             }
         }
 

@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore.common.machine.trait;
 
+import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
+import org.leodreamer.sftcore.integration.mek.NaiveGasTank;
+import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
@@ -8,28 +12,29 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+
 import lombok.Getter;
 import mekanism.api.Action;
 import mekanism.api.AutomationType;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
-import org.leodreamer.sftcore.integration.mek.NaiveGasTank;
-import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> implements ICapabilityTrait, IGasHandler {
+
     public static final MachineTraitType<NotifiableGasTank> TYPE = new MachineTraitType<>(NotifiableGasTank.class);
 
     @Getter
@@ -83,7 +88,7 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
 
         var action = simulate ? Action.SIMULATE : Action.EXECUTE;
 
-        for (var it = left.iterator(); it.hasNext(); ) {
+        for (var it = left.iterator(); it.hasNext();) {
             var gas = it.next();
 
             if (gas == null || gas.isEmpty()) {

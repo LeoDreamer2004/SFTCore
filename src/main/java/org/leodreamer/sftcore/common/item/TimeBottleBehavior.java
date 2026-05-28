@@ -1,22 +1,25 @@
 package org.leodreamer.sftcore.common.item;
 
-import cn.qiuye.gtmoremachine.api.misc.wireless.energy.WirelessEnergyContainer;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
+
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+
+import cn.qiuye.gtmoremachine.api.misc.wireless.energy.WirelessEnergyContainer;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 
 import java.util.List;
 
