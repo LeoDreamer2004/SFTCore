@@ -1,19 +1,6 @@
 package org.leodreamer.sftcore.api.gui;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.gui.util.TextFormattingUtil;
@@ -24,12 +11,25 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import mekanism.api.Action;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import mekanism.client.gui.GuiUtils;
 import mekanism.client.render.MekanismRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
+import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +71,9 @@ public class GasTankWidget extends Widget {
 
     @RegisterLanguage("Gas Amount")
     public static final String GAS_AMOUNT = "sftcore.gui.gas.amount";
+
+    private static final int CLIENT_ACTION_CLICK_CONTAINER = 1;
+    private static final int UPDATE_CARRIED_STACK = 4;
 
     public GasTankWidget(
         @Nullable IGasHandler gasTank,
@@ -120,6 +123,10 @@ public class GasTankWidget extends Widget {
         super.setBackground(backgroundTexture);
         return this;
     }
+
+    // ----------------------------
+    // ********** GUI *************
+    // ----------------------------
 
     @Override
     public GasTankWidget setClientSideWidget() {
@@ -264,6 +271,10 @@ public class GasTankWidget extends Widget {
         }
     }
 
+    // ----------------------------
+    // ********** Sync ************
+    // ----------------------------
+
     @OnlyIn(Dist.CLIENT)
     private void renderAmountOverlay(GuiGraphics graphics, GasStack gasStack) {
         if (gasStack.isEmpty()) {
@@ -372,5 +383,190 @@ public class GasTankWidget extends Widget {
         }
 
         return a.isTypeEqual(b);
+    }
+
+    // ----------------------------
+    // ******** Interact **********
+    // ----------------------------
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (isMouseOverElement(mouseX, mouseY)) {
+            if ((allowClickDrained || allowClickFilled) && button == 0 && hasHeldGasContainer()) {
+                writeClientAction(CLIENT_ACTION_CLICK_CONTAINER, buffer -> buffer.writeBoolean(isShiftDown()));
+                playButtonClickSound();
+                return true;
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private boolean hasHeldGasContainer() {
+        if (gui == null || gui.getModularUIContainer() == null) {
+            return false;
+        }
+
+        var carried = gui.getModularUIContainer().getCarried();
+        return !carried.isEmpty() && carried.getCapability(SFTMekanismCapabilities.GAS_HANDLER).isPresent();
+    }
+
+    @Override
+    public void handleClientAction(int id, FriendlyByteBuf buffer) {
+        super.handleClientAction(id, buffer);
+
+        if (id == CLIENT_ACTION_CLICK_CONTAINER) {
+            boolean shift = buffer.readBoolean();
+
+            if (tryClickGasContainer(shift)) {
+                writeUpdateInfo(UPDATE_CARRIED_STACK, buf -> buf.writeItem(gui.getModularUIContainer().getCarried()));
+            }
+        }
+    }
+
+    private boolean tryClickGasContainer(boolean shift) {
+        if (gasTank == null || gui == null || gui.getModularUIContainer() == null) {
+            return false;
+        }
+
+        var carried = gui.getModularUIContainer().getCarried();
+        if (carried.isEmpty()) {
+            return false;
+        }
+
+        var itemHandler = carried.getCapability(SFTMekanismCapabilities.GAS_HANDLER)
+            .resolve()
+            .orElse(null);
+
+        if (itemHandler == null) {
+            return false;
+        }
+
+        boolean changed = false;
+        int maxAttempts = shift ? Math.max(1, carried.getCount()) : 1;
+
+        for (int i = 0; i < maxAttempts; i++) {
+            boolean transferred = false;
+
+            // If there is gas in the slot, give priority to filling
+            // the held chemical container with the gas in the slot.
+            if (allowClickFilled && !getServerGasInTank().isEmpty()) {
+                transferred = fillHeldGasContainer(itemHandler);
+            }
+
+            // If not, or the container on the hand cannot receive any gas,
+            // try to drain the held chemical container into the slot.
+            if (!transferred && allowClickDrained) {
+                transferred = drainHeldGasContainer(itemHandler);
+            }
+
+            if (!transferred) {
+                break;
+            }
+
+            changed = true;
+        }
+
+        if (changed) {
+            gui.getModularUIContainer().setCarried(carried);
+            detectAndSendChanges();
+        }
+
+        return changed;
+    }
+
+    private GasStack getServerGasInTank() {
+        if (gasTank == null) {
+            return GasStack.EMPTY;
+        }
+
+        var stack = gasTank.getChemicalInTank(tank);
+        return stack.isEmpty() ? GasStack.EMPTY : stack.copy();
+    }
+
+    private boolean fillHeldGasContainer(IGasHandler itemHandler) {
+        var stored = getServerGasInTank();
+        if (stored.isEmpty()) {
+            return false;
+        }
+
+        var simulatedRemainder = itemHandler.insertChemical(stored.copy(), Action.SIMULATE);
+        long accepted = stored.getAmount() - simulatedRemainder.getAmount();
+
+        if (accepted <= 0) {
+            return false;
+        }
+
+        var extracted = extractFromWidgetTank(accepted);
+        if (extracted.isEmpty()) {
+            return false;
+        }
+
+        var remainder = itemHandler.insertChemical(extracted.copy(), Action.EXECUTE);
+        long inserted = extracted.getAmount() - remainder.getAmount();
+
+        if (!remainder.isEmpty()) {
+            insertIntoWidgetTank(remainder, Action.EXECUTE);
+        }
+
+        return inserted > 0;
+    }
+
+    private boolean drainHeldGasContainer(IGasHandler itemHandler) {
+        for (int itemTank = 0; itemTank < itemHandler.getTanks(); itemTank++) {
+            var inItem = itemHandler.getChemicalInTank(itemTank);
+            if (inItem.isEmpty()) {
+                continue;
+            }
+
+            var simulatedRemainder = insertIntoWidgetTank(inItem.copy(), Action.SIMULATE);
+            long accepted = inItem.getAmount() - simulatedRemainder.getAmount();
+
+            if (accepted <= 0) {
+                continue;
+            }
+
+            var extracted = itemHandler.extractChemical(itemTank, accepted, Action.EXECUTE);
+            if (extracted.isEmpty()) {
+                continue;
+            }
+
+            var remainder = insertIntoWidgetTank(extracted.copy(), Action.EXECUTE);
+            long inserted = extracted.getAmount() - remainder.getAmount();
+
+            if (!remainder.isEmpty()) {
+                itemHandler.insertChemical(remainder, Action.EXECUTE);
+            }
+
+            return inserted > 0;
+        }
+
+        return false;
+    }
+
+    private GasStack insertIntoWidgetTank(GasStack stack, Action action) {
+        if (gasTank == null || stack.isEmpty()) {
+            return stack;
+        }
+
+        if (gasTank instanceof NotifiableGasTank notifiableGasTank) {
+            return notifiableGasTank.insertChemicalManual(tank, stack, action);
+        }
+
+        return gasTank.insertChemical(tank, stack, action);
+    }
+
+    private GasStack extractFromWidgetTank(long amount) {
+        if (gasTank == null || amount <= 0) {
+            return GasStack.EMPTY;
+        }
+
+        if (gasTank instanceof NotifiableGasTank notifiableGasTank) {
+            return notifiableGasTank.extractChemicalManual(tank, amount, Action.EXECUTE);
+        }
+
+        return gasTank.extractChemical(tank, amount, Action.EXECUTE);
     }
 }

@@ -245,6 +245,20 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
         return storages[tank].extract(amount, action, AutomationType.EXTERNAL);
     }
 
+    public GasStack insertChemicalManual(int tank, GasStack stack, Action action) {
+        if (tank < 0 || tank >= storages.length || stack.isEmpty()) {
+            return stack;
+        }
+        return storages[tank].insert(stack, action, AutomationType.MANUAL);
+    }
+
+    public GasStack extractChemicalManual(int tank, long amount, Action action) {
+        if (tank < 0 || tank >= storages.length || amount <= 0) {
+            return GasStack.EMPTY;
+        }
+        return storages[tank].extract(amount, action, AutomationType.MANUAL);
+    }
+
     private GasStack extractChemicalExact(int tank, GasStack requested, Action action) {
         if (!canCapOutput() || requested.isEmpty()) {
             return GasStack.EMPTY;

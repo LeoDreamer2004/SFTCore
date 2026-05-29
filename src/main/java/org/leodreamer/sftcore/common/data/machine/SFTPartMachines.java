@@ -190,7 +190,8 @@ public final class SFTPartMachines {
         GasHatchPartMachine.INITIAL_TANK_CAPACITY_1X,
         1,
         SFTPartAbility.IMPORT_GASES,
-        SFTPartAbility.IMPORT_GASES_1X
+        SFTPartAbility.IMPORT_GASES_1X,
+        ALL_TIERS
     );
 
     public static final MachineDefinition[] GAS_EXPORT_HATCH = registerGasHatches(
@@ -200,7 +201,8 @@ public final class SFTPartMachines {
         GasHatchPartMachine.INITIAL_TANK_CAPACITY_1X,
         1,
         SFTPartAbility.EXPORT_GASES,
-        SFTPartAbility.EXPORT_GASES_1X
+        SFTPartAbility.EXPORT_GASES_1X,
+        ALL_TIERS
     );
 
     public static final MachineDefinition[] GAS_IMPORT_HATCH_4X = registerGasHatches(
@@ -210,7 +212,8 @@ public final class SFTPartMachines {
         GasHatchPartMachine.INITIAL_TANK_CAPACITY_4X,
         4,
         SFTPartAbility.IMPORT_GASES,
-        SFTPartAbility.IMPORT_GASES_4X
+        SFTPartAbility.IMPORT_GASES_4X,
+        MULTI_HATCH_TIERS
     );
 
     public static final MachineDefinition[] GAS_EXPORT_HATCH_4X = registerGasHatches(
@@ -220,7 +223,8 @@ public final class SFTPartMachines {
         GasHatchPartMachine.INITIAL_TANK_CAPACITY_4X,
         4,
         SFTPartAbility.EXPORT_GASES,
-        SFTPartAbility.EXPORT_GASES_4X
+        SFTPartAbility.EXPORT_GASES_4X,
+        MULTI_HATCH_TIERS
     );
 
     public static final MachineDefinition[] GAS_IMPORT_HATCH_9X = registerGasHatches(
@@ -230,7 +234,8 @@ public final class SFTPartMachines {
         GasHatchPartMachine.INITIAL_TANK_CAPACITY_9X,
         9,
         SFTPartAbility.IMPORT_GASES,
-        SFTPartAbility.IMPORT_GASES_9X
+        SFTPartAbility.IMPORT_GASES_9X,
+        MULTI_HATCH_TIERS
     );
 
     public static final MachineDefinition[] GAS_EXPORT_HATCH_9X = registerGasHatches(
@@ -240,7 +245,8 @@ public final class SFTPartMachines {
         GasHatchPartMachine.INITIAL_TANK_CAPACITY_9X,
         9,
         SFTPartAbility.EXPORT_GASES,
-        SFTPartAbility.EXPORT_GASES_9X
+        SFTPartAbility.EXPORT_GASES_9X,
+        MULTI_HATCH_TIERS
     );
 
     private static MachineDefinition[] registerGasHatches(
@@ -250,7 +256,8 @@ public final class SFTPartMachines {
         long initialCapacity,
         int slots,
         PartAbility commonAbility,
-        PartAbility exactAbility
+        PartAbility exactAbility,
+        int... tiers
     ) {
         final ResourceLocation pipeOverlay;
         if (slots >= 9) {
@@ -281,7 +288,7 @@ public final class SFTPartMachines {
                 .modelProperty(IS_FORMED, false)
                 .allowCoverOnFront(true)
                 .register(),
-            ALL_TIERS
+            tiers
         );
     }
 

@@ -1,17 +1,19 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
-import org.leodreamer.sftcore.api.gui.GasTankWidget;
-import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
-import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
-
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.ISubscription;
-
+import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.chemical.gas.IGasHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,19 +21,19 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import mekanism.api.chemical.gas.GasStack;
-import mekanism.api.chemical.gas.IGasHandler;
 import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.gui.GasTankWidget;
+import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
+import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
+@DataGenScanned
 public class GasHatchPartMachine extends TieredIOPartMachine {
 
     public static final long INITIAL_TANK_CAPACITY_1X = 8_000;
@@ -225,6 +227,33 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
             return gasHandlerCap.cast();
         }
         return super.getCapability(cap, side);
+    }
+
+    @RegisterLanguage("Gas Input for Multiblocks")
+    private static final String IMPORT_TOOLTIP = "sftcore.machine.gas_hatch.import.tooltip";
+
+    @RegisterLanguage("Gas Output for Multiblocks")
+    private static final String EXPORT_TOOLTIP = "sftcore.machine.gas_hatch.export.tooltip";
+
+    @RegisterLanguage("§9Gas Capacity: §f%d mB")
+    private static final String GAS_CAPACITY = "sftcore.tooltip.fluid_storage_capacity";
+
+    @RegisterLanguage("§9Gas Capacity: §f%d §7Tanks, §f%d mB §7each")
+    private static final String GAS_CAPACITY_MULTI = "sftcore.tooltip.fluid_storage_capacity_multi";
+
+    @Override
+    public List<Component> getTabTooltips() {
+        var tooltips = super.getTabTooltips();
+        tooltips.add(Component.translatable(io == IO.IN ? IMPORT_TOOLTIP : EXPORT_TOOLTIP));
+        long capacity = tank.getStorages()[0].getCapacity();
+        if (slots == 1) {
+            tooltips.add(Component.translatable(GAS_CAPACITY,  FormattingUtil
+                .formatNumbers(capacity)));
+        } else {
+            tooltips.add(Component.translatable(GAS_CAPACITY_MULTI, slots,  FormattingUtil
+                .formatNumbers(capacity)));
+        }
+        return tooltips;
     }
 
     private Component getGasNameText(GasTankWidget tankWidget) {
