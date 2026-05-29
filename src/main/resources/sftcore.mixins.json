@@ -59,6 +59,8 @@
     "gregtech.recipe.DimensionConditionMixin",
     "gregtech.recipe.GTRecipeBuilderMixin",
     "gregtech.recipe.GTRecipeModifiersMixin",
+    "gregtech.recipe.GTRecipeTypeMixin",
+    "gregtech.recipe.GTRecipeTypeUIMixin",
     "gregtech.recipe.RecipeLogicMixin",
     "gregtech.util.GTUtilMixin",
     "gregtech.xei.AE2PatternTerminalHandlerMixin",

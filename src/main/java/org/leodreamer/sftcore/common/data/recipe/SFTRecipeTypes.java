@@ -3,6 +3,7 @@ package org.leodreamer.sftcore.common.data.recipe;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.feature.IGTRecipeTypeGas;
 import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
 
@@ -91,20 +92,19 @@ public final class SFTRecipeTypes {
         .setSound(GTSoundEntries.ASSEMBLER);
 
     // mekanism integration
-    public static final GTRecipeType MEKANISM_NUCLEAR_REACTION_RECIPES = register(
+    public static final GTRecipeType MEKANISM_NUCLEAR_REACTION_RECIPES = registerGas(
         "mekanism_nuclear_reaction",
         GENERATOR
-    )
+    ).sftcore$setMaxIOSize(1, 0, 1, 1, 1, 1)
         .setEUIO(IO.OUT)
-        .setMaxIOSize(1, 0, 1, 1)
         .setProgressBar(
             GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT
         )
         .setSound(GTSoundEntries.TURBINE);
 
-    public static final GTRecipeType MEKANISM_PROCESSING_RECIPES = register("common_mekanism_processing", MULTIBLOCK)
+    public static final GTRecipeType MEKANISM_PROCESSING_RECIPES = registerGas("common_mekanism_processing", MULTIBLOCK)
+        .sftcore$setMaxIOSize(3, 3, 3, 3, 3, 3)
         .setEUIO(IO.IN)
-        .setMaxIOSize(6, 3, 3, 3)
         .setProgressBar(
             GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
         )
@@ -215,5 +215,9 @@ public final class SFTRecipeTypes {
         );
         GTRegistries.RECIPE_TYPES.register(recipeType.registryName, recipeType);
         return recipeType;
+    }
+
+    public static IGTRecipeTypeGas registerGas(String name, String group, RecipeType<?>... proxyRecipe) {
+        return (IGTRecipeTypeGas) register(name, group, proxyRecipe);
     }
 }

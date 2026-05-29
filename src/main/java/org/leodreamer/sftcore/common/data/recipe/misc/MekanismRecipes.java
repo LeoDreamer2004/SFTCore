@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -11,10 +12,11 @@ import net.minecraftforge.common.Tags;
 
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismFluids;
+import mekanism.common.registries.MekanismGases;
 import mekanism.common.registries.MekanismItems;
 import mekanism.common.tags.MekanismTags;
 import mekanism.generators.common.registries.GeneratorsBlocks;
-import mekanism.generators.common.registries.GeneratorsFluids;
+import mekanism.generators.common.registries.GeneratorsGases;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,8 +26,7 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static org.leodreamer.sftcore.common.data.SFTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.CHEMICAL_RECIPES;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.MEKANISM_NUCLEAR_REACTION_RECIPES;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.MEKANISM_PROCESSING_RECIPES;
 
@@ -197,28 +198,25 @@ public final class MekanismRecipes {
             .EUt(VA[LV])
             .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES
-            .recipeBuilder(SFTCore.id("pellet/polonium"))
+        SFTRecipeBuilder.of("pellet/polonium", MEKANISM_PROCESSING_RECIPES)
             .outputItems(MekanismItems.POLONIUM_PELLET)
-            .inputFluids(FilteredPolonium.getFluid(10))
+            .inputGas(MekanismGases.POLONIUM, 1000)
             .circuitMeta(4)
             .duration(120)
             .EUt(VA[HV])
             .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES
-            .recipeBuilder(SFTCore.id("pellet/plutonium"))
+        SFTRecipeBuilder.of("pellet/plutonium", MEKANISM_PROCESSING_RECIPES)
             .outputItems(MekanismItems.PLUTONIUM_PELLET)
-            .inputFluids(FilteredPlutonium.getFluid(10))
+            .inputGas(MekanismGases.PLUTONIUM, 1000)
             .circuitMeta(4)
             .duration(120)
             .EUt(VA[HV])
             .save(provider);
 
-        MEKANISM_PROCESSING_RECIPES
-            .recipeBuilder(SFTCore.id("pellet/antimatter"))
+        SFTRecipeBuilder.of("pellet/antimatter", MEKANISM_PROCESSING_RECIPES)
             .outputItems(MekanismItems.ANTIMATTER_PELLET)
-            .inputFluids(FilteredPolonium.getFluid(10000))
+            .inputGas(MekanismGases.POLONIUM, 32000)
             .circuitMeta(5)
             .duration(300)
             .EUt(VA[HV])
@@ -231,6 +229,24 @@ public final class MekanismRecipes {
             .circuitMeta(6)
             .duration(15)
             .EUt(VA[LV])
+            .save(provider);
+
+        SFTRecipeBuilder.of("chemical/fusion_fuel", MEKANISM_PROCESSING_RECIPES)
+            .outputGas(GeneratorsGases.FUSION_FUEL, 2000)
+            .inputGas(GeneratorsGases.DEUTERIUM, 1000)
+            .inputGas(GeneratorsGases.TRITIUM, 1000)
+            .circuitMeta(6)
+            .duration(600)
+            .EUt(VA[MV])
+            .save(provider);
+
+        SFTRecipeBuilder.of("chemical/energetic_fissile_fuel", MEKANISM_PROCESSING_RECIPES)
+            .outputGas(MekanismGases.FISSILE_FUEL, 8000)
+            .inputFluids(UraniumHexafluoride.getFluid(8000))
+            .notConsumable(MekanismItems.ANTIMATTER_PELLET)
+            .circuitMeta(6)
+            .duration(300)
+            .EUt(VA[MV])
             .save(provider);
 
         var bioFuel = bioFuel(provider);
@@ -246,42 +262,6 @@ public final class MekanismRecipes {
         bioFuel.accept(Tags.Items.SEEDS, 2);
         bioFuel.accept(Tags.Items.CROPS, 5);
 
-        MIXER_RECIPES
-            .recipeBuilder(SFTCore.id("fusion_fuel"))
-            .outputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(2000))
-            .inputFluids(LowPurityDeuterium.getFluid(1000))
-            .inputFluids(LowPurityTritium.getFluid(1000))
-            .duration(600)
-            .EUt(VA[MV])
-            .save(provider);
-
-        DISTILLERY_RECIPES
-            .recipeBuilder(SFTCore.id("low_purity_deuterium"))
-            .outputFluids(LowPurityDeuterium.getFluid(100))
-            .inputFluids(DistilledWater.getFluid(1000))
-            .circuitMeta(1)
-            .duration(150)
-            .EUt(VA[MV])
-            .save(provider);
-
-        CENTRIFUGE_RECIPES
-            .recipeBuilder(SFTCore.id("low_purity_tritium"))
-            .outputFluids(LowPurityTritium.getFluid(100))
-            .outputFluids(LowPurityDeuterium.getFluid(500))
-            .inputFluids(LowPurityDeuterium.getFluid(1000))
-            .duration(600)
-            .EUt(VA[MV])
-            .save(provider);
-
-        DISTILLERY_RECIPES
-            .recipeBuilder(SFTCore.id("energetic_fissile_fuel"))
-            .outputFluids(EnergeticFissileFuel.getFluid(8000))
-            .inputFluids(UraniumHexafluoride.getFluid(8000))
-            .notConsumable(MekanismItems.ANTIMATTER_PELLET)
-            .duration(300)
-            .EUt(VA[MV])
-            .save(provider);
-
         CHEMICAL_RECIPES
             .recipeBuilder(SFTCore.id("uranium_hexafluoride"))
             .outputFluids(MekanismFluids.URANIUM_HEXAFLUORIDE.getFluidStack(2000))
@@ -293,53 +273,47 @@ public final class MekanismRecipes {
             .EUt(VA[MV])
             .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES
-            .recipeBuilder(SFTCore.id("fusion"))
-            .inputFluids(GeneratorsFluids.FUSION_FUEL.getFluidStack(1))
+        SFTRecipeBuilder.of("fusion", MEKANISM_NUCLEAR_REACTION_RECIPES)
+            .inputGas(GeneratorsGases.FUSION_FUEL, 1)
             .duration(4000)
             .EUt(-V[MV])
             .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES
-            .recipeBuilder(SFTCore.id("fission_1"))
-            .inputFluids(EnergeticFissileFuel.getFluid(700))
-            .outputFluids(FilteredPlutonium.getFluid(1))
+        SFTRecipeBuilder.of("fission_1", MEKANISM_NUCLEAR_REACTION_RECIPES)
+            .inputGas(MekanismGases.FISSILE_FUEL, 700)
+            .outputGas(MekanismGases.PLUTONIUM, 100)
             .circuitMeta(1)
             .duration(111000)
             .EUt(-V[MV])
             .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES
-            .recipeBuilder(SFTCore.id("fission_1_fast"))
-            .inputFluids(EnergeticFissileFuel.getFluid(7000))
-            .outputFluids(FilteredPlutonium.getFluid(30))
+        SFTRecipeBuilder.of("fission_1_fast", MEKANISM_NUCLEAR_REACTION_RECIPES)
+            .inputGas(MekanismGases.FISSILE_FUEL, 7000)
+            .outputGas(MekanismGases.PLUTONIUM, 3000)
             .circuitMeta(4)
             .duration(9700)
             .EUt(-V[MV])
             .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES
-            .recipeBuilder(SFTCore.id("fission_2"))
-            .inputFluids(EnergeticFissileFuel.getFluid(700))
-            .outputFluids(FilteredPolonium.getFluid(1))
+        SFTRecipeBuilder.of("fission_2", MEKANISM_NUCLEAR_REACTION_RECIPES)
+            .inputGas(MekanismGases.FISSILE_FUEL, 700)
+            .outputGas(MekanismGases.POLONIUM, 100)
             .circuitMeta(2)
             .duration(111000)
             .EUt(-V[MV])
             .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES
-            .recipeBuilder(SFTCore.id("fission_2_fast"))
-            .inputFluids(EnergeticFissileFuel.getFluid(7000))
-            .outputFluids(FilteredPolonium.getFluid(30))
+        SFTRecipeBuilder.of("fission_2_fast", MEKANISM_NUCLEAR_REACTION_RECIPES)
+            .inputGas(MekanismGases.FISSILE_FUEL, 7000)
+            .outputGas(MekanismGases.POLONIUM, 3000)
             .circuitMeta(5)
             .duration(9700)
             .EUt(-V[MV])
             .save(provider);
 
-        MEKANISM_NUCLEAR_REACTION_RECIPES
-            .recipeBuilder(SFTCore.id("fission_3"))
-            .inputFluids(EnergeticFissileFuel.getFluid(700))
-            .outputFluids(EnergeticFissileFuel.getFluid(500))
+        SFTRecipeBuilder.of("fission_3", MEKANISM_NUCLEAR_REACTION_RECIPES)
+            .inputGas(MekanismGases.FISSILE_FUEL, 700)
+            .outputGas(MekanismGases.FISSILE_FUEL, 500)
             .circuitMeta(3)
             .duration(111000)
             .EUt(-V[MV])

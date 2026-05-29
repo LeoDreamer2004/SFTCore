@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.common.data.recipe.misc;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.SFTTools;
 import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.data.SFTMaterials;
 import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.machine.SFTSingleMachines;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
@@ -70,13 +69,12 @@ public final class CustomGTRecipes {
                 .inputItems(torcherino, 9)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT, 64)
                 .inputFluids(Polyethylene.getFluid(L * 32))
-                .inputFluids(SFTMaterials.FilteredPolonium.getFluid(1000))
                 .duration(6000)
                 .EUt(VA[EV])
                 .save(provider);
         }
 
-        SFTRecipeBuilder.of(SFTCore.id("fishbig"), FISHBIG_MAKER_RECIPES)
+        SFTRecipeBuilder.of("fishbig", FISHBIG_MAKER_RECIPES)
             .outputItems(EPPItemAndBlock.FISHBIG.asItem())
             .inputItems(MekanismItems.SUPERMASSIVE_QIO_DRIVE)
             .inputItems(Items.LIGHT_BLUE_WOOL, 64)
@@ -91,7 +89,7 @@ public final class CustomGTRecipes {
             .inputStress(204800)
             .save(provider);
 
-        SFTRecipeBuilder.of(SFTCore.id("ore_generator"), FISHBIG_MAKER_RECIPES)
+        SFTRecipeBuilder.of("ore_generator", FISHBIG_MAKER_RECIPES)
             .outputItems(SFTSingleMachines.ORE_REPLICATOR.asStack())
             .notConsumable(EPPItemAndBlock.FISHBIG.asItem())
             .inputItems(MekanismItems.ULTIMATE_CONTROL_CIRCUIT, 4)

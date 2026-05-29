@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.data.recipe.builder;
 
+import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
 import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
@@ -13,6 +14,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.FluidStack;
 
 import mekanism.api.chemical.gas.GasStack;
@@ -34,6 +36,10 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
 
     public SFTRecipeBuilder(GTRecipe toCopy, GTRecipeType recipeType) {
         super(toCopy, recipeType);
+    }
+
+    public static SFTRecipeBuilder of(String id, GTRecipeType recipeType) {
+        return new SFTRecipeBuilder(SFTCore.id(id), recipeType);
     }
 
     public static SFTRecipeBuilder of(ResourceLocation id, GTRecipeType recipeType) {
@@ -115,6 +121,12 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
     }
 
     @Override
+    public SFTRecipeBuilder outputItems(Supplier<? extends ItemLike> input) {
+        super.outputItems(input);
+        return this;
+    }
+
+    @Override
     public SFTRecipeBuilder inputFluids(FluidStack input) {
         super.inputFluids(input);
         return this;
@@ -150,6 +162,12 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
         return this;
     }
 
+    @Override
+    public SFTRecipeBuilder EUt(long eu) {
+        super.EUt(eu);
+        return this;
+    }
+
     public SFTRecipeBuilder inputStress(float stress) {
         input(StressRecipeCapability.CAP, stress);
         this.data.putFloat(INPUT_STRESS, stress);
@@ -172,10 +190,18 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
     }
 
     public SFTRecipeBuilder inputGas(IGasProvider gas, long amount) {
-        return input(GasRecipeCapability.CAP, new GasStack(gas, amount));
+        return inputGas(new GasStack(gas, amount));
+    }
+
+    public SFTRecipeBuilder inputGas(GasStack stack) {
+        return input(GasRecipeCapability.CAP, stack);
     }
 
     public SFTRecipeBuilder outputGas(IGasProvider gas, long amount) {
-        return output(GasRecipeCapability.CAP, new GasStack(gas, amount));
+        return outputGas(new GasStack(gas, amount));
+    }
+
+    public SFTRecipeBuilder outputGas(GasStack stack) {
+        return output(GasRecipeCapability.CAP, stack);
     }
 }
