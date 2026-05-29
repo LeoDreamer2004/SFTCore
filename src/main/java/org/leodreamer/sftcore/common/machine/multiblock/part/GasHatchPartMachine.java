@@ -1,5 +1,9 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
+import org.leodreamer.sftcore.api.gui.GasTankWidget;
+import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
+import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
+
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -7,12 +11,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.utils.ISubscription;
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import mekanism.api.chemical.gas.GasStack;
-import mekanism.api.chemical.gas.IGasHandler;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,10 +19,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+
+import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.chemical.gas.IGasHandler;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.gui.GasTankWidget;
-import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
-import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -101,8 +104,11 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
         updateTankSubscription(getFrontFacing());
     }
 
-    protected void updateTankSubscription(Direction facing) {
-        if (isWorkingEnabled() && (io.support(IO.IN) || io.support(IO.OUT))) {
+    protected void updateTankSubscription(Direction newFacing) {
+        if (
+            isWorkingEnabled() && (io.support(IO.IN) || (io.support(IO.OUT) && !tank.isEmpty())) &&
+                NotifiableGasTank.hasAdjacentGasHandler(getLevel(), getBlockPos(), newFacing)
+        ) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
@@ -157,19 +163,16 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
             67,
             22,
             18,
-            18,
-            true,
-            io.support(IO.IN)
+            18
         )
-            .setShowAmount(true)
-            .setDrawHoverTips(true)
+            .setAllowClickDrained(io.support(IO.IN))
             .setBackground(GuiTextures.FLUID_SLOT);
 
         group.addWidget(tankWidget);
 
         group.addWidget(new LabelWidget(8, 8, GasTankWidget.GAS_AMOUNT))
-            .addWidget(new LabelWidget(8, 18, () -> getGasAmountText(tankWidget.getGas())))
-            .addWidget(new LabelWidget(8, 28, () -> getGasNameText(tankWidget.getGas()).getString()));
+            .addWidget(new LabelWidget(8, 18, () -> getGasAmountText(tankWidget)))
+            .addWidget(new LabelWidget(8, 28, () -> getGasNameText(tankWidget).getString()));
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
@@ -177,19 +180,21 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
     }
 
     protected Widget createMultiSlotGUI() {
-        int size = (int) Math.sqrt(slots);
+        int rowSize = (int) Math.sqrt(slots);
+        int colSize = rowSize;
 
-        var group = new WidgetGroup(0, 0, 18 * size + 16, 18 * size + 16);
-        var container = new WidgetGroup(4, 4, 18 * size + 8, 18 * size + 8);
+        if (slots == 8) {
+            rowSize = 4;
+            colSize = 2;
+        }
+
+        var group = new WidgetGroup(0, 0, 18 * rowSize + 16, 18 * colSize + 16);
+        var container = new WidgetGroup(4, 4, 18 * rowSize + 8, 18 * colSize + 8);
 
         int index = 0;
 
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                if (index >= slots) {
-                    break;
-                }
-
+        for (int y = 0; y < colSize; y++) {
+            for (int x = 0; x < rowSize; x++) {
                 container.addWidget(
                     new GasTankWidget(
                         this.tank,
@@ -197,10 +202,10 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
                         4 + x * 18,
                         4 + y * 18,
                         18,
-                        18,
-                        true,
-                        io.support(IO.IN)
-                    ).setBackground(GuiTextures.FLUID_SLOT)
+                        18
+                    )
+                        .setAllowClickDrained(io.support(IO.IN))
+                        .setBackground(GuiTextures.FLUID_SLOT)
                 );
             }
         }
@@ -222,7 +227,9 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
         return super.getCapability(cap, side);
     }
 
-    private Component getGasNameText(GasStack gas) {
+    private Component getGasNameText(GasTankWidget tankWidget) {
+        var gas = tank.getChemicalInTank(tankWidget.getTank());
+
         if (!gas.isEmpty()) {
             return gas.getTextComponent();
         }
@@ -230,11 +237,17 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
         return Component.translatable(GasTankWidget.GAS_EMPTY);
     }
 
-    private String getGasAmountText(GasStack gas) {
+    private String getGasAmountText(GasTankWidget tankWidget) {
+        var gas = tank.getChemicalInTank(tankWidget.getTank());
+
         if (!gas.isEmpty()) {
-            return String.format("%,d", gas.getAmount());
+            return getFormattedGasAmount(gas);
         }
 
         return "";
+    }
+
+    public String getFormattedGasAmount(GasStack gasStack) {
+        return String.format("%,d", gasStack.isEmpty() ? 0 : gasStack.getAmount());
     }
 }

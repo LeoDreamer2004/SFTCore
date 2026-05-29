@@ -367,7 +367,7 @@
   "sftcore.fishbig_maker": "Fishbig Maker",
   "sftcore.greenhouse": "Greenhouse",
   "sftcore.gui.gas": "Gas",
-  "sftcore.gui.gas.amount": "Amount: %s mB",
+  "sftcore.gui.gas.amount": "Gas Amount",
   "sftcore.gui.gas.empty": "Empty",
   "sftcore.gui.gas.stored": "Stored: %s / %s mB",
   "sftcore.hurry_up": "Hurry Up",

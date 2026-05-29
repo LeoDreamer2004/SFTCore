@@ -1,5 +1,12 @@
 package org.leodreamer.sftcore.common.data.machine;
 
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.client.renderer.KineticPartMachineRenderer;
+import org.leodreamer.sftcore.common.block.KineticMachineBlock;
+import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
+import org.leodreamer.sftcore.common.machine.multiblock.part.*;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -10,16 +17,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
+
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.client.renderer.KineticPartMachineRenderer;
-import org.leodreamer.sftcore.common.block.KineticMachineBlock;
-import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
-import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
-import org.leodreamer.sftcore.common.machine.multiblock.part.*;
 
 import java.util.Locale;
 
@@ -147,12 +149,12 @@ public final class SFTPartMachines {
             String id = tierName + "_kinetic_input_box";
 
             definitions[tier] = REGISTRATE.machine(
-                    id,
-                    MachineDefinition::new,
-                    KineticMachineBlock::new,
-                    MetaMachineItem::new,
-                    info -> new KineticPartMachine(info, tier, IO.IN)
-                )
+                id,
+                MachineDefinition::new,
+                KineticMachineBlock::new,
+                MetaMachineItem::new,
+                info -> new KineticPartMachine(info, tier, IO.IN)
+            )
                 .langValue("%s Kinetic Input Box".formatted(VNF[tier]))
                 .rotationState(RotationState.ALL)
                 .abilities(SFTPartAbility.INPUT_KINETIC)
@@ -254,14 +256,18 @@ public final class SFTPartMachines {
         if (slots >= 9) {
             pipeOverlay = GTCEu.id("block/overlay/machine/overlay_pipe_9x");
         } else if (slots >= 4) {
-            pipeOverlay =  GTCEu.id("block/overlay/machine/overlay_pipe_4x");
+            pipeOverlay = GTCEu.id("block/overlay/machine/overlay_pipe_4x");
         } else {
             pipeOverlay = null;
         }
-        final var ioOverlay =  GTCEu.id("block/overlay/machine/" +
-            (io == IO.OUT ? GTMachineModels.OVERLAY_FLUID_HATCH_OUTPUT : GTMachineModels.OVERLAY_FLUID_HATCH_INPUT));
-        final var emissiveOverlay = GTCEu.id("block/overlay/machine/" +
-            (io == IO.OUT ? "overlay_pipe_out_emissive" : "overlay_pipe_in_emissive"));
+        final var ioOverlay = GTCEu.id(
+            "block/overlay/machine/" +
+                (io == IO.OUT ? GTMachineModels.OVERLAY_FLUID_HATCH_OUTPUT : GTMachineModels.OVERLAY_FLUID_HATCH_INPUT)
+        );
+        final var emissiveOverlay = GTCEu.id(
+            "block/overlay/machine/" +
+                (io == IO.OUT ? "overlay_pipe_out_emissive" : "overlay_pipe_in_emissive")
+        );
 
         return registerTieredMachines(
             REGISTRATE,
@@ -279,6 +285,5 @@ public final class SFTPartMachines {
         );
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 }

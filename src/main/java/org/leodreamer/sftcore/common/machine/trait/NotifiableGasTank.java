@@ -267,6 +267,10 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
         return be.getCapability(SFTMekanismCapabilities.GAS_HANDLER, facing.getOpposite()).resolve();
     }
 
+    public static boolean hasAdjacentGasHandler(Level level, BlockPos pos, Direction facing) {
+        return getAdjacentGasHandler(level, pos, facing).isPresent();
+    }
+
     private static void transferGas(IGasHandler from, IGasHandler to) {
         for (int tank = 0; tank < from.getTanks(); tank++) {
             var stored = from.getChemicalInTank(tank);
