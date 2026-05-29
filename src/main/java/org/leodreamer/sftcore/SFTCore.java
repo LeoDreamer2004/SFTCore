@@ -71,6 +71,7 @@ public class SFTCore {
 
     public void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(SFTCriteriaTriggers::register);
+        event.enqueueWork(SFTRecipeLookupIngredients::init);
         event.enqueueWork(() -> PatternDetailsHelper.registerDecoder(WildcardPatternDecoder.INSTANCE));
     }
 

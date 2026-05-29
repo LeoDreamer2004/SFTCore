@@ -1,19 +1,5 @@
 package org.leodreamer.sftcore.common.data.machine;
 
-import appeng.core.definitions.AEBlocks;
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.common.data.*;
-import com.simibubi.create.AllBlocks;
-import mekanism.common.registries.MekanismBlocks;
-import mekanism.generators.common.registries.GeneratorsBlocks;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluids;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.pattern.MultiBlockFileReader;
 import org.leodreamer.sftcore.common.data.machine.ui.SFTMachineDisplays;
@@ -21,6 +7,23 @@ import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
+
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.common.data.*;
+
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
+
+import appeng.core.definitions.AEBlocks;
+import com.simibubi.create.AllBlocks;
+import mekanism.common.registries.MekanismBlocks;
+import mekanism.generators.common.registries.GeneratorsBlocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.*;
@@ -32,8 +35,7 @@ import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers.*;
 
 public final class SFTMultiMachines {
 
-    public static void init() {
-    }
+    public static void init() {}
 
     public static final MachineDefinition FISHBIG_MAKER = REGISTRATE
         .multiblock("fishbig_maker", WorkableElectricMultiblockMachine::new)
