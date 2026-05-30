@@ -30,6 +30,7 @@
     "create.KineticNetworkMixin",
     "create.RotationPropagatorMixin",
     "emi.EmiScreenManagerMixin",
+    "emi.ModularEmiRecipeMixin",
     "emi.SidebarPanelMixin",
     "emi.SyntheticMixin",
     "emi.WidgetGroupMixin",
