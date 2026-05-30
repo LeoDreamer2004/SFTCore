@@ -26,7 +26,7 @@ public class GasRecipeCapability extends RecipeCapability<GasStack> {
     public static final GasRecipeCapability CAP = new GasRecipeCapability();
 
     protected GasRecipeCapability() {
-        super("gas", 0xFF00D7C8, true, 2, SerializerGasStack.INSTANCE);
+        super("gas", 0xFF00D7C8, true, 20, SerializerGasStack.INSTANCE);
     }
 
     @Override

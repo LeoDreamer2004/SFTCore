@@ -1,8 +1,10 @@
 package org.leodreamer.sftcore.api.gui;
 
+import com.lowdragmc.lowdraglib.gui.ingredient.IRecipeIngredientSlot;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
+import org.leodreamer.sftcore.integration.emi.SFTGasEmiStack;
 import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -39,7 +41,7 @@ import java.util.List;
 
 @Accessors(chain = true)
 @DataGenScanned
-public class GasTankWidget extends Widget {
+public class GasTankWidget extends Widget implements IRecipeIngredientSlot {
 
     @Nullable
     protected IGasHandler gasTank;
@@ -571,5 +573,28 @@ public class GasTankWidget extends Widget {
         }
 
         return gasTank.extractChemical(tank, amount, Action.EXECUTE);
+    }
+
+    @Override
+    public List<Object> getXEIIngredients() {
+        GasStack gas = getGas();
+        if (gas == null || gas.isEmpty()) {
+            return List.of();
+        }
+        return List.of(new SFTGasEmiStack(gas));
+    }
+
+    @Override
+    public Object getXEICurrentIngredient() {
+        GasStack gas = getGas();
+        return gas == null || gas.isEmpty() ? null : new SFTGasEmiStack(gas);
+    }
+
+    @Override
+    public Object getXEIIngredientOverMouse(double mouseX, double mouseY) {
+        if (!isMouseOverElement(mouseX, mouseY)) {
+            return null;
+        }
+        return getXEICurrentIngredient();
     }
 }

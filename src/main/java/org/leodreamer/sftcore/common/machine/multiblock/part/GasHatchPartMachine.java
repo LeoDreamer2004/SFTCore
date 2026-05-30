@@ -249,7 +249,7 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
     public List<Component> getTabTooltips() {
         var tooltips = super.getTabTooltips();
         tooltips.add(Component.translatable(io == IO.IN ? IMPORT_TOOLTIP : EXPORT_TOOLTIP));
-        long capacity = tank.getStorages()[0].getCapacity();
+        long capacity = tank.getTankCapacity(0);
         if (slots == 1) {
             tooltips.add(
                 Component.translatable(
