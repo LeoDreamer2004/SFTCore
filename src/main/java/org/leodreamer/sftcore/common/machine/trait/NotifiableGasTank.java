@@ -105,7 +105,7 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
                         continue;
                     }
 
-                    var extracted = extractChemicalExact(tank, new GasStack(gas, need), action);
+                    var extracted = extractChemicalRecipe(tank, new GasStack(gas, need), action);
                     need -= extracted.getAmount();
                 }
 
@@ -118,7 +118,7 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
                 var remaining = gas.copy();
 
                 for (int tank = 0; tank < getTanks() && !remaining.isEmpty(); tank++) {
-                    remaining = insertChemical(tank, remaining, action);
+                    remaining = insertChemicalRecipe(tank, remaining, action);
                 }
 
                 if (remaining.isEmpty()) {
@@ -259,8 +259,16 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
         return storages[tank].extract(amount, action, AutomationType.MANUAL);
     }
 
-    private GasStack extractChemicalExact(int tank, GasStack requested, Action action) {
-        if (!canCapOutput() || requested.isEmpty()) {
+    private GasStack insertChemicalRecipe(int tank, GasStack stack, Action action) {
+        if (tank < 0 || tank >= storages.length || stack.isEmpty()) {
+            return stack;
+        }
+
+        return storages[tank].insert(stack, action, AutomationType.MANUAL);
+    }
+
+    private GasStack extractChemicalRecipe(int tank, GasStack requested, Action action) {
+        if (tank < 0 || tank >= storages.length || requested.isEmpty()) {
             return GasStack.EMPTY;
         }
 
@@ -269,7 +277,7 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
             return GasStack.EMPTY;
         }
 
-        return extractChemical(tank, requested.getAmount(), action);
+        return storages[tank].extract(requested.getAmount(), action, AutomationType.MANUAL);
     }
 
     private static Optional<IGasHandler> getAdjacentGasHandler(Level level, BlockPos pos, Direction facing) {

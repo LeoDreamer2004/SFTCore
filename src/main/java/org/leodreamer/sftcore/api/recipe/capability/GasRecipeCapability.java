@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.api.recipe.capability;
 
+import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import org.leodreamer.sftcore.api.gui.DisplayGasHandler;
 import org.leodreamer.sftcore.api.gui.GasTankWidget;
 import org.leodreamer.sftcore.api.recipe.content.SerializerGasStack;
@@ -113,9 +114,14 @@ public class GasRecipeCapability extends RecipeCapability<GasStack> {
             gasWidget.setGasTank(gasHandler, index);
         }
 
+        gasWidget.setIngredientIO(switch (io) {
+            case IN -> IngredientIO.INPUT;
+            case OUT -> IngredientIO.OUTPUT;
+            default -> IngredientIO.RENDER_ONLY;
+        });
+
         gasWidget.setAllowClickFilled(!isXEI);
         gasWidget.setAllowClickDrained(!isXEI && io.support(IO.IN));
-
         gasWidget.setShowAmount(true);
         gasWidget.setDrawHoverOverlay(!isXEI);
     }

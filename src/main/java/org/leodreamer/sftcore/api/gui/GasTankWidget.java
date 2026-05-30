@@ -1,10 +1,10 @@
 package org.leodreamer.sftcore.api.gui;
 
 import com.lowdragmc.lowdraglib.gui.ingredient.IRecipeIngredientSlot;
+import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
-import org.leodreamer.sftcore.integration.emi.SFTGasEmiStack;
 import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -64,6 +64,9 @@ public class GasTankWidget extends Widget implements IRecipeIngredientSlot {
     protected boolean allowClickFilled = true;
     @Setter
     protected boolean allowClickDrained = true;
+    @Setter
+    @Getter
+    private IngredientIO ingredientIO = IngredientIO.RENDER_ONLY;
 
     @RegisterLanguage("Gas")
     public static final String GAS = "sftcore.gui.gas";
@@ -578,16 +581,17 @@ public class GasTankWidget extends Widget implements IRecipeIngredientSlot {
     @Override
     public List<Object> getXEIIngredients() {
         GasStack gas = getGas();
+
         if (gas == null || gas.isEmpty()) {
             return List.of();
         }
-        return List.of(new SFTGasEmiStack(gas));
+        return List.of(gas.copy());
     }
 
     @Override
     public Object getXEICurrentIngredient() {
         GasStack gas = getGas();
-        return gas == null || gas.isEmpty() ? null : new SFTGasEmiStack(gas);
+        return gas == null || gas.isEmpty() ? null : gas.copy();
     }
 
     @Override
