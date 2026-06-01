@@ -2,7 +2,6 @@ package org.leodreamer.sftcore.integration.emi;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -14,12 +13,12 @@ public class GTEmiRecipeBackground extends Widget {
 
     int x, y, width, height, tier;
 
-    public GTEmiRecipeBackground(int x, int y, int width, int height, GTEmiRecipe recipe) {
+    public GTEmiRecipeBackground(int x, int y, int width, int height, IGTEmiRecipe recipe) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        var gtRecipe = ((IGTEmiRecipe) recipe).sftcore$recipe();
+        var gtRecipe = recipe.sftcore$recipe();
         this.tier = RecipeHelper.getRecipeEUtTier(gtRecipe);
     }
 

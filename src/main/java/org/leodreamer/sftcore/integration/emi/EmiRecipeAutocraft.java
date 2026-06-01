@@ -5,7 +5,6 @@ import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.client.Minecraft;
@@ -122,9 +121,9 @@ public class EmiRecipeAutocraft {
                 if (screen == AutocraftScreen.CRAFT && recipe instanceof EmiCraftingRecipe) {
                     return syn;
                 } else if (
-                    screen == AutocraftScreen.GT && openedMachine != null && recipe instanceof GTEmiRecipe gtRecipe
+                    screen == AutocraftScreen.GT && openedMachine != null && recipe instanceof IGTEmiRecipe gtRecipe
                 ) {
-                    var recipeType = ((IGTEmiRecipe) gtRecipe).sftcore$recipe().recipeType;
+                    var recipeType = gtRecipe.sftcore$recipe().recipeType;
                     if (GTMachineUtils.guessRecipe(openedMachine, recipeType).ok()) {
                         return syn;
                     }
@@ -203,11 +202,11 @@ public class EmiRecipeAutocraft {
     }
 
     private static int calculateMaxBatches(EmiRecipe recipe, int requested) {
-        if (!(recipe instanceof GTEmiRecipe gtEmiRecipe)) {
+        if (!(recipe instanceof IGTEmiRecipe gtEmiRecipe)) {
             return requested;
         }
 
-        var gtRecipe = ((IGTEmiRecipe) gtEmiRecipe).sftcore$recipe();
+        var gtRecipe = gtEmiRecipe.sftcore$recipe();
         int max = requested;
         for (var input : RecipeHelper.getInputItems(gtRecipe)) {
             int amount = input.getCount();

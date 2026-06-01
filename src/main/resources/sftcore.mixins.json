@@ -65,7 +65,7 @@
     "gregtech.recipe.RecipeLogicMixin",
     "gregtech.util.GTUtilMixin",
     "gregtech.xei.AE2PatternTerminalHandlerMixin",
-    "gregtech.xei.GTEmiRecipeMixin",
+    "gregtech.xei.GTRecipeEMICategoryMixin",
     "gregtech.xei.MultiblockInfoEmiRecipeMixin",
     "gtmoremachine.MEOutputPartMachineMixin",
     "gtmoremachine.WirelessEnergyInterfaceMixin",

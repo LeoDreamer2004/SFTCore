@@ -574,7 +574,7 @@ public final class CommonGTRecipes {
             var input9x = SFTPartMachines.GAS_IMPORT_HATCH_9X[tier];
             var output9x = SFTPartMachines.GAS_EXPORT_HATCH_9X[tier];
             if (input9x != null && output9x != null) {
-                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_49_gas_input")
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_9x_gas_input")
                     .pattern("ACA", "ABA", "   ")
                     .arg('A', chemicalTank)
                     .arg('B', HULL, tier)

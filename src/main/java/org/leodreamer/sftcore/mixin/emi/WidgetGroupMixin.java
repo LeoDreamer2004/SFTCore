@@ -1,8 +1,7 @@
 package org.leodreamer.sftcore.mixin.emi;
 
 import org.leodreamer.sftcore.integration.emi.GTEmiRecipeBackground;
-
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
+import org.leodreamer.sftcore.integration.emi.IGTEmiRecipe;
 
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.widget.Widget;
@@ -26,7 +25,7 @@ public abstract class WidgetGroupMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void replaceBackgroundForGT(EmiRecipe recipe, int x, int y, int width, int height, CallbackInfo ci) {
-        if (recipe instanceof GTEmiRecipe gtEmiRecipe) {
+        if (recipe instanceof IGTEmiRecipe gtEmiRecipe) {
             widgets.replaceAll(
                 widget -> {
                     if (widget instanceof RecipeBackground) {

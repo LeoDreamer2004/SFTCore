@@ -5,7 +5,6 @@ import org.leodreamer.sftcore.util.ReflectUtils;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import dev.emi.emi.api.recipe.EmiRecipe;
@@ -15,9 +14,9 @@ public class SFTEmiPatternHandler {
 
     public static <
         T extends PatternEncodingTermMenu> void handleEmiRecipe(EmiRecipe recipe, EmiCraftContext<T> context) {
-        if (recipe instanceof GTEmiRecipe gtEmiRecipe) {
+        if (recipe instanceof IGTEmiRecipe gtEmiRecipe) {
             var menu = (ISendToGTMachine) context.getScreenHandler();
-            var gtRecipe = ((IGTEmiRecipe) gtEmiRecipe).sftcore$recipe();
+            var gtRecipe = gtEmiRecipe.sftcore$recipe();
             int circuit = 0;
             for (var ingredient : gtRecipe.getInputContents(GTRecipeCapabilities.ITEM)) {
                 if (ingredient.content instanceof IntCircuitIngredient ci) {
