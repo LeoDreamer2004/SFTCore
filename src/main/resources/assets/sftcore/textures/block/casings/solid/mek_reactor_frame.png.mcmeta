@@ -1,5 +1,5 @@
 {
-  "ldlib": {
-    "connection": "sftcore:block/casings/solid/mek_reactor_frame_ctm"
+  "gtceu": {
+    "connection_texture": "sftcore:block/casings/solid/mek_reactor_frame_ctm"
   }
 }

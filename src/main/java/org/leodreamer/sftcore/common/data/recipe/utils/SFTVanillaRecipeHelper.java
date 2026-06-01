@@ -4,6 +4,7 @@ import org.leodreamer.sftcore.SFTCore;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -63,6 +64,10 @@ public class SFTVanillaRecipeHelper {
 
         public ShapedRecipeBuilder arg(char sign, ItemStack stack) {
             return arg(sign, (Object) stack);
+        }
+
+        public ShapedRecipeBuilder arg(char sign, CraftingComponent component, int tier) {
+            return arg(sign, component.get(tier));
         }
 
         private ShapedRecipeBuilder arg(char sign, Object obj) {

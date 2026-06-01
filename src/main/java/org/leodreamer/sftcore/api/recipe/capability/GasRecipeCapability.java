@@ -1,6 +1,5 @@
 package org.leodreamer.sftcore.api.recipe.capability;
 
-import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import org.leodreamer.sftcore.api.gui.DisplayGasHandler;
 import org.leodreamer.sftcore.api.gui.GasTankWidget;
 import org.leodreamer.sftcore.api.recipe.content.SerializerGasStack;
@@ -14,6 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import org.jetbrains.annotations.NotNull;

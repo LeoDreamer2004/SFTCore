@@ -13,15 +13,18 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import appeng.core.definitions.AEParts;
 import cn.qiuye.gtmoremachine.common.data.GTMMItems;
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.common.registries.MekanismItems;
@@ -37,8 +40,8 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.PACKER_RECIPES;
-import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.FRAME;
-import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.PIPE_NORMAL;
+import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
+import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.HULL;
 import static net.minecraft.world.item.Items.*;
 import static org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes.*;
 
@@ -52,7 +55,7 @@ public final class CommonGTRecipes {
         greenhouseRecipes(provider);
         universalCircuitRecipes(provider);
         largeGasCollectorRecipes(provider);
-        dualHatchRecipes(provider);
+        hatchRecipes(provider);
     }
 
     private static void integrateMaterialsRecipes(Consumer<FinishedRecipe> provider) {
@@ -119,7 +122,7 @@ public final class CommonGTRecipes {
             .arg('B', new MaterialEntry(plate, Steel))
             .arg('C', new MaterialEntry(cableGtSingle, Tin))
             .arg('D', GTBlocks.MACHINE_CASING_LV)
-            .output(HULL[LV].asStack())
+            .output((ItemStack) HULL.get(LV))
             .save(provider);
 
         SFTVanillaRecipeHelper.addShapedRecipe("cleaning_maintenance_hatch")
@@ -127,7 +130,7 @@ public final class CommonGTRecipes {
             .arg('A', AUTO_MAINTENANCE_HATCH)
             .arg('B', CustomTags.EV_CIRCUITS)
             .arg('C', ROBOT_ARM_HV)
-            .arg('D', HULL[HV])
+            .arg('D', HULL, HV)
             .output(CLEANING_MAINTENANCE_HATCH.asStack())
             .save(provider);
 
@@ -425,7 +428,7 @@ public final class CommonGTRecipes {
         builder.save(provider);
     }
 
-    private static void dualHatchRecipes(Consumer<FinishedRecipe> provider) {
+    private static void hatchRecipes(Consumer<FinishedRecipe> provider) {
         Material[] fluidMap = new Material[] {
             GTMaterials.Glue,
             GTMaterials.Polyethylene,
@@ -481,6 +484,122 @@ public final class CommonGTRecipes {
                     .outputItems(machine)
                     .duration(300)
                     .EUt(VA[tier])
+                    .save(provider);
+            }
+        }
+
+        for (int tier : tiersBetween(LV, EV)) {
+            SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_kinetic_input")
+                .pattern("CIC", "DUD", "CIC")
+                .arg('C', AllItems.PRECISION_MECHANISM)
+                .arg(
+                    'D',
+                    tier == LV ? AllBlocks.SHAFT.asStack() :
+                        SFTPartMachines.KINETIC_INPUT_BOX[tier - 1].asStack()
+                )
+                .arg('I', CustomTags.CIRCUITS_ARRAY[tier - 1])
+                .arg('U', AllBlocks.BRASS_CASING)
+                .output(SFTPartMachines.KINETIC_INPUT_BOX[tier].asStack())
+                .save(provider);
+        }
+
+        for (int tier : GTMachineUtils.ALL_TIERS) {
+            var chemicalTank = MekanismBlocks.BASIC_CHEMICAL_TANK;
+            if (tier >= LuV) {
+                chemicalTank = MekanismBlocks.ULTIMATE_CHEMICAL_TANK;
+            } else if (tier >= EV) {
+                chemicalTank = MekanismBlocks.ELITE_CHEMICAL_TANK;
+            } else if (tier >= MV) {
+                chemicalTank = MekanismBlocks.ADVANCED_CHEMICAL_TANK;
+            }
+
+            SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_gas_input")
+                .pattern(" A ", " B ", "   ")
+                .arg('A', chemicalTank)
+                .arg('B', HULL, tier)
+                .output(SFTPartMachines.GAS_IMPORT_HATCH[tier].asStack())
+                .save(provider);
+
+            SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_gas_output")
+                .pattern("   ", " B ", " A ")
+                .arg('A', chemicalTank)
+                .arg('B', HULL, tier)
+                .output(SFTPartMachines.GAS_EXPORT_HATCH[tier].asStack())
+                .save(provider);
+
+            SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_gas_input_to_output")
+                .pattern(" d ", " B ", "   ")
+                .arg('B', SFTPartMachines.GAS_IMPORT_HATCH[tier])
+                .output(SFTPartMachines.GAS_EXPORT_HATCH[tier].asStack())
+                .save(provider);
+
+            SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_gas_output_to_input")
+                .pattern(" d ", " B ", "   ")
+                .arg('B', SFTPartMachines.GAS_EXPORT_HATCH[tier])
+                .output(SFTPartMachines.GAS_IMPORT_HATCH[tier].asStack())
+                .save(provider);
+
+            var input4x = SFTPartMachines.GAS_IMPORT_HATCH_4X[tier];
+            var output4x = SFTPartMachines.GAS_EXPORT_HATCH_4X[tier];
+            if (input4x != null && output4x != null) {
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_4x_gas_input")
+                    .pattern("ACA", " B ", "   ")
+                    .arg('A', chemicalTank)
+                    .arg('B', HULL, tier)
+                    .arg('C', PIPE_NORMAL, tier)
+                    .output(input4x.asStack())
+                    .save(provider);
+
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_4x_gas_output")
+                    .pattern("   ", " B ", "ACA")
+                    .arg('A', chemicalTank)
+                    .arg('B', HULL, tier)
+                    .arg('C', PIPE_NORMAL, tier)
+                    .output(output4x.asStack())
+                    .save(provider);
+
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_4x_gas_input_to_output")
+                    .pattern(" d ", " B ", "   ")
+                    .arg('B', input4x)
+                    .output(output4x.asStack())
+                    .save(provider);
+
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_4x_gas_output_to_input")
+                    .pattern(" d ", " B ", "   ")
+                    .arg('B', output4x)
+                    .output(input4x.asStack())
+                    .save(provider);
+            }
+
+            var input9x = SFTPartMachines.GAS_IMPORT_HATCH_9X[tier];
+            var output9x = SFTPartMachines.GAS_EXPORT_HATCH_9X[tier];
+            if (input9x != null && output9x != null) {
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_49_gas_input")
+                    .pattern("ACA", "ABA", "   ")
+                    .arg('A', chemicalTank)
+                    .arg('B', HULL, tier)
+                    .arg('C', PIPE_LARGE, tier)
+                    .output(input9x.asStack())
+                    .save(provider);
+
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_9x_gas_output")
+                    .pattern("   ", "ABA", "ACA")
+                    .arg('A', chemicalTank)
+                    .arg('B', HULL, tier)
+                    .arg('C', PIPE_LARGE, tier)
+                    .output(output9x.asStack())
+                    .save(provider);
+
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_9x_gas_input_to_output")
+                    .pattern(" d ", " B ", "   ")
+                    .arg('B', input9x)
+                    .output(output9x.asStack())
+                    .save(provider);
+
+                SFTVanillaRecipeHelper.addShapedRecipe(VN[tier].toLowerCase(Locale.ROOT) + "_9x_gas_output_to_input")
+                    .pattern(" d ", " B ", "   ")
+                    .arg('B', output9x)
+                    .output(input9x.asStack())
                     .save(provider);
             }
         }

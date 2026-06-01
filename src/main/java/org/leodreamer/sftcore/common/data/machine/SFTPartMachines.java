@@ -17,19 +17,22 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.GTValues.ALL_TIERS;
 import static com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties.IS_FORMED;
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.*;
+import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.ALL_TIERS;
 import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
+import static org.leodreamer.sftcore.common.machine.multiblock.part.GasHatchPartMachine.*;
 
 public final class SFTPartMachines {
 
@@ -267,9 +270,9 @@ public final class SFTPartMachines {
         } else {
             pipeOverlay = null;
         }
-        final var ioOverlay = GTCEu.id(
+        final var ioOverlay = SFTCore.id(
             "block/overlay/machine/" +
-                (io == IO.OUT ? GTMachineModels.OVERLAY_FLUID_HATCH_OUTPUT : GTMachineModels.OVERLAY_FLUID_HATCH_INPUT)
+                (io == IO.OUT ? "overlay_gas_hatch_output" : "overlay_gas_hatch_input")
         );
         final var emissiveOverlay = GTCEu.id(
             "block/overlay/machine/" +
@@ -280,14 +283,36 @@ public final class SFTPartMachines {
             REGISTRATE,
             name,
             (holder, tier) -> new GasHatchPartMachine(holder, tier, io, initialCapacity, slots),
-            (tier, builder) -> builder
-                .langValue("%s %s".formatted(VNF[tier], lang))
-                .rotationState(RotationState.ALL)
-                .abilities(commonAbility, exactAbility)
-                .colorOverlayTieredHullModel(ioOverlay, pipeOverlay, emissiveOverlay)
-                .modelProperty(IS_FORMED, false)
-                .allowCoverOnFront(true)
-                .register(),
+            (tier, builder) -> {
+                var tooltips = new ArrayList<Component>();
+                tooltips.add(Component.translatable(io == IO.IN ? IMPORT_TOOLTIP : EXPORT_TOOLTIP));
+                long capacity = getTankCapacity(initialCapacity, tier);
+                if (slots == 1) {
+                    tooltips.add(
+                        Component.translatable(
+                            GAS_CAPACITY, FormattingUtil
+                                .formatNumbers(capacity)
+                        )
+                    );
+                } else {
+                    tooltips.add(
+                        Component.translatable(
+                            GAS_CAPACITY_MULTI, slots, FormattingUtil
+                                .formatNumbers(capacity)
+                        )
+                    );
+                }
+
+                return builder
+                    .langValue("%s %s".formatted(VNF[tier], lang))
+                    .rotationState(RotationState.ALL)
+                    .abilities(commonAbility, exactAbility)
+                    .colorOverlayTieredHullModel(ioOverlay, pipeOverlay, emissiveOverlay)
+                    .modelProperty(IS_FORMED, false)
+                    .allowCoverOnFront(true)
+                    .tooltips(tooltips)
+                    .register();
+            },
             tiers
         );
     }

@@ -1,5 +1,5 @@
 {
-    "ldlib": {
-        "connection": "sftcore:block/casings/solid/create_railway_casing_ctm"
+    "gtceu": {
+        "connection_texture": "sftcore:block/casings/solid/create_railway_casing_ctm"
     }
 }

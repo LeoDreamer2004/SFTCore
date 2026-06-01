@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SFTJemiGasBridge {
+
     /**
      * Replace the raw {@link GasStack} to {@link EmiIngredient} for xei capability
      */
@@ -28,6 +29,7 @@ public class SFTJemiGasBridge {
             } else if (ingredient instanceof EmiIngredient emiIngredient) {
                 converted.add(emiIngredient);
             } else {
+                // should not reach here
                 return raw;
             }
         }

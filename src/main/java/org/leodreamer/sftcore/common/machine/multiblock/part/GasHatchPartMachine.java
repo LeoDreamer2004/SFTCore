@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.ISubscription;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -30,8 +29,6 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -56,6 +53,18 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
     protected ISubscription tankSubs;
 
     private final LazyOptional<IGasHandler> gasHandlerCap;
+
+    @RegisterLanguage("Gas Input for Multiblocks")
+    public static final String IMPORT_TOOLTIP = "sftcore.machine.gas_hatch.import.tooltip";
+
+    @RegisterLanguage("Gas Output for Multiblocks")
+    public static final String EXPORT_TOOLTIP = "sftcore.machine.gas_hatch.export.tooltip";
+
+    @RegisterLanguage("§9Gas Capacity: §f%d mB")
+    public static final String GAS_CAPACITY = "sftcore.tooltip.gas_storage_capacity";
+
+    @RegisterLanguage("§9Gas Capacity: §f%d §7Tanks, §f%d mB §7each")
+    public static final String GAS_CAPACITY_MULTI = "sftcore.tooltip.gas_storage_capacity_multi";
 
     public GasHatchPartMachine(BlockEntityCreationInfo info, int tier, IO io, long initialCapacity, int slots) {
         super(info, tier, io);
@@ -231,41 +240,6 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
             return gasHandlerCap.cast();
         }
         return super.getCapability(cap, side);
-    }
-
-    @RegisterLanguage("Gas Input for Multiblocks")
-    private static final String IMPORT_TOOLTIP = "sftcore.machine.gas_hatch.import.tooltip";
-
-    @RegisterLanguage("Gas Output for Multiblocks")
-    private static final String EXPORT_TOOLTIP = "sftcore.machine.gas_hatch.export.tooltip";
-
-    @RegisterLanguage("§9Gas Capacity: §f%d mB")
-    private static final String GAS_CAPACITY = "sftcore.tooltip.fluid_storage_capacity";
-
-    @RegisterLanguage("§9Gas Capacity: §f%d §7Tanks, §f%d mB §7each")
-    private static final String GAS_CAPACITY_MULTI = "sftcore.tooltip.fluid_storage_capacity_multi";
-
-    @Override
-    public List<Component> getTabTooltips() {
-        var tooltips = super.getTabTooltips();
-        tooltips.add(Component.translatable(io == IO.IN ? IMPORT_TOOLTIP : EXPORT_TOOLTIP));
-        long capacity = tank.getTankCapacity(0);
-        if (slots == 1) {
-            tooltips.add(
-                Component.translatable(
-                    GAS_CAPACITY, FormattingUtil
-                        .formatNumbers(capacity)
-                )
-            );
-        } else {
-            tooltips.add(
-                Component.translatable(
-                    GAS_CAPACITY_MULTI, slots, FormattingUtil
-                        .formatNumbers(capacity)
-                )
-            );
-        }
-        return tooltips;
     }
 
     private Component getGasNameText(GasTankWidget tankWidget) {

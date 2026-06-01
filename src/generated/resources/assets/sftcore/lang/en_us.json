@@ -602,8 +602,8 @@
   "sftcore.semiconductor_blast_furnace": "Semiconductor Blast Furnace",
   "sftcore.structure_come_from": "Structures come from: %s",
   "sftcore.texture_come_from": "Textures come from: %s",
-  "sftcore.tooltip.fluid_storage_capacity": "§9Gas Capacity: §f%d mB",
-  "sftcore.tooltip.fluid_storage_capacity_multi": "§9Gas Capacity: §f%d §7Tanks, §f%d mB §7each",
+  "sftcore.tooltip.gas_storage_capacity": "§9Gas Capacity: §f%d mB",
+  "sftcore.tooltip.gas_storage_capacity_multi": "§9Gas Capacity: §f%d §7Tanks, §f%d mB §7each",
   "sftcore.void_portal.tooltip": "Right click and see what will happen",
   "sftcore.wool_to_string.tooltip": "Right click wool blocks to get string",
   "tooltip.sftcore.emi.crafting_progress": "Crafting: %s"
