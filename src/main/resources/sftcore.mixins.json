@@ -68,6 +68,8 @@
     "gregtech.xei.GTEmiRecipeMixin",
     "gregtech.xei.MultiblockInfoEmiRecipeMixin",
     "gtmoremachine.MEOutputPartMachineMixin",
+    "gtmoremachine.WirelessEnergyInterfaceMixin",
+    "mekanism.RenderIndustrialTurbineMixin",
     "travelarchor.EventListenerMixin",
     "vanilla.ChunkMapMixin",
     "vanilla.RecipeManagerMixin",

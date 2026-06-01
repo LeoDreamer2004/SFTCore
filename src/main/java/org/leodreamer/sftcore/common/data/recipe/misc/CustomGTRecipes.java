@@ -145,7 +145,7 @@ public final class CustomGTRecipes {
             ASSEMBLER_RECIPES
                 .recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
                 .outputItems(SFTItems.COVER_ACCELERATES[tier])
-                .inputItems(AEItems.SPEED_CARD, 1 << tier)
+                .inputItems(AEItems.SPEED_CARD.asItem(), 1 << tier)
                 .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 4)
                 .inputItems(SFTItems.SPEED_SUPER_UPGRADE, 2)
                 .inputItems(COVER_ENERGY_DETECTOR, tier * 2)
@@ -164,7 +164,7 @@ public final class CustomGTRecipes {
             ASSEMBLY_LINE_RECIPES
                 .recipeBuilder(SFTCore.id(VN[tier].toLowerCase() + "_accelerator_cover"))
                 .outputItems(SFTItems.COVER_ACCELERATES[tier])
-                .inputItems(AEItems.SPEED_CARD, 1 << tier)
+                .inputItems(AEItems.SPEED_CARD.asItem(), 1 << tier)
                 .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 8)
                 .inputItems(SFTItems.SPEED_SUPER_UPGRADE, 4)
                 .inputItems(COVER_ENERGY_DETECTOR_ADVANCED, (tier - EV) * 4)
@@ -241,7 +241,7 @@ public final class CustomGTRecipes {
             .inputItems(block, Silicon, 56)
             .inputItems(ingot, Neutronium, 4)
             .inputItems(dust, GalliumArsenide, 2)
-            .inputItems(Xenon.getFluid(8000))
+            .inputFluids(Xenon.getFluid(8000))
             .outputItems(NEUTRONIUM_BOULE, 2)
             .blastFurnaceTemp(6484)
             .duration(12000)

@@ -18,7 +18,7 @@ public class EventListenerMixin {
             target = "Lnet/minecraft/world/item/ItemCooldowns;addCooldown(Lnet/minecraft/world/item/Item;I)V"
         )
     )
-    private void travelAnchors$skipCooldown(ItemCooldowns cooldowns, Item item, int coolDownTicks) {
+    private void travelAnchors$skipCooldown(ItemCooldowns cooldowns, Item pItem, int pTicks) {
         // Do nothing
     }
 }

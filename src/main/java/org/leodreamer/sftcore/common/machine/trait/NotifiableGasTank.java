@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.common.machine.trait;
 
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
-import org.leodreamer.sftcore.integration.mek.NaiveGasTank;
 import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
+import org.leodreamer.sftcore.integration.mek.SimpleGasTank;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -46,7 +46,7 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
     @SaveField
     @SyncToClient
     @Getter
-    protected final NaiveGasTank[] storages;
+    protected final SimpleGasTank[] storages;
 
     @Nullable
     private Boolean isEmpty;
@@ -58,10 +58,10 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
     public NotifiableGasTank(int slots, long capacity, IO handlerIO, IO capabilityIO) {
         this.handlerIO = handlerIO;
         this.capabilityIO = capabilityIO;
-        this.storages = new NaiveGasTank[slots];
+        this.storages = new SimpleGasTank[slots];
 
         for (int i = 0; i < storages.length; i++) {
-            storages[i] = new NaiveGasTank(capacity);
+            storages[i] = new SimpleGasTank(capacity);
             storages[i].setOnContentsChanged(this::onContentsChanged);
         }
     }
@@ -170,7 +170,7 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
     public boolean isEmpty() {
         if (isEmpty == null) {
             isEmpty = true;
-            for (NaiveGasTank tank : storages) {
+            for (SimpleGasTank tank : storages) {
                 if (!tank.getStack().isEmpty()) {
                     isEmpty = false;
                     break;

@@ -13,13 +13,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class NaiveGasTank implements IGasTank {
+public class SimpleGasTank implements IGasTank {
 
     private final long capacity;
     private GasStack stored = GasStack.EMPTY;
     private Runnable onChanged = () -> {};
 
-    public NaiveGasTank(long capacity) {
+    public SimpleGasTank(long capacity) {
         this.capacity = capacity;
     }
 
