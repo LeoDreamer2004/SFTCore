@@ -34,7 +34,7 @@ public class SyntheticMixin extends EmiFavorite {
         CallbackInfo ci
     ) {
         if (openedMachine != null && recipe instanceof IGTEmiRecipe gtRecipe) {
-            var recipeType = gtRecipe.sftcore$recipe().recipeType;
+            var recipeType = gtRecipe.recipe().recipeType;
             if (GTMachineUtils.guessRecipe(openedMachine, recipeType).ok()) {
                 var context = EmiDrawContext.wrap(raw);
                 context.fill(x - 1, y - 1, 18, 18, 0x50FFD700);

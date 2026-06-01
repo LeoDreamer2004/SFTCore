@@ -21,6 +21,8 @@ public abstract class ModularEmiRecipeMixin {
         )
     )
     private List<Object> sftcore$wrapGasIngredientsForRecipeIndex(IRecipeIngredientSlot slot) {
-        return SFTJemiGasBridge.wrapGasIngredients(slot.getXEIIngredients());
+        return slot.getXEIIngredients().stream()
+            .map(SFTJemiGasBridge::wrapGasIngredient)
+            .map(Object.class::cast).toList();
     }
 }

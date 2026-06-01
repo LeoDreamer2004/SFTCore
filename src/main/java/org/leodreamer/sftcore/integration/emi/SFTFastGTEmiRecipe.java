@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.integration.emi;
 
+import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
+
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -47,7 +49,7 @@ import java.util.Map;
  * Faster rendering version for {@link com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe}.
  * Thus, DO NOT use GTEmiRecipe anywhere, as they are replaced by this. Use {@link IGTEmiRecipe} instead.
  */
-public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
+public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe, ICompactEmiIndexRecipe {
 
     @Getter
     private final GTRecipe recipe;
@@ -64,6 +66,12 @@ public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
     private final List<EmiIngredient> catalysts = new ArrayList<>();
     @Getter
     private final List<EmiStack> outputs = new ArrayList<>();
+    @Getter
+    private final List<EmiIngredient> indexInputs = new ArrayList<>();
+    @Getter
+    private final List<EmiIngredient> indexCatalysts = new ArrayList<>();
+    @Getter
+    private final List<EmiStack> indexOutputs = new ArrayList<>();
 
     public SFTFastGTEmiRecipe(GTRecipe recipe, EmiRecipeCategory category) {
         this.recipe = recipe;
@@ -76,6 +84,8 @@ public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
         readContentMap(recipe.tickInputs, false);
         readContentMap(recipe.outputs, true);
         readContentMap(recipe.tickOutputs, true);
+
+        finishIndexData();
     }
 
     @Override
@@ -89,7 +99,7 @@ public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
     }
 
     @Override
-    public GTRecipe sftcore$recipe() {
+    public GTRecipe recipe() {
         return recipe;
     }
 
@@ -102,7 +112,7 @@ public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
             var cap = entry.getKey();
 
             // EU/CWU/BlockState/other non-search capabilities should not enter EMI recipe lookup.
-            if (cap != ItemRecipeCapability.CAP && cap != FluidRecipeCapability.CAP) {
+            if (cap != ItemRecipeCapability.CAP && cap != FluidRecipeCapability.CAP && cap != GasRecipeCapability.CAP) {
                 continue;
             }
 
@@ -137,7 +147,7 @@ public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
             return toFluidEmiIngredient(ingredient);
         }
 
-        return null;
+        return SFTJemiGasBridge.wrapGasIngredient(content.content);
     }
 
     private static EmiIngredient toFluidEmiIngredient(FluidIngredient ingredient) {
@@ -197,6 +207,29 @@ public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
         }
     }
 
+    private void finishIndexData() {
+        for (var input : inputs) {
+            indexInputs.add(compact(input));
+        }
+        indexOutputs.addAll(outputs);
+    }
+
+    private static EmiIngredient compact(EmiIngredient ingredient) {
+        int MAX_INDEX_VARIANTS = 8;
+
+        var stacks = ingredient.getEmiStacks();
+        if (stacks.size() <= MAX_INDEX_VARIANTS) {
+            return ingredient;
+        }
+
+        var compact = new ArrayList<EmiStack>(MAX_INDEX_VARIANTS);
+        for (int i = 0; i < MAX_INDEX_VARIANTS; i++) {
+            compact.add(stacks.get(i).copy());
+        }
+
+        return EmiIngredient.of(compact);
+    }
+
     /**
      * Lazy UI construction.
      * This method is only called when EMI actually renders the recipe page.
@@ -228,10 +261,8 @@ public final class SFTFastGTEmiRecipe implements EmiRecipe, IGTEmiRecipe {
                 continue;
             }
 
-            var wrapped = SFTJemiGasBridge.wrapGasIngredients(slot.getXEIIngredients());
-
-            @SuppressWarnings({ "unchecked", "rawtypes" })
-            var ingredients = EmiIngredient.of((List) wrapped);
+            var wrapped = slot.getXEIIngredients().stream().map(SFTJemiGasBridge::wrapGasIngredient).toList();
+            var ingredients = EmiIngredient.of(wrapped);
 
             SlotWidget slotWidget = null;
 

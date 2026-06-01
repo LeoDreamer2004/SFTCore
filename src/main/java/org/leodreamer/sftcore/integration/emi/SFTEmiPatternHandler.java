@@ -16,7 +16,7 @@ public class SFTEmiPatternHandler {
         T extends PatternEncodingTermMenu> void handleEmiRecipe(EmiRecipe recipe, EmiCraftContext<T> context) {
         if (recipe instanceof IGTEmiRecipe gtEmiRecipe) {
             var menu = (ISendToGTMachine) context.getScreenHandler();
-            var gtRecipe = gtEmiRecipe.sftcore$recipe();
+            var gtRecipe = gtEmiRecipe.recipe();
             int circuit = 0;
             for (var ingredient : gtRecipe.getInputContents(GTRecipeCapabilities.ITEM)) {
                 if (ingredient.content instanceof IntCircuitIngredient ci) {

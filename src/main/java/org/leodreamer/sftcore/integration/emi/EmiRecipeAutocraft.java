@@ -123,7 +123,7 @@ public class EmiRecipeAutocraft {
                 } else if (
                     screen == AutocraftScreen.GT && openedMachine != null && recipe instanceof IGTEmiRecipe gtRecipe
                 ) {
-                    var recipeType = gtRecipe.sftcore$recipe().recipeType;
+                    var recipeType = gtRecipe.recipe().recipeType;
                     if (GTMachineUtils.guessRecipe(openedMachine, recipeType).ok()) {
                         return syn;
                     }
@@ -206,7 +206,7 @@ public class EmiRecipeAutocraft {
             return requested;
         }
 
-        var gtRecipe = gtEmiRecipe.sftcore$recipe();
+        var gtRecipe = gtEmiRecipe.recipe();
         int max = requested;
         for (var input : RecipeHelper.getInputItems(gtRecipe)) {
             int amount = input.getCount();

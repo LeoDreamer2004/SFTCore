@@ -18,7 +18,7 @@ public class GTEmiRecipeBackground extends Widget {
         this.y = y;
         this.width = width;
         this.height = height;
-        var gtRecipe = recipe.sftcore$recipe();
+        var gtRecipe = recipe.recipe();
         this.tier = RecipeHelper.getRecipeEUtTier(gtRecipe);
     }
 
