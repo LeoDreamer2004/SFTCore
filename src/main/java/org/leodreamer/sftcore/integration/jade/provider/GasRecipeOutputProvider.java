@@ -1,10 +1,10 @@
 package org.leodreamer.sftcore.integration.jade.provider;
 
-import net.minecraft.network.chat.ComponentUtils;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
+import org.leodreamer.sftcore.integration.jade.element.JadeGasStackElement;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
@@ -17,13 +17,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import mekanism.api.MekanismAPI;
 import mekanism.api.chemical.gas.GasStack;
-import org.leodreamer.sftcore.integration.jade.element.JadeGasStackElement;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;

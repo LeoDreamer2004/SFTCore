@@ -1,20 +1,17 @@
 package org.leodreamer.sftcore.integration.jade.element;
 
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import mekanism.api.chemical.gas.GasStack;
-import mekanism.client.render.MekanismRenderer;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.phys.Vec2;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import mekanism.api.chemical.gas.GasStack;
+import mekanism.client.render.MekanismRenderer;
 import org.jetbrains.annotations.Nullable;
-
 import snownee.jade.api.ui.Element;
 import snownee.jade.api.ui.IElement;
 
