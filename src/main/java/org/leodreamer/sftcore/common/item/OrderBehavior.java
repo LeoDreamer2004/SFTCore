@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.item.component.ICustomDescriptionId;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -78,7 +77,7 @@ public class OrderBehavior
         if (id.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        CompoundTag nbt = tag.getCompound(NBT);
+        var nbt = tag.getCompound(NBT);
         var item = RLUtils.getItemByName(id);
         if (item == null) {
             return ItemStack.EMPTY;
@@ -100,7 +99,7 @@ public class OrderBehavior
 
     @Override
     public Component getItemName(ItemStack stack) {
-        Component name = Component.empty();
+        var name = Component.empty();
         if (stack.hasTag()) {
             var target = getTarget(stack);
             if (!target.isEmpty()) {
@@ -112,9 +111,9 @@ public class OrderBehavior
 
     @Override
     public Widget createMainPage(FancyMachineUIWidget ui) {
-        WidgetGroup group = new WidgetGroup(0, 0, 34, 34);
-        WidgetGroup container = new WidgetGroup(4, 4, 26, 26);
-        Player player = ui.getGui() == null ? null : ui.getGui().entityPlayer;
+        var group = new WidgetGroup(0, 0, 34, 34);
+        var container = new WidgetGroup(4, 4, 26, 26);
+        var player = ui.getGui() == null ? null : ui.getGui().entityPlayer;
         if (player != null) {
             var handler = new SimpleNotifiableItemHandler(
                 stack -> player.setItemInHand(hand, setTarget(player.getItemInHand(hand), stack)),

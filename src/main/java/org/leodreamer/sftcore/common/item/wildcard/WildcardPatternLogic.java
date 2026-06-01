@@ -45,33 +45,42 @@ public class WildcardPatternLogic {
     }
 
     public @NotNull List<IWildcardIOComponent> getIOComponents(IO io) {
-        return WildcardSerializers.fromNbtIO(io, stack.getOrCreateTag());
+        return WildcardComponentCodecs.readIO(stack.getOrCreateTag(), io);
     }
 
-    public ItemStack setIOComponents(IO io, @NotNull List<IWildcardIOComponent> components) {
-        WildcardSerializers.toNbtIO(components, io, stack.getOrCreateTag());
+    public ItemStack setIOComponents(IO io, @NotNull List<? extends IWildcardIOComponent> components) {
+        WildcardComponentCodecs.writeIO(stack.getOrCreateTag(), io, components);
         return stack;
     }
 
     public @NotNull List<IWildcardFilterComponent> getFilterComponents() {
-        return WildcardSerializers.fromNbtFilter(stack.getOrCreateTag());
+        return WildcardComponentCodecs.readFilters(stack.getOrCreateTag());
     }
 
-    public ItemStack setFilterComponents(@NotNull List<IWildcardFilterComponent> components) {
-        WildcardSerializers.toNbtFilter(components, stack.getOrCreateTag());
+    public ItemStack setFilterComponents(@NotNull List<? extends IWildcardFilterComponent> components) {
+        WildcardComponentCodecs.writeFilters(stack.getOrCreateTag(), components);
         return stack;
     }
 
     public @Nullable GenericStack[] getIOStacks(IO io, Material material) {
         var components = getIOComponents(io);
-        if (components.isEmpty()) return null;
+
+        if (components.isEmpty()) {
+            return null;
+        }
 
         var stacks = new ArrayList<GenericStack>();
+
         for (var component : components) {
             var stack = component.apply(material);
-            if (stack == null) return null;
+
+            if (stack == null) {
+                return null;
+            }
+
             stacks.add(stack);
         }
+
         return stacks.toArray(new GenericStack[0]);
     }
 
@@ -81,6 +90,7 @@ public class WildcardPatternLogic {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -90,11 +100,14 @@ public class WildcardPatternLogic {
             .map(material -> {
                 var input = getIOStacks(IO.IN, material);
                 var output = getIOStacks(IO.OUT, material);
-                if (input == null || output == null || input.length == 0 || output.length == 0)
+
+                if (input == null || output == null || input.length == 0 || output.length == 0) {
                     return null;
+                }
+
                 // FIXME: a little silly here
-                var item = PatternDetailsHelper.encodeProcessingPattern(input, output);
-                return PatternDetailsHelper.decodePattern(item, level);
+                var encodedPattern = PatternDetailsHelper.encodeProcessingPattern(input, output);
+                return PatternDetailsHelper.decodePattern(encodedPattern, level);
             })
             .filter(Objects::nonNull);
     }

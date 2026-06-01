@@ -2,17 +2,15 @@ package org.leodreamer.sftcore.common.item.wildcard.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardCodecUtils;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
@@ -20,21 +18,34 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 @DataGenScanned
 public class SimpleFilterComponent implements IWildcardFilterComponent {
 
+    public static final Codec<SimpleFilterComponent> CODEC = RecordCodecBuilder.create(
+        instance -> instance.group(
+            WildcardCodecUtils.MATERIAL_CODEC.optionalFieldOf("material", GTMaterials.NULL)
+                .forGetter(component -> component.material),
+            Codec.BOOL.optionalFieldOf("whitelist", false)
+                .forGetter(component -> component.whitelist)
+        ).apply(instance, SimpleFilterComponent::new)
+    );
+
     private Material material;
+
     @Getter
     private boolean whitelist;
+
     private PhantomGTMaterialSlot materialSlot;
     private LabelWidget materialLabel;
     private WidgetGroup parent = null;
 
     private static final IGuiTexture GROUP_BG_WHITE = ResourceBorderTexture.BUTTON_COMMON.copy()
         .setColor(ColorPattern.LIGHT_BLUE.color);
+
     private static final IGuiTexture GROUP_BG_BLACK = ResourceBorderTexture.BUTTON_COMMON.copy()
         .setColor(ColorPattern.BLUE.color);
 
@@ -50,6 +61,7 @@ public class SimpleFilterComponent implements IWildcardFilterComponent {
     @Override
     public void setWhitelist(boolean whiteList) {
         this.whitelist = whiteList;
+
         if (parent != null) {
             parent.setBackground(whiteList ? GROUP_BG_WHITE : GROUP_BG_BLACK);
         }
@@ -85,17 +97,17 @@ public class SimpleFilterComponent implements IWildcardFilterComponent {
             .append(Component.literal(" " + getMaterialString(material)).withStyle(ChatFormatting.BLUE));
     }
 
-    @Override
-    public IWildcardSerializer<IWildcardFilterComponent> getSerializer() {
-        return WildcardSerializers.FILTER_SIMPLE;
-    }
-
     private boolean updateMaterial(Material material) {
         var ok = material != GTMaterials.NULL;
+
         if (ok) {
             this.material = material;
-            materialLabel.setText(getMaterialString(material));
+
+            if (materialLabel != null) {
+                materialLabel.setText(getMaterialString(material));
+            }
         }
+
         return ok;
     }
 
@@ -110,34 +122,8 @@ public class SimpleFilterComponent implements IWildcardFilterComponent {
     private static String getMaterialString(Material material) {
         if (material == GTMaterials.NULL) {
             return Component.translatable(NO_MATERIAL).getString();
-        } else {
-            return material.getLocalizedName().getString();
-        }
-    }
-
-    public static class Serializer implements IWildcardSerializer<IWildcardFilterComponent> {
-
-        @Override
-        public String key() {
-            return "simple";
         }
 
-        @Override
-        public @NotNull CompoundTag serialize(IWildcardFilterComponent component) {
-            var tag = new CompoundTag();
-            var simple = (SimpleFilterComponent) component;
-            tag.putBoolean("whitelist", simple.whitelist);
-            tag.putString("material", simple.material.getResourceLocation().toString());
-            return tag;
-        }
-
-        @Override
-        public @NotNull IWildcardFilterComponent deserialize(CompoundTag nbt) {
-            var whitelist = nbt.getBoolean("whitelist");
-            var materialId = nbt.getString("material");
-            var material = GTRegistries.MATERIALS.get(materialId);
-            if (material == null) material = GTMaterials.NULL;
-            return new SimpleFilterComponent(material, whitelist);
-        }
+        return material.getLocalizedName().getString();
     }
 }

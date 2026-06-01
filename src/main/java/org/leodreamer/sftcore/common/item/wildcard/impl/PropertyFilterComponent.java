@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.common.item.wildcard.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.wildcard.WildcardSerializers;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardCodecUtils;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
 import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
 import org.leodreamer.sftcore.mixin.gregtech.data.MaterialPropertiesAccessor;
@@ -10,12 +10,10 @@ import org.leodreamer.sftcore.mixin.gregtech.data.MaterialPropertiesAccessor;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
@@ -23,19 +21,34 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.SelectorWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
+import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.EMPTY;
 
 @DataGenScanned
 public class PropertyFilterComponent implements IWildcardFilterComponent {
 
+    public static final Codec<PropertyFilterComponent> CODEC = RecordCodecBuilder.create(
+        instance -> instance.group(
+            WildcardCodecUtils.PROPERTY_CODEC.optionalFieldOf("flag", EMPTY)
+                .forGetter(component -> component.property),
+            WildcardCodecUtils.MATERIAL_CODEC.optionalFieldOf("example", GTMaterials.NULL)
+                .forGetter(component -> component.example),
+            Codec.BOOL.optionalFieldOf("whitelist", false)
+                .forGetter(component -> component.whitelist)
+        ).apply(instance, PropertyFilterComponent::new)
+    );
+
     private Material example;
+
     @NotNull
     private PropertyKey<?> property;
+
     @Getter
     private boolean whitelist;
 
@@ -45,11 +58,9 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
 
     private static final IGuiTexture GROUP_BG_WHITE = ResourceBorderTexture.BUTTON_COMMON.copy()
         .setColor(ColorPattern.YELLOW.color);
+
     private static final IGuiTexture GROUP_BG_BLACK = ResourceBorderTexture.BUTTON_COMMON.copy()
         .setColor(ColorPattern.ORANGE.color);
-
-    private static final PropertyKey<?>[] ALL_PROPERTY_KEYS = new PropertyKey[] { EMPTY, BLAST, ALLOY_BLAST, DUST,
-        FLUID_PIPE, FLUID, GEM, INGOT, POLYMER, ITEM_PIPE, ORE, TOOL, ARMOR, ROTOR, WIRE, WOOD, HAZARD };
 
     public static PropertyFilterComponent empty() {
         return new PropertyFilterComponent(EMPTY, GTMaterials.NULL, false);
@@ -64,6 +75,7 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
     @Override
     public void setWhitelist(boolean whiteList) {
         this.whitelist = whiteList;
+
         if (parent != null) {
             parent.setBackground(whiteList ? GROUP_BG_WHITE : GROUP_BG_BLACK);
         }
@@ -80,12 +92,14 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
         parent = line;
 
         exampleSlot = new PhantomGTMaterialSlot(new CustomItemStackHandler(), 0, 3, 3, this::changeExample);
+
         propertySelector = new MySelectorWidget(25, 5, 80, 15, getMaterialPropertyNames(example));
         propertySelector.setOnChanged(this::updateProperty);
 
         if (example != GTMaterials.NULL) {
             exampleSlot.setMaterial(example);
         }
+
         propertySelector.setValue(property.toString());
 
         line.addWidget(exampleSlot);
@@ -101,38 +115,23 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
             .append(Component.literal(" " + property).withStyle(ChatFormatting.RED));
     }
 
-    @Override
-    public IWildcardSerializer<IWildcardFilterComponent> getSerializer() {
-        return WildcardSerializers.FILTER_PROPERTY;
-    }
-
     private boolean changeExample(Material material) {
         var ok = material != GTMaterials.NULL;
+
         if (ok) {
             this.example = material;
-            var flags = getMaterialPropertyNames(material);
-            propertySelector.setCandidates(flags);
-            propertySelector.setValue(flags.get(0));
-            updateProperty(flags.get(0));
+
+            var properties = getMaterialPropertyNames(material);
+            propertySelector.setCandidates(properties);
+            propertySelector.setValue(properties.get(0));
+            updateProperty(properties.get(0));
         }
+
         return ok;
     }
 
     private void updateProperty(String propName) {
-        if (propName == null || propName.isEmpty()) {
-            property = EMPTY;
-        } else {
-            property = getPropertyByName(propName);
-        }
-    }
-
-    private static PropertyKey<?> getPropertyByName(String propName) {
-        for (var key : ALL_PROPERTY_KEYS) {
-            if (key.toString().equalsIgnoreCase(propName)) {
-                return key;
-            }
-        }
-        return EMPTY;
+        property = WildcardCodecUtils.getPropertyByName(propName);
     }
 
     @Override
@@ -145,39 +144,13 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
     private static final String NO_PROPERTY = "sftcore.item.wildcard_pattern.filter.property.no_property";
 
     private static List<String> getMaterialPropertyNames(Material material) {
-        var flags = ((MaterialPropertiesAccessor) material.getProperties()).getProperties().keySet();
-        if (flags.isEmpty()) {
+        var properties = ((MaterialPropertiesAccessor) material.getProperties()).getProperties().keySet();
+
+        if (properties.isEmpty()) {
             return List.of(Component.translatable(NO_PROPERTY).getString());
         }
-        return flags.stream().map(PropertyKey::toString).toList();
-    }
 
-    public static class Serializer implements IWildcardSerializer<IWildcardFilterComponent> {
-
-        @Override
-        public String key() {
-            return "property";
-        }
-
-        @Override
-        public @NotNull CompoundTag serialize(IWildcardFilterComponent component) {
-            var tag = new CompoundTag();
-            var simple = (PropertyFilterComponent) component;
-            tag.putBoolean("whitelist", simple.whitelist);
-            tag.putString("example", simple.example.getResourceLocation().toString());
-            tag.putString("flag", simple.property.toString());
-            return tag;
-        }
-
-        @Override
-        public @NotNull IWildcardFilterComponent deserialize(CompoundTag nbt) {
-            var whitelist = nbt.getBoolean("whitelist");
-            var materialId = nbt.getString("example");
-            var flag = getPropertyByName(nbt.getString("flag"));
-            var material = GTRegistries.MATERIALS.get(materialId);
-            if (material == null) material = GTMaterials.NULL;
-            return new PropertyFilterComponent(flag, material, whitelist);
-        }
+        return properties.stream().map(PropertyKey::toString).toList();
     }
 
     private static class MySelectorWidget extends SelectorWidget {

@@ -65,7 +65,7 @@ public class WirelessSavedData extends SavedData {
     public CompoundTag save(CompoundTag tag) {
         var list = new ListTag();
         for (var grid : grids) {
-            var nbt = grid.encode();
+            var nbt = WirelessGrid.encode(grid);
             list.add(nbt);
         }
         tag.put(NBT_KEY, list);

@@ -12,8 +12,7 @@ import net.minecraft.network.chat.MutableComponent;
 import java.util.function.Predicate;
 
 @DataGenScanned
-public interface IWildcardFilterComponent
-    extends Predicate<Material>, IWildcardSerializable<IWildcardFilterComponent>, IWildcardComponentUI {
+public interface IWildcardFilterComponent extends Predicate<Material>, IWildcardComponentUI {
 
     boolean isWhitelist();
 

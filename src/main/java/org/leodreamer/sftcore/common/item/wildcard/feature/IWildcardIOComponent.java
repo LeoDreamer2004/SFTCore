@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import appeng.api.stacks.GenericStack;
 import org.jetbrains.annotations.Nullable;
 
-public interface IWildcardIOComponent extends IWildcardSerializable<IWildcardIOComponent>, IWildcardComponentUI {
+public interface IWildcardIOComponent extends IWildcardComponentUI {
 
     @Nullable
     GenericStack apply(Material material);

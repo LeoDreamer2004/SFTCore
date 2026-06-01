@@ -22,8 +22,8 @@ public abstract class EmiRecipeCategoryPropertiesMixin {
         EmiRecipeCategory category,
         CallbackInfoReturnable<Comparator<EmiRecipe>> cir
     ) {
-        String id = String.valueOf(category.getId());
-        if (id.startsWith(IntegrateMods.GTM) || id.startsWith(SFTCore.MOD_ID) || id.startsWith(IntegrateMods.GTMM)) {
+        String mod = category.getId().getNamespace();
+        if (mod.equals(IntegrateMods.GTM) || mod.equals(SFTCore.MOD_ID) || mod.equals(IntegrateMods.GTMM)) {
             cir.setReturnValue(EmiRecipeSorting.none());
         }
     }

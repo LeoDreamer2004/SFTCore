@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKey;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.item.GTBucketItem;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -19,99 +18,127 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.GenericStack;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static org.leodreamer.sftcore.integration.ae2.item.GenericGTTag.GenericType.FLUID;
-import static org.leodreamer.sftcore.integration.ae2.item.GenericGTTag.GenericType.ITEM;
+import java.util.Locale;
 
 /**
  * A Union for {@link TagPrefix} and {@link FluidStorageKey} to represent either an item tag or a fluid tag.
  */
-public class GenericGTTag {
+public record GenericGTTag(GenericType type, String value) {
 
-    private final TagPrefix itemTag;
-    private final FluidStorageKey fluidTag;
-    private final GenericType type;
-
-    public enum GenericType {
-
-        ITEM("item"),
-        FLUID("fluid");
-
-        public final String key;
-
-        GenericType(String key) {
-            this.key = key;
-        }
-    }
+    public static final Codec<GenericGTTag> CODEC = RecordCodecBuilder.create(
+        instance -> instance.group(
+            GenericType.CODEC.fieldOf("type").forGetter(GenericGTTag::type),
+            Codec.STRING.fieldOf("value").forGetter(GenericGTTag::value)
+        ).apply(instance, GenericGTTag::new)
+    );
 
     public static final GenericGTTag EMPTY = item(TagPrefix.NULL_PREFIX);
 
-    private GenericGTTag(GenericType type, TagPrefix itemTag, FluidStorageKey fluidTag) {
-        this.type = type;
-        this.itemTag = itemTag;
-        this.fluidTag = fluidTag;
+    public enum GenericType {
+
+        ITEM,
+        FLUID;
+
+        public static final Codec<GenericType> CODEC = Codec.STRING.xmap(
+            name -> GenericType.valueOf(name.toUpperCase(Locale.ROOT)),
+            type -> type.name().toLowerCase(Locale.ROOT)
+        );
     }
 
-    public static GenericGTTag item(TagPrefix itemTag) {
-        return new GenericGTTag(ITEM, itemTag, null);
+    public static GenericGTTag item(@Nullable TagPrefix prefix) {
+        if (prefix == null) {
+            prefix = TagPrefix.NULL_PREFIX;
+        }
+
+        return new GenericGTTag(GenericType.ITEM, prefix.name);
     }
 
-    public static GenericGTTag fluid(FluidStorageKey fluidTag) {
-        return new GenericGTTag(FLUID, null, fluidTag);
+    public static GenericGTTag fluid(@Nullable FluidStorageKey key) {
+        if (key == null) {
+            return EMPTY;
+        }
+
+        return new GenericGTTag(GenericType.FLUID, key.getResourceLocation().toString());
+    }
+
+    public @Nullable TagPrefix itemTag() {
+        if (type != GenericType.ITEM) {
+            return null;
+        }
+
+        return TagPrefix.get(value);
+    }
+
+    public @Nullable FluidStorageKey fluidTag() {
+        if (type != GenericType.FLUID) {
+            return null;
+        }
+
+        return FluidStorageKey.getByName(ResourceLocation.parse(value));
     }
 
     public String name() {
-        if (type == ITEM) {
-            return itemTag.name;
-        } else {
-            return fluidTag.getResourceLocation().getPath();
-        }
+        return switch (type) {
+            case ITEM -> value;
+            case FLUID -> ResourceLocation.parse(value).getPath();
+        };
     }
 
-    public GenericStack toGenericStack(Material material, int amount) {
-        if (type == ITEM) {
-            var item = ChemicalHelper.get(itemTag, material, amount);
-            return GenericStack.fromItemStack(item);
-        } else {
-            var fluid = getFluidByKey(material, fluidTag);
-            var stack = fluid == null ? FluidStack.EMPTY : new FluidStack(fluid, amount);
-            return GenericStack.fromFluidStack(stack);
-        }
-    }
+    public @Nullable GenericStack toGenericStack(Material material, int amount) {
+        return switch (type) {
+            case ITEM -> {
+                var prefix = itemTag();
 
-    public CompoundTag toNBT() {
-        CompoundTag tag = new CompoundTag();
-        if (type == ITEM) {
-            tag.putString(ITEM.key, itemTag.name);
-        } else {
-            tag.putString(FLUID.key, fluidTag.getResourceLocation().toString());
-        }
-        return tag;
-    }
+                if (prefix == null || prefix == TagPrefix.NULL_PREFIX) {
+                    yield null;
+                }
 
-    public static GenericGTTag fromNBT(CompoundTag tag) {
-        if (tag.contains(ITEM.key)) {
-            var item = TagPrefix.get(tag.getString(ITEM.key));
-            return item(item);
-        } else if (tag.contains(FLUID.key)) {
-            var rl = ResourceLocation.parse(tag.getString(FLUID.key));
-            var fluid = FluidStorageKey.getByName(rl);
-            return fluid(fluid);
-        }
-        return EMPTY;
+                yield GenericStack.fromItemStack(ChemicalHelper.get(prefix, material, amount));
+            }
+
+            case FLUID -> {
+                var key = fluidTag();
+
+                if (key == null) {
+                    yield null;
+                }
+
+                var fluid = getFluidByKey(material, key);
+                var stack = fluid == null ? FluidStack.EMPTY : new FluidStack(fluid, amount);
+                yield GenericStack.fromFluidStack(stack);
+            }
+        };
     }
 
     @NotNull
     public ItemStack createItemOrBucket(Material material) {
-        if (type == ITEM) {
-            return ChemicalHelper.get(itemTag, material);
-        } else {
-            var fluid = getFluidByKey(material, fluidTag);
-            if (fluid == null) return ItemStack.EMPTY;
-            return new ItemStack(fluid.getBucket());
-        }
+        return switch (type) {
+            case ITEM -> {
+                var prefix = itemTag();
+
+                if (prefix == null || prefix == TagPrefix.NULL_PREFIX) {
+                    yield ItemStack.EMPTY;
+                }
+
+                yield ChemicalHelper.get(prefix, material);
+            }
+
+            case FLUID -> {
+                FluidStorageKey key = fluidTag();
+
+                if (key == null) {
+                    yield ItemStack.EMPTY;
+                }
+
+                var fluid = getFluidByKey(material, key);
+                yield fluid == null ? ItemStack.EMPTY : new ItemStack(fluid.getBucket());
+            }
+        };
     }
 
     public static GenericGTTag fromItemOrBucket(Item item) {
@@ -132,9 +159,9 @@ public class GenericGTTag {
     }
 
     @Nullable
-    private static Fluid getFluidByKey(Material material, FluidStorageKey tag) {
+    private static Fluid getFluidByKey(Material material, FluidStorageKey key) {
         try {
-            return material.getProperty(PropertyKey.FLUID).getStorage().get(tag);
+            return material.getProperty(PropertyKey.FLUID).getStorage().get(key);
         } catch (Exception ignored) {
             return null;
         }
