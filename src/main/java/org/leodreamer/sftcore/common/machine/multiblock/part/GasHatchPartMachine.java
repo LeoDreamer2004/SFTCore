@@ -73,10 +73,10 @@ public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCirc
 
     private final LazyOptional<IGasHandler> gasHandlerCap;
 
-    @RegisterLanguage("Gas Input for Multiblocks")
+    @RegisterLanguage("Gas in Mekanism Input for Multiblocks")
     public static final String IMPORT_TOOLTIP = "sftcore.machine.gas_hatch.import.tooltip";
 
-    @RegisterLanguage("Gas Output for Multiblocks")
+    @RegisterLanguage("Gas in Mekanism Output for Multiblocks")
     public static final String EXPORT_TOOLTIP = "sftcore.machine.gas_hatch.export.tooltip";
 
     @RegisterLanguage("§9Gas Capacity: §f%d mB")

@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.mixin.ae2.menu;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
+import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 import org.leodreamer.sftcore.integration.ae2.feature.*;
 import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;
@@ -41,7 +41,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -290,8 +289,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
         SFTCore.LOGGER.info("Trying to check available GT machines to auto transfer");
 
-        List<AvailableGTRow> rows = new ArrayList<>();
-        Map<AvailableGTRow, PatternContainer> rowMap = new Object2ObjectArrayMap<>();
+        var rows = new ArrayList<AvailableGTRow>();
+        var rowMap = new Object2ObjectArrayMap<AvailableGTRow, PatternContainer>();
         for (var clazz : thisNode.getGrid().getMachineClasses()) {
             if (PatternContainer.class.isAssignableFrom(clazz)) {
                 @SuppressWarnings("unchecked")
@@ -341,9 +340,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         ),
         remap = false
     )
-    private boolean transferStack$skipBlankAndWildcardPattern(RestrictedInputSlot instance, ItemStack itemStack) {
-        return instance.mayPlace(itemStack) && !itemStack.is(AEItems.BLANK_PATTERN.asItem()) &&
-            !itemStack.is(SFTItems.WILDCARD_PATTERN.asItem());
+    private boolean transferStack$skipBlankAndWildcardPattern(RestrictedInputSlot instance, ItemStack stack) {
+        return instance.mayPlace(stack) && !stack.is(AEItems.BLANK_PATTERN.asItem()) &&
+            !WildcardPatternDecoder.INSTANCE.isEncodedPattern(stack);
     }
 
     @Unique

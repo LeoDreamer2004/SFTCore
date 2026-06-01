@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.integration.jade;
 
 import org.leodreamer.sftcore.integration.jade.provider.ConfigurableMaintenanceHatchProvider;
+import org.leodreamer.sftcore.integration.jade.provider.GasRecipeOutputProvider;
 import org.leodreamer.sftcore.integration.jade.provider.PatternContainerProvider;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
@@ -25,6 +26,9 @@ public class SFTJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(
             PatternContainerProvider.INSTANCE, BlockEntity.class
         );
+        registration.registerBlockDataProvider(
+            GasRecipeOutputProvider.INSTANCE, MetaMachine.class
+        );
     }
 
     @Override
@@ -34,6 +38,9 @@ public class SFTJadePlugin implements IWailaPlugin {
         );
         registration.registerBlockComponent(
             PatternContainerProvider.INSTANCE, Block.class
+        );
+        registration.registerBlockComponent(
+            GasRecipeOutputProvider.INSTANCE, MetaMachineBlock.class
         );
     }
 }

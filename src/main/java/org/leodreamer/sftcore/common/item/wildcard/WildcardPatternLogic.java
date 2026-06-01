@@ -74,17 +74,19 @@ public class WildcardPatternLogic {
         for (var component : components) {
             var stack = component.apply(material);
 
-            if (stack == null) {
-                return null;
+            if (stack != null && stack.what() != null && stack.amount() > 0) {
+                stacks.add(stack);
             }
-
-            stacks.add(stack);
         }
 
         return stacks.toArray(new GenericStack[0]);
     }
 
     public boolean test(Material material) {
+        if (material == null) {
+            return false;
+        }
+
         for (var component : getFilterComponents()) {
             if (!component.test(material)) {
                 return false;
@@ -95,7 +97,7 @@ public class WildcardPatternLogic {
     }
 
     public Stream<IPatternDetails> generateAllPatterns(Level level) {
-        return GTRegistries.MATERIALS.values().parallelStream()
+        return GTRegistries.MATERIALS.values().stream()
             .filter(this::test)
             .map(material -> {
                 var input = getIOStacks(IO.IN, material);

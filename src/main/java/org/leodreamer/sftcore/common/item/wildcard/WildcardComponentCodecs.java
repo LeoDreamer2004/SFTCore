@@ -18,8 +18,7 @@ import java.util.Map;
 
 public final class WildcardComponentCodecs {
 
-    private WildcardComponentCodecs() {
-    }
+    private WildcardComponentCodecs() {}
 
     private static final Map<String, Entry<? extends IWildcardIOComponent>> IO = new Object2ObjectOpenHashMap<>();
     private static final Map<String, Entry<? extends IWildcardFilterComponent>> FILTER = new Object2ObjectOpenHashMap<>();
@@ -125,14 +124,12 @@ public final class WildcardComponentCodecs {
 
         Tag encode(T value) {
             return codec.encodeStart(NbtOps.INSTANCE, value)
-                .getOrThrow(false, error -> {
-                });
+                .getOrThrow(false, error -> {});
         }
 
         T decode(Tag tag) {
             return codec.parse(NbtOps.INSTANCE, tag)
-                .getOrThrow(false, error -> {
-                });
+                .getOrThrow(false, error -> {});
         }
     }
 }
