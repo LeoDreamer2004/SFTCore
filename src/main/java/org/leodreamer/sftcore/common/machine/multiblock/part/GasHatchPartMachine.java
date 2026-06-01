@@ -9,15 +9,24 @@ import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CircuitFancyConfigurator;
+import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
+import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.ISubscription;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,6 +35,7 @@ import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import lombok.Getter;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +45,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @DataGenScanned
-public class GasHatchPartMachine extends TieredIOPartMachine {
+public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCircuitSlot {
 
     public static final long INITIAL_TANK_CAPACITY_1X = 8_000;
     public static final long INITIAL_TANK_CAPACITY_4X = 2_000;
@@ -51,6 +61,15 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
 
     @Nullable
     protected ISubscription tankSubs;
+
+    @Getter
+    @SaveField
+    @SyncToClient
+    protected boolean circuitSlotEnabled;
+
+    @Getter
+    @SaveField
+    protected final NotifiableItemStackHandler circuitInventory;
 
     private final LazyOptional<IGasHandler> gasHandlerCap;
 
@@ -71,6 +90,18 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
         this.tank = attachTrait(createTank(initialCapacity, slots));
         this.slots = slots;
         this.gasHandlerCap = LazyOptional.of(() -> tank);
+
+        if (io == IO.IN) {
+            this.circuitSlotEnabled = true;
+            this.circuitInventory = attachTrait(new NotifiableItemStackHandler(1, IO.IN, IO.NONE))
+                .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
+                .shouldSearchContent(false)
+                .shouldDropInventoryInWorld(!ConfigHolder.INSTANCE.machines.ghostCircuit);
+        } else {
+            this.circuitSlotEnabled = false;
+            this.circuitInventory = attachTrait(new NotifiableItemStackHandler(0, IO.NONE))
+                .shouldSearchContent(false);
+        }
     }
 
     protected NotifiableGasTank createTank(long initialCapacity, int slots) {
@@ -151,6 +182,47 @@ public class GasHatchPartMachine extends TieredIOPartMachine {
         }
 
         updateTankSubscription();
+    }
+
+    @Override
+    public void addedToController(MultiblockControllerMachine controller) {
+        if (!controller.allowCircuitSlots()) {
+            if (!ConfigHolder.INSTANCE.machines.ghostCircuit) {
+                circuitInventory.dropInventoryInWorld();
+            } else {
+                circuitInventory.setStackInSlot(0, ItemStack.EMPTY);
+            }
+            setCircuitSlotEnabled(false);
+        }
+
+        super.addedToController(controller);
+    }
+
+    @Override
+    public void removedFromController(MultiblockControllerMachine controller) {
+        super.removedFromController(controller);
+
+        for (var c : controllers) {
+            if (!c.allowCircuitSlots()) {
+                return;
+            }
+        }
+
+        setCircuitSlotEnabled(true);
+    }
+
+    public void setCircuitSlotEnabled(boolean enabled) {
+        circuitSlotEnabled = enabled;
+        syncDataHolder.markClientSyncFieldDirty("circuitSlotEnabled");
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+
+        if (isCircuitSlotEnabled() && this.io == IO.IN) {
+            configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventory.storage));
+        }
     }
 
     @Override
