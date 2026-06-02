@@ -36,7 +36,7 @@ import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
-import org.leodreamer.sftcore.integration.ae2.pattern.IMEPatternBufferCache;
+import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

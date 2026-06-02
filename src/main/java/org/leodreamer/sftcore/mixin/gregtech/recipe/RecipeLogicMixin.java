@@ -12,8 +12,8 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.integration.ae2.pattern.IMEPatternBufferCache;
-import org.leodreamer.sftcore.integration.ae2.pattern.SlotRestrictedRecipeHolder;
+import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
+import org.leodreamer.sftcore.api.feature.SlotRestrictedRecipeHolder;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

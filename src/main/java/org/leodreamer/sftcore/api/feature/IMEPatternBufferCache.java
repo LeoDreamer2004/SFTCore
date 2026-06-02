@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.integration.ae2.pattern;
+package org.leodreamer.sftcore.api.feature;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
