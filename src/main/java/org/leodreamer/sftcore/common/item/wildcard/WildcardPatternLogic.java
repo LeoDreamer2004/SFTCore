@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -97,8 +98,15 @@ public class WildcardPatternLogic {
     }
 
     public Stream<IPatternDetails> generateAllPatterns(Level level) {
-        return GTRegistries.MATERIALS.values().stream()
-            .filter(this::test)
+        return generateAllPatterns(level, false);
+    }
+
+    public Stream<IPatternDetails> generateAllPatterns(Level level, boolean stable) {
+        var stream = GTRegistries.MATERIALS.values().stream();
+        if (stable) {
+            stream = stream.sorted(Comparator.comparing(GTRegistries.MATERIALS::getKey));
+        }
+        return stream.filter(this::test)
             .map(material -> {
                 var input = getIOStacks(IO.IN, material);
                 var output = getIOStacks(IO.OUT, material);
@@ -107,14 +115,9 @@ public class WildcardPatternLogic {
                     return null;
                 }
 
-                // FIXME: a little silly here
                 var encodedPattern = PatternDetailsHelper.encodeProcessingPattern(input, output);
                 return PatternDetailsHelper.decodePattern(encodedPattern, level);
             })
             .filter(Objects::nonNull);
-    }
-
-    public static Stream<IPatternDetails> decodePatterns(ItemStack stack, Level level) {
-        return on(stack).generateAllPatterns(level);
     }
 }

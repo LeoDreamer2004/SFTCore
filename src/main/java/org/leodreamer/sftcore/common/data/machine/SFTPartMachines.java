@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -35,6 +36,29 @@ import static org.leodreamer.sftcore.SFTCore.REGISTRATE;
 import static org.leodreamer.sftcore.common.machine.multiblock.part.GasHatchPartMachine.*;
 
 public final class SFTPartMachines {
+
+    public static final MachineDefinition WILDCARD_ME_PATTERN_BUFFER_HATCH = REGISTRATE
+        .machine("wildcard_me_pattern_buffer_hatch", WildcardMEPatternBufferPartMachine::new)
+        .langValue("Wildcard ME Pattern Buffer")
+        .tier(LuV)
+        .rotationState(RotationState.ALL)
+        .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+        .colorOverlayTieredHullModel(
+            SFTCore.id("block/overlay/machine/overlay_wildcard_me_buffer_hatch")
+        )
+        .tooltips(
+            builder -> SFTTooltipsBuilder.machine(builder.id)
+                .intro(
+                    component -> component.withStyle(ChatFormatting.GOLD),
+                    "- Can put wildcard patterns to generate patterns",
+                    "- Same as the pattern buffer, each recipe slot is independent",
+                    "- Also optimized with recipe cache"
+                )
+                .enableSharing()
+                .textureComeFrom("GregTech Odyssey")
+        )
+        .allowCoverOnFront(true)
+        .register();
 
     public static final MachineDefinition CONFIGURABLE_AUTO_MAINTENANCE_HATCH = REGISTRATE
         .machine(

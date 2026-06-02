@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -16,6 +17,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 import javax.annotation.Nullable;
 
@@ -74,18 +76,22 @@ public class SFTTooltipsBuilder {
     }
 
     public SFTTooltipsBuilder intro(String... contents) {
+        return intro(UnaryOperator.identity(), contents);
+    }
+
+    public SFTTooltipsBuilder intro(UnaryOperator<MutableComponent> componentStyle, String... contents) {
         if (this.id == null) {
             throw new IllegalStateException("Cannot insert an intro tooltip without a machine");
         }
 
-        List<String> keys = new ArrayList<>();
+        var keys = new ArrayList<String>();
 
         for (int i = 0; i < contents.length; i++) {
             var key = id.getNamespace() + ".machine." + id.getPath() + ".tooltip." + i;
             LANG.put(key, contents[i]);
             keys.add(key);
         }
-        tooltips.addAll(keys.stream().map(Component::translatable).toList());
+        tooltips.addAll(keys.stream().map(Component::translatable).map(componentStyle).toList());
 
         return this;
     }

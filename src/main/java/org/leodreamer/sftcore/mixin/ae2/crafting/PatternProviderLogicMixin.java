@@ -51,7 +51,7 @@ public abstract class PatternProviderLogicMixin implements IPatternClear {
         var level = host.getBlockEntity().getLevel();
         for (var stack : patternInventory) {
             if (WildcardPatternDecoder.INSTANCE.isEncodedPattern(stack)) {
-                WildcardPatternLogic.decodePatterns(stack, level)
+                WildcardPatternLogic.on(stack).generateAllPatterns(level)
                     .forEach(this::sftcore$updatePattern);
             }
         }

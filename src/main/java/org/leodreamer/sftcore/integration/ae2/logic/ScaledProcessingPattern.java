@@ -9,6 +9,12 @@ import appeng.api.stacks.GenericStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A wrapper around an {@link IPatternDetails} that scales the input multipliers and output amounts by a given factor.
+ * This is used to implement the "xN" functionality for optimization.
+ * <p>
+ * Thanks to the good work from <a href="https://github.com/GaLicn/ExtendedAE_Plus">ExtendedAE Plus</a>.
+ */
 public record ScaledProcessingPattern(IPatternDetails original, long multiplier) implements IPatternDetails {
 
     public ScaledProcessingPattern {
