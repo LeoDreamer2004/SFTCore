@@ -138,6 +138,7 @@ public class MixinTooltips {
             SFTTooltipsBuilder.of()
                 .insert(Component.translatable(PATTERN_BUFFER_0).withStyle(ChatFormatting.GOLD))
                 .insert(Component.translatable(PATTERN_BUFFER_1).withStyle(ChatFormatting.GOLD))
+                .insert(Component.translatable(PATTERN_BUFFER_2).withStyle(ChatFormatting.GOLD))
                 .modifiedBySFT()
         );
 

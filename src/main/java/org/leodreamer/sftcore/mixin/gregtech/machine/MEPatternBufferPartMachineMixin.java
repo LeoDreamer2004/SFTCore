@@ -179,6 +179,11 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     private void detectWildcardPattern(int index, CallbackInfo ci) {
         if (isRemote()) return;
 
+        if (index < 0 || index >= internalInventory.length) {
+            ci.cancel();
+            return;
+        }
+
         var slot = internalInventory[index];
         var newPattern = patternInventory.getStackInSlot(index);
 
@@ -197,6 +202,12 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
             slot.refund();
         }
 
+        if (newPattern.isEmpty()) {
+            needPatternSync = true;
+            ci.cancel();
+            return;
+        }
+
         if (newPattern.is(SFTItems.WILDCARD_PATTERN.asItem())) {
             var level = getLevel();
             var parser = WildcardPatternLogic.on(newPattern);
@@ -208,6 +219,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         }
         // for general patterns, use the original logic
     }
+
 
     @Inject(method = "getAvailablePatterns", at = @At("RETURN"), cancellable = true)
     private void addWildcardPatterns(CallbackInfoReturnable<List<IPatternDetails>> cir) {
