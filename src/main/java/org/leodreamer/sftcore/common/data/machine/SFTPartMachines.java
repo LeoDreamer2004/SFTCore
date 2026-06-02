@@ -48,6 +48,7 @@ public final class SFTPartMachines {
         )
         .tooltips(
             builder -> SFTTooltipsBuilder.machine(builder.id)
+                .tip("Pattern buffer with wildcard pattern support")
                 .intro(
                     component -> component.withStyle(ChatFormatting.GOLD),
                     "- Can put wildcard patterns to generate patterns",

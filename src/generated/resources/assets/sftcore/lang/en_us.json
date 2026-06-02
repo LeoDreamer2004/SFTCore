@@ -409,6 +409,7 @@
   "sftcore.machine.ore_processor.tooltip.0": "-§7 Has (nearly)§c§l infinite§7 parallels",
   "sftcore.machine.ore_replicator.tooltip": "Place it under an ore block and it will generate ores.",
   "sftcore.machine.semiconductor_blast_furnace.tooltip": "Expert in producing semiconductor.",
+  "sftcore.machine.wildcard_me_pattern_buffer_hatch.tooltip": "Pattern buffer with wildcard pattern support",
   "sftcore.machine.wildcard_me_pattern_buffer_hatch.tooltip.0": "- Can put wildcard patterns to generate patterns",
   "sftcore.machine.wildcard_me_pattern_buffer_hatch.tooltip.1": "- Same as the pattern buffer, each recipe slot is independent",
   "sftcore.machine.wildcard_me_pattern_buffer_hatch.tooltip.2": "- Also optimized with recipe cache",
