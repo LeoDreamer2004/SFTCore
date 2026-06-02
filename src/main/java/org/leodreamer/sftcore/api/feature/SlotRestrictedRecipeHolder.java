@@ -1,13 +1,12 @@
 package org.leodreamer.sftcore.api.feature;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -19,8 +18,7 @@ public final class SlotRestrictedRecipeHolder implements IRecipeCapabilityHolder
 
     private final Map<IO, List<RecipeHandlerList>> capabilitiesProxy = new EnumMap<>(IO.class);
 
-    private final Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> capabilitiesFlat =
-        new EnumMap<>(IO.class);
+    private final Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> capabilitiesFlat = new EnumMap<>(IO.class);
 
     public SlotRestrictedRecipeHolder(
         IRecipeCapabilityHolder original,

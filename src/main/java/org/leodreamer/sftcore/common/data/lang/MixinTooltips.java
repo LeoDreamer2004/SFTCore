@@ -94,10 +94,13 @@ public class MixinTooltips {
     @RegisterLanguage("- Has been optimized to automatically scale the patterns when crafting")
     public static final String PATTERN_BUFFER_0 = "sftcore.mixin.ae2.pattern_buffer.tooltip.0";
 
-    @RegisterLanguage("- Compatible with the Wildcard Pattern")
+    @RegisterLanguage("- Has been optimized to cache the recipe in each slot" )
     public static final String PATTERN_BUFFER_1 = "sftcore.mixin.ae2.pattern_buffer.tooltip.1";
 
-    @RegisterLanguage("Pattern Cached")
+    @RegisterLanguage("- Compatible with the Wildcard Pattern")
+    public static final String PATTERN_BUFFER_2 = "sftcore.mixin.ae2.pattern_buffer.tooltip.2";
+
+    @RegisterLanguage("Recipe Cached")
     public static final String PATTERN_CACHED = "sftcore.mixin.ae2.pattern_buffer.cached";
 
     private static final Lazy<Map<Item, SFTTooltipsBuilder>> TOOLTIPS = Lazy.of(MixinTooltips::build);

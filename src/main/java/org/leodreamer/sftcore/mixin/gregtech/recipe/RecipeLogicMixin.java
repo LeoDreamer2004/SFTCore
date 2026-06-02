@@ -1,19 +1,20 @@
 package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.recipe.ActionResult;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import net.minecraft.network.chat.Component;
-import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
-
-import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-
-import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
 import org.leodreamer.sftcore.api.feature.SlotRestrictedRecipeHolder;
+import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
+import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.ActionResult;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+
+import net.minecraft.network.chat.Component;
+
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

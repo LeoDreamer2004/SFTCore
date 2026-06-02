@@ -1,30 +1,9 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
-import appeng.api.crafting.IPatternDetails;
-import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.inventories.InternalInventory;
-import appeng.api.stacks.KeyCounter;
-import appeng.core.definitions.AEBlocks;
-import appeng.crafting.pattern.ProcessingPatternItem;
-import com.google.common.collect.BiMap;
-import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEPatternViewSlotWidget;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.trait.InternalSlotRecipeHandler;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
@@ -36,7 +15,34 @@ import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
-import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
+
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEPatternViewSlotWidget;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.trait.InternalSlotRecipeHandler;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+
+import appeng.api.crafting.IPatternDetails;
+import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.inventories.InternalInventory;
+import appeng.api.stacks.KeyCounter;
+import appeng.core.definitions.AEBlocks;
+import appeng.crafting.pattern.ProcessingPatternItem;
+import com.google.common.collect.BiMap;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -279,10 +285,30 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
 
     /* --- cache optimization --- */
 
-    @Inject(method = "onPatternChange", at = @At("HEAD"))
-    private void sftcore$clearRecipeCacheOnPatternChange(int index, CallbackInfo ci) {
-        sftcore$clearCachedRecipe(index);
+    @Redirect(
+        method = "createUIWidget",
+        at = @At(
+            value = "NEW",
+            target = "(Lnet/minecraftforge/items/IItemHandlerModifiable;III)Lcom/gregtechceu/gtceu/integration/ae2/gui/widget/slot/AEPatternViewSlotWidget;"
+        )
+    )
+    private AEPatternViewSlotWidget sftcore$clearCacheOnClicked(
+        IItemHandlerModifiable itemHandler,
+        final int slotIndex,
+        int xPosition,
+        int yPosition
+    ) {
+        return new AEPatternViewSlotWidget(itemHandler, slotIndex, xPosition, yPosition) {
+            @Override
+            public ItemStack slotClick(int dragType, ClickType clickTypeIn, Player player) {
+                if (!player.level().isClientSide) {
+                    sftcore$clearCachedRecipe(slotIndex);
+                }
+                return null;
+            }
+        };
     }
+
 
     @Inject(method = "createUIWidget", at = @At("RETURN"))
     private void sftcore$addCachedRecipeTooltip(CallbackInfoReturnable<Widget> cir) {
@@ -354,8 +380,13 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         }
 
         sftcore$cachedRecipes[slot] = recipe;
+
+        int oldMask = sftcore$cachedRecipeMask;
         sftcore$cachedRecipeMask |= 1 << slot;
-        sftcore$syncCachedRecipeMask();
+
+        if (oldMask != sftcore$cachedRecipeMask) {
+            sftcore$syncCachedRecipeMask();
+        }
     }
 
     @Override
@@ -365,8 +396,13 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         }
 
         sftcore$cachedRecipes[slot] = null;
+
+        int oldMask = sftcore$cachedRecipeMask;
         sftcore$cachedRecipeMask &= ~(1 << slot);
-        sftcore$syncCachedRecipeMask();
+
+        if (oldMask != sftcore$cachedRecipeMask) {
+            sftcore$syncCachedRecipeMask();
+        }
     }
 
     @Override
