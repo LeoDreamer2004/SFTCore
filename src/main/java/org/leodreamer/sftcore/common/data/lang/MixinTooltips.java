@@ -97,6 +97,9 @@ public class MixinTooltips {
     @RegisterLanguage("- Compatible with the Wildcard Pattern")
     public static final String PATTERN_BUFFER_1 = "sftcore.mixin.ae2.pattern_buffer.tooltip.1";
 
+    @RegisterLanguage("Pattern Cached")
+    public static final String PATTERN_CACHED = "sftcore.mixin.ae2.pattern_buffer.cached";
+
     private static final Lazy<Map<Item, SFTTooltipsBuilder>> TOOLTIPS = Lazy.of(MixinTooltips::build);
 
     private static Map<Item, SFTTooltipsBuilder> build() {

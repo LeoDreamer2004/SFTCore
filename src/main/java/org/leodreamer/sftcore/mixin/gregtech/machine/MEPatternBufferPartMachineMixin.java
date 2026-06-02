@@ -1,6 +1,32 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
+import appeng.api.crafting.IPatternDetails;
+import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.inventories.InternalInventory;
+import appeng.api.stacks.KeyCounter;
+import appeng.core.definitions.AEBlocks;
+import appeng.crafting.pattern.ProcessingPatternItem;
+import com.google.common.collect.BiMap;
+import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEPatternViewSlotWidget;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.trait.InternalSlotRecipeHandler;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
@@ -10,26 +36,7 @@ import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
-
-import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-
-import appeng.api.crafting.IPatternDetails;
-import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.inventories.InternalInventory;
-import appeng.api.stacks.KeyCounter;
-import appeng.core.definitions.AEBlocks;
-import appeng.crafting.pattern.ProcessingPatternItem;
-import com.google.common.collect.BiMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.leodreamer.sftcore.integration.ae2.pattern.IMEPatternBufferCache;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,7 +54,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Mixin(value = MEPatternBufferPartMachine.class, remap = false)
 public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
-    implements IPromptProvider, IMemoryCardInteraction, IScaleUpCraftingProvider {
+    implements IPromptProvider, IMemoryCardInteraction, IScaleUpCraftingProvider, IMEPatternBufferCache {
 
     // custom name now acts as the prompt, instead of the name shown in the pattern group!
     @Shadow
@@ -75,6 +82,17 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     @Shadow
     @Final
     private InternalInventory internalPatternInventory;
+
+    @Unique
+    private final GTRecipe[] sftcore$cachedRecipes = new GTRecipe[27];
+
+    @Unique
+    @SyncToClient
+    // 32-bit 0-1 mask
+    private int sftcore$cachedRecipeMask = 0;
+
+    @Shadow
+    public abstract InternalSlotRecipeHandler getInternalRecipeHandler();
 
     public MEPatternBufferPartMachineMixin(BlockEntityCreationInfo info, IO io) {
         super(info, io);
@@ -218,17 +236,17 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
 
     @Inject(method = "pushPattern", at = @At(value = "RETURN", ordinal = 2), cancellable = true)
     private void pushWildcardPattern(
-        IPatternDetails details, KeyCounter[] inputHolder, CallbackInfoReturnable<Boolean> cir
+        IPatternDetails patternDetails, KeyCounter[] inputHolder, CallbackInfoReturnable<Boolean> cir
     ) {
         assert !cir.getReturnValue(); // expected to be false
         MEPatternBufferPartMachine.InternalSlot slot;
-        if (details instanceof ScaledProcessingPattern spp) {
+        if (patternDetails instanceof ScaledProcessingPattern spp) {
             slot = sftcore$wildcardDetailsSlotMap.get(spp.original());
         } else {
-            slot = sftcore$wildcardDetailsSlotMap.get(details);
+            slot = sftcore$wildcardDetailsSlotMap.get(patternDetails);
         }
         if (slot != null) {
-            slot.pushPattern(details, inputHolder);
+            slot.pushPattern(patternDetails, inputHolder);
             cir.setReturnValue(true);
         }
     }
@@ -257,5 +275,116 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     @Override
     public void sftcore$importSettings(CompoundTag input, @Nullable Player player) {
         new MemoryCardPatternInventoryProxy(internalPatternInventory, getLevel()).importSettings(input, player);
+    }
+
+    /* --- cache optimization --- */
+
+    @Inject(method = "onPatternChange", at = @At("HEAD"))
+    private void sftcore$clearRecipeCacheOnPatternChange(int index, CallbackInfo ci) {
+        sftcore$clearCachedRecipe(index);
+    }
+
+    @Inject(method = "createUIWidget", at = @At("RETURN"))
+    private void sftcore$addCachedRecipeTooltip(CallbackInfoReturnable<Widget> cir) {
+        if (!(cir.getReturnValue() instanceof WidgetGroup group)) {
+            return;
+        }
+
+        int index = 0;
+
+        for (var widget : group.widgets) {
+            if (!(widget instanceof AEPatternViewSlotWidget slot)) {
+                continue;
+            }
+
+            final int slotIndex = index++;
+
+            slot.setOnAddedTooltips((ignored, tooltips) -> {
+                if (sftcore$isSlotCached(slotIndex)) {
+                    tooltips.add(
+                        Component.translatable(MixinTooltips.PATTERN_CACHED)
+                            .withStyle(ChatFormatting.GREEN)
+                    );
+                }
+            });
+
+            if (index >= sftcore$getSlotCount()) {
+                break;
+            }
+        }
+    }
+
+    @Override
+    public int sftcore$getSlotCount() {
+        return internalInventory.length;
+    }
+
+    @Override
+    public boolean sftcore$hasInternalContent(int slot) {
+        if (slot < 0 || slot >= internalInventory.length) {
+            return false;
+        }
+
+        var internalSlot = internalInventory[slot];
+        return !internalSlot.isItemEmpty() || !internalSlot.isFluidEmpty();
+    }
+
+    @Override
+    public boolean sftcore$isSlotCached(int slot) {
+        if (slot < 0 || slot >= sftcore$cachedRecipes.length) {
+            return false;
+        }
+
+        return (sftcore$cachedRecipeMask & (1 << slot)) != 0;
+    }
+
+    @Override
+    public @Nullable GTRecipe sftcore$getCachedRecipe(int slot) {
+        if (slot < 0 || slot >= sftcore$cachedRecipes.length) {
+            return null;
+        }
+
+        return sftcore$cachedRecipes[slot];
+    }
+
+    @Override
+    public void sftcore$setCachedRecipe(int slot, GTRecipe recipe) {
+        if (slot < 0 || slot >= sftcore$cachedRecipes.length || recipe == null) {
+            return;
+        }
+
+        sftcore$cachedRecipes[slot] = recipe;
+        sftcore$cachedRecipeMask |= 1 << slot;
+        sftcore$syncCachedRecipeMask();
+    }
+
+    @Override
+    public void sftcore$clearCachedRecipe(int slot) {
+        if (slot < 0 || slot >= sftcore$cachedRecipes.length) {
+            return;
+        }
+
+        sftcore$cachedRecipes[slot] = null;
+        sftcore$cachedRecipeMask &= ~(1 << slot);
+        sftcore$syncCachedRecipeMask();
+    }
+
+    @Override
+    public @Nullable RecipeHandlerList sftcore$getSlotHandler(int slot) {
+        if (slot < 0 || slot >= sftcore$getSlotCount()) {
+            return null;
+        }
+
+        var handlers = getInternalRecipeHandler().getSlotHandlers();
+        if (slot >= handlers.size()) {
+            return null;
+        }
+
+        return handlers.get(slot);
+    }
+
+    @Unique
+    private void sftcore$syncCachedRecipeMask() {
+        getSyncDataHolder().markClientSyncFieldDirty("sftcore$cachedRecipeMask");
     }
 }

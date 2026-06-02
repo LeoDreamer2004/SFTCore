@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
 import org.leodreamer.sftcore.api.feature.IWirelessAEMachine;
-import org.leodreamer.sftcore.api.machine.trait.WirelessGridHolder;
+import org.leodreamer.sftcore.common.machine.trait.WirelessGridHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;

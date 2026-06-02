@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.machine.trait;
+package org.leodreamer.sftcore.common.machine.trait;
 
 import org.leodreamer.sftcore.common.save.WirelessSavedData;
 import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
