@@ -18,14 +18,13 @@ import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class SFTPonderScenes {
 
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
         for (var clazz : ReflectUtils.getClassesWithAnnotation(PonderSceneScanned.class)) {
             var withTags = clazz.getAnnotation(WithPonderTags.class);
-            List<SFTPonderTag> tags = withTags == null ? new ArrayList<>() : Arrays.asList(withTags.value());
+            var tags = withTags == null ? new ArrayList<SFTPonderTag>() : Arrays.asList(withTags.value());
 
             for (var method : clazz.getDeclaredMethods()) {
                 var scene = method.getAnnotation(PonderScene.class);

@@ -29,7 +29,9 @@ public interface IMachineAdjustment extends IMultiPart {
         var item = stack.getItem();
         var rl = RLUtils.getItemRL(item);
         var def = GTRegistries.MACHINES.get(rl);
-        if (def == null || def instanceof MultiblockMachineDefinition || def.getRecipeTypes().length == 0) return null;
+        if (def == null || def instanceof MultiblockMachineDefinition || def.getRecipeTypes().length == 0) {
+            return null;
+        }
         return def;
     }
 

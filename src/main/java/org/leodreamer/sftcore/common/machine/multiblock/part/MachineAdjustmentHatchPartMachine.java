@@ -7,8 +7,10 @@ import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.utils.ISubscription;
 
 import net.minecraft.world.item.ItemStack;
@@ -22,8 +24,11 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 
-public class MachineAdjustmentHatchPartMachine extends ItemBusPartMachine
-    implements IMachineAdjustment {
+public class MachineAdjustmentHatchPartMachine extends TieredIOPartMachine implements IMachineAdjustment {
+
+    @SaveField
+    @Getter
+    private final NotifiableItemStackHandler inventory;
 
     @Getter
     @NotNull
@@ -33,7 +38,14 @@ public class MachineAdjustmentHatchPartMachine extends ItemBusPartMachine
     private int tier;
 
     public MachineAdjustmentHatchPartMachine(BlockEntityCreationInfo info) {
-        super(info, GTValues.LV, IO.IN);
+        super(info, GTValues.LV, IO.NONE);
+
+        this.inventory = attachTrait(
+            new NotifiableItemStackHandler(1, IO.NONE, IO.NONE)
+                .shouldSearchContent(false)
+        );
+
+        this.inventory.addChangedListener(this::updateMachineSubscription);
     }
 
     @Override
@@ -49,14 +61,19 @@ public class MachineAdjustmentHatchPartMachine extends ItemBusPartMachine
 
     protected void updateMachineSubscription() {
         var def = getInnerMachineDefinition();
-
         if (def == null) {
             clearCache();
             return;
         }
 
+        var recipeTypes = def.getRecipeTypes();
+        if (recipeTypes.length == 0) {
+            clearCache();
+            return;
+        }
+
         // small machine should only have one recipe type
-        this.recipeType = def.getRecipeTypes()[0];
+        this.recipeType = recipeTypes[0];
         this.tier = def.getTier();
     }
 
@@ -65,35 +82,31 @@ public class MachineAdjustmentHatchPartMachine extends ItemBusPartMachine
         this.tier = 0;
     }
 
-    //////////////////////////////////////
-    // ********** GUI ***********//
-
-    /// ///////////////////////////////////
     @Override
     public @NotNull Widget createUIWidget() {
         var group = new WidgetGroup(0, 0, 18 + 16, 18 + 16);
+
         var container = new WidgetGroup(4, 4, 18 + 8, 18 + 8);
         container.addWidget(
-            new BlockableSlotWidget(getInventory().storage, 0, 4, 4)
+            new BlockableSlotWidget(inventory.storage, 0, 4, 4)
                 .setBackground(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY)
         );
         container.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
         group.addWidget(container);
         return group;
     }
 
     @Override
     public ItemStack getInnerMachineStack() {
-        return getInventory().getStackInSlot(0);
+        return inventory.getStackInSlot(0);
     }
 
     @Override
     public ISubscription addListenerOnChanged(Consumer<IMachineAdjustment> listener) {
-        return getInventory().addChangedListener(
-            () -> {
-                updateMachineSubscription();
-                listener.accept(this);
-            }
-        );
+        return inventory.addChangedListener(() -> {
+            updateMachineSubscription();
+            listener.accept(this);
+        });
     }
 }
