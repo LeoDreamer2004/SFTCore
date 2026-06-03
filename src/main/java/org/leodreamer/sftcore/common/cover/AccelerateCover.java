@@ -65,7 +65,7 @@ public class AccelerateCover extends DetectorCover {
         if (logic == null || !logic.isWorking()) {
             return;
         }
-        GTRecipe recipe = logic.getLastOriginRecipe();
+        var recipe = logic.getLastOriginRecipe();
         if (recipe == null || recipe.getOutputEUt().getTotalEU() > 0) {
             return;
         }

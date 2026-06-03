@@ -25,9 +25,9 @@ public class WoolBlock {
 
     @SubscribeEvent
     public static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
-        BlockPos pos = event.getPos();
-        Level level = event.getLevel();
-        Block block = level.getBlockState(pos).getBlock();
+        var pos = event.getPos();
+        var level = event.getLevel();
+        var block = level.getBlockState(pos).getBlock();
         if (event.getEntity().isShiftKeyDown() || !isWoolBlock(block)) {
             return;
         }
@@ -49,8 +49,8 @@ public class WoolBlock {
     }
 
     private static void dropString(Level level, BlockPos pos) {
-        ItemStack string = new ItemStack(Items.STRING);
-        ItemEntity itemEntity = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, string);
+        var string = new ItemStack(Items.STRING);
+        var itemEntity = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, string);
 
         itemEntity.setDeltaMovement(
             level.random.nextDouble() * 0.1 - 0.05, 0.2, level.random.nextDouble() * 0.1 - 0.05

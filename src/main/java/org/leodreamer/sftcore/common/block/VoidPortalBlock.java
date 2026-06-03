@@ -58,7 +58,7 @@ public class VoidPortalBlock extends Block {
             var dimension = level.dimension();
 
             if (dimension == Level.OVERWORLD) {
-                ServerLevel target = server.getLevel(SFTDimensions.VOID_DIMENSION);
+                var target = server.getLevel(SFTDimensions.VOID_DIMENSION);
                 if (target == null) {
                     return InteractionResult.PASS;
                 }
@@ -81,13 +81,13 @@ public class VoidPortalBlock extends Block {
     }
 
     private static void makePlatform(ServerLevel level) {
-        BlockPos blockpos = VOID_SPAWN_POINT.below();
+        var blockpos = VOID_SPAWN_POINT.below();
         level.setBlockAndUpdate(blockpos, SFTBlocks.VOID_PORTAL.getDefaultState());
     }
 
     private static void teleportToSpawnPoint(MinecraftServer server, ServerPlayer player) {
-        BlockPos position = player.getRespawnPosition();
-        ServerLevel dimension = server.getLevel(player.getRespawnDimension());
+        var position = player.getRespawnPosition();
+        var dimension = server.getLevel(player.getRespawnDimension());
 
         if (position == null || dimension == null) {
             dimension = server.overworld();

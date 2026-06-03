@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.common.data;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
@@ -32,6 +34,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import mekanism.api.Upgrade;
+import org.leodreamer.sftcore.common.item.MekTerminalBehavior;
 
 import java.util.Arrays;
 import java.util.List;
@@ -141,6 +144,14 @@ public final class SFTItems {
         .stream(GTValues.tiersBetween(GTValues.ULV, GTValues.UHV))
         .mapToObj(SFTItems::registerUniversalCircuit)
         .toList();
+
+    public static final ItemEntry<ComponentItem> MEK_TERMINAL = REGISTRATE
+        .item("mek_terminal", ComponentItem::create)
+        .lang("Mekanism Terminal")
+        .model(generatedModel(GTCEu.id("item/terminal")))
+        .properties(p -> p.stacksTo(1))
+        .onRegister(attach(new MekTerminalBehavior()))
+        .register();
 
     private static ItemEntry<SuperUpgradeItem> registerSuperUpgrade(Upgrade upgrade) {
         return REGISTRATE
