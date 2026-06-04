@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.common.item.terminal.builder;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
-import org.leodreamer.sftcore.common.item.terminal.MekTerminalTags;
 import org.leodreamer.sftcore.common.item.terminal.api.*;
 
 import mekanism.common.registries.MekanismBlocks;
@@ -20,9 +19,6 @@ import java.util.List;
 
 @DataGenScanned
 public class InductionMatrixBuilder implements MekMultiblockBuilder {
-
-    @RegisterLanguage("Induction Matrix")
-    public static final String TITLE = "item.sftcore.mek_terminal.tab.induction";
 
     @RegisterLanguage("Right-click the induction casing with Shift to start building")
     public static final String INVALID_START = "item.sftcore.mek_terminal.invalid_induction_start";
@@ -41,11 +37,6 @@ public class InductionMatrixBuilder implements MekMultiblockBuilder {
     }
 
     @Override
-    public Component title() {
-        return Component.translatable(TITLE);
-    }
-
-    @Override
     public boolean canStart(BuildContext ctx) {
         return ctx.level()
             .getBlockState(ctx.origin())
@@ -59,28 +50,23 @@ public class InductionMatrixBuilder implements MekMultiblockBuilder {
 
     @Override
     public BuildPlan createPlan(BuildContext ctx, CompoundTag rootTag) {
-        CompoundTag config = getInductionConfig(rootTag);
+        var config = InductionMatrixConfig.getOrCreate(rootTag);
 
-        int width = clamp(readInt(config, MekTerminalTags.INDUCTION_WIDTH, 5), 3, 18);
-        int height = clamp(readInt(config, MekTerminalTags.INDUCTION_HEIGHT, 5), 3, 18);
-        int depth = clamp(readInt(config, MekTerminalTags.INDUCTION_DEPTH, 5), 3, 18);
-        String strategy = readString(
-            config,
-            MekTerminalTags.INDUCTION_FILL_STRATEGY,
-            MekTerminalTags.STRATEGY_BALANCED
-        );
+        int width = InductionMatrixConfig.getWidth(config);
+        int height = InductionMatrixConfig.getHeight(config);
+        int depth = InductionMatrixConfig.getDepth(config);
 
-        BuildPlan plan = new BuildPlan();
-        List<BlockPos> innerPositions = new ArrayList<>();
+        var plan = new BuildPlan();
+        var innerPositions = new ArrayList<BlockPos>();
 
-        Block casing = MekanismBlocks.INDUCTION_CASING.getBlock();
-        Block glass = MekanismBlocks.STRUCTURAL_GLASS.getBlock();
+        var casing = MekanismBlocks.INDUCTION_CASING.getBlock();
+        var glass = MekanismBlocks.STRUCTURAL_GLASS.getBlock();
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 for (int z = 0; z < depth; z++) {
-                    BlockPos pos = ctx.origin().offset(x, y, z);
-                    Part part = classify(x, y, z, width, height, depth);
+                    var pos = ctx.origin().offset(x, y, z);
+                    var part = classify(x, y, z, width, height, depth);
 
                     if (part == Part.FRAME) {
                         plan.add(new Placement(
@@ -105,63 +91,25 @@ public class InductionMatrixBuilder implements MekMultiblockBuilder {
             }
         }
 
-        fillInner(ctx, plan, innerPositions, strategy);
+        fillInnerCellFirst(ctx, plan, innerPositions);
         return plan;
     }
 
-    private CompoundTag getInductionConfig(CompoundTag rootTag) {
-        CompoundTag root = rootTag.getCompound(MekTerminalTags.ROOT);
-        CompoundTag config = root.getCompound(MekTerminalTags.INDUCTION);
-
-        if (!config.contains(MekTerminalTags.INDUCTION_WIDTH)) {
-            config.putInt(MekTerminalTags.INDUCTION_WIDTH, 5);
-        }
-        if (!config.contains(MekTerminalTags.INDUCTION_HEIGHT)) {
-            config.putInt(MekTerminalTags.INDUCTION_HEIGHT, 5);
-        }
-        if (!config.contains(MekTerminalTags.INDUCTION_DEPTH)) {
-            config.putInt(MekTerminalTags.INDUCTION_DEPTH, 5);
-        }
-        if (!config.contains(MekTerminalTags.INDUCTION_FILL_STRATEGY)) {
-            config.putString(
-                MekTerminalTags.INDUCTION_FILL_STRATEGY,
-                MekTerminalTags.STRATEGY_BALANCED
-            );
-        }
-
-        root.put(MekTerminalTags.INDUCTION, config);
-        rootTag.put(MekTerminalTags.ROOT, root);
-        return config;
-    }
-
-    private void fillInner(
+    private void fillInnerCellFirst(
         BuildContext ctx,
         BuildPlan plan,
-        List<BlockPos> innerPositions,
-        String strategy
+        List<BlockPos> innerPositions
     ) {
-        InventorySnapshot snapshot = InventorySnapshot.of(ctx.player());
+        var snapshot = InventorySnapshot.of(ctx.player());
 
-        List<InnerCandidate> cells = cells();
-        List<InnerCandidate> providers = providers();
+        var cells = cells();
+        var providers = providers();
 
-        boolean nextCell = true;
-
-        for (BlockPos pos : innerPositions) {
-            InnerCandidate selected = switch (strategy) {
-                case MekTerminalTags.STRATEGY_CELL_FIRST -> firstAvailable(snapshot, cells, providers);
-                case MekTerminalTags.STRATEGY_PROVIDER_FIRST -> firstAvailable(snapshot, providers, cells);
-                default -> {
-                    InnerCandidate candidate = nextCell
-                        ? firstAvailable(snapshot, cells, providers)
-                        : firstAvailable(snapshot, providers, cells);
-                    nextCell = !nextCell;
-                    yield candidate;
-                }
-            };
+        for (var pos : innerPositions) {
+            var selected = firstAvailable(snapshot, cells, providers);
 
             if (selected == null) {
-                // 没东西就留空。输导矩阵内部允许空气。
+                // leave air in the induction matrix
                 continue;
             }
 
@@ -177,17 +125,18 @@ public class InductionMatrixBuilder implements MekMultiblockBuilder {
         }
     }
 
+
     private InnerCandidate firstAvailable(
         InventorySnapshot snapshot,
         List<InnerCandidate> preferred,
         List<InnerCandidate> fallback
     ) {
-        for (InnerCandidate candidate : preferred) {
+        for (var candidate : preferred) {
             if (snapshot.count(candidate.item()) > 0) {
                 return candidate;
             }
         }
-        for (InnerCandidate candidate : fallback) {
+        for (var candidate : fallback) {
             if (snapshot.count(candidate.item()) > 0) {
                 return candidate;
             }
@@ -231,17 +180,5 @@ public class InductionMatrixBuilder implements MekMultiblockBuilder {
             return Part.FACE;
         }
         return Part.INNER;
-    }
-
-    private int readInt(CompoundTag tag, String key, int def) {
-        return tag.contains(key) ? tag.getInt(key) : def;
-    }
-
-    private String readString(CompoundTag tag, String key, String def) {
-        return tag.contains(key) ? tag.getString(key) : def;
-    }
-
-    private int clamp(int value, int min, int max) {
-        return Math.max(min, Math.min(max, value));
     }
 }

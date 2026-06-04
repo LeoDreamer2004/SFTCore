@@ -2,7 +2,6 @@ package org.leodreamer.sftcore.common.item.terminal.api;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,12 +27,11 @@ public class InventorySnapshot {
         return counts.getOrDefault(item, 0);
     }
 
-    public boolean takeVirtual(Item item) {
+    public void takeVirtual(Item item) {
         int count = count(item);
         if (count <= 0) {
-            return false;
+            return;
         }
         counts.put(item, count - 1);
-        return true;
     }
 }

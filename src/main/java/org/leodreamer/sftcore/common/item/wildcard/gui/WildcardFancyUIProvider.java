@@ -25,19 +25,19 @@ public final class WildcardFancyUIProvider implements IFancyUIProvider {
 
     private final WildcardPatternLogic logic;
     private final Level level;
-    private final Consumer<ItemStack> saveCallback;
+    private final Consumer<ItemStack> onSave;
     @Getter
     private final int heldSlotIndex;
 
     public WildcardFancyUIProvider(
         WildcardPatternLogic logic,
         Level level,
-        Consumer<ItemStack> saveCallback,
+        Consumer<ItemStack> onSave,
         int heldSlotIndex
     ) {
         this.logic = logic;
         this.level = level;
-        this.saveCallback = saveCallback;
+        this.onSave = onSave;
         this.heldSlotIndex = heldSlotIndex;
     }
 
@@ -64,13 +64,13 @@ public final class WildcardFancyUIProvider implements IFancyUIProvider {
         sideTabs.setMainTab(this);
 
         sideTabs.attachSubTab(
-            new WildcardIOFancyConfigurator(logic, WildcardPatternLogic.IO.IN, saveCallback)
+            new WildcardIOFancyConfigurator(logic, WildcardPatternLogic.IO.IN, onSave)
         );
         sideTabs.attachSubTab(
-            new WildcardIOFancyConfigurator(logic, WildcardPatternLogic.IO.OUT, saveCallback)
+            new WildcardIOFancyConfigurator(logic, WildcardPatternLogic.IO.OUT, onSave)
         );
         sideTabs.attachSubTab(
-            new WildcardFilterFancyConfigurator(logic, saveCallback)
+            new WildcardFilterFancyConfigurator(logic, onSave)
         );
     }
 }

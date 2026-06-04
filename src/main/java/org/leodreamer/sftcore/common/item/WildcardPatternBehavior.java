@@ -32,10 +32,10 @@ public class WildcardPatternBehavior implements IItemUIFactory, IAddInformation 
         var stack = player.getItemInHand(hand);
         var logic = WildcardPatternLogic.on(stack);
 
-        Consumer<ItemStack> save = s -> player.setItemInHand(hand, s);
+        Consumer<ItemStack> onSave = s -> player.setItemInHand(hand, s);
         int heldSlotIndex = hand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 40; // offhand slot
 
-        var provider = new WildcardFancyUIProvider(logic, player.level(), save, heldSlotIndex);
+        var provider = new WildcardFancyUIProvider(logic, player.level(), onSave, heldSlotIndex);
 
         return new ModularUI(176, 166, heldItemHolder, player)
             .widget(new WildcardHeldItemUI(provider, 176, 166));
