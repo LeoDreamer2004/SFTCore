@@ -1,10 +1,9 @@
 package org.leodreamer.sftcore.common.data;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.common.data.GTItems;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
+import org.leodreamer.sftcore.common.item.MekTerminalBehavior;
 import org.leodreamer.sftcore.common.item.OrderBehavior;
 import org.leodreamer.sftcore.common.item.SelectStickBehavior;
 import org.leodreamer.sftcore.common.item.TimeBottleBehavior;
@@ -13,6 +12,7 @@ import org.leodreamer.sftcore.integration.IntegrateMods;
 import org.leodreamer.sftcore.integration.ae2.item.SuperUpgradeCardItem;
 import org.leodreamer.sftcore.integration.mek.SuperUpgradeItem;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
@@ -34,7 +34,6 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import mekanism.api.Upgrade;
-import org.leodreamer.sftcore.common.item.MekTerminalBehavior;
 
 import java.util.Arrays;
 import java.util.List;

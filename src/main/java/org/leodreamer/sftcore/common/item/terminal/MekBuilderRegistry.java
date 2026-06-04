@@ -1,64 +1,44 @@
 package org.leodreamer.sftcore.common.item.terminal;
 
-import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.item.terminal.api.MekMultiblockBuilder;
-import org.leodreamer.sftcore.common.item.terminal.api.MekTerminalTab;
-import org.leodreamer.sftcore.common.item.terminal.builder.InductionMatrixBuilder;
-import org.leodreamer.sftcore.common.item.terminal.gui.InductionMatrixTab;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
+import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
+import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixBuilder;
+import org.leodreamer.sftcore.common.item.terminal.gui.impl.InductionMatrixTab;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public final class MekBuilderRegistry {
 
-    public static final ResourceLocation INDUCTION = SFTCore.id("induction_matrix");
+    /**
+     * Builder's id -> Registry entry
+     */
+    private static final Map<ResourceLocation, Entry<?>> ENTRIES = new LinkedHashMap<>();
 
-    private static final Map<ResourceLocation, Entry> ENTRIES = new LinkedHashMap<>();
+    public static final Entry<?> INDUCTION_MATRIX = register(InductionMatrixBuilder::new, InductionMatrixTab::new);
 
-    static {
-        init();
+    public static <T extends IMekMultiblockBuilder> Entry<T> register(Supplier<T> builderSupplier, TabFactory<T> tabFactory) {
+        var builder = builderSupplier.get();
+        var entry = new Entry<>(builder, tabFactory);
+        ENTRIES.put(builder.id(), entry);
+        return entry;
     }
 
-    private static void init() {
-        var induction = new InductionMatrixBuilder();
-        register(induction, (stack, onSave) -> new InductionMatrixTab(induction, stack, onSave));
-    }
-
-    private MekBuilderRegistry() {}
-
-    public static void register(MekMultiblockBuilder builder, TabFactory tabFactory) {
-        ENTRIES.put(builder.id(), new Entry(builder, tabFactory));
-    }
-
-    public static Collection<Entry> entries() {
+    public static Collection<Entry<?>> entries() {
         return ENTRIES.values();
     }
 
-    public static MekMultiblockBuilder selected(ItemStack stack) {
-        var entry = selectedEntry(stack);
-        return entry == null ? null : entry.builder();
+    public static void setSelected(ItemStack terminal, IMekMultiblockBuilder builder) {
+        terminal.getOrCreateTag().putString(MekTerminalTags.SELECTED, builder.id().toString());
     }
 
-    public static MekTerminalTab selectedTab(ItemStack stack, Consumer<ItemStack> onSave) {
-        var entry = selectedEntry(stack);
-        return entry == null ? null : entry.tabFactory().create(stack, onSave);
-    }
-
-    public static void setSelected(ItemStack stack, ResourceLocation id) {
-        var tag = stack.getOrCreateTag();
-        var root = tag.getCompound(MekTerminalTags.ROOT);
-        root.putString(MekTerminalTags.SELECTED_TAB, id.toString());
-        tag.put(MekTerminalTags.ROOT, root);
-    }
-
-    private static Entry selectedEntry(ItemStack stack) {
-        var root = stack.getOrCreateTag().getCompound(MekTerminalTags.ROOT);
-        var selected = root.getString(MekTerminalTags.SELECTED_TAB);
+    public static Entry<?> selected(ItemStack terminal) {
+        var selected = terminal.getOrCreateTag().getString(MekTerminalTags.SELECTED);
 
         if (!selected.isEmpty()) {
             var id = ResourceLocation.tryParse(selected);
@@ -69,15 +49,24 @@ public final class MekBuilderRegistry {
                 }
             }
         }
-
-        return ENTRIES.get(INDUCTION);
+        return INDUCTION_MATRIX; // fallback
     }
 
-    public record Entry(MekMultiblockBuilder builder, TabFactory tabFactory) {
+    public record Entry<T extends IMekMultiblockBuilder>(T builder, TabFactory<T> tabFactory) {
+        public ResourceLocation id() {
+            return builder.id();
+        }
+
+        public MekTerminalTab<T> createTab(
+            ItemStack terminal, Consumer<ItemStack> onSave
+        ) {
+            return tabFactory.create(builder, terminal, onSave);
+        }
     }
 
     @FunctionalInterface
-    public interface TabFactory {
-        MekTerminalTab create(ItemStack stack, Consumer<ItemStack> onSave);
+    public interface TabFactory<T extends IMekMultiblockBuilder> {
+
+        MekTerminalTab<T> create(T builder, ItemStack terminal, Consumer<ItemStack> onSave);
     }
 }

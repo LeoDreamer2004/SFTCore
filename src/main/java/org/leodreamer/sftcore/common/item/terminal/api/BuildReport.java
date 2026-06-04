@@ -1,9 +1,10 @@
 package org.leodreamer.sftcore.common.item.terminal.api;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

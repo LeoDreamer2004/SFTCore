@@ -1,7 +1,5 @@
 package org.leodreamer.sftcore.common.item;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildContext;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildExecutor;
@@ -10,8 +8,6 @@ import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalFancyUIProvide
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
-import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerLevel;
@@ -23,6 +19,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+
+import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 
 public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
 
@@ -41,7 +40,7 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
             return InteractionResult.SUCCESS;
         }
 
-        var builder = MekBuilderRegistry.selected(stack);
+        var builder = MekBuilderRegistry.selected(stack).builder();
         if (builder == null) {
             return InteractionResult.PASS;
         }

@@ -8,6 +8,5 @@ public record Placement(
     BlockPos pos,
     BlockState state,
     Item requiredItem,
-    PlacementRole role,
     boolean consumeItem
 ) {}

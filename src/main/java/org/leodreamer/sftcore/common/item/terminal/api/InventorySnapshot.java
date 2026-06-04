@@ -1,14 +1,14 @@
 package org.leodreamer.sftcore.common.item.terminal.api;
 
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class InventorySnapshot {
 
-    private final Map<Item, Integer> counts = new HashMap<>();
+    private final Map<Item, Integer> counts = new Object2IntArrayMap<>();
 
     public static InventorySnapshot of(Player player) {
         var snapshot = new InventorySnapshot();
