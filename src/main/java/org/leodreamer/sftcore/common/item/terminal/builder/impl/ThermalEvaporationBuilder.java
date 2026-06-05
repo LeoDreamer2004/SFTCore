@@ -1,23 +1,21 @@
 package org.leodreamer.sftcore.common.item.terminal.builder.impl;
 
-import mekanism.common.registries.MekanismBlocks;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.api.*;
 import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.ISidedControllerRelativePosition;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+
+import mekanism.common.registries.MekanismBlocks;
 
 import java.util.ArrayList;
 
 @DataGenScanned
 public class ThermalEvaporationBuilder implements ISidedControllerRelativePosition, ICubeShapedBuilder {
-
-    @RegisterLanguage("Right-click the Thermal Evaporation Controller with Shift to start building")
-    public static final String INVALID_START = "item.sftcore.mek_terminal.invalid_thermal_evaporation_start";
 
     @Override
     public ResourceLocation id() {
@@ -25,15 +23,8 @@ public class ThermalEvaporationBuilder implements ISidedControllerRelativePositi
     }
 
     @Override
-    public boolean canStart(BuildContext ctx) {
-        return ctx.level()
-            .getBlockState(ctx.clicked())
-            .is(MekanismBlocks.THERMAL_EVAPORATION_CONTROLLER.getBlock());
-    }
-
-    @Override
-    public Component invalidStartMessage() {
-        return Component.translatable(INVALID_START);
+    public Block clickAt(BuildContext ctx) {
+        return MekanismBlocks.THERMAL_EVAPORATION_CONTROLLER.getBlock();
     }
 
     @Override

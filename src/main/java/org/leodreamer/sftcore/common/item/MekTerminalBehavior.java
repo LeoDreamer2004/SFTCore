@@ -3,6 +3,7 @@ package org.leodreamer.sftcore.common.item;
 import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildContext;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildExecutor;
+import org.leodreamer.sftcore.common.item.terminal.api.BuildReport;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalFancyUIProvider;
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
@@ -10,6 +11,7 @@ import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -52,9 +54,11 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
             stack
         );
 
-        if (!builder.canStart(buildContext)) {
+        var expectedBlock = builder.clickAt(buildContext);
+        if (!buildContext.level().getBlockState(buildContext.clicked()).is(expectedBlock)) {
             player.displayClientMessage(
-                builder.invalidStartMessage().copy().withStyle(ChatFormatting.RED),
+                Component.translatable(BuildReport.INVALID_START, expectedBlock.getName())
+                    .withStyle(ChatFormatting.RED),
                 true
             );
             return InteractionResult.FAIL;

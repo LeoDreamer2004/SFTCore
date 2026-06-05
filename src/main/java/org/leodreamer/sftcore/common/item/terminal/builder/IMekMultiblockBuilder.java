@@ -4,8 +4,8 @@ import org.leodreamer.sftcore.common.item.terminal.api.*;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public interface IMekMultiblockBuilder {
 
     ResourceLocation id();
 
-    boolean canStart(BuildContext ctx);
+    Block clickAt(BuildContext ctx);
 
     BuildDimensions dimensions(CompoundTag rootTag);
 
@@ -80,9 +80,5 @@ public interface IMekMultiblockBuilder {
         }
 
         return plan;
-    }
-
-    default Component invalidStartMessage() {
-        return Component.translatable(BuildReport.INVALID_START);
     }
 }

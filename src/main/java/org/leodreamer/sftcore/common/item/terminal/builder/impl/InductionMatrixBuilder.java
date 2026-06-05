@@ -2,22 +2,18 @@ package org.leodreamer.sftcore.common.item.terminal.builder.impl;
 
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.api.*;
 import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.ISimpleRelativePosition;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 
 import mekanism.common.registries.MekanismBlocks;
 
 @DataGenScanned
 public class InductionMatrixBuilder implements ISimpleRelativePosition, ICubeShapedBuilder {
-
-    @RegisterLanguage("Right-click the induction casing with Shift to start building")
-    public static final String INVALID_START = "item.sftcore.mek_terminal.invalid_induction_start";
 
     @Override
     public ResourceLocation id() {
@@ -25,15 +21,8 @@ public class InductionMatrixBuilder implements ISimpleRelativePosition, ICubeSha
     }
 
     @Override
-    public boolean canStart(BuildContext ctx) {
-        return ctx.level()
-            .getBlockState(ctx.clicked())
-            .is(MekanismBlocks.INDUCTION_CASING.getBlock());
-    }
-
-    @Override
-    public Component invalidStartMessage() {
-        return Component.translatable(INVALID_START);
+    public Block clickAt(BuildContext ctx) {
+        return MekanismBlocks.INDUCTION_CASING.getBlock();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class BuildReport {
         missingItems.merge(item, 1, Integer::sum);
     }
 
-    @RegisterLanguage("Please sneak right click a valid Mekanism multiblock starting point")
+    @RegisterLanguage("Right-click the %s with Shift to start building")
     public static final String INVALID_START = "item.sftcore.mek_terminal.invalid_start";
 
     @RegisterLanguage("Build complete: Placed %s, Existing %s, Blocked %s，Missing %s，Failed %s")

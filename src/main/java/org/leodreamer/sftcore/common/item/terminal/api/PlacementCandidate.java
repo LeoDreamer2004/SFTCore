@@ -25,7 +25,7 @@ public class PlacementCandidate {
     private @Nullable Item item;
     @Getter
     @Setter
-    private boolean consumeItem;
+    private boolean consumeItem = true;
 
     private static final PlacementCandidate AIR = new PlacementCandidate();
 
