@@ -13,7 +13,8 @@ import net.minecraft.nbt.CompoundTag;
 public interface ICubeShapedBuilder extends IMekMultiblockBuilder {
 
     enum Part {
-        FRAME,
+        CORNER,
+        EDGE,
         FACE,
         INNER
     }
@@ -41,13 +42,12 @@ public interface ICubeShapedBuilder extends IMekMultiblockBuilder {
             borders++;
         }
 
-        if (borders >= 2) {
-            return Part.FRAME;
-        }
-        if (borders == 1) {
-            return Part.FACE;
-        }
-        return Part.INNER;
+        return switch (borders) {
+            case 3 -> Part.CORNER;
+            case 2 -> Part.EDGE;
+            case 1 -> Part.FACE;
+            default -> Part.INNER;
+        };
     }
 
     @Override

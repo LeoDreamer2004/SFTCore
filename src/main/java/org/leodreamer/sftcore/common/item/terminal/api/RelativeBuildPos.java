@@ -12,7 +12,11 @@ public record RelativeBuildPos(
         return x == 0 && y == 0 && z == 0;
     }
 
-    public BlockPos toWorld(BlockPos origin) {
+    public BlockPos addTo(BlockPos origin) {
         return origin.offset(x, y, z);
+    }
+
+    public BlockPos minusTo(BlockPos origin) {
+        return origin.offset(-x, -y, -z);
     }
 }

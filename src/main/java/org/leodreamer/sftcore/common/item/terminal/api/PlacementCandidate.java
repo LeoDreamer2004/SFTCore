@@ -8,6 +8,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import mekanism.api.providers.IBlockProvider;
+
+import java.util.Arrays;
 
 import javax.annotation.Nullable;
 
@@ -30,11 +33,25 @@ public class PlacementCandidate {
         return AIR;
     }
 
+    public static PlacementCandidate simple(IBlockProvider block) {
+        return simple(block.getBlock());
+    }
+
     public static PlacementCandidate simple(Block block) {
         return new PlacementCandidate().state(block.defaultBlockState()).item(block.asItem());
     }
 
-    public static PlacementCandidate anyOf(InventorySnapshot snapshot, Iterable<PlacementCandidate> candidates) {
+    public static PlacementCandidate anyOf(InventorySnapshot snapshot, IBlockProvider... candidates) {
+        return anyOf(snapshot, Arrays.stream(candidates).map(IBlockProvider::getBlock).toArray(Block[]::new));
+    }
+
+    public static PlacementCandidate anyOf(InventorySnapshot snapshot, Block... candidates) {
+        return anyOf(
+            snapshot, Arrays.stream(candidates).map(PlacementCandidate::simple).toArray(PlacementCandidate[]::new)
+        );
+    }
+
+    public static PlacementCandidate anyOf(InventorySnapshot snapshot, PlacementCandidate... candidates) {
         for (var candidate : candidates) {
             if (!candidate.isAir() && snapshot.count(candidate.item()) > 0) {
                 snapshot.takeVirtual(candidate.item());

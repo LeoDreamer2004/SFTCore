@@ -8,6 +8,6 @@ import net.minecraft.world.item.ItemStack;
 public record BuildContext(
     ServerLevel level,
     Player player,
-    BlockPos origin,
+    BlockPos clicked,
     ItemStack terminal
 ) {}
