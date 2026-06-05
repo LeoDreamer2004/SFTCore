@@ -31,13 +31,13 @@ public final class InductionMatrixTab extends MekTerminalTab<InductionMatrixBuil
     public static final String TITLE = "item.sftcore.mek_terminal.tab.induction";
 
     @RegisterLanguage("Width")
-    public static final String WIDTH = "item.sftcore.mek_terminal.width";
+    public static final String WIDTH = "item.sftcore.mek_terminal.induction_matrix.width";
 
     @RegisterLanguage("Height")
-    public static final String HEIGHT = "item.sftcore.mek_terminal.height";
+    public static final String HEIGHT = "item.sftcore.mek_terminal.induction_matrix.height";
 
     @RegisterLanguage("Depth")
-    public static final String DEPTH = "item.sftcore.mek_terminal.depth";
+    public static final String DEPTH = "item.sftcore.mek_terminal.induction_matrix.depth";
 
     public InductionMatrixTab(
         InductionMatrixBuilder builder,

@@ -42,7 +42,7 @@ public interface IMekMultiblockBuilder {
         }
 
         return positions;
-    };
+    }
 
     /**
      * Get a concrete block candidate.
