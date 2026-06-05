@@ -1,11 +1,13 @@
 package org.leodreamer.sftcore.common.item.terminal.gui;
 
+import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
+
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 
-import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
+
+import lombok.Getter;
 
 import java.util.List;
 import java.util.function.Consumer;

@@ -2,9 +2,11 @@ package org.leodreamer.sftcore.common.item.terminal.gui.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.gui.IntConfigButtonGroup;
 import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixConfig;
+import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 
@@ -17,8 +19,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import mekanism.common.registries.MekanismBlocks;
-import org.leodreamer.sftcore.common.item.terminal.gui.IntConfigButtonGroup;
-import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;

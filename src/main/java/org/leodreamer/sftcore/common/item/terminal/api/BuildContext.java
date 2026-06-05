@@ -9,5 +9,5 @@ public record BuildContext(
     ServerLevel level,
     Player player,
     BlockPos origin,
-    ItemStack terminalStack
+    ItemStack terminal
 ) {}

@@ -1,9 +1,10 @@
 package org.leodreamer.sftcore.common.item.terminal.builder;
 
-import net.minecraft.nbt.CompoundTag;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildContext;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildDimensions;
 import org.leodreamer.sftcore.common.item.terminal.api.RelativeBuildPos;
+
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 

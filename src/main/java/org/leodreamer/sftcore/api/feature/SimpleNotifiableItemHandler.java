@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.gui;
+package org.leodreamer.sftcore.api.feature;
 
 import net.minecraft.world.item.ItemStack;
 

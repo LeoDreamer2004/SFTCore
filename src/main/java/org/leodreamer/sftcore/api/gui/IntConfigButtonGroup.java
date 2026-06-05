@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.item.terminal.gui;
+package org.leodreamer.sftcore.api.gui;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 

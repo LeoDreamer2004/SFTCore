@@ -4,6 +4,8 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.api.*;
+import org.leodreamer.sftcore.common.item.terminal.builder.ICubeRelativePosition;
+import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -11,8 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import mekanism.api.providers.IBlockProvider;
 import mekanism.common.registries.MekanismBlocks;
-import org.leodreamer.sftcore.common.item.terminal.builder.ICubeRelativePosition;
-import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 
 import java.util.List;
 

@@ -1,8 +1,9 @@
 package org.leodreamer.sftcore.common.item.terminal.api;
 
-import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 
 import java.util.Map;
 

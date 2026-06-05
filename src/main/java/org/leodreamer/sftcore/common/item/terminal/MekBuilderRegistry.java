@@ -1,11 +1,12 @@
 package org.leodreamer.sftcore.common.item.terminal;
 
+import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
+import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixBuilder;
+import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
+import org.leodreamer.sftcore.common.item.terminal.gui.impl.InductionMatrixTab;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
-import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
-import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixBuilder;
-import org.leodreamer.sftcore.common.item.terminal.gui.impl.InductionMatrixTab;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -22,7 +23,8 @@ public final class MekBuilderRegistry {
 
     public static final Entry<?> INDUCTION_MATRIX = register(InductionMatrixBuilder::new, InductionMatrixTab::new);
 
-    public static <T extends IMekMultiblockBuilder> Entry<T> register(Supplier<T> builderSupplier, TabFactory<T> tabFactory) {
+    public static <
+        T extends IMekMultiblockBuilder> Entry<T> register(Supplier<T> builderSupplier, TabFactory<T> tabFactory) {
         var builder = builderSupplier.get();
         var entry = new Entry<>(builder, tabFactory);
         ENTRIES.put(builder.id(), entry);
@@ -53,6 +55,7 @@ public final class MekBuilderRegistry {
     }
 
     public record Entry<T extends IMekMultiblockBuilder>(T builder, TabFactory<T> tabFactory) {
+
         public ResourceLocation id() {
             return builder.id();
         }
