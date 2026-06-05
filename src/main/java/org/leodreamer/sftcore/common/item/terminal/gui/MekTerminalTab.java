@@ -8,7 +8,10 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
 
@@ -33,6 +36,33 @@ public abstract class MekTerminalTab<T extends IMekMultiblockBuilder> implements
     @Override
     public List<Component> getTabTooltips() {
         return List.of(getTitle());
+    }
+
+    protected WidgetGroup rootWidget() {
+        var root = new WidgetGroup(0, 0, MekTerminalPreviewPage.PAGE_WIDTH, MekTerminalPreviewPage.PAGE_HEIGHT);
+        root.addWidget(new LabelWidget(4, 4, getTitle()));
+        root.addWidget(
+            new MekTerminalPreviewPage(
+                root,
+                builder,
+                terminal.getOrCreateTag()
+            )
+        );
+        return root;
+    }
+
+    protected static Widget wrappedText(
+        int x,
+        int y,
+        int width,
+        int height,
+        String translationKey
+    ) {
+        var texture = new TextTexture(translationKey)
+            .setWidth(width)
+            .setType(TextTexture.TextType.LEFT);
+
+        return new ImageWidget(x, y, width, height, texture);
     }
 
     protected void addIntRow(

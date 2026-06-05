@@ -6,8 +6,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Basic interface for builder of mek multiblocks
@@ -80,5 +83,54 @@ public interface IMekMultiblockBuilder {
         }
 
         return plan;
+    }
+
+    /**
+     * Candidate used by the GUI preview.
+     * Default behavior is identical to actual construction, except that the
+     * inventory is treated as creative. Individual builders may override this
+     * method if they need a more representative preview arrangement.
+     */
+    default PlacementCandidate previewCandidateFor(
+        CompoundTag terminalTag,
+        BuildDimensions dimensions,
+        RelativeBuildPos pos,
+        InventorySnapshot creativeInventory
+    ) {
+        return candidateFor(
+            terminalTag,
+            dimensions,
+            pos,
+            creativeInventory
+        );
+    }
+
+    /**
+     * Generate a canonical preview using relative coordinates.
+     */
+    default Map<BlockPos, BlockState> previewStates(CompoundTag terminalTag) {
+        var dimensions = dimensions(terminalTag);
+        var inventory = InventorySnapshot.creative();
+        var states = new LinkedHashMap<BlockPos, BlockState>();
+
+        for (var pos : positions(terminalTag, dimensions)) {
+            var candidate = previewCandidateFor(
+                terminalTag,
+                dimensions,
+                pos,
+                inventory
+            );
+
+            if (candidate == null || candidate.isAir()) {
+                continue;
+            }
+
+            states.put(
+                new BlockPos(pos.x(), pos.y(), pos.z()),
+                candidate.state()
+            );
+        }
+
+        return states;
     }
 }

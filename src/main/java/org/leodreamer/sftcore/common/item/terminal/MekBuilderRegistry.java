@@ -2,9 +2,11 @@ package org.leodreamer.sftcore.common.item.terminal;
 
 import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixBuilder;
+import org.leodreamer.sftcore.common.item.terminal.builder.impl.SPSBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.ThermalEvaporationBuilder;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import org.leodreamer.sftcore.common.item.terminal.gui.impl.InductionMatrixTab;
+import org.leodreamer.sftcore.common.item.terminal.gui.impl.SPSTab;
 import org.leodreamer.sftcore.common.item.terminal.gui.impl.ThermalEvaporationTab;
 
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +26,8 @@ public final class MekBuilderRegistry {
     private static final Map<ResourceLocation, Entry<?>> ENTRIES = new LinkedHashMap<>();
 
     public static final Entry<?> INDUCTION_MATRIX = register(InductionMatrixBuilder::new, InductionMatrixTab::new),
-        THERMAL_EVAPORATION = register(ThermalEvaporationBuilder::new, ThermalEvaporationTab::new);
+        THERMAL_EVAPORATION = register(ThermalEvaporationBuilder::new, ThermalEvaporationTab::new),
+        SPS = register(SPSBuilder::new, SPSTab::new);
 
     public static <
         T extends IMekMultiblockBuilder> Entry<T> register(Supplier<T> builderSupplier, TabFactory<T> tabFactory) {

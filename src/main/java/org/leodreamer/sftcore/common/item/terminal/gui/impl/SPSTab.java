@@ -13,9 +13,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import mekanism.common.registries.MekanismBlocks;
 
 import java.util.function.Consumer;
@@ -55,11 +53,10 @@ public final class SPSTab extends MekTerminalTab<SPSBuilder> {
         MekBuilderRegistry.setSelected(terminal, builder);
         onSave.accept(terminal);
 
-        var root = new WidgetGroup(0, 0, 158, 110);
+        var root = rootWidget();
 
-        root.addWidget(new LabelWidget(4, 4, getTitle()));
-        root.addWidget(new LabelWidget(12, 30, Component.translatable(FIXED_PATTERN)));
-        root.addWidget(new LabelWidget(12, 48, Component.translatable(START_HINT)));
+        root.addWidget(wrappedText(12, 6, 134, 14, FIXED_PATTERN));
+        root.addWidget(wrappedText(12, 24, 134, 30, START_HINT));
 
         return root;
     }

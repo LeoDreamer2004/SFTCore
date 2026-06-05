@@ -14,9 +14,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import mekanism.common.registries.MekanismBlocks;
 
 import java.util.function.Consumer;
@@ -59,10 +57,11 @@ public final class InductionMatrixTab extends MekTerminalTab<InductionMatrixBuil
         MekBuilderRegistry.setSelected(terminal, builder);
         onSave.accept(terminal);
 
-        var config = InductionMatrixConfig.resolve(terminal.getOrCreateTag());
+        var config = InductionMatrixConfig.resolve(
+            terminal.getOrCreateTag()
+        );
 
-        var root = new WidgetGroup(0, 0, 158, 80);
-        root.addWidget(new LabelWidget(4, 4, getTitle()));
+        var root = rootWidget();
 
         addIntRow(root, 26, Component.translatable(WIDTH), config::getWidth, config::setWidth);
         addIntRow(root, 46, Component.translatable(HEIGHT), config::getHeight, config::setHeight);

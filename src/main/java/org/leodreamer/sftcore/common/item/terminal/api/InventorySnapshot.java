@@ -29,6 +29,12 @@ public class InventorySnapshot {
         return snapshot;
     }
 
+    public static InventorySnapshot creative() {
+        var snapshot = new InventorySnapshot();
+        snapshot.isCreative = true;
+        return snapshot;
+    }
+
     public int count(Item item) {
         if (isCreative) {
             return Integer.MAX_VALUE;

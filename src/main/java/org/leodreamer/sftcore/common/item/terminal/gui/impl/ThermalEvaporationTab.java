@@ -14,9 +14,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import mekanism.common.registries.MekanismBlocks;
 
 import java.util.function.Consumer;
@@ -57,19 +55,9 @@ public final class ThermalEvaporationTab extends MekTerminalTab<ThermalEvaporati
 
         var config = ThermalEvaporationConfig.resolve(terminal.getOrCreateTag());
 
-        var root = new WidgetGroup(0, 0, 158, 110);
-        root.addWidget(new LabelWidget(4, 4, getTitle()));
+        var root = rootWidget();
 
-        addIntRow(
-            root,
-            26,
-            Component.translatable(HEIGHT),
-            config::getHeight,
-            value -> {
-                config.setHeight(value);
-                onSave.accept(terminal);
-            }
-        );
+        addIntRow(root, 26, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
 
         return root;
     }
