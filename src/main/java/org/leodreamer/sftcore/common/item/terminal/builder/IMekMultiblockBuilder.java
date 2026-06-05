@@ -9,6 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 
+/**
+ * Basic interface for builder of mek multiblocks
+ */
 public interface IMekMultiblockBuilder {
 
     ResourceLocation id();

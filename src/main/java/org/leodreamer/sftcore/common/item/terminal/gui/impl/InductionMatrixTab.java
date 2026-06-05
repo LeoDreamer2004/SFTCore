@@ -2,7 +2,6 @@ package org.leodreamer.sftcore.common.item.terminal.gui.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.gui.IntConfigButtonGroup;
 import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixConfig;
@@ -21,8 +20,6 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import mekanism.common.registries.MekanismBlocks;
 
 import java.util.function.Consumer;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
 
 @DataGenScanned
 public final class InductionMatrixTab extends MekTerminalTab<InductionMatrixBuilder> {
@@ -67,24 +64,10 @@ public final class InductionMatrixTab extends MekTerminalTab<InductionMatrixBuil
         var root = new WidgetGroup(0, 0, 158, 80);
         root.addWidget(new LabelWidget(4, 4, getTitle()));
 
-        addDimensionRow(root, 26, Component.translatable(WIDTH), config::getWidth, config::setWidth);
-        addDimensionRow(root, 46, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
-        addDimensionRow(root, 66, Component.translatable(DEPTH), config::getDepth, config::setDepth);
+        addIntRow(root, 26, Component.translatable(WIDTH), config::getWidth, config::setWidth);
+        addIntRow(root, 46, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
+        addIntRow(root, 66, Component.translatable(DEPTH), config::getDepth, config::setDepth);
 
         return root;
-    }
-
-    private void addDimensionRow(
-        WidgetGroup root,
-        int y,
-        Component label,
-        IntSupplier getter,
-        IntConsumer setter
-    ) {
-        root.addWidget(new LabelWidget(12, y + 4, label));
-        root.addWidget(new IntConfigButtonGroup(92, y, getter, num -> {
-            setter.accept(num);
-            onSave.accept(terminal);
-        }));
     }
 }

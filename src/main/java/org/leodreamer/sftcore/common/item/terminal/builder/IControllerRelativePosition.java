@@ -16,12 +16,13 @@ public interface IControllerRelativePosition extends IMekMultiblockBuilder {
      * Controller position inside the dimension-space structure.
      */
     RelativeBuildPos controllerInDimension(
+        BuildContext ctx,
         CompoundTag terminalTag,
         BuildDimensions dimensions
     );
 
     @Override
     default BlockPos origin(BuildContext ctx, CompoundTag terminalTag, BuildDimensions dimensions) {
-        return controllerInDimension(terminalTag, dimensions).minusTo(ctx.clicked());
+        return controllerInDimension(ctx, terminalTag, dimensions).minusTo(ctx.clicked());
     }
 }

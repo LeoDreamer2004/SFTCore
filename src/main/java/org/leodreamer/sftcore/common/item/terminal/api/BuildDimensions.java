@@ -9,4 +9,8 @@ public record BuildDimensions(
     public int volume() {
         return width * height * depth;
     }
+
+    public int surface() {
+        return 2 * (width * height + width * depth + height * depth);
+    }
 }

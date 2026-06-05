@@ -13,7 +13,4 @@ public final class MekTerminalTags {
 
     public static final String THERMAL_EVAPORATION = "thermal_evaporation";
     public static final String THERMAL_EVAPORATION_HEIGHT = "height";
-    public static final String THERMAL_EVAPORATION_CONTROLLER_X = "cx";
-    public static final String THERMAL_EVAPORATION_CONTROLLER_Y = "cy";
-    public static final String THERMAL_EVAPORATION_CONTROLLER_Z = "cz";
 }
