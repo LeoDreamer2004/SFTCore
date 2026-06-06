@@ -1,16 +1,9 @@
 package org.leodreamer.sftcore.common.item;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
-import org.leodreamer.sftcore.common.item.terminal.api.BuildContext;
-import org.leodreamer.sftcore.common.item.terminal.api.BuildExecutor;
-import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalFancyUIProvider;
-
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
-
+import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -22,9 +15,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-
-import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
+import org.leodreamer.sftcore.common.item.terminal.api.BuildContext;
+import org.leodreamer.sftcore.common.item.terminal.api.BuildExecutor;
+import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalFancyUIProvider;
+import org.leodreamer.sftcore.api.gui.SplitSideFancyMachineUIWidget;
 
 @DataGenScanned
 public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
@@ -55,12 +52,7 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
             return InteractionResult.PASS;
         }
 
-        var buildContext = new BuildContext(
-            serverLevel,
-            player,
-            context.getClickedPos(),
-            stack
-        );
+        var buildContext = new BuildContext(serverLevel, player, context.getClickedPos(), stack);
 
         var expectedBlock = builder.clickAt();
         if (!buildContext.level().getBlockState(buildContext.clicked()).is(expectedBlock)) {
@@ -101,6 +93,6 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
         var provider = new MekTerminalFancyUIProvider(stack, newStack -> player.setItemInHand(hand, newStack));
 
         return new ModularUI(176, 166, holder, player)
-            .widget(new FancyMachineUIWidget(provider, 176, 166));
+            .widget(new SplitSideFancyMachineUIWidget(provider, 176, 166));
     }
 }

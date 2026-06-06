@@ -67,7 +67,7 @@ public final class IndustrialTurbineBuilder
 
         return switch (part) {
             case CORNER, EDGE -> PlacementCandidate.simple(GeneratorsBlocks.TURBINE_CASING);
-            case FACE -> surfaceCandidate(pos, layer, inventory);
+            case FACE -> surfaceCandidate(pos, layer, dimensions, inventory);
             case INNER -> innerCandidate(config, pos, layer, center);
         };
     }
@@ -75,6 +75,7 @@ public final class IndustrialTurbineBuilder
     private PlacementCandidate surfaceCandidate(
         RelativeBuildPos pos,
         LayerType layer,
+        BuildDimensions dimensions,
         InventorySnapshot inventory
     ) {
         if (pos.y() == 0) {
@@ -87,6 +88,10 @@ public final class IndustrialTurbineBuilder
                 GeneratorsBlocks.TURBINE_VALVE,
                 MekanismBlocks.STRUCTURAL_GLASS
             );
+        }
+
+        if (pos.y() == dimensions.height() - 1) {
+            return PlacementCandidate.simple(MekanismBlocks.STRUCTURAL_GLASS);
         }
 
         return switch (layer) {

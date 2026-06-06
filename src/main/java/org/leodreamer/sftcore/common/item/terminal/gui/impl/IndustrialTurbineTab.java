@@ -57,6 +57,6 @@ public final class IndustrialTurbineTab
         addIntRow(content, 40, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
         addIntRow(content, 58, Component.translatable(ROTORS), config::getRotorCount, config::setRotorCount);
 
-        addWrappedText(content, 12, 78, 120, 28, HINT);
+        addWrappedText(content, 12, 82, 120, 28, HINT);
     }
 }
