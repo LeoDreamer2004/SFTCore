@@ -9,41 +9,36 @@ public final class BuildExecutor {
 
     private BuildExecutor() {}
 
-    public static BuildReport execute(BuildContext ctx, BuildPlan plan) {
-        var report = new BuildReport();
+    public static int execute(BuildContext ctx, BuildPlan plan) {
+        var success = 0;
 
         for (var placement : plan.placements()) {
-            if (placeOne(ctx, placement, report)) {
-                report.placed++;
+            if (placeOne(ctx, placement)) {
+                success++;
             }
         }
 
-        return report;
+        return success;
     }
 
-    private static boolean placeOne(BuildContext ctx, Placement placement, BuildReport report) {
+    private static boolean placeOne(BuildContext ctx, Placement placement) {
         var pos = placement.pos();
         var oldState = ctx.level().getBlockState(pos);
 
         if (oldState.is(placement.state().getBlock())) {
-            report.existing++;
             return false;
         }
 
         if (!oldState.isAir()) {
-            report.blocked++;
             return false;
         }
 
         if (placement.consumeItem() && !consume(ctx.player(), placement.requiredItem())) {
-            report.addMissing(placement.requiredItem());
             return false;
         }
 
         boolean ok = ctx.level().setBlock(pos, placement.state(), Block.UPDATE_ALL);
         if (!ok) {
-            report.failed++;
-
             if (placement.consumeItem() && !ctx.player().getAbilities().instabuild) {
                 ctx.player().getInventory().add(new ItemStack(placement.requiredItem()));
             }

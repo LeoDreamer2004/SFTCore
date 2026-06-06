@@ -1,7 +1,8 @@
 package org.leodreamer.sftcore.common.item.terminal.builder;
 
-import net.minecraft.nbt.CompoundTag;
 import org.leodreamer.sftcore.common.item.terminal.api.*;
+
+import net.minecraft.nbt.CompoundTag;
 
 /**
  * Helper builder for cube-shaped multiblocks, where the position of each block determines its role in the structure.

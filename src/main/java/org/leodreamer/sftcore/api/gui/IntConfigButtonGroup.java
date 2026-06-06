@@ -2,8 +2,6 @@ package org.leodreamer.sftcore.api.gui;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 
-import net.minecraft.network.chat.Component;
-
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;

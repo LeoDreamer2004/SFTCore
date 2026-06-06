@@ -42,7 +42,9 @@ public class PlacementCandidate {
     }
 
     public static PlacementCandidate anyOf(InventorySnapshot snapshot, IBlockProvider... candidates) {
-        return anyOf(snapshot, Arrays.stream(candidates).map(PlacementCandidate::simple).toArray(PlacementCandidate[]::new));
+        return anyOf(
+            snapshot, Arrays.stream(candidates).map(PlacementCandidate::simple).toArray(PlacementCandidate[]::new)
+        );
     }
 
     public static PlacementCandidate anyOf(InventorySnapshot snapshot, Block... candidates) {

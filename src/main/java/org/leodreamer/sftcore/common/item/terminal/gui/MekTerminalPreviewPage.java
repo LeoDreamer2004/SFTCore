@@ -198,8 +198,8 @@ public final class MekTerminalPreviewPage extends WidgetGroup {
         var blocks = new LinkedHashMap<BlockPos, BlockInfo>();
 
         // avoid mekanism TESR/BER bug
-        states.forEach((pos, state) ->
-            blocks.put(pos, new BlockInfo(state, false))
+        states.forEach(
+            (pos, state) -> blocks.put(pos, new BlockInfo(state, false))
         );
 
         var previewWorld = new TrackedDummyWorld();

@@ -1,9 +1,10 @@
 package org.leodreamer.sftcore.common.item;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildContext;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildExecutor;
-import org.leodreamer.sftcore.common.item.terminal.api.BuildReport;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalFancyUIProvider;
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
@@ -25,7 +26,14 @@ import net.minecraft.world.level.Level;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 
+@DataGenScanned
 public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
+
+    @RegisterLanguage("Right-click the %s with Shift to start building")
+    public static final String INVALID_START = "item.sftcore.mek_terminal.invalid_start";
+
+    @RegisterLanguage("Successfully place %s blocks")
+    public static final String REPORT = "item.sftcore.mek_terminal.report";
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -56,18 +64,16 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
 
         var expectedBlock = builder.clickAt();
         if (!buildContext.level().getBlockState(buildContext.clicked()).is(expectedBlock)) {
-            player.displayClientMessage(
-                Component.translatable(BuildReport.INVALID_START, expectedBlock.getName())
-                    .withStyle(ChatFormatting.RED),
-                true
-            );
+            var error = Component.translatable(INVALID_START, expectedBlock.getName()).withStyle(ChatFormatting.RED);
+            player.displayClientMessage(error, true);
             return InteractionResult.FAIL;
         }
 
         var plan = builder.createPlan(buildContext, stack.getOrCreateTag());
-        var report = BuildExecutor.execute(buildContext, plan);
+        int success = BuildExecutor.execute(buildContext, plan);
+        var message = Component.translatable(REPORT, success).withStyle(ChatFormatting.GREEN);
 
-        player.displayClientMessage(report.toComponent(), true);
+        player.displayClientMessage(message, true);
         return InteractionResult.SUCCESS;
     }
 
