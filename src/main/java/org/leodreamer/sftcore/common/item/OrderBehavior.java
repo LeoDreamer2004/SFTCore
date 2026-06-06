@@ -140,6 +140,11 @@ public class OrderBehavior
         return Component.translatable(ORDER_CONFIG);
     }
 
+    @Override
+    public boolean hasPlayerInventory() {
+        return false;
+    }
+
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
     }

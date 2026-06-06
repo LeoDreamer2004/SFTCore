@@ -2,14 +2,13 @@ package org.leodreamer.sftcore.common.item;
 
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardFancyUIProvider;
-import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardHeldItemUI;
 import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardTooltips;
 
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,12 +30,10 @@ public class WildcardPatternBehavior implements IItemUIFactory, IAddInformation 
         var logic = WildcardPatternLogic.on(stack);
 
         Consumer<ItemStack> onSave = s -> player.setItemInHand(hand, s);
-        int heldSlotIndex = hand == InteractionHand.MAIN_HAND ? player.getInventory().selected : 40; // offhand slot
-
-        var provider = new WildcardFancyUIProvider(logic, player.level(), onSave, heldSlotIndex);
+        var provider = new WildcardFancyUIProvider(logic, player.level(), onSave);
 
         return new ModularUI(176, 166, heldItemHolder, player)
-            .widget(new WildcardHeldItemUI(provider, 176, 166));
+            .widget(new FancyMachineUIWidget(provider, 176, 166));
     }
 
     @Override

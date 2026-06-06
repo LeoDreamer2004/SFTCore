@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import lombok.Getter;
 
 import java.util.function.Consumer;
 
@@ -26,19 +25,15 @@ public final class WildcardFancyUIProvider implements IFancyUIProvider {
     private final WildcardPatternLogic logic;
     private final Level level;
     private final Consumer<ItemStack> onSave;
-    @Getter
-    private final int heldSlotIndex;
 
     public WildcardFancyUIProvider(
         WildcardPatternLogic logic,
         Level level,
-        Consumer<ItemStack> onSave,
-        int heldSlotIndex
+        Consumer<ItemStack> onSave
     ) {
         this.logic = logic;
         this.level = level;
         this.onSave = onSave;
-        this.heldSlotIndex = heldSlotIndex;
     }
 
     @RegisterLanguage("Wildcard Pattern Config")
@@ -51,12 +46,17 @@ public final class WildcardFancyUIProvider implements IFancyUIProvider {
 
     @Override
     public Widget createMainPage(FancyMachineUIWidget ui) {
-        return new WildcardIndexPage(logic, level, 0, 0, 158, 80);
+        return new WildcardIndexPage(logic, level, 0, 0, 158, 120);
     }
 
     @Override
     public IGuiTexture getTabIcon() {
         return new ItemStackTexture(SFTItems.WILDCARD_PATTERN.asItem());
+    }
+
+    @Override
+    public boolean hasPlayerInventory() {
+        return false;
     }
 
     @Override

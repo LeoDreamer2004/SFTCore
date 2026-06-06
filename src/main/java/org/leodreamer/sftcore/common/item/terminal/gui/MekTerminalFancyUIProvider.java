@@ -45,6 +45,11 @@ public final class MekTerminalFancyUIProvider implements IFancyUIProvider {
     }
 
     @Override
+    public boolean hasPlayerInventory() {
+        return false;
+    }
+
+    @Override
     public Widget createMainPage(FancyMachineUIWidget ui) {
         return selectedTab.createMainPage(ui);
     }

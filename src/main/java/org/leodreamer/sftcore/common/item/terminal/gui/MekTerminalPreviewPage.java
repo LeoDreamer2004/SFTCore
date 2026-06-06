@@ -34,7 +34,7 @@ import java.util.LinkedHashMap;
 public final class MekTerminalPreviewPage extends WidgetGroup {
 
     public static final int PAGE_WIDTH = 158;
-    public static final int PAGE_HEIGHT = 130;
+    public static final int PAGE_HEIGHT = 170;
 
     private static final int BUTTON_SIZE = 18;
     private static final int BUTTON_MARGIN = 4;

@@ -50,6 +50,11 @@ public abstract class MekTerminalTab<T extends IMekMultiblockBuilder> implements
     }
 
     @Override
+    public boolean hasPlayerInventory() {
+        return false;
+    }
+
+    @Override
     public Widget createMainPage(FancyMachineUIWidget ui) {
         MekBuilderRegistry.setSelected(terminal, builder);
         onSave.accept(terminal);

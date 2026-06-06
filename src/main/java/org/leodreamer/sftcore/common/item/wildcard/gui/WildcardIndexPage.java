@@ -47,7 +47,7 @@ public class WildcardIndexPage extends WidgetGroup {
         // Use TextTextureWidget here will cause weird bugs on LabelWidget in other pages.
         // IDK why... LDLib what are u doing???
         var availableText = new ImageWidget(
-            x + 2, y + 2, width - 4, 15,
+            x + 2, y + 2, width - 4, 35,
             () -> new TextTexture(component.getString())
         );
         addWidget(availableText);
@@ -57,12 +57,12 @@ public class WildcardIndexPage extends WidgetGroup {
     }
 
     private void initPatternDisplay() {
-        int w = getSizeWidth(), h = getSizeHeight();
+        int w = getSizeWidth();
 
-        inputGroup = new WidgetGroup(10, 18, (w - 10) / 2, h - 20);
-        outputGroup = new WidgetGroup((w + 30) / 2, 18, (w - 10) / 2, h - 20);
+        inputGroup = new WidgetGroup(10, 38, (w - 10) / 2, 50);
+        outputGroup = new WidgetGroup((w + 30) / 2, 38, (w - 10) / 2, 50);
 
-        var bar = new Widget((w - 10) / 2, 32, 15, 10).setBackground(
+        var bar = new Widget((w - 10) / 2, 52, 15, 10).setBackground(
             GuiTextures.PROGRESS_BAR_ARROW.getSubTexture(0, 0, 1, 0.5)
         );
 
