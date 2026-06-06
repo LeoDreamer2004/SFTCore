@@ -51,13 +51,17 @@ public class PatternContainerProvider implements
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         CompoundTag tag = accessor.getServerData();
-        if (!tag.contains(ITEM_PATTERNS)) return;
-
+        if (!tag.contains(ITEM_PATTERNS)) {
+            return;
+        }
         var itemPatterns = tag.getList(ITEM_PATTERNS, Tag.TAG_STRING);
         var fluidPatterns = tag.getList(FLUID_PATTERNS, Tag.TAG_STRING);
 
-        if (itemPatterns.isEmpty() && fluidPatterns.isEmpty()) return;
+        if (itemPatterns.isEmpty() && fluidPatterns.isEmpty()) {
 
+            return;
+
+        }
         tooltip.add(Component.translatable(TOOLTIP_PATTERNS));
 
         for (var pattern : itemPatterns) {

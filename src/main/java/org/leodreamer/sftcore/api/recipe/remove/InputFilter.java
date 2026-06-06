@@ -18,7 +18,9 @@ public record InputFilter(ItemLike item) implements RecipeFilter {
         var i = item.asItem();
         if (recipe instanceof GTRecipe gtRecipe) {
             for (var input : RecipeHelper.getInputItems(gtRecipe)) {
-                if (input.is(i)) return true;
+                if (input.is(i)) {
+                    return true;
+                }
             }
             return false;
         }

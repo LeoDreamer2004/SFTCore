@@ -65,8 +65,9 @@ public class EmiRecipeAutocraft {
 
     @SubscribeEvent
     public static void onGTMachineHit(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getLevel().isClientSide) return;
-
+        if (!event.getLevel().isClientSide) {
+            return;
+        }
         var pos = event.getPos();
         var level = event.getLevel();
         if (level.getBlockEntity(pos) instanceof MetaMachine machine) {
@@ -86,9 +87,12 @@ public class EmiRecipeAutocraft {
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-        if (!isCrafting || client.player == null) return;
-
+        if (event.phase != TickEvent.Phase.END) {
+            return;
+        }
+        if (!isCrafting || client.player == null) {
+            return;
+        }
         if (currentInterval-- > 0) {
             return;
         }
@@ -134,11 +138,13 @@ public class EmiRecipeAutocraft {
     }
 
     public static void autoFillAvailableRecipes() {
-        if (isCrafting) return;
-
+        if (isCrafting) {
+            return;
+        }
         var syn = findFocus();
-        if (syn == null) return;
-
+        if (syn == null) {
+            return;
+        }
         var recipe = syn.getRecipe();
         if (recipe instanceof EmiCraftingRecipe) {
             // only do auto crafting for crafting table recipes

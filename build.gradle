@@ -295,6 +295,9 @@ spotless {
         toggleOffOn()
         importOrderFile(orderFile)
         removeUnusedImports('cleanthat-javaparser-unnecessaryimport')
+        replaceRegex('no-single-line-if-return',
+                /(?m)^(\s*)if\s*\(([^{}\n]+)\)\s*return((?:\s+[^;\n]+)?);\s*$/,
+                '$1if ($2) {\n$1    return$3;\n$1}')
         endWithNewline()
         eclipse('4.31').configFile(formatFile)
     }

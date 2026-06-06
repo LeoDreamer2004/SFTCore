@@ -42,10 +42,13 @@ public class TimeBottleBehavior implements IInteractionItem, IAddInformation {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
-        if (context.getLevel().isClientSide()) return InteractionResult.PASS;
+        if (context.getLevel().isClientSide()) {
+            return InteractionResult.PASS;
+        }
         var player = context.getPlayer();
-        if (player == null) return InteractionResult.PASS;
-
+        if (player == null) {
+            return InteractionResult.PASS;
+        }
         var container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
         return accelerate(container, context) ? InteractionResult.CONSUME : InteractionResult.PASS;
     }

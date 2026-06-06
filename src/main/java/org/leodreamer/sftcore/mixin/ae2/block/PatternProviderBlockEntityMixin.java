@@ -73,8 +73,9 @@ public abstract class PatternProviderBlockEntityMixin extends AENetworkBlockEnti
 
     @Inject(method = "exportSettings", at = @At("HEAD"), remap = false, cancellable = true)
     public void cancelCutIfCutting(SettingsFrom mode, CompoundTag output, Player player, CallbackInfo ci) {
-        if (player == null || mode != SettingsFrom.MEMORY_CARD) return;
-
+        if (player == null || mode != SettingsFrom.MEMORY_CARD) {
+            return;
+        }
         if (MemoryCardUtils.isCutting(player) == MemoryCardUtils.CuttingResult.DANGER) {
             super.exportSettings(mode, output, player);
             MemoryCardUtils.sendDangerousWarning(player);
@@ -84,8 +85,9 @@ public abstract class PatternProviderBlockEntityMixin extends AENetworkBlockEnti
 
     @Inject(method = "exportSettings", at = @At("TAIL"), remap = false)
     public void allowCutPattern(SettingsFrom mode, CompoundTag output, @Nullable Player player, CallbackInfo ci) {
-        if (player == null || mode != SettingsFrom.MEMORY_CARD) return;
-
+        if (player == null || mode != SettingsFrom.MEMORY_CARD) {
+            return;
+        }
         if (MemoryCardUtils.isCutting(player) != MemoryCardUtils.CuttingResult.NOT) {
             ((IPatternClear) logic).sftcore$clearPatterns(player);
             MemoryCardUtils.sendCutInfo(player);

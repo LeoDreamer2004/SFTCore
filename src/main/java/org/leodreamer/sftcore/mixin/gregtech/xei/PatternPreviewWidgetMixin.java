@@ -37,7 +37,9 @@ public class PatternPreviewWidgetMixin implements IMultiblockInputProvider {
 
     @Inject(method = "setPage", at = @At("TAIL"), remap = false)
     private void notifyInputsUpdate(int index, CallbackInfo ci) {
-        if (sftcore$onUpdate == null) return;
+        if (sftcore$onUpdate == null) {
+            return;
+        }
         var parts = ((MBPatternAccessor) patterns[index]).getParts();
         var input = parts.stream().map(stacks -> stacks.get(0));
         sftcore$onUpdate.accept(input);

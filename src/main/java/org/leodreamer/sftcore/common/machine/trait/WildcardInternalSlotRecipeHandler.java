@@ -156,11 +156,13 @@ public final class WildcardInternalSlotRecipeHandler {
             List<Ingredient> left,
             boolean simulate
         ) {
-            if (io != IO.IN) return left;
-
+            if (io != IO.IN) {
+                return left;
+            }
             var slot = buffer.getInternalSlot(index);
-            if (slot == null || slot.isItemEmpty()) return left;
-
+            if (slot == null || slot.isItemEmpty()) {
+                return left;
+            }
             return slot.handleItemInternal(left, simulate);
         }
 
@@ -226,11 +228,13 @@ public final class WildcardInternalSlotRecipeHandler {
             List<FluidIngredient> left,
             boolean simulate
         ) {
-            if (io != IO.IN) return left;
-
+            if (io != IO.IN) {
+                return left;
+            }
             var slot = buffer.getInternalSlot(index);
-            if (slot == null || slot.isFluidEmpty()) return left;
-
+            if (slot == null || slot.isFluidEmpty()) {
+                return left;
+            }
             return slot.handleFluidInternal(left, simulate);
         }
 

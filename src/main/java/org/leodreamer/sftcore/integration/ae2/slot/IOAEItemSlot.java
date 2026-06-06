@@ -17,18 +17,26 @@ public class IOAEItemSlot extends ExportOnlyAEItemSlot {
 
     @Override
     public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-        if (slot != 0 || config == null) return stack;
-
+        if (slot != 0 || config == null) {
+            return stack;
+        }
         var what = config.what();
 
-        if (!what.matches(stock)) return stack;
-        if (!(what instanceof AEItemKey itemKey)) return stack;
-        if (!itemKey.matches(stack)) return stack;
-
+        if (!what.matches(stock)) {
+            return stack;
+        }
+        if (!(what instanceof AEItemKey itemKey)) {
+            return stack;
+        }
+        if (!itemKey.matches(stack)) {
+            return stack;
+        }
         // check the left available amount
         long origin = stock != null ? stock.amount() : 0;
         long left = config.amount() - origin;
-        if (left <= 0) return stack;
+        if (left <= 0) {
+            return stack;
+        }
         int insert = GTMath.saturatedCast(Math.min(left, stack.getCount()));
         if (!simulate) {
             stock = new GenericStack(what, origin + insert);

@@ -30,7 +30,9 @@ public class RecipeManagerMixin {
         CallbackInfoReturnable<Recipe<?>> cir
     ) {
         var recipe = cir.getReturnValue();
-        if (recipe == null) return;
+        if (recipe == null) {
+            return;
+        }
         try {
             boolean remove = RecipeRemoval.INSTANCE.test(id, recipe);
             if (remove) {

@@ -56,8 +56,9 @@ public final class SFTRecipeModifiers {
 
         @Override
         public @NotNull ModifierFunction getModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
-            if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine))
+            if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine)) {
                 return RecipeModifier.nullWrongType(CoilWorkableElectricMultiblockMachine.class, machine);
+            }
             var temp = coilMachine.getCoilType().getCoilTemperature();
             var tier = Math.floor((float) temp / coilTempLevel);
 
@@ -99,8 +100,11 @@ public final class SFTRecipeModifiers {
         int maxParallels = cMachine.getMaxParallels();
         int parallels = ParallelLogic.getParallelAmount(machine, recipe, maxParallels);
 
-        if (parallels == 1) return ModifierFunction.IDENTITY;
+        if (parallels == 1) {
 
+            return ModifierFunction.IDENTITY;
+
+        }
         return ModifierFunction.builder()
             .modifyAllContents(ContentModifier.multiplier(parallels))
             .eutMultiplier(parallels)

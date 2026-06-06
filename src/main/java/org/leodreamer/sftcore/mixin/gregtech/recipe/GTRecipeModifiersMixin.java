@@ -33,7 +33,11 @@ public class GTRecipeModifiersMixin {
             .memoize(logic -> (machine, recipe) -> {
                 if (recipe.duration == 0) recipe.duration = 1;
 
-                if (!(machine instanceof IOverclockMachine overclockMachine)) return ModifierFunction.IDENTITY;
+                if (!(machine instanceof IOverclockMachine overclockMachine)) {
+
+                    return ModifierFunction.IDENTITY;
+
+                }
                 if (RecipeHelper.getRecipeEUtTier(recipe) > overclockMachine.getMaxOverclockTier()) {
                     return ModifierFunction.NULL;
                 }

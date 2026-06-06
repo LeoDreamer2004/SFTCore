@@ -22,8 +22,9 @@ public class GTTransferLogic {
     ) {
         var group = container.getTerminalGroup();
         var item = group.icon();
-        if (item == null) return Optional.empty();
-
+        if (item == null) {
+            return Optional.empty();
+        }
         var block = Block.byItem(item.getItem());
         if (block instanceof MetaMachineBlock machineBlock) {
             var type = recipeInfo.type();

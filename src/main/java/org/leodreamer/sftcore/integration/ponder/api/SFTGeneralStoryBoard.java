@@ -91,8 +91,9 @@ public class SFTGeneralStoryBoard implements PonderStoryBoard {
                 .toArray();
             var nbt = blockEntry.getCompound("nbt");
             var cable = nbt.getCompound("cable");
-            if (cable.isEmpty()) return;
-
+            if (cable.isEmpty()) {
+                return;
+            }
             final var copy = cable.copy();
             scene
                 .world()

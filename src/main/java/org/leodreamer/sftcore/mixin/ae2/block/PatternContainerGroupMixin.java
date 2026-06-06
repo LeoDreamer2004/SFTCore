@@ -37,8 +37,9 @@ public abstract class PatternContainerGroupMixin {
         CallbackInfoReturnable<PatternContainerGroup> cir
     ) {
         var machine = MetaMachine.getMachine(level, pos);
-        if (machine == null) return;
-
+        if (machine == null) {
+            return;
+        }
         if (machine instanceof IHasCircuitSlot circuitMachine) {
             var circuitStack = circuitMachine.isCircuitSlotEnabled() ?
                 circuitMachine.getCircuitInventory().getStackInSlot(0) : ItemStack.EMPTY;

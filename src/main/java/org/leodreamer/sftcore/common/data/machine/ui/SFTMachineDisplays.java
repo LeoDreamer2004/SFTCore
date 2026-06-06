@@ -19,9 +19,12 @@ public final class SFTMachineDisplays {
         Function<CoilWorkableElectricMultiblockMachine, Integer> tempFunc
     ) {
         return (controller, components) -> {
-            if (!controller.isFormed()) return;
-            if (!(controller instanceof CoilWorkableElectricMultiblockMachine coilMachine)) return;
-
+            if (!controller.isFormed()) {
+                return;
+            }
+            if (!(controller instanceof CoilWorkableElectricMultiblockMachine coilMachine)) {
+                return;
+            }
             int temp = tempFunc.apply(coilMachine);
             String tempStr = FormattingUtil.formatNumbers(temp) + "K";
             components.add(

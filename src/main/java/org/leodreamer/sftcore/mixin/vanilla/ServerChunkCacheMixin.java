@@ -48,7 +48,9 @@ public class ServerChunkCacheMixin {
     private NaturalSpawner.SpawnState skipVoidSpawning(
         int mob, Iterable<Entity> blockPos, NaturalSpawner.ChunkGetter mobCategory, LocalMobCapCalculator entity
     ) {
-        if (sftcore$isVoid()) return null;
+        if (sftcore$isVoid()) {
+            return null;
+        }
         return NaturalSpawner.createState(mob, blockPos, mobCategory, entity);
     }
 
@@ -60,7 +62,9 @@ public class ServerChunkCacheMixin {
         )
     )
     private boolean skipVoidGameRulesChecking(GameRules rules, GameRules.Key<GameRules.BooleanValue> key) {
-        if (sftcore$isVoid()) return false;
+        if (sftcore$isVoid()) {
+            return false;
+        }
         return rules.getBoolean(key);
     }
 

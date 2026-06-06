@@ -159,7 +159,9 @@ public class GTTransferPanel implements ICompositeWidget {
     @Override
     public boolean onMouseUp(Point mousePos, int button) {
         int row = hoveredRow(mousePos);
-        if (row == -1) return false;
+        if (row == -1) {
+            return false;
+        }
         sender.sftcore$sendToGTMachine(row + scrollbar.getCurrentScroll());
         return true;
     }
@@ -180,7 +182,9 @@ public class GTTransferPanel implements ICompositeWidget {
     @Override
     public @Nullable Tooltip getTooltip(int mouseX, int mouseY) {
         int row = hoveredRow(new Point(mouseX, mouseY));
-        if (row == -1) return new Tooltip();
+        if (row == -1) {
+            return new Tooltip();
+        }
         return new Tooltip(rows.get(row).tooltips());
     }
 

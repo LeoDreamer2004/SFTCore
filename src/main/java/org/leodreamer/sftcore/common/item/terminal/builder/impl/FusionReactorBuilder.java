@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.Block;
 import mekanism.generators.common.registries.GeneratorsBlocks;
 
 @DataGenScanned
-public final class FusionReactorBuilder
+public class FusionReactorBuilder
     implements IPatternShapedBuilder, IControllerRelativePosition {
 
     /**
@@ -28,51 +28,61 @@ public final class FusionReactorBuilder
         // y = 0
         .layer(
             "  X  ",
-            " XXX ",
-            "XXXXX",
-            " XXX ",
+            " XGX ",
+            "XGGGX",
+            " XGX ",
             "  X  "
         )
         // y = 1
         .layer(
-            " XXX ",
+            " XGX ",
             "X   X",
+            "G   G",
             "X   X",
-            "X   X",
-            " XXX "
+            " XGX "
         )
         // y = 2
         .layer(
-            "XXPXX",
-            "X   X",
+            "XGPGX",
+            "G   G",
             "P   P",
-            "X   X",
-            "XXPXX"
+            "G   G",
+            "XGQGX"
         )
         // y = 3
         .layer(
-            " XXX ",
+            " XGX ",
             "X   X",
+            "G   G",
             "X   X",
-            "X   X",
-            " XXX "
+            " XGX "
         )
         // y = 4
         .layer(
             "  X  ",
-            " XXX ",
-            "XXCXX",
-            " XXX ",
+            " XGX ",
+            "XGCGX",
+            " XGX ",
             "  X  "
         )
 
         .where('X', PlacementCandidate.simple(GeneratorsBlocks.FUSION_REACTOR_FRAME))
+        .where('G', PlacementCandidate.simple(GeneratorsBlocks.REACTOR_GLASS))
         .where(
             'P',
             (inventory, pos) -> PlacementCandidate.anyOf(
                 inventory,
                 GeneratorsBlocks.FUSION_REACTOR_PORT,
-                GeneratorsBlocks.FUSION_REACTOR_FRAME
+                GeneratorsBlocks.REACTOR_GLASS
+            )
+        )
+        .where(
+            'Q',
+            (inventory, pos) -> PlacementCandidate.anyOf(
+                inventory,
+                GeneratorsBlocks.LASER_FOCUS_MATRIX,
+                GeneratorsBlocks.FUSION_REACTOR_PORT,
+                GeneratorsBlocks.REACTOR_GLASS
             )
         )
         .where('C', PlacementCandidate.simple(GeneratorsBlocks.FUSION_REACTOR_CONTROLLER))

@@ -53,7 +53,9 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
     }
 
     public void join(IWirelessAEMachine other) {
-        if (grid == null) return;
+        if (grid == null) {
+            return;
+        }
         if (grid.members().add(other.self().getBlockPos())) {
             WirelessSavedData.INSTANCE.setDirty();
             connect(other);
@@ -63,7 +65,9 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
     void connect(IWirelessAEMachine otherMachine) {
         var node = getGridNode();
         var otherNode = otherMachine.getGridNode();
-        if (node == null || otherNode == null) return;
+        if (node == null || otherNode == null) {
+            return;
+        }
         try {
             GridHelper.createConnection(node, otherNode);
             otherMachine.sftcore$getWirelessHolder().setGrid(grid);
@@ -75,7 +79,9 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
         super.onLoad();
         if (grid == null) {
             var level = getLevel();
-            if (level == null) return;
+            if (level == null) {
+                return;
+            }
             grid = WirelessSavedData.INSTANCE.createOrGetGrid(level.dimension(), getBlockPos());
         }
         for (var member : grid.members()) {
@@ -88,7 +94,9 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
     @Override
     public void onUnload() {
         super.onUnload();
-        if (getLevel() == null || getLevel().isClientSide) return;
+        if (getLevel() == null || getLevel().isClientSide) {
+            return;
+        }
         waitTasks.values().forEach(TickableSubscription::unsubscribe);
 
         // GTM YOU ARE JOKING!
@@ -114,8 +122,9 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
         if (getOffsetTimer() % 20 == 0) {
             Objects.requireNonNull(grid);
             var machine = getWirelessMachineAt(member);
-            if (machine == null) return;
-
+            if (machine == null) {
+                return;
+            }
             var otherMain = machine.getMainNode();
             if (otherMain.isReady()) {
                 connect(machine);

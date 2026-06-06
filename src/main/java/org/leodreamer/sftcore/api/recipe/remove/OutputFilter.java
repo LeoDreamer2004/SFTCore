@@ -17,7 +17,9 @@ public record OutputFilter(ItemLike item) implements RecipeFilter {
     public boolean test(ResourceLocation id, Recipe<?> recipe) {
         if (recipe instanceof GTRecipe gtRecipe) {
             for (var output : RecipeHelper.getOutputItems(gtRecipe)) {
-                if (output.is(item.asItem())) return true;
+                if (output.is(item.asItem())) {
+                    return true;
+                }
             }
             return false;
         }

@@ -22,12 +22,6 @@ public final class FusionReactorTab
     @RegisterLanguage("Fixed 5x5x5 pattern")
     public static final String FIXED_PATTERN = "item.sftcore.mek_terminal.fusion_reactor.fixed_pattern";
 
-    @RegisterLanguage("Shift right-click the top-center Fusion Reactor Controller")
-    public static final String START_HINT = "item.sftcore.mek_terminal.fusion_reactor.start_hint";
-
-    @RegisterLanguage("The four horizontal face centers prefer Fusion Reactor Ports")
-    public static final String PORT_HINT = "item.sftcore.mek_terminal.fusion_reactor.port_hint";
-
     public FusionReactorTab(
         FusionReactorBuilder builder,
         ItemStack terminal,
@@ -44,7 +38,5 @@ public final class FusionReactorTab
     @Override
     protected void addContentWidgets(WidgetGroup content) {
         addWrappedText(content, 12, 26, 134, 14, FIXED_PATTERN);
-        addWrappedText(content, 12, 44, 134, 28, START_HINT);
-        addWrappedText(content, 12, 76, 134, 28, PORT_HINT);
     }
 }

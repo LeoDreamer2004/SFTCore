@@ -41,12 +41,14 @@ public class PhantomGTMaterialSlot extends PhantomSlotWidget {
     }
 
     private static ItemStack findExampleForMaterial(Material material) {
-        if (material == GTMaterials.NULL) return ItemStack.EMPTY;
-
+        if (material == GTMaterials.NULL) {
+            return ItemStack.EMPTY;
+        }
         // dust & fluid first
         var dust = ChemicalHelper.get(TagPrefix.dust, material);
-        if (!dust.isEmpty()) return dust;
-
+        if (!dust.isEmpty()) {
+            return dust;
+        }
         try {
             var fluid = material.getFluid();
             return fluid.getBucket().getDefaultInstance();
@@ -55,7 +57,9 @@ public class PhantomGTMaterialSlot extends PhantomSlotWidget {
         // Maybe some very special materials. Scan it.
         for (var tag : TagPrefix.values()) {
             var stack = ChemicalHelper.get(tag, material);
-            if (!stack.isEmpty()) return stack;
+            if (!stack.isEmpty()) {
+                return stack;
+            }
         }
 
         for (var tag : FluidStorageKey.allKeys()) {

@@ -171,9 +171,12 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
     }
 
     public void onPatternChange(int index) {
-        if (isRemote()) return;
-        if (index != 0) return;
-
+        if (isRemote()) {
+            return;
+        }
+        if (index != 0) {
+            return;
+        }
         refundAllInternalSlots();
         clearAllCachedRecipes();
 
@@ -435,7 +438,11 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                         !id.equals(AEKeyType.fluids().getId())
                 );
 
-            if (illegal) return false;
+            if (illegal) {
+
+                return false;
+
+            }
         }
 
         return true;
@@ -513,8 +520,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
     @Override
     public boolean sftcore$hasInternalContent(int slot) {
-        if (slotInvalid(slot)) return false;
-
+        if (slotInvalid(slot)) {
+            return false;
+        }
         var internalSlot = internalInventory[slot];
         return !internalSlot.isItemEmpty() || !internalSlot.isFluidEmpty();
     }
@@ -588,8 +596,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         }
 
         private void add(AEKey what, long amount) {
-            if (amount <= 0L) return;
-
+            if (amount <= 0L) {
+                return;
+            }
             if (what instanceof AEItemKey itemKey) {
                 var stack = itemKey.toStack();
                 itemInventory.addTo(stack, amount);
@@ -621,8 +630,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
         public void refund() {
             var network = getMainNode().getGrid();
-            if (network == null) return;
-
+            if (network == null) {
+                return;
+            }
             var networkInv = network.getStorageService().getInventory();
             var energy = network.getEnergyService();
 

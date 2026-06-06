@@ -37,8 +37,9 @@ public class OreProcessRecipes {
 
     private static void processOre(Material material, OreProperty property, Consumer<FinishedRecipe> provider) {
         var crushedStack = ChemicalHelper.get(crushed, material);
-        if (crushedStack.isEmpty()) return;
-
+        if (crushedStack.isEmpty()) {
+            return;
+        }
         int oreMultiplier = property.getOreMultiplier();
         long mass = material.getMass();
         int dur = (int) Math.max(4, Math.sqrt(mass));

@@ -24,7 +24,9 @@ public abstract class GTRecipeBuilderMixin {
 
     @Inject(method = "build", at = @At("HEAD"), remap = false)
     private void modifyDuration(CallbackInfoReturnable<FinishedRecipe> cir) {
-        if (EUt().isEmpty()) return;
+        if (EUt().isEmpty()) {
+            return;
+        }
         // EUt is not empty means this recipe consumes EU
         this.duration = (int) (this.duration * Config.durationMultiplier);
         this.duration = Math.max(this.duration, 1);

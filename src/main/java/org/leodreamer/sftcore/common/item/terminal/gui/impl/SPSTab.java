@@ -21,9 +21,6 @@ public final class SPSTab extends MekTerminalTab<SPSBuilder> {
     @RegisterLanguage("Fixed 7x7x7 pattern")
     public static final String FIXED_PATTERN = "item.sftcore.mek_terminal.sps.fixed_pattern";
 
-    @RegisterLanguage("Shift right-click the bottom north center SPS Casing")
-    public static final String START_HINT = "item.sftcore.mek_terminal.sps.start_hint";
-
     public SPSTab(
         SPSBuilder builder,
         ItemStack terminal,
@@ -40,6 +37,5 @@ public final class SPSTab extends MekTerminalTab<SPSBuilder> {
     @Override
     protected void addContentWidgets(WidgetGroup content) {
         addWrappedText(content, 12, 26, 134, 14, FIXED_PATTERN);
-        addWrappedText(content, 12, 44, 134, 30, START_HINT);
     }
 }

@@ -90,7 +90,9 @@ public class OrderBehavior
     }
 
     public static ItemStack clearTarget(ItemStack stack) {
-        if (!stack.hasTag()) return stack;
+        if (!stack.hasTag()) {
+            return stack;
+        }
         var tag = stack.getOrCreateTag();
         tag.remove(ID);
         tag.remove(NBT);

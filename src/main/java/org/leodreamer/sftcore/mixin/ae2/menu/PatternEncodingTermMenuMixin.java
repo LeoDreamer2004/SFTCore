@@ -163,8 +163,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         var container = sftcore$gtContainerTargets.get(chooseIndex);
         var inv = container.getTerminalPatternInventory();
         var pattern = encodedPatternSlot.getItem();
-        if (pattern.isEmpty()) return;
-
+        if (pattern.isEmpty()) {
+            return;
+        }
         var remainder = inv.addItems(pattern);
         encodedPatternSlot.set(remainder);
     }
@@ -221,7 +222,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
     private void autoTransferAfterEncoding(CallbackInfo ci) {
-        if (isClientSide()) return;
+        if (isClientSide()) {
+            return;
+        }
         sftcore$gtContainerTargets = List.of(); // clear former target
 
         boolean checkGT = false;
@@ -238,12 +241,14 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     @Unique
     private boolean sftcore$checkIsAlreadyCraftable() {
         var pattern = encodedPatternSlot.getItem();
-        if (pattern.isEmpty()) return false;
-
+        if (pattern.isEmpty()) {
+            return false;
+        }
         var player = getPlayer();
         var detail = PatternDetailsHelper.decodePattern(pattern, player.level());
-        if (detail == null) return false;
-
+        if (detail == null) {
+            return false;
+        }
         var output = detail.getPrimaryOutput();
         return ((IGetCraftables) this).sftcore$getCraftables().contains(output.what());
     }
@@ -251,12 +256,16 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     @Unique
     private boolean sftcore$tryTransferToMatrix() {
         var node = getNetworkNode();
-        if (node == null) return false;
-        if (!sftcore$transferToMatrix) return false;
-
+        if (node == null) {
+            return false;
+        }
+        if (!sftcore$transferToMatrix) {
+            return false;
+        }
         var pattern = encodedPatternSlot.getItem();
-        if (pattern.isEmpty()) return false;
-
+        if (pattern.isEmpty()) {
+            return false;
+        }
         // check pattern type
         if (
             !AEItems.CRAFTING_PATTERN.isSameAs(pattern) && !AEItems.STONECUTTING_PATTERN.isSameAs(pattern) &&
@@ -281,12 +290,13 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     @Unique
     private AvailableGTMachinesPacket sftcore$checkAvailableGTMachine() {
         var thisNode = getNetworkNode();
-        if (thisNode == null) return AvailableGTMachinesPacket.empty();
-
-        var pattern = encodedPatternSlot.getItem();
-        if (pattern.isEmpty() || !AEItems.PROCESSING_PATTERN.isSameAs(pattern))
+        if (thisNode == null) {
             return AvailableGTMachinesPacket.empty();
-
+        }
+        var pattern = encodedPatternSlot.getItem();
+        if (pattern.isEmpty() || !AEItems.PROCESSING_PATTERN.isSameAs(pattern)) {
+            return AvailableGTMachinesPacket.empty();
+        }
         SFTCore.LOGGER.info("Trying to check available GT machines to auto transfer");
 
         var rows = new ArrayList<AvailableGTRow>();

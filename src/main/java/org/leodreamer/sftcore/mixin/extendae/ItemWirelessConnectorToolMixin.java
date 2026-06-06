@@ -27,8 +27,9 @@ public class ItemWirelessConnectorToolMixin extends Item {
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
         var player = context.getPlayer();
-        if (player == null) return super.useOn(context);
-
+        if (player == null) {
+            return super.useOn(context);
+        }
         var stack = context.getItemInHand();
         var tag = stack.getOrCreateTag();
 

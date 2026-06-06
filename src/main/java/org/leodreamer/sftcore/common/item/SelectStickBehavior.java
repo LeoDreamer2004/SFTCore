@@ -24,8 +24,9 @@ public class SelectStickBehavior implements IInteractionItem {
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
         var player = context.getPlayer();
-        if (player == null) return InteractionResult.PASS;
-
+        if (player == null) {
+            return InteractionResult.PASS;
+        }
         var pos = context.getClickedPos();
         String posStr = pos.getX() + " " + pos.getY() + " " + pos.getZ();
         if (!player.isSecondaryUseActive()) {

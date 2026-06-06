@@ -14,7 +14,9 @@ public record RelativeBuildPos(
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
         if (o instanceof RelativeBuildPos that) {
             return x == that.x && y == that.y && z == that.z;
         }

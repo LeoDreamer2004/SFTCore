@@ -82,7 +82,9 @@ public class IOAEItemList extends ExportOnlyAEItemList {
 
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (amount == 0) return ItemStack.EMPTY;
+            if (amount == 0) {
+                return ItemStack.EMPTY;
+            }
             validateSlotIndex(slot);
             return inventory[slot].extractItem(0, amount, simulate);
         }

@@ -36,7 +36,9 @@ public class PhantomGTTagSlot extends PhantomSlotWidget {
     private static ItemStack findExampleForTag(GenericGTTag tag) {
         for (var mat : GTRegistries.MATERIALS.values()) {
             var stack = tag.createItemOrBucket(mat);
-            if (!stack.isEmpty()) return stack;
+            if (!stack.isEmpty()) {
+                return stack;
+            }
         }
         return ItemStack.EMPTY;
     }

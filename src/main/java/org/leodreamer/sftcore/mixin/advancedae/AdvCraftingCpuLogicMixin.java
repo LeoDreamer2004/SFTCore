@@ -80,7 +80,9 @@ public abstract class AdvCraftingCpuLogicMixin {
     @Overwrite(remap = false)
     public void tickCraftingLogic(IEnergyService eg, CraftingService cc) {
         // Don't tick if we're not active.
-        if (!cpu.isActive()) return;
+        if (!cpu.isActive()) {
+            return;
+        }
         cantStoreItems = false;
         // If we don't have a job, just try to dump our items.
         if (job == null) {
@@ -149,9 +151,9 @@ public abstract class AdvCraftingCpuLogicMixin {
         Level level
     ) {
         var job = (IExecutingCraftingJob) this.job;
-        if (job == null)
+        if (job == null) {
             return 0;
-
+        }
         var pushedPatterns = 0;
 
         var tasks = job.sftcore$getTasks();

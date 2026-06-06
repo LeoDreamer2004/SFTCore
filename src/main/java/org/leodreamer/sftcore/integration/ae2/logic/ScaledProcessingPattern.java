@@ -55,8 +55,12 @@ public record ScaledProcessingPattern(IPatternDetails original, long multiplier)
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof ScaledProcessingPattern sp)) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ScaledProcessingPattern sp)) {
+            return false;
+        }
         return sp.original.equals(this.original) && sp.multiplier == this.multiplier;
     }
 

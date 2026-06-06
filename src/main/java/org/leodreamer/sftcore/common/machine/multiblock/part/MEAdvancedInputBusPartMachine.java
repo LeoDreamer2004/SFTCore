@@ -65,10 +65,13 @@ public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine impleme
     }
 
     private void autocraft() {
-        if (!upgradeInventory.installed(AEItems.CRAFTING_CARD)) return;
-
+        if (!upgradeInventory.installed(AEItems.CRAFTING_CARD)) {
+            return;
+        }
         var grid = getMainNode().getGrid();
-        if (grid == null) return;
+        if (grid == null) {
+            return;
+        }
         for (int idx = 0; idx < aeItemHandler.getInventory().length; idx++) {
             var req = aeItemHandler.getInventory()[idx].requestStack();
             if (req == null || req.amount() <= 0) continue;

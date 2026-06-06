@@ -107,7 +107,9 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         cancellable = true
     )
     private void sftcore$recordThePosition(CallbackInfoReturnable<PatternContainerGroup> cir) {
-        if (!isFormed()) return;
+        if (!isFormed()) {
+            return;
+        }
         var pos = getControllers().first().getBlockPos();
         var group = cir.getReturnValue();
         group = HackyContainerGroupProxy.of(group).setBlockPos(pos)
@@ -156,7 +158,11 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     public void sftcore$exportSettings(CompoundTag output, @Nullable Player player) {
         new MemoryCardPatternInventoryProxy(internalPatternInventory, getLevel()).exportSettings(output);
 
-        if (player == null) return;
+        if (player == null) {
+
+            return;
+
+        }
         if (MemoryCardUtils.isCutting(player) != MemoryCardUtils.CuttingResult.NOT) {
             new MemoryCardPatternInventoryProxy(internalPatternInventory, getLevel()).clearPatterns(player);
             MemoryCardUtils.sendCutInfo(player);

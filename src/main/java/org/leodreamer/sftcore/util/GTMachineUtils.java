@@ -42,7 +42,9 @@ public class GTMachineUtils {
 
     public static boolean supportRecipe(MachineDefinition definition, GTRecipeType recipeType) {
         for (var type : definition.getRecipeTypes()) {
-            if (recipeType == type) return true;
+            if (recipeType == type) {
+                return true;
+            }
         }
         return false;
     }

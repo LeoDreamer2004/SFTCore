@@ -30,9 +30,13 @@ public abstract class SidebarPanelMixin {
         }
         if (EmiRecipeAutocraft.curScreen() == EmiRecipeAutocraft.AutocraftScreen.GT) {
             var focus = EmiRecipeAutocraft.findFocus();
-            if (focus == null) return;
+            if (focus == null) {
+                return;
+            }
             var recipe = focus.getRecipe();
-            if (recipe == null) return;
+            if (recipe == null) {
+                return;
+            }
             int x = (space.tx + space.tw * 18 - recipe.getDisplayWidth()) / 2;
             int y = space.ty + space.th * 18 - recipe.getDisplayHeight() - 2;
             EmiRenderHelper.renderRecipe(recipe, context, x, y, false, -1);
