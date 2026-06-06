@@ -19,4 +19,9 @@ public final class MekTerminalTags {
     public static final String THERMAL_BOILER_HEIGHT = "height";
     public static final String THERMAL_BOILER_DEPTH = "depth";
     public static final String THERMAL_BOILER_LOWER_HEIGHT = "lower_height";
+
+    public static final String INDUSTRIAL_TURBINE = "industrial_turbine";
+    public static final String INDUSTRIAL_TURBINE_WIDTH = "width";
+    public static final String INDUSTRIAL_TURBINE_HEIGHT = "height";
+    public static final String INDUSTRIAL_TURBINE_ROTORS = "rotors";
 }

@@ -1,12 +1,11 @@
 package org.leodreamer.sftcore.common.item.terminal;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.*;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import org.leodreamer.sftcore.common.item.terminal.gui.impl.*;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -26,9 +25,10 @@ public final class MekBuilderRegistry {
     public static final Entry<?>
         INDUCTION_MATRIX = register(InductionMatrixBuilder::new, InductionMatrixTab::new),
         THERMAL_EVAPORATION = register(ThermalEvaporationBuilder::new, ThermalEvaporationTab::new),
-        SPS = register(SPSBuilder::new, SPSTab::new),
+        SUPERCRITICAL_PHASE_SHIFTER = register(SPSBuilder::new, SPSTab::new),
         FUSION_REACTOR = register(FusionReactorBuilder::new, FusionReactorTab::new),
-        THERMAL_BOILER = register(ThermalBoilerBuilder::new, ThermalBoilerTab::new);
+        THERMAL_BOILER = register(ThermalBoilerBuilder::new, ThermalBoilerTab::new),
+        INDUSTRIAL_TURBINE = register(IndustrialTurbineBuilder::new, IndustrialTurbineTab::new);
     // spotless:on
 
     public static <

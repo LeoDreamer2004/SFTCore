@@ -1,24 +1,25 @@
 package org.leodreamer.sftcore.common.item.terminal.gui;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
-
+import com.lowdragmc.lowdraglib.LDLib;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.SceneWidget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.utils.BlockInfo;
+import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import com.lowdragmc.lowdraglib.LDLib;
-import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.utils.BlockInfo;
-import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
-import lombok.Getter;
-import lombok.experimental.Accessors;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
 
 import java.util.LinkedHashMap;
 
@@ -31,7 +32,7 @@ import java.util.LinkedHashMap;
 public final class MekTerminalPreviewPage extends WidgetGroup {
 
     public static final int PAGE_WIDTH = 158;
-    public static final int PAGE_HEIGHT = 110;
+    public static final int PAGE_HEIGHT = 130;
 
     private static final int BUTTON_SIZE = 18;
     private static final int BUTTON_MARGIN = 4;
@@ -66,20 +67,10 @@ public final class MekTerminalPreviewPage extends WidgetGroup {
         this.builder = builder;
         this.terminalTag = terminalTag;
 
-        this.previewLayer = new WidgetGroup(
-            0,
-            0,
-            PAGE_WIDTH,
-            PAGE_HEIGHT
-        );
+        this.previewLayer = new WidgetGroup(0, 0, PAGE_WIDTH, PAGE_HEIGHT);
         this.previewLayer.setVisible(false);
 
-        this.sceneHolder = new WidgetGroup(
-            0,
-            0,
-            PAGE_WIDTH,
-            PAGE_HEIGHT
-        );
+        this.sceneHolder = new WidgetGroup(0, 0, PAGE_WIDTH, PAGE_HEIGHT);
 
         // SceneWidget is built lazily and exists only on the client.
         // Marking this holder as client-side ensures dynamically added scene

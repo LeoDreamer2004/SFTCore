@@ -49,34 +49,6 @@ public class ThermalEvaporationBuilder implements ISidedControllerRelativePositi
     }
 
     @Override
-    public Iterable<RelativeBuildPos> positions(CompoundTag terminalTag, BuildDimensions dimensions) {
-        // simple optimization to skip inner air
-        var positions = new ArrayList<RelativeBuildPos>(dimensions.surface());
-
-        // faces only
-        for (int x = 0; x < dimensions.width(); x++) {
-            for (int z = 0; z < dimensions.depth(); z++) {
-                positions.add(new RelativeBuildPos(x, 0, z));
-                positions.add(new RelativeBuildPos(x, dimensions.height() - 1, z));
-            }
-        }
-
-        for (int y = 1; y < dimensions.height() - 1; y++) {
-            for (int x = 0; x < dimensions.width(); x++) {
-                positions.add(new RelativeBuildPos(x, y, 0));
-                positions.add(new RelativeBuildPos(x, y, dimensions.depth() - 1));
-            }
-
-            for (int z = 1; z < dimensions.depth() - 1; z++) {
-                positions.add(new RelativeBuildPos(0, y, z));
-                positions.add(new RelativeBuildPos(dimensions.width() - 1, y, z));
-            }
-        }
-
-        return positions;
-    }
-
-    @Override
     public PlacementCandidate candidateForPart(
         CompoundTag terminalTag,
         Part part,
