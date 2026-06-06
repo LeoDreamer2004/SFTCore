@@ -13,4 +13,10 @@ public final class MekTerminalTags {
 
     public static final String THERMAL_EVAPORATION = "thermal_evaporation";
     public static final String THERMAL_EVAPORATION_HEIGHT = "height";
+
+    public static final String THERMAL_BOILER = "thermal_boiler";
+    public static final String THERMAL_BOILER_WIDTH = "width";
+    public static final String THERMAL_BOILER_HEIGHT = "height";
+    public static final String THERMAL_BOILER_DEPTH = "depth";
+    public static final String THERMAL_BOILER_LOWER_HEIGHT = "lower_height";
 }
