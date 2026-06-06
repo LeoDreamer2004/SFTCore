@@ -1,11 +1,12 @@
 package org.leodreamer.sftcore.common.item.terminal;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.*;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import org.leodreamer.sftcore.common.item.terminal.gui.impl.*;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;

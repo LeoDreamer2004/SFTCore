@@ -1,7 +1,8 @@
 package org.leodreamer.sftcore.common.item.terminal.builder.impl;
 
-import net.minecraft.nbt.CompoundTag;
 import org.leodreamer.sftcore.common.item.terminal.MekTerminalTags;
+
+import net.minecraft.nbt.CompoundTag;
 
 public final class IndustrialTurbineConfig {
 
@@ -152,27 +153,33 @@ public final class IndustrialTurbineConfig {
     }
 
     private void ensureDefaults() {
-        if (!tag.contains(
-            MekTerminalTags.INDUSTRIAL_TURBINE_ROTORS
-        )) {
+        if (
+            !tag.contains(
+                MekTerminalTags.INDUSTRIAL_TURBINE_ROTORS
+            )
+        ) {
             tag.putInt(
                 MekTerminalTags.INDUSTRIAL_TURBINE_ROTORS,
                 DEFAULT_ROTORS
             );
         }
 
-        if (!tag.contains(
-            MekTerminalTags.INDUSTRIAL_TURBINE_WIDTH
-        )) {
+        if (
+            !tag.contains(
+                MekTerminalTags.INDUSTRIAL_TURBINE_WIDTH
+            )
+        ) {
             tag.putInt(
                 MekTerminalTags.INDUSTRIAL_TURBINE_WIDTH,
                 DEFAULT_WIDTH
             );
         }
 
-        if (!tag.contains(
-            MekTerminalTags.INDUSTRIAL_TURBINE_HEIGHT
-        )) {
+        if (
+            !tag.contains(
+                MekTerminalTags.INDUSTRIAL_TURBINE_HEIGHT
+            )
+        ) {
             tag.putInt(
                 MekTerminalTags.INDUSTRIAL_TURBINE_HEIGHT,
                 DEFAULT_HEIGHT
@@ -195,9 +202,7 @@ public final class IndustrialTurbineConfig {
     }
 
     private int roundUpOdd(int value) {
-        return (value & 1) == 0
-            ? value + 1
-            : value;
+        return (value & 1) == 0 ? value + 1 : value;
     }
 
     private int clamp(

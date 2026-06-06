@@ -12,8 +12,6 @@ import net.minecraft.world.level.block.Block;
 
 import mekanism.common.registries.MekanismBlocks;
 
-import java.util.ArrayList;
-
 @DataGenScanned
 public class ThermalEvaporationBuilder implements ISidedControllerRelativePosition, ICubeShapedBuilder {
 

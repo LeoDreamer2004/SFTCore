@@ -1,10 +1,5 @@
 package org.leodreamer.sftcore.common.item.terminal.builder.impl;
 
-import mekanism.common.registries.MekanismBlocks;
-import mekanism.generators.common.registries.GeneratorsBlocks;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.item.terminal.api.BuildDimensions;
 import org.leodreamer.sftcore.common.item.terminal.api.InventorySnapshot;
@@ -12,6 +7,13 @@ import org.leodreamer.sftcore.common.item.terminal.api.PlacementCandidate;
 import org.leodreamer.sftcore.common.item.terminal.api.RelativeBuildPos;
 import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.ISimpleRelativePosition;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+
+import mekanism.common.registries.MekanismBlocks;
+import mekanism.generators.common.registries.GeneratorsBlocks;
 
 public final class IndustrialTurbineBuilder
     implements ISimpleRelativePosition, ICubeShapedBuilder {
@@ -124,6 +126,7 @@ public final class IndustrialTurbineBuilder
 
     /**
      * Coil layout on the first upper layer:
+     * 
      * <pre>
      * R <= 6       7 <= R <= 10        R > 10
      * . . .            . C .           C C C
