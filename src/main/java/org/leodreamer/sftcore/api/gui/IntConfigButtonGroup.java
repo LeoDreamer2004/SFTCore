@@ -42,7 +42,7 @@ public class IntConfigButtonGroup extends WidgetGroup {
 
         addWidget(
             new ButtonWidget(
-                48,
+                44,
                 0,
                 16,
                 16,

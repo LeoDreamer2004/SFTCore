@@ -1,12 +1,11 @@
 package org.leodreamer.sftcore.api.gui;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import org.leodreamer.sftcore.SFTCore;
 
 import net.minecraft.resources.ResourceLocation;
 
 import appeng.core.AppEng;
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
 public class SFTGuiTextures {

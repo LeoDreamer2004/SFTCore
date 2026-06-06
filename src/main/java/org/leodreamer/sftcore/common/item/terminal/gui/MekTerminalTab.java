@@ -4,9 +4,11 @@ import org.leodreamer.sftcore.api.gui.IntConfigButtonGroup;
 import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
 
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -58,14 +60,19 @@ public abstract class MekTerminalTab<T extends IMekMultiblockBuilder> implements
             MekTerminalPreviewPage.PAGE_WIDTH,
             MekTerminalPreviewPage.PAGE_HEIGHT
         );
-        content.addWidget(new LabelWidget(4, 4, getTitle()));
+        content.addWidget(
+            new LabelWidget(
+                4, 4,
+                getTitle().copy().withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.BOLD)
+            )
+        );
         addContentWidgets(content);
 
         return new MekTerminalPreviewPage(
             content,
             builder,
             terminal.getOrCreateTag()
-        );
+        ).setBackground(GuiTextures.DISPLAY);
     }
 
     protected abstract void addContentWidgets(WidgetGroup content);

@@ -2,17 +2,16 @@ package org.leodreamer.sftcore.api.gui;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +22,7 @@ import java.util.function.Consumer;
 public class RightSideTabsWidget extends Widget {
 
     private static final int TAB_SIZE = 24;
+    private static final int TOP_PADDING = 8;
 
     private final Consumer<IFancyUIProvider> onTabClick;
     private final List<IFancyUIProvider> tabs = new ArrayList<>();
@@ -30,16 +30,18 @@ public class RightSideTabsWidget extends Widget {
     @Nullable
     private IFancyUIProvider selectedTab;
 
-    private final IGuiTexture tabTexture =
-        new ResourceTexture(GTCEu.id("gtceu:textures/gui/tab/tabs_right.png"))
-            .getSubTexture(0.5f, 1 / 3f, 0.5f, 1 / 3f);
+    private final IGuiTexture tabTexture = new ResourceTexture(GTCEu.id("gtceu:textures/gui/tab/tabs_right.png"))
+        .getSubTexture(0.5f, 1 / 3f, 0.5f, 1 / 3f);
 
-    private final IGuiTexture tabHoverTexture =
-        new ResourceTexture(GTCEu.id("textures/gui/tab/tabs_right.png"))
-            .getSubTexture(0, 1 / 3f, 0.5f, 1 / 3f);
+    private final IGuiTexture tabHoverTexture = new ResourceTexture(GTCEu.id("textures/gui/tab/tabs_right.png"))
+        .getSubTexture(0, 1 / 3f, 0.5f, 1 / 3f);
 
     public RightSideTabsWidget(
-        Consumer<IFancyUIProvider> onTabClick, int x, int y, int width, int height
+        Consumer<IFancyUIProvider> onTabClick,
+        int x,
+        int y,
+        int width,
+        int height
     ) {
         super(x, y, width, height);
         this.onTabClick = onTabClick;
@@ -82,16 +84,13 @@ public class RightSideTabsWidget extends Widget {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean mouseClicked(
-        double mouseX,
-        double mouseY,
-        int button
-    ) {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (!isMouseOverElement(mouseX, mouseY)) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
 
-        int index = ((int) mouseY - getPosition().y) / TAB_SIZE;
+        int index = ((int) mouseY - getPosition().y - TOP_PADDING) / TAB_SIZE;
+
         if (index < 0 || index >= tabs.size()) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
@@ -100,11 +99,7 @@ public class RightSideTabsWidget extends Widget {
         if (tab != selectedTab) {
             this.selectedTab = tab;
 
-            writeClientAction(
-                0,
-                buf -> buf.writeVarInt(index)
-            );
-
+            writeClientAction(0, buf -> buf.writeVarInt(index));
             onTabClick.accept(tab);
             playButtonClickSound();
         }
@@ -120,16 +115,11 @@ public class RightSideTabsWidget extends Widget {
         int mouseY,
         float partialTicks
     ) {
-        super.drawInBackground(
-            graphics,
-            mouseX,
-            mouseY,
-            partialTicks
-        );
+        super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
 
         var hoveredTab = getHoveredTab(mouseX, mouseY);
         int x = getPosition().x;
-        int y = getPosition().y;
+        int y = getPosition().y + TOP_PADDING;
 
         for (int i = 0; i < tabs.size(); i++) {
             drawTab(
@@ -177,15 +167,13 @@ public class RightSideTabsWidget extends Widget {
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
-    private IFancyUIProvider getHoveredTab(
-        double mouseX,
-        double mouseY
-    ) {
+    private IFancyUIProvider getHoveredTab(double mouseX, double mouseY) {
         if (!isMouseOverElement(mouseX, mouseY)) {
             return null;
         }
 
-        int index = ((int) mouseY - getPosition().y) / TAB_SIZE;
+        int index = ((int) mouseY - getPosition().y - TOP_PADDING) / TAB_SIZE;
+
         if (index < 0 || index >= tabs.size()) {
             return null;
         }

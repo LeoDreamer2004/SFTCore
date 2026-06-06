@@ -2,6 +2,7 @@ package org.leodreamer.sftcore.api.gui;
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
+
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
@@ -61,8 +62,7 @@ public class SplitSideFancyMachineUIWidget extends FancyMachineUIWidget {
         );
         this.rightSideTabsWidget.selectTab(fancyUI);
 
-        boolean visible = this.sideTabsWidget.isVisible()
-            && !this.rightSideTabsWidget.isEmpty();
+        boolean visible = this.sideTabsWidget.isVisible() && !this.rightSideTabsWidget.isEmpty();
 
         this.rightSideTabsWidget.setVisible(visible);
         this.rightSideTabsWidget.setActive(visible);
