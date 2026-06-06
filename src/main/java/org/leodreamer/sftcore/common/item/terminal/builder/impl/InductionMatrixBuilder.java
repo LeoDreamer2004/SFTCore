@@ -21,7 +21,7 @@ public class InductionMatrixBuilder implements ISimpleRelativePosition, ICubeSha
     }
 
     @Override
-    public Block clickAt(BuildContext ctx) {
+    public Block clickAt() {
         return MekanismBlocks.INDUCTION_CASING.getBlock();
     }
 

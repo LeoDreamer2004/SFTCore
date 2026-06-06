@@ -17,6 +17,8 @@ import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 import java.util.LinkedHashMap;
 
@@ -25,6 +27,7 @@ import java.util.LinkedHashMap;
  * Opening the preview hides the normal page and Fancy UI chrome.
  */
 @DataGenScanned
+@Accessors(fluent = true)
 public final class MekTerminalPreviewPage extends WidgetGroup {
 
     public static final int PAGE_WIDTH = 158;
@@ -42,8 +45,11 @@ public final class MekTerminalPreviewPage extends WidgetGroup {
     @RegisterLanguage("No blocks to preview")
     public static final String EMPTY = "item.sftcore.mek_terminal.preview.empty";
 
+    @Getter
     private final WidgetGroup contentLayer;
+    @Getter
     private final WidgetGroup previewLayer;
+    @Getter
     private final WidgetGroup sceneHolder;
 
     private final IMekMultiblockBuilder builder;
@@ -155,7 +161,7 @@ public final class MekTerminalPreviewPage extends WidgetGroup {
         rebuildScene();
 
         contentLayer.setVisible(false);
-        previewLayer.setVisible(true);
+        contentLayer.setActive(false);
 
         previewLayer.setVisible(true);
         previewLayer.setActive(true);
@@ -191,8 +197,9 @@ public final class MekTerminalPreviewPage extends WidgetGroup {
 
         var blocks = new LinkedHashMap<BlockPos, BlockInfo>();
 
-        states.forEach(
-            (pos, state) -> blocks.put(pos, BlockInfo.fromBlockState(state))
+        // avoid mekanism TESR/BER bug
+        states.forEach((pos, state) ->
+            blocks.put(pos, new BlockInfo(state, false))
         );
 
         var previewWorld = new TrackedDummyWorld();

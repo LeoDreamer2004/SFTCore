@@ -19,7 +19,7 @@ public interface IMekMultiblockBuilder {
 
     ResourceLocation id();
 
-    Block clickAt(BuildContext ctx);
+    Block clickAt();
 
     BuildDimensions dimensions(CompoundTag rootTag);
 

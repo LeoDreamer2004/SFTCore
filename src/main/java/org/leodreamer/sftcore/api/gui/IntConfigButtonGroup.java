@@ -31,7 +31,7 @@ public class IntConfigButtonGroup extends WidgetGroup {
                 16,
                 new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("-")),
                 clickData -> setter.accept(getter.getAsInt() - 1)
-            ).setHoverTooltips(Component.literal("-"))
+            )
         );
 
         addWidget(
@@ -50,7 +50,7 @@ public class IntConfigButtonGroup extends WidgetGroup {
                 16,
                 new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("+")),
                 clickData -> setter.accept(getter.getAsInt() + 1)
-            ).setHoverTooltips(Component.literal("+"))
+            )
         );
     }
 }

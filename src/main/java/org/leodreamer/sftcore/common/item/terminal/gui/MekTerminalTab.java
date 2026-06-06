@@ -1,13 +1,17 @@
 package org.leodreamer.sftcore.common.item.terminal.gui;
 
 import org.leodreamer.sftcore.api.gui.IntConfigButtonGroup;
+import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.builder.IMekMultiblockBuilder;
 
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -38,20 +42,36 @@ public abstract class MekTerminalTab<T extends IMekMultiblockBuilder> implements
         return List.of(getTitle());
     }
 
-    protected WidgetGroup rootWidget() {
-        var root = new WidgetGroup(0, 0, MekTerminalPreviewPage.PAGE_WIDTH, MekTerminalPreviewPage.PAGE_HEIGHT);
-        root.addWidget(new LabelWidget(4, 4, getTitle()));
-        root.addWidget(
-            new MekTerminalPreviewPage(
-                root,
-                builder,
-                terminal.getOrCreateTag()
-            )
-        );
-        return root;
+    @Override
+    public IGuiTexture getTabIcon() {
+        return new ItemStackTexture(new ItemStack(builder.clickAt()));
     }
 
-    protected static Widget wrappedText(
+    @Override
+    public Widget createMainPage(FancyMachineUIWidget ui) {
+        MekBuilderRegistry.setSelected(terminal, builder);
+        onSave.accept(terminal);
+
+        var content = new WidgetGroup(
+            0,
+            0,
+            MekTerminalPreviewPage.PAGE_WIDTH,
+            MekTerminalPreviewPage.PAGE_HEIGHT
+        );
+        content.addWidget(new LabelWidget(4, 4, getTitle()));
+        addContentWidgets(content);
+
+        return new MekTerminalPreviewPage(
+            content,
+            builder,
+            terminal.getOrCreateTag()
+        );
+    }
+
+    protected abstract void addContentWidgets(WidgetGroup content);
+
+    protected void addWrappedText(
+        WidgetGroup content,
         int x,
         int y,
         int width,
@@ -62,18 +82,18 @@ public abstract class MekTerminalTab<T extends IMekMultiblockBuilder> implements
             .setWidth(width)
             .setType(TextTexture.TextType.LEFT);
 
-        return new ImageWidget(x, y, width, height, texture);
+        content.addWidget(new ImageWidget(x, y, width, height, texture));
     }
 
     protected void addIntRow(
-        WidgetGroup root,
+        WidgetGroup content,
         int y,
         Component label,
         IntSupplier getter,
         IntConsumer setter
     ) {
-        root.addWidget(new LabelWidget(12, y + 4, label));
-        root.addWidget(new IntConfigButtonGroup(92, y, getter, value -> {
+        content.addWidget(new LabelWidget(12, y + 4, label));
+        content.addWidget(new IntConfigButtonGroup(92, y, getter, value -> {
             setter.accept(value);
             onSave.accept(terminal);
         }));

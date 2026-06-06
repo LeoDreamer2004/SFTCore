@@ -2,19 +2,13 @@ package org.leodreamer.sftcore.common.item.terminal.gui.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.SPSBuilder;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
-
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import mekanism.common.registries.MekanismBlocks;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
 import java.util.function.Consumer;
 
@@ -44,20 +38,8 @@ public final class SPSTab extends MekTerminalTab<SPSBuilder> {
     }
 
     @Override
-    public IGuiTexture getTabIcon() {
-        return new ItemStackTexture(new ItemStack(MekanismBlocks.SPS_CASING.getBlock()));
-    }
-
-    @Override
-    public Widget createMainPage(FancyMachineUIWidget ui) {
-        MekBuilderRegistry.setSelected(terminal, builder);
-        onSave.accept(terminal);
-
-        var root = rootWidget();
-
-        root.addWidget(wrappedText(12, 6, 134, 14, FIXED_PATTERN));
-        root.addWidget(wrappedText(12, 24, 134, 30, START_HINT));
-
-        return root;
+    protected void addContentWidgets(WidgetGroup content) {
+        addWrappedText(content, 12, 26, 134, 14, FIXED_PATTERN);
+        addWrappedText(content, 12, 44, 134, 30, START_HINT);
     }
 }

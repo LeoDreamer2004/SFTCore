@@ -23,7 +23,7 @@ public class ThermalEvaporationBuilder implements ISidedControllerRelativePositi
     }
 
     @Override
-    public Block clickAt(BuildContext ctx) {
+    public Block controllerBlock() {
         return MekanismBlocks.THERMAL_EVAPORATION_CONTROLLER.getBlock();
     }
 

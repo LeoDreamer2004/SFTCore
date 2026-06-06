@@ -56,9 +56,9 @@ public class SPSBuilder implements IPatternShapedBuilder {
             "XGGPGGX",
             "G     G",
             "G     G",
-            "PC    G",
+            "P     G",
             "G     G",
-            "G     G",
+            "G  C  G",
             "XGGPGGX"
         )
         // y = 4
@@ -107,7 +107,7 @@ public class SPSBuilder implements IPatternShapedBuilder {
     }
 
     @Override
-    public Block clickAt(BuildContext ctx) {
+    public Block clickAt() {
         return MekanismBlocks.SPS_CASING.getBlock();
     }
 

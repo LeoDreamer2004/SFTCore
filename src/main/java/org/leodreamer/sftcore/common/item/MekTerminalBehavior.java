@@ -54,7 +54,7 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIFactory {
             stack
         );
 
-        var expectedBlock = builder.clickAt(buildContext);
+        var expectedBlock = builder.clickAt();
         if (!buildContext.level().getBlockState(buildContext.clicked()).is(expectedBlock)) {
             player.displayClientMessage(
                 Component.translatable(BuildReport.INVALID_START, expectedBlock.getName())

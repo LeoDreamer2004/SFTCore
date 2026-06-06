@@ -2,20 +2,14 @@ package org.leodreamer.sftcore.common.item.terminal.gui.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.terminal.MekBuilderRegistry;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.ThermalEvaporationBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.ThermalEvaporationConfig;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import mekanism.common.registries.MekanismBlocks;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
 import java.util.function.Consumer;
 
@@ -42,23 +36,9 @@ public final class ThermalEvaporationTab extends MekTerminalTab<ThermalEvaporati
     }
 
     @Override
-    public IGuiTexture getTabIcon() {
-        return new ItemStackTexture(
-            new ItemStack(MekanismBlocks.THERMAL_EVAPORATION_CONTROLLER.getBlock())
-        );
-    }
-
-    @Override
-    public Widget createMainPage(FancyMachineUIWidget ui) {
-        MekBuilderRegistry.setSelected(terminal, builder);
-        onSave.accept(terminal);
-
+    protected void addContentWidgets(WidgetGroup content) {
         var config = ThermalEvaporationConfig.resolve(terminal.getOrCreateTag());
 
-        var root = rootWidget();
-
-        addIntRow(root, 26, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
-
-        return root;
+        addIntRow(content, 26, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
     }
 }

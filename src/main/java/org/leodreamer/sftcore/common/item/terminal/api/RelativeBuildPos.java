@@ -12,6 +12,15 @@ public record RelativeBuildPos(
         return x == 0 && y == 0 && z == 0;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o instanceof RelativeBuildPos that) {
+            return x == that.x && y == that.y && z == that.z;
+        }
+        return false;
+    }
+
     public BlockPos addTo(BlockPos origin) {
         return origin.offset(x, y, z);
     }
