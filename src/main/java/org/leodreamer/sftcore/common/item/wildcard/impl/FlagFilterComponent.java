@@ -112,7 +112,7 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
     }
 
     @RegisterLanguage("Flag")
-    private static final String FLAG_TOOLTIP_KEY = "sftcore.item.wildcard_pattern.tooltip.filter.flag";
+    private static final String FLAG_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.flag";
 
     @Override
     public Component createTooltip() {
@@ -154,7 +154,7 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
     }
 
     @RegisterLanguage("no flag")
-    private static final String NO_FLAG = "sftcore.item.wildcard_pattern.filter.flag.no_flag";
+    private static final String NO_FLAG = "item.sftcore.wildcard_pattern.filter.flag.no_flag";
 
     private static List<String> getMaterialFlagNames(Material material) {
         var flags = ((MaterialFlagsAccessor) material.getFlags()).getFlags();

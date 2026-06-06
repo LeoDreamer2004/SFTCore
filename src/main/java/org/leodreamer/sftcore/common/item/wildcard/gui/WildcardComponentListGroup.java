@@ -1,6 +1,5 @@
 package org.leodreamer.sftcore.common.item.wildcard.gui;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardComponentUI;
 
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-@DataGenScanned
 public class WildcardComponentListGroup<L extends IWildcardComponentUI> extends WidgetGroup {
 
     @Getter

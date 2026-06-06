@@ -1,6 +1,5 @@
 package org.leodreamer.sftcore.common.item;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardFancyUIProvider;
 import org.leodreamer.sftcore.common.item.wildcard.gui.WildcardHeldItemUI;
@@ -23,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-@DataGenScanned
 public class WildcardPatternBehavior implements IItemUIFactory, IAddInformation {
 
     @Override

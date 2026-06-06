@@ -45,28 +45,28 @@ public class WildcardIOFancyConfigurator implements IFancyUIProvider {
     }
 
     @RegisterLanguage("Input Configuration")
-    private static final String TITLE_IN = "sftcore.item.wildcard_pattern.io.title_in";
+    private static final String TITLE_IN = "item.sftcore.wildcard_pattern.io.title_in";
 
     @RegisterLanguage("Output Configuration")
-    private static final String TITLE_OUT = "sftcore.item.wildcard_pattern.io.title_out";
+    private static final String TITLE_OUT = "item.sftcore.wildcard_pattern.io.title_out";
 
     @RegisterLanguage("Save")
-    private static final String SAVE = "sftcore.item.wildcard_pattern.io.save";
+    private static final String SAVE = "item.sftcore.wildcard_pattern.io.save";
 
     @RegisterLanguage("Single")
-    private static final String CREATE_SINGLE = "sftcore.item.wildcard_pattern.io.single";
+    private static final String CREATE_SINGLE = "item.sftcore.wildcard_pattern.io.single";
 
     @RegisterLanguage("Tag")
-    private static final String CREATE_TAG = "sftcore.item.wildcard_pattern.io.tag";
+    private static final String CREATE_TAG = "item.sftcore.wildcard_pattern.io.tag";
 
     @RegisterLanguage("Create an ingredient with a fixed item")
-    private static final String CREATE_SINGLE_TOOLTIP = "sftcore.item.wildcard_pattern.io.single.tooltip";
+    private static final String CREATE_SINGLE_TOOLTIP = "item.sftcore.wildcard_pattern.io.single.tooltip";
 
     @RegisterLanguage("Create an ingredient with the GT tag")
-    private static final String CREATE_TAG_TOOLTIP = "sftcore.item.wildcard_pattern.io.tag.tooltip";
+    private static final String CREATE_TAG_TOOLTIP = "item.sftcore.wildcard_pattern.io.tag.tooltip";
 
     @RegisterLanguage("Delete this ingredient")
-    private static final String DELETE_TOOLTIP = "sftcore.item.wildcard_pattern.io.delete.tooltip";
+    private static final String DELETE_TOOLTIP = "item.sftcore.wildcard_pattern.io.delete.tooltip";
 
     @Override
     public Widget createMainPage(FancyMachineUIWidget ui) {

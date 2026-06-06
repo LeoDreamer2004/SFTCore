@@ -107,7 +107,7 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
     }
 
     @RegisterLanguage("Property")
-    private static final String PROPERTY_TOOLTIP_KEY = "sftcore.item.wildcard_pattern.tooltip.filter.property";
+    private static final String PROPERTY_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.property";
 
     @Override
     public Component createTooltip() {
@@ -141,7 +141,7 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
     }
 
     @RegisterLanguage("no property")
-    private static final String NO_PROPERTY = "sftcore.item.wildcard_pattern.filter.property.no_property";
+    private static final String NO_PROPERTY = "item.sftcore.wildcard_pattern.filter.property.no_property";
 
     private static List<String> getMaterialPropertyNames(Material material) {
         var properties = ((MaterialPropertiesAccessor) material.getProperties()).getProperties().keySet();

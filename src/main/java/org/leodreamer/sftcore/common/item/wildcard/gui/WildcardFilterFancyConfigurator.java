@@ -44,37 +44,37 @@ public class WildcardFilterFancyConfigurator implements IFancyUIProvider {
     }
 
     @RegisterLanguage("Material Filter Configuration")
-    private static final String TITLE = "sftcore.item.wildcard_pattern.filter.title";
+    private static final String TITLE = "item.sftcore.wildcard_pattern.filter.title";
 
     @RegisterLanguage("Save")
-    private static final String SAVE = "sftcore.item.wildcard_pattern.filter.save";
+    private static final String SAVE = "item.sftcore.wildcard_pattern.filter.save";
 
     @RegisterLanguage("Single")
-    private static final String CREATE_SINGLE = "sftcore.item.wildcard_pattern.filter.single";
+    private static final String CREATE_SINGLE = "item.sftcore.wildcard_pattern.filter.single";
 
     @RegisterLanguage("Create a filter of a fixed material")
-    private static final String CREATE_SINGLE_TOOLTIP = "sftcore.item.wildcard_pattern.filter.single.tooltip";
+    private static final String CREATE_SINGLE_TOOLTIP = "item.sftcore.wildcard_pattern.filter.single.tooltip";
 
     @RegisterLanguage("Prop")
-    private static final String CREATE_PROPERTY = "sftcore.item.wildcard_pattern.filter.property";
+    private static final String CREATE_PROPERTY = "item.sftcore.wildcard_pattern.filter.property";
 
     @RegisterLanguage("Create a filter of materials with the given property")
-    private static final String CREATE_PROPERTY_TOOLTIP = "sftcore.item.wildcard_pattern.filter.property.tooltip";
+    private static final String CREATE_PROPERTY_TOOLTIP = "item.sftcore.wildcard_pattern.filter.property.tooltip";
 
     @RegisterLanguage("Flag")
-    private static final String CREATE_FLAG = "sftcore.item.wildcard_pattern.filter.flag";
+    private static final String CREATE_FLAG = "item.sftcore.wildcard_pattern.filter.flag";
 
     @RegisterLanguage("(ADVANCED) Create a filter of materials with the given flag")
-    private static final String CREATE_FLAGS_TOOLTIP = "sftcore.item.wildcard_pattern.filter.flag.tooltip";
+    private static final String CREATE_FLAGS_TOOLTIP = "item.sftcore.wildcard_pattern.filter.flag.tooltip";
 
     @RegisterLanguage("Delete this filter")
-    private static final String DELETE_TOOLTIP = "sftcore.item.wildcard_pattern.filter.delete.tooltip";
+    private static final String DELETE_TOOLTIP = "item.sftcore.wildcard_pattern.filter.delete.tooltip";
 
     @RegisterLanguage("Toggle the filter to a whitelist")
-    private static final String TO_WHITELIST = "sftcore.item.wildcard_pattern.filter.to_whitelist";
+    private static final String TO_WHITELIST = "item.sftcore.wildcard_pattern.filter.to_whitelist";
 
     @RegisterLanguage("Toggle the filter to a blacklist")
-    private static final String TO_BLACKLIST = "sftcore.item.wildcard_pattern.filter.to_blacklist";
+    private static final String TO_BLACKLIST = "item.sftcore.wildcard_pattern.filter.to_blacklist";
 
     @Override
     public Widget createMainPage(FancyMachineUIWidget ui) {

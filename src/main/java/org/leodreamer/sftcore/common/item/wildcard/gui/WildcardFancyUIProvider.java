@@ -42,7 +42,7 @@ public final class WildcardFancyUIProvider implements IFancyUIProvider {
     }
 
     @RegisterLanguage("Wildcard Pattern Config")
-    private static final String TITLE_CONFIG = "sftcore.item.wildcard_pattern.config";
+    private static final String TITLE_CONFIG = "item.sftcore.wildcard_pattern.config";
 
     @Override
     public Component getTitle() {

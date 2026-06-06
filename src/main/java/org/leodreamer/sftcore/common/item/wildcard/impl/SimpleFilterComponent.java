@@ -89,7 +89,7 @@ public class SimpleFilterComponent implements IWildcardFilterComponent {
     }
 
     @RegisterLanguage("Material")
-    private static final String SIMPLE_TOOLTIP_KEY = "sftcore.item.wildcard_pattern.tooltip.filter.simple";
+    private static final String SIMPLE_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.simple";
 
     @Override
     public Component createTooltip() {
@@ -117,7 +117,7 @@ public class SimpleFilterComponent implements IWildcardFilterComponent {
     }
 
     @RegisterLanguage("No material")
-    private static final String NO_MATERIAL = "sftcore.item.wildcard_pattern.filter.simple.no_material";
+    private static final String NO_MATERIAL = "item.sftcore.wildcard_pattern.filter.simple.no_material";
 
     private static String getMaterialString(Material material) {
         if (material == GTMaterials.NULL) {

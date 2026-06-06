@@ -37,7 +37,7 @@ public class WildcardIndexPage extends WidgetGroup {
     private static final int PATTERN_CYCLE = 20;
 
     @RegisterLanguage("%d Patterns Available")
-    static final String PATTERNS_AVAILABLE = "sftcore.item.wildcard_pattern.patterns_available";
+    static final String PATTERNS_AVAILABLE = "item.sftcore.wildcard_pattern.patterns_available";
 
     public WildcardIndexPage(WildcardPatternLogic logic, Level level, int x, int y, int width, int height) {
         super(x, y, width, height);

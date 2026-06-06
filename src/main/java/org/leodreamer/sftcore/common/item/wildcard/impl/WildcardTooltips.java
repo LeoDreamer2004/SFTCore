@@ -15,13 +15,13 @@ public class WildcardTooltips {
     private final WildcardPatternLogic logic;
 
     @RegisterLanguage("Input: ")
-    private static final String INPUT_TOOLTIP_KEY = "sftcore.item.wildcard_pattern.tooltip.input";
+    private static final String INPUT_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.input";
 
     @RegisterLanguage("Output: ")
-    private static final String OUTPUT_TOOLTIP_KEY = "sftcore.item.wildcard_pattern.tooltip.output";
+    private static final String OUTPUT_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.output";
 
     @RegisterLanguage("Filter: ")
-    private static final String FILTER_TOOLTIP_KEY = "sftcore.item.wildcard_pattern.tooltip.filter";
+    private static final String FILTER_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.filter";
 
     public WildcardTooltips(WildcardPatternLogic logic) {
         this.logic = logic;

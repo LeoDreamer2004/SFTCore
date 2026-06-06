@@ -8,7 +8,6 @@ import org.leodreamer.sftcore.common.item.terminal.api.RelativeBuildPos;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -17,19 +16,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
  * from the horizontal facing of the clicked controller.
  */
 public interface ISidedControllerRelativePosition extends IControllerRelativePosition {
-
-    /**
-     * The controller block used both for click validation and GUI preview.
-     */
-    Block controllerBlock();
-
-    /**
-     * Sided controller builders always start from their controller.
-     */
-    @Override
-    default Block clickAt() {
-        return controllerBlock();
-    }
 
     /**
      * Facing of the controller already placed in the real world.

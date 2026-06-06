@@ -19,10 +19,10 @@ public interface IWildcardFilterComponent extends Predicate<Material>, IWildcard
     void setWhitelist(boolean whiteList);
 
     @RegisterLanguage("[Whitelist]")
-    String WHITELIST_KEY = "sftcore.item.wildcard_pattern.tooltip.filter.whitelist";
+    String WHITELIST_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.whitelist";
 
     @RegisterLanguage("[Blacklist]")
-    String BLACKLIST_KEY = "sftcore.item.wildcard_pattern.tooltip.filter.blacklist";
+    String BLACKLIST_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.blacklist";
 
     default MutableComponent whitelistTooltip() {
         return Component.translatable(isWhitelist() ? WHITELIST_KEY : BLACKLIST_KEY)
