@@ -1,10 +1,6 @@
 package org.leodreamer.sftcore.common.item.terminal.builder;
 
-import org.leodreamer.sftcore.common.item.terminal.api.BuildContext;
-import org.leodreamer.sftcore.common.item.terminal.api.BuildDimensions;
-import org.leodreamer.sftcore.common.item.terminal.api.InventorySnapshot;
-import org.leodreamer.sftcore.common.item.terminal.api.PlacementCandidate;
-import org.leodreamer.sftcore.common.item.terminal.api.RelativeBuildPos;
+import org.leodreamer.sftcore.common.item.terminal.api.*;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

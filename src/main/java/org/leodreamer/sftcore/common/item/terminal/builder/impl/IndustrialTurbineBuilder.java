@@ -7,6 +7,7 @@ import org.leodreamer.sftcore.common.item.terminal.api.PlacementCandidate;
 import org.leodreamer.sftcore.common.item.terminal.api.RelativeBuildPos;
 import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.ISimpleRelativePosition;
+import org.leodreamer.sftcore.common.item.terminal.config.impl.IndustrialTurbineConfig;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +36,7 @@ public final class IndustrialTurbineBuilder
         var config = IndustrialTurbineConfig.resolve(terminalTag);
         int width = config.getWidth();
 
-        return new BuildDimensions(width, config.getHeight(), width);
+        return new BuildDimensions(width, config.height.get(), width);
     }
 
     enum LayerType {
@@ -119,7 +120,7 @@ public final class IndustrialTurbineBuilder
             };
         }
 
-        if (pos.y() == upperY && isCoilPosition(config.getRotorCount(), pos, center)) {
+        if (pos.y() == upperY && isCoilPosition(config.rotors.get(), pos, center)) {
             return PlacementCandidate.simple(GeneratorsBlocks.ELECTROMAGNETIC_COIL);
         }
         return switch (layer) {

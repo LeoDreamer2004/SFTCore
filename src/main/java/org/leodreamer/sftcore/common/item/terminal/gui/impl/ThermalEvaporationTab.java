@@ -3,7 +3,7 @@ package org.leodreamer.sftcore.common.item.terminal.gui.impl;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.ThermalEvaporationBuilder;
-import org.leodreamer.sftcore.common.item.terminal.builder.impl.ThermalEvaporationConfig;
+import org.leodreamer.sftcore.common.item.terminal.config.impl.ThermalEvaporationConfig;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 
 import net.minecraft.network.chat.Component;
@@ -39,6 +39,6 @@ public final class ThermalEvaporationTab extends MekTerminalTab<ThermalEvaporati
     protected void addContentWidgets(WidgetGroup content) {
         var config = ThermalEvaporationConfig.resolve(terminal.getOrCreateTag());
 
-        addIntRow(content, 26, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
+        addIntRow(content, 26, Component.translatable(HEIGHT), config.height::get, config.height::set);
     }
 }

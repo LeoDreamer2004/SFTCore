@@ -3,7 +3,7 @@ package org.leodreamer.sftcore.common.item.terminal.gui.impl;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.IndustrialTurbineBuilder;
-import org.leodreamer.sftcore.common.item.terminal.builder.impl.IndustrialTurbineConfig;
+import org.leodreamer.sftcore.common.item.terminal.config.impl.IndustrialTurbineConfig;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 
 import net.minecraft.network.chat.Component;
@@ -54,8 +54,8 @@ public final class IndustrialTurbineTab
         var config = IndustrialTurbineConfig.resolve(terminal.getOrCreateTag());
 
         addIntRow(content, 22, Component.translatable(WIDTH), config::getWidth, config::setWidth);
-        addIntRow(content, 40, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
-        addIntRow(content, 58, Component.translatable(ROTORS), config::getRotorCount, config::setRotorCount);
+        addIntRow(content, 40, Component.translatable(HEIGHT), config.height::get, config.height::set);
+        addIntRow(content, 58, Component.translatable(ROTORS), config.rotors::get, config.rotors::set);
 
         addWrappedText(content, 12, 82, 120, 28, HINT);
     }

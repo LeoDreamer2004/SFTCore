@@ -7,6 +7,7 @@ import org.leodreamer.sftcore.common.item.terminal.api.PlacementCandidate;
 import org.leodreamer.sftcore.common.item.terminal.api.RelativeBuildPos;
 import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.ISimpleRelativePosition;
+import org.leodreamer.sftcore.common.item.terminal.config.impl.ThermalBoilerConfig;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -32,9 +33,9 @@ public final class ThermalBoilerBuilder
         var config = ThermalBoilerConfig.resolve(terminalTag);
 
         return new BuildDimensions(
-            config.getWidth(),
-            config.getHeight(),
-            config.getDepth()
+            config.width.get(),
+            config.height.get(),
+            config.depth.get()
         );
     }
 

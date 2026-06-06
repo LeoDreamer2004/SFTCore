@@ -24,12 +24,13 @@ public final class MekBuilderRegistry {
     // spotless:off
     @SuppressWarnings("unused")
     public static final Entry<?>
-        INDUCTION_MATRIX = register(InductionMatrixBuilder::new, InductionMatrixTab::new),
         THERMAL_EVAPORATION = register(ThermalEvaporationBuilder::new, ThermalEvaporationTab::new),
-        SUPERCRITICAL_PHASE_SHIFTER = register(SPSBuilder::new, SPSTab::new),
-        FUSION_REACTOR = register(FusionReactorBuilder::new, FusionReactorTab::new),
+        INDUCTION_MATRIX = register(InductionMatrixBuilder::new, InductionMatrixTab::new),
         THERMAL_BOILER = register(ThermalBoilerBuilder::new, ThermalBoilerTab::new),
-        INDUSTRIAL_TURBINE = register(IndustrialTurbineBuilder::new, IndustrialTurbineTab::new);
+        FISSION_REACTOR = register(FissionReactorBuilder::new, FissionReactorTab::new),
+        INDUSTRIAL_TURBINE = register(IndustrialTurbineBuilder::new, IndustrialTurbineTab::new),
+        FUSION_REACTOR = register(FusionReactorBuilder::new, FusionReactorTab::new),
+        SUPERCRITICAL_PHASE_SHIFTER = register(SPSBuilder::new, SPSTab::new);
     // spotless:on
 
     public static <
@@ -44,12 +45,14 @@ public final class MekBuilderRegistry {
         return ENTRIES.values();
     }
 
+    private static final String TAG_SELECTED = "selected";
+
     public static void setSelected(ItemStack terminal, IMekMultiblockBuilder builder) {
-        terminal.getOrCreateTag().putString(MekTerminalTags.SELECTED, builder.id().toString());
+        terminal.getOrCreateTag().putString(TAG_SELECTED, builder.id().toString());
     }
 
     public static Entry<?> selected(ItemStack terminal) {
-        var selected = terminal.getOrCreateTag().getString(MekTerminalTags.SELECTED);
+        var selected = terminal.getOrCreateTag().getString(TAG_SELECTED);
 
         if (!selected.isEmpty()) {
             var id = ResourceLocation.tryParse(selected);

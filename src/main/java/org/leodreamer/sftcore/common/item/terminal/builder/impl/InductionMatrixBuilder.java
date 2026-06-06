@@ -5,6 +5,7 @@ import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.common.item.terminal.api.*;
 import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.ISimpleRelativePosition;
+import org.leodreamer.sftcore.common.item.terminal.config.impl.InductionMatrixConfig;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +29,7 @@ public class InductionMatrixBuilder implements ISimpleRelativePosition, ICubeSha
     @Override
     public BuildDimensions dimensions(CompoundTag terminalTag) {
         var config = InductionMatrixConfig.resolve(terminalTag);
-        return new BuildDimensions(config.getWidth(), config.getHeight(), config.getDepth());
+        return new BuildDimensions(config.width.get(), config.height.get(), config.depth.get());
     }
 
     @Override

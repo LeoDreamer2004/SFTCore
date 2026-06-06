@@ -67,7 +67,7 @@ public abstract class MekTerminalTab<T extends IMekMultiblockBuilder> implements
         );
         content.addWidget(
             new LabelWidget(
-                4, 4,
+                12, 8,
                 getTitle().copy().withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.BOLD)
             )
         );

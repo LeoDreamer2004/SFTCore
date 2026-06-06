@@ -3,7 +3,7 @@ package org.leodreamer.sftcore.common.item.terminal.gui.impl;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixBuilder;
-import org.leodreamer.sftcore.common.item.terminal.builder.impl.InductionMatrixConfig;
+import org.leodreamer.sftcore.common.item.terminal.config.impl.InductionMatrixConfig;
 import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 
 import net.minecraft.network.chat.Component;
@@ -45,8 +45,8 @@ public final class InductionMatrixTab extends MekTerminalTab<InductionMatrixBuil
     protected void addContentWidgets(WidgetGroup content) {
         var config = InductionMatrixConfig.resolve(terminal.getOrCreateTag());
 
-        addIntRow(content, 26, Component.translatable(WIDTH), config::getWidth, config::setWidth);
-        addIntRow(content, 46, Component.translatable(HEIGHT), config::getHeight, config::setHeight);
-        addIntRow(content, 66, Component.translatable(DEPTH), config::getDepth, config::setDepth);
+        addIntRow(content, 26, Component.translatable(WIDTH), config.width::get, config.width::set);
+        addIntRow(content, 46, Component.translatable(HEIGHT), config.height::get, config.height::set);
+        addIntRow(content, 66, Component.translatable(DEPTH), config.depth::get, config.depth::set);
     }
 }

@@ -5,6 +5,7 @@ import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.common.item.terminal.api.*;
 import org.leodreamer.sftcore.common.item.terminal.builder.ICubeShapedBuilder;
 import org.leodreamer.sftcore.common.item.terminal.builder.ISidedControllerRelativePosition;
+import org.leodreamer.sftcore.common.item.terminal.config.impl.ThermalEvaporationConfig;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +32,7 @@ public class ThermalEvaporationBuilder implements ISidedControllerRelativePositi
 
         return new BuildDimensions(
             ThermalEvaporationConfig.WIDTH,
-            config.getHeight(),
+            config.height.get(),
             ThermalEvaporationConfig.DEPTH
         );
     }
