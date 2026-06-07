@@ -277,6 +277,15 @@ public final class SFTPartMachines {
         MULTI_HATCH_TIERS
     );
 
+    public static final MachineDefinition ME_GAS_OUTPUT_HATCH = REGISTRATE
+        .machine("me_gas_output_hatch", MEGasOutputHatchPartMachine::new)
+        .tier(EV)
+        .langValue("ME Gas Output Hatch")
+        .rotationState(RotationState.ALL)
+        .abilities(SFTPartAbility.EXPORT_GASES)
+        .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_output_bus"))
+        .register();
+
     private static MachineDefinition[] registerGasHatches(
         String name,
         String lang,

@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.feature;
+package org.leodreamer.sftcore.common.machine.trait;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;

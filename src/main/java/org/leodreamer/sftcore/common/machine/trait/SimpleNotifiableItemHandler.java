@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.feature;
+package org.leodreamer.sftcore.common.machine.trait;
 
 import net.minecraft.world.item.ItemStack;
 

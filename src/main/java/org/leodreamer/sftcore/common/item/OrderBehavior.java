@@ -2,8 +2,8 @@ package org.leodreamer.sftcore.common.item;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.feature.SimpleNotifiableItemHandler;
 import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.machine.trait.SimpleNotifiableItemHandler;
 import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;

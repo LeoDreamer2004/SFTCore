@@ -200,6 +200,7 @@ dependencies {
     implementation files('libs/gtmoremachine-1.20.1-2.0.0.jar')
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")
+    implementation fg.deobf("curse.maven:applied-mekanistics-574300:7244744")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136")
     implementation fg.deobf("curse.maven:mega-cells-622112:6175008")
     implementation(fg.deobf("com.simibubi.create:create-${mc_version}:${create_version}:slim") { transitive = false })

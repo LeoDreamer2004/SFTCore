@@ -193,6 +193,7 @@
   "block.sftcore.max_gas_import_hatch_4x": "§c§lMAX Quadruple Gas Input Hatch",
   "block.sftcore.max_gas_import_hatch_9x": "§c§lMAX Nonuple Gas Input Hatch",
   "block.sftcore.me_advanced_input_bus": "Me Advanced Input Bus",
+  "block.sftcore.me_gas_output_hatch": "ME Gas Output Hatch",
   "block.sftcore.mega_alloy_blast_smelter": "Mega Alloy Blast Smelter",
   "block.sftcore.multi_functional_casing": "Multi Functional Casing",
   "block.sftcore.mv_dual_input_hatch": "§bMV Dual Input Hatch",

@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
 import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
-import org.leodreamer.sftcore.api.feature.SlotRestrictedRecipeHolder;
 import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
+import org.leodreamer.sftcore.common.machine.trait.SlotRestrictedRecipeHolder;
 
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
