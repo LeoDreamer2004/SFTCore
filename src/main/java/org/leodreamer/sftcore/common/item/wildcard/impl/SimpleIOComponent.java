@@ -113,7 +113,7 @@ public class SimpleIOComponent implements IWildcardIOComponent {
 
     @Override
     public void onSave() {
-        GenericStack genericStack = genericSlot.getStack();
+        var genericStack = genericSlot.getStack();
 
         if (genericStack == null) {
             stack = empty().stack;
