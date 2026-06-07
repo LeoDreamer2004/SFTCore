@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.api.recipe.capability;
 
-import org.leodreamer.sftcore.api.gui.DisplayGasHandler;
 import org.leodreamer.sftcore.api.gui.GasTankWidget;
 import org.leodreamer.sftcore.api.recipe.content.SerializerGasStack;
+import org.leodreamer.sftcore.common.machine.trait.gas.DisplayGasHandler;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;

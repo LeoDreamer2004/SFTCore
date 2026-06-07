@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
-import org.leodreamer.sftcore.api.gui.AEChemicalListGridWidget;
-import org.leodreamer.sftcore.common.machine.trait.MEGasOutputHandler;
+import org.leodreamer.sftcore.api.gui.AEGasListGridWidget;
+import org.leodreamer.sftcore.common.machine.trait.gas.MEGasOutputHandler;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
@@ -170,7 +170,7 @@ public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements 
         );
 
         group.addWidget(new LabelWidget(5, 10, "gtceu.gui.waiting_list"));
-        group.addWidget(new AEChemicalListGridWidget(5, 20, 3, this.internalBuffer));
+        group.addWidget(new AEGasListGridWidget(5, 20, 3, this.internalBuffer));
 
         return group;
     }

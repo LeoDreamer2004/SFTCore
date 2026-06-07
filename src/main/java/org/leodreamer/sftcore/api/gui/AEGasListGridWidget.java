@@ -9,9 +9,9 @@ import appeng.api.stacks.AEKey;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import me.ramidzkh.mekae2.ae2.MekanismKeyType;
 
-public class AEChemicalListGridWidget extends AEListGridWidget {
+public class AEGasListGridWidget extends AEListGridWidget {
 
-    public AEChemicalListGridWidget(int x, int y, int slotsY, KeyStorage internalList) {
+    public AEGasListGridWidget(int x, int y, int slotsY, KeyStorage internalList) {
         super(x, y, slotsY, internalList);
     }
 
@@ -27,6 +27,6 @@ public class AEChemicalListGridWidget extends AEListGridWidget {
 
     @Override
     protected Widget createDisplayWidget(int x, int y, int index) {
-        return new AEChemicalDisplayWidget(x, y, this, index);
+        return new AEGasDisplayWidget(x, y, this, index);
     }
 }

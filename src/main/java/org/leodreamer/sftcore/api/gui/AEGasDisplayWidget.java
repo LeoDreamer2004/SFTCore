@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.api.gui;
 
+import org.leodreamer.sftcore.common.machine.trait.gas.DisplayGasHandler;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEConfigSlotWidget;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -21,12 +23,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class AEChemicalDisplayWidget extends Widget {
+public class AEGasDisplayWidget extends Widget {
 
-    private final AEChemicalListGridWidget gridWidget;
+    private final AEGasListGridWidget gridWidget;
     private final int index;
 
-    public AEChemicalDisplayWidget(int x, int y, AEChemicalListGridWidget gridWidget, int index) {
+    public AEGasDisplayWidget(int x, int y, AEGasListGridWidget gridWidget, int index) {
         super(new Position(x, y), new Size(18 + 140, 18));
         this.gridWidget = gridWidget;
         this.index = index;
@@ -43,7 +45,7 @@ public class AEChemicalDisplayWidget extends Widget {
 
         var gas = getDisplayGas();
         if (!gas.isEmpty()) {
-            drawGas(graphics, gas, pos.x + 1, pos.y + 1);
+            drawSimpleGas(graphics, gas, pos.x + 1, pos.y + 1);
 
             String amountStr = "x" + FormattingUtil.formatNumbers(gas.getAmount()) + "B";
             DrawerHelper.drawText(graphics, amountStr, pos.x + 21, pos.y + 5, 1, 0xFFFFFFFF);
@@ -57,7 +59,7 @@ public class AEChemicalDisplayWidget extends Widget {
     /**
      * easy version to display gas instead of {@link DisplayGasHandler}
      */
-    private void drawGas(GuiGraphics graphics, GasStack gas, int x, int y) {
+    public static void drawSimpleGas(GuiGraphics graphics, GasStack gas, int x, int y) {
         if (gas.isEmpty()) {
             return;
         }

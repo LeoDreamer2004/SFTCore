@@ -286,6 +286,26 @@ public final class SFTPartMachines {
         .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_output_bus"))
         .register();
 
+    public static final MachineDefinition ME_GAS_INPUT_HATCH = REGISTRATE
+        .machine("me_gas_input_hatch", MEGasInputHatchPartMachine::new)
+        .tier(EV)
+        .langValue("ME Gas Input Hatch")
+        .rotationState(RotationState.ALL)
+        .abilities(SFTPartAbility.IMPORT_GASES)
+        .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_input_bus"))
+        .allowCoverOnFront(true)
+        .register();
+
+    public static final MachineDefinition ME_GAS_STOCKING_INPUT_HATCH = REGISTRATE
+        .machine("me_gas_stocking_input_hatch", MEGasStockingInputHatchPartMachine::new)
+        .tier(EV)
+        .langValue("ME Gas Stocking Input Hatch")
+        .rotationState(RotationState.ALL)
+        .abilities(SFTPartAbility.IMPORT_GASES)
+        .colorOverlayTieredHullModel(GTCEu.id("block/overlay/appeng/me_input_bus"))
+        .allowCoverOnFront(true)
+        .register();
+
     private static MachineDefinition[] registerGasHatches(
         String name,
         String lang,

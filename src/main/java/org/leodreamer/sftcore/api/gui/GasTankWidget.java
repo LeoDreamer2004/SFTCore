@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.api.gui;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.machine.trait.NotifiableGasTank;
+import org.leodreamer.sftcore.common.machine.trait.gas.NotifiableGasTank;
 import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;

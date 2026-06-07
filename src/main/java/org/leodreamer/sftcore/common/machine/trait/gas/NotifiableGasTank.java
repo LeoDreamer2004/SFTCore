@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.machine.trait;
+package org.leodreamer.sftcore.common.machine.trait.gas;
 
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;

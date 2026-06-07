@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.gui;
+package org.leodreamer.sftcore.common.machine.trait.gas;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
