@@ -2,6 +2,7 @@ package org.leodreamer.sftcore.common.recipe.condition;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.api.kinetics.KineticRecipeHelper;
 import org.leodreamer.sftcore.common.data.SFTRecipeConditions;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -44,27 +45,17 @@ public class RPMCondition extends RecipeCondition<RPMCondition> {
         return SFTRecipeConditions.RPM;
     }
 
-    @RegisterLanguage("Requires Minimum RPM: %d")
+    @RegisterLanguage("Requires Input RPM: %s RPM")
     static final String TOOLTIP = "sftcore.recipe.condition.rpm";
 
     @Override
     public Component getTooltips() {
-        return Component.translatable(TOOLTIP, rpm);
+        return Component.translatable(TOOLTIP, KineticRecipeHelper.format(rpm));
     }
 
     @Override
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
-        // if (
-        // recipeLogic.getMachine() instanceof IKineticMachine kineticMachine &&
-        // Math.abs(kineticMachine.getKineticHolder().getSpeed()) >= rpm
-        // ) {
-        // return true;
-        // }
-        // if (recipeLogic.getMachine() instanceof WorkableKineticMultiblockMachine controller) {
-        // return controller.speed >= rpm;
-        // }
-        // return false;
-        return true;
+        return KineticRecipeHelper.getMaxInputRPM(recipeLogic) >= rpm;
     }
 
     @Override

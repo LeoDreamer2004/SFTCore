@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.common.machine.trait;
 
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
-import org.leodreamer.sftcore.common.machine.multiblock.part.KineticPartMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.part.KineticInputPartMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -27,11 +27,11 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
         NotifiableStressTrait.class
     );
 
-    private final KineticPartMachine machine;
+    private final KineticInputPartMachine machine;
     private final IO handlerIO;
     private final IO capabilityIO;
 
-    public NotifiableStressTrait(KineticPartMachine machine, IO handlerIO, IO capabilityIO) {
+    public NotifiableStressTrait(KineticInputPartMachine machine, IO handlerIO, IO capabilityIO) {
         this.machine = machine;
         this.handlerIO = handlerIO;
         this.capabilityIO = capabilityIO;

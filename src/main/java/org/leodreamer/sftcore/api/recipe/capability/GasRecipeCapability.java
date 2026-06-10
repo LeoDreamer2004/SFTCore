@@ -57,7 +57,7 @@ public class GasRecipeCapability extends RecipeCapability<GasStack> {
 
     @Override
     public @NotNull List<Object> createXEIContainerContents(List<Content> contents, GTRecipe recipe, IO io) {
-        var gases = new ArrayList<>();
+        var gases = new ArrayList<Object>();
 
         for (var content : contents) {
             var stack = of(content.content);
@@ -74,8 +74,8 @@ public class GasRecipeCapability extends RecipeCapability<GasStack> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public @Nullable Object createXEIContainer(List contents) {
-        // noinspection unchecked
         return new DisplayGasHandler((List<GasStack>) contents);
     }
 

@@ -29,6 +29,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class SFTRecipeBuilder extends GTRecipeBuilder {
 
     public static final String INPUT_STRESS = "input_stress";
+    public static final String INPUT_RPM = "input_rpm";
 
     public SFTRecipeBuilder(ResourceLocation id, GTRecipeType recipeType) {
         super(id, recipeType);
@@ -169,7 +170,10 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
     }
 
     public SFTRecipeBuilder inputStress(float stress) {
+        boolean lastPerTick = perTick;
+        perTick = true;
         input(StressRecipeCapability.CAP, stress);
+        perTick = lastPerTick;
         this.data.putFloat(INPUT_STRESS, stress);
         return this;
     }
@@ -180,9 +184,26 @@ public class SFTRecipeBuilder extends GTRecipeBuilder {
         return this;
     }
 
-    public SFTRecipeBuilder rpm(float rpm, boolean reverse) {
+    public SFTRecipeBuilder inputRPM(float rpm, boolean reverse) {
         addCondition(new RPMCondition(rpm).setReverse(reverse));
+        this.data.putFloat(INPUT_RPM, rpm);
         return this;
+    }
+
+    public SFTRecipeBuilder inputRPM(float rpm) {
+        return inputRPM(rpm, false);
+    }
+
+    public SFTRecipeBuilder inputRpm(float rpm, boolean reverse) {
+        return inputRPM(rpm, reverse);
+    }
+
+    public SFTRecipeBuilder inputRpm(float rpm) {
+        return inputRPM(rpm);
+    }
+
+    public SFTRecipeBuilder rpm(float rpm, boolean reverse) {
+        return inputRPM(rpm, reverse);
     }
 
     public SFTRecipeBuilder rpm(float rpm) {

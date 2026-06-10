@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.create;
 
-import org.leodreamer.sftcore.api.kinetics.KineticStressIntegration;
+import org.leodreamer.sftcore.api.kinetics.KineticPartHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -22,11 +22,7 @@ public abstract class RotationPropagatorMixin {
         KineticBlockEntity addedTE,
         CallbackInfo ci
     ) {
-        KineticStressIntegration.refreshConsumersAround(worldIn, pos);
-
-        if (addedTE != null) {
-            KineticStressIntegration.refreshConsumersAround(addedTE);
-        }
+        KineticPartHelper.refreshConsumersAround(worldIn, pos);
     }
 
     @Inject(method = "handleRemoved", at = @At("TAIL"))
@@ -36,10 +32,6 @@ public abstract class RotationPropagatorMixin {
         KineticBlockEntity removedBE,
         CallbackInfo ci
     ) {
-        KineticStressIntegration.refreshConsumersAround(worldIn, pos);
-
-        if (removedBE != null) {
-            KineticStressIntegration.refreshConsumersAround(removedBE);
-        }
+        KineticPartHelper.refreshConsumersAround(worldIn, pos);
     }
 }

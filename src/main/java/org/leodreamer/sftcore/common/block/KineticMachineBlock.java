@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.common.block;
 
-import org.leodreamer.sftcore.api.kinetics.IKineticStressConsumer;
+import org.leodreamer.sftcore.api.kinetics.IKineticConsumer;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -23,11 +23,11 @@ public class KineticMachineBlock extends MetaMachineBlock implements IRotate {
     public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         var machine = MetaMachine.getMachine(world, pos);
 
-        if (machine instanceof IKineticStressConsumer consumer) {
-            return consumer.sftcore$hasShaftTowards(face);
+        if (machine instanceof IKineticConsumer consumer) {
+            return consumer.hasShaftTowards(face);
         }
 
-        return face.getAxis() == getRotationAxis(state);
+        return face == getFrontFacing(state);
     }
 
     @Override

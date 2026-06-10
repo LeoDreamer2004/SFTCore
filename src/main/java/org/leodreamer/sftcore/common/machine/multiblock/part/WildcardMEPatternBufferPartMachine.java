@@ -38,6 +38,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
@@ -144,6 +145,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
      */
     private GTRecipe[] cachedRecipes = new GTRecipe[0];
 
+    @SaveField
+    private String[] cachedRecipeIds = new String[0];
+
     public WildcardMEPatternBufferPartMachine(BlockEntityCreationInfo info) {
         super(info, IO.IN);
 
@@ -192,7 +196,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
         // Preserve already deserialized internal contents on world load
         installGeneratedPatterns(generatedPatterns, true);
-        clearAllCachedRecipes();
+        restoreCachedRecipes();
     }
 
     private List<IPatternDetails> collectWildcardPatterns() {
@@ -244,11 +248,43 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
     }
 
     private void resizeCachedRecipes(int size) {
-        cachedRecipes = new GTRecipe[size];
+        cachedRecipes = Arrays.copyOf(cachedRecipes, size);
+        resizeCachedRecipeIdsTag(size);
     }
 
     private void clearAllCachedRecipes() {
         Arrays.fill(cachedRecipes, null);
+        Arrays.fill(cachedRecipeIds, "");
+        markAsDirty();
+    }
+
+    private void restoreCachedRecipes() {
+        Arrays.fill(cachedRecipes, null);
+        resizeCachedRecipeIdsTag(cachedRecipes.length);
+
+        for (int slot = 0; slot < cachedRecipeIds.length; slot++) {
+            var recipeId = cachedRecipeIds[slot];
+            if (recipeId == null || recipeId.isEmpty()) {
+                cachedRecipeIds[slot] = "";
+                continue;
+            }
+
+            var id = ResourceLocation.tryParse(recipeId);
+            var recipe = id == null ? null : getLevel().getRecipeManager().byKey(id).orElse(null);
+            if (recipe instanceof GTRecipe gtRecipe) {
+                cachedRecipes[slot] = gtRecipe;
+            } else {
+                cachedRecipeIds[slot] = "";
+            }
+        }
+    }
+
+    private void resizeCachedRecipeIdsTag(int size) {
+        int oldSize = cachedRecipeIds.length;
+        cachedRecipeIds = Arrays.copyOf(cachedRecipeIds, size);
+        if (size > oldSize) {
+            Arrays.fill(cachedRecipeIds, oldSize, size, "");
+        }
     }
 
     private void refundAllInternalSlots() {
@@ -550,6 +586,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         }
 
         cachedRecipes[slot] = recipe;
+        resizeCachedRecipeIdsTag(cachedRecipes.length);
+        cachedRecipeIds[slot] = recipe.getId().toString();
+        markAsDirty();
     }
 
     @Override
@@ -559,6 +598,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         }
 
         cachedRecipes[slot] = null;
+        resizeCachedRecipeIdsTag(cachedRecipes.length);
+        cachedRecipeIds[slot] = "";
+        markAsDirty();
     }
 
     @Override

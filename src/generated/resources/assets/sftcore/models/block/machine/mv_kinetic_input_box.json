@@ -13,5 +13,10 @@
         }
       }
     }
-  }
+  },
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ]
 }

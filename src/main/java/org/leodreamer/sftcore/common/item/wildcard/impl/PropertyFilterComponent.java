@@ -35,7 +35,7 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
 
     public static final Codec<PropertyFilterComponent> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            WildcardCodecUtils.PROPERTY_CODEC.optionalFieldOf("flag", EMPTY)
+            WildcardCodecUtils.PROPERTY_CODEC.optionalFieldOf("property", EMPTY)
                 .forGetter(component -> component.property),
             WildcardCodecUtils.MATERIAL_CODEC.optionalFieldOf("example", GTMaterials.NULL)
                 .forGetter(component -> component.example),

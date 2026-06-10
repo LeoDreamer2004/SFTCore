@@ -181,23 +181,36 @@ public final class SFTPartMachines {
                 MachineDefinition::new,
                 KineticMachineBlock::new,
                 MetaMachineItem::new,
-                info -> new KineticPartMachine(info, tier, IO.IN)
+                info -> new KineticInputPartMachine(info, tier)
             )
                 .langValue("%s Kinetic Input Box".formatted(VNF[tier]))
                 .rotationState(RotationState.ALL)
                 .abilities(SFTPartAbility.INPUT_KINETIC)
                 .tier(tier)
+                .modelProperty(IS_FORMED, false)
                 .blockProp(BlockBehaviour.Properties::dynamicShape)
                 .blockProp(BlockBehaviour.Properties::noOcclusion)
+                .hasBER(false)
+                .itemBuilder(itemBuilder -> itemBuilder.model((ctx, prov) -> {
+                    var texturePath = GTCEu.id("block/casings/voltage/" + tierName + "/");
+                    prov.withExistingParent(
+                        ctx.getName(),
+                        SFTCore.id("block/machine/kinetic_electric_machine_item")
+                    )
+                        .texture("bottom", texturePath.withSuffix("bottom"))
+                        .texture("top", texturePath.withSuffix("top"))
+                        .texture("side", texturePath.withSuffix("side"))
+                        .texture("particle", texturePath.withSuffix("side"));
+                }))
                 .model((ctx, prov, builder) -> {
                     var parentModel = prov.models()
                         .getExistingFile(SFTCore.id("block/machine/kinetic_electric_machine"));
 
                     var model = prov.models().nested().parent(parentModel);
                     GTMachineModels.casingTextures(model, GTCEu.id("block/casings/voltage/" + tierName));
-                    builder.forAllStatesModels(state -> model);
+                    builder.forAllStatesModelsExcept(state -> model, IS_FORMED);
+                    builder.addReplaceableTextures("bottom", "top", "side");
                 })
-                .hasBER(true)
                 .onBlockEntityRegister(type -> {
                     if (GTCEu.isClientSide()) {
                         BlockEntityRenderers.register(

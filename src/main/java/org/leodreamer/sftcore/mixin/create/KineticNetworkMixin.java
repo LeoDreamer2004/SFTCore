@@ -1,66 +1,102 @@
 package org.leodreamer.sftcore.mixin.create;
 
-import org.leodreamer.sftcore.api.kinetics.IKineticStressConsumer;
-import org.leodreamer.sftcore.api.kinetics.KineticStressIntegration;
-import org.leodreamer.sftcore.api.kinetics.SFTKineticNetworkAccessor;
-
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import org.leodreamer.sftcore.api.kinetics.IKineticConsumer;
+import org.leodreamer.sftcore.api.kinetics.IKineticNetwork;
+import org.leodreamer.sftcore.api.kinetics.KineticPartHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
 import com.simibubi.create.content.kinetics.KineticNetwork;
+import com.simibubi.create.content.kinetics.base.IRotate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Mixin(value = KineticNetwork.class, remap = false)
-public abstract class KineticNetworkMixin implements SFTKineticNetworkAccessor {
+public abstract class KineticNetworkMixin implements IKineticNetwork {
 
     @Shadow
     public Long id;
 
     @Shadow
-    public abstract void updateStress();
+    public abstract void updateNetwork();
+
+    @Shadow
+    public abstract float calculateCapacity();
 
     @Unique
-    private final Map<BlockPos, Float> sftcore$stressConsumers = new HashMap<>();
+    private final Map<BlockPos, SFTStressEntry> sftcore$stressConsumers = new HashMap<>();
 
     @Unique
     private Level sftcore$level;
 
-    @Override
-    public void sftcore$addStressConsumer(Level level, BlockPos pos, float stressImpact) {
-        if (level == null || level.isClientSide) {
-            return;
-        }
+    @Unique
+    private float sftcore$currentCapacity;
 
-        this.sftcore$level = level;
-        this.sftcore$stressConsumers.put(pos.immutable(), stressImpact);
-        this.updateStress();
+    @Unique
+    private float sftcore$currentStress;
+
+    @Override
+    public Long sftcore$getId() {
+        return id;
     }
 
     @Override
-    public void sftcore$removeStressConsumer(Level level, BlockPos pos) {
-        if (level != null && level.isClientSide) {
+    public void sftcore$addStressConsumer(
+        Level level,
+        BlockPos pos,
+        float stressImpact,
+        float speed,
+        IKineticConsumer consumer
+    ) {
+        sftcore$updateStressConsumer(level, pos, stressImpact, speed, consumer);
+    }
+
+    @Override
+    public void sftcore$updateStressConsumer(
+        Level level,
+        BlockPos pos,
+        float stressImpact,
+        float speed,
+        IKineticConsumer consumer
+    ) {
+        if (level == null || level.isClientSide || pos == null || consumer == null) {
             return;
         }
 
-        if (this.sftcore$stressConsumers.remove(pos) != null) {
-            this.updateStress();
+        sftcore$level = level;
+        sftcore$stressConsumers.put(pos.immutable(), new SFTStressEntry(stressImpact, speed, consumer));
+        updateNetwork();
+    }
+
+    @Override
+    public void sftcore$removeStressConsumer(Level level, BlockPos pos, boolean updateNetwork) {
+        if ((level != null && level.isClientSide) || pos == null) {
+            return;
         }
+
+        if (sftcore$stressConsumers.remove(pos) != null && updateNetwork) {
+            updateNetwork();
+        }
+    }
+
+    @Override
+    public boolean sftcore$isOverstressed() {
+        return IRotate.StressImpact.isEnabled() && sftcore$currentCapacity < sftcore$currentStress;
     }
 
     @Inject(method = "calculateStress", at = @At("RETURN"), cancellable = true)
     private void sftcore$appendMetaMachineStress(CallbackInfoReturnable<Float> cir) {
         if (sftcore$level == null || sftcore$level.isClientSide || sftcore$stressConsumers.isEmpty()) {
+            sftcore$currentStress = cir.getReturnValue();
             return;
         }
 
@@ -69,30 +105,77 @@ public abstract class KineticNetworkMixin implements SFTKineticNetworkAccessor {
 
         while (iterator.hasNext()) {
             var entry = iterator.next();
-            BlockPos pos = entry.getKey();
+            var pos = entry.getKey();
+            var stressEntry = entry.getValue();
 
             if (!sftcore$level.isLoaded(pos)) {
                 continue;
             }
 
-            var machine = MetaMachine.getMachine(sftcore$level, pos);
-            if (!(machine instanceof IKineticStressConsumer consumer)) {
+            var consumer = KineticPartHelper.getKineticPart(sftcore$level, pos);
+            if (consumer == null || consumer != stressEntry.consumer()) {
                 iterator.remove();
                 continue;
             }
 
-            var connected = KineticStressIntegration.findConnectedKineticBlockEntity(consumer);
-            if (connected == null || !connected.hasNetwork() || !Objects.equals(connected.network, this.id)) {
+            var self = (KineticNetwork) (Object) this;
+            if (!KineticPartHelper.isValidConsumerConnection(consumer, self)) {
                 iterator.remove();
-                consumer.sftcore$setLinkedKineticNetwork(null);
-                consumer.sftcore$onKineticStatsChanged(0.0F, false);
+                if (KineticPartHelper.isAttachedToNetwork(consumer, self)) {
+                    KineticPartHelper.clearNetworkLink(consumer);
+                }
                 continue;
             }
 
-            float impact = entry.getValue();
-            extraStress += impact * Math.abs(connected.getTheoreticalSpeed());
+            extraStress += stressEntry.impact() * Math.abs(stressEntry.speed());
         }
 
-        cir.setReturnValue(cir.getReturnValue() + extraStress);
+        sftcore$currentStress = cir.getReturnValue() + extraStress;
+        cir.setReturnValue(sftcore$currentStress);
     }
+
+    @Inject(method = "calculateCapacity", at = @At("RETURN"))
+    private void sftcore$rememberCapacity(CallbackInfoReturnable<Float> cir) {
+        sftcore$currentCapacity = cir.getReturnValue();
+    }
+
+    @Inject(method = "updateNetwork", at = @At("TAIL"))
+    private void sftcore$syncConsumersOnNetworkUpdate(CallbackInfo ci) {
+        sftcore$syncConsumers();
+    }
+
+    @Inject(method = "sync", at = @At("TAIL"))
+    private void sftcore$syncConsumers(CallbackInfo ci) {
+        sftcore$syncConsumers();
+    }
+
+    @Unique
+    private void sftcore$syncConsumers() {
+        sftcore$currentCapacity = calculateCapacity();
+
+        if (sftcore$level == null || sftcore$stressConsumers.isEmpty()) {
+            return;
+        }
+
+        boolean overstressed = sftcore$isOverstressed();
+        for (var it = sftcore$stressConsumers.entrySet().iterator(); it.hasNext();) {
+            var entry = it.next();
+            var pos = entry.getKey();
+            var stressEntry = entry.getValue();
+            var consumer = KineticPartHelper.getKineticPart(sftcore$level, pos);
+            if (consumer == null || consumer != stressEntry.consumer()) {
+                it.remove();
+                continue;
+            }
+
+            consumer.onKineticStatsChanged(
+                stressEntry.speed(),
+                overstressed ? 0.0F : stressEntry.speed(),
+                overstressed
+            );
+        }
+    }
+
+    @Unique
+    private record SFTStressEntry(float impact, float speed, IKineticConsumer consumer) {}
 }

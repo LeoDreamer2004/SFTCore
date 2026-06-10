@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEPatternViewSlotWidget;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
@@ -23,6 +24,7 @@ import com.gregtechceu.gtceu.integration.ae2.machine.trait.InternalSlotRecipeHan
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
@@ -43,7 +45,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Arrays;
 
 @Mixin(value = MEPatternBufferPartMachine.class, remap = false)
 public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
@@ -63,6 +68,10 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
 
     @Unique
     private final GTRecipe[] sftcore$cachedRecipes = new GTRecipe[27];
+
+    @Unique
+    @SaveField
+    private final String[] sftcore$cachedRecipeIds = sftcore$emptyCachedRecipeIds(); // SaveField does not support null
 
     @Unique
     @SyncToClient
@@ -177,6 +186,36 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
 
     /* --- cache optimization --- */
 
+    @Inject(method = "onLoad", at = @At("TAIL"))
+    private void sftcore$loadCachedRecipes(CallbackInfo ci) {
+        if (isRemote()) {
+            return;
+        }
+
+        sftcore$cachedRecipeMask = 0;
+
+        for (int slot = 0; slot < sftcore$cachedRecipeIds.length; slot++) {
+            var recipeId = sftcore$cachedRecipeIds[slot];
+            if (recipeId == null || recipeId.isEmpty()) {
+                sftcore$cachedRecipes[slot] = null;
+                sftcore$cachedRecipeIds[slot] = "";
+                continue;
+            }
+
+            var id = ResourceLocation.tryParse(recipeId);
+            var recipe = id == null ? null : getLevel().getRecipeManager().byKey(id).orElse(null);
+            if (recipe instanceof GTRecipe gtRecipe) {
+                sftcore$cachedRecipes[slot] = gtRecipe;
+                sftcore$cachedRecipeMask |= 1 << slot;
+            } else {
+                sftcore$cachedRecipes[slot] = null;
+                sftcore$cachedRecipeIds[slot] = "";
+            }
+        }
+
+        sftcore$syncCachedRecipeMask();
+    }
+
     @Redirect(
         method = "createUIWidget",
         at = @At(
@@ -266,12 +305,13 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     }
 
     @Override
-    public void sftcore$setCachedRecipe(int slot, GTRecipe recipe) {
-        if (slot < 0 || slot >= sftcore$cachedRecipes.length || recipe == null) {
+    public void sftcore$setCachedRecipe(int slot, @NotNull GTRecipe recipe) {
+        if (slot < 0 || slot >= sftcore$cachedRecipes.length) {
             return;
         }
 
         sftcore$cachedRecipes[slot] = recipe;
+        sftcore$cachedRecipeIds[slot] = recipe.getId().toString();
 
         int oldMask = sftcore$cachedRecipeMask;
         sftcore$cachedRecipeMask |= 1 << slot;
@@ -279,6 +319,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         if (oldMask != sftcore$cachedRecipeMask) {
             sftcore$syncCachedRecipeMask();
         }
+        markAsDirty();
     }
 
     @Override
@@ -288,6 +329,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         }
 
         sftcore$cachedRecipes[slot] = null;
+        sftcore$cachedRecipeIds[slot] = "";
 
         int oldMask = sftcore$cachedRecipeMask;
         sftcore$cachedRecipeMask &= ~(1 << slot);
@@ -295,6 +337,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         if (oldMask != sftcore$cachedRecipeMask) {
             sftcore$syncCachedRecipeMask();
         }
+        markAsDirty();
     }
 
     @Override
@@ -314,5 +357,12 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     @Unique
     private void sftcore$syncCachedRecipeMask() {
         getSyncDataHolder().markClientSyncFieldDirty("sftcore$cachedRecipeMask");
+    }
+
+    @Unique
+    private static String[] sftcore$emptyCachedRecipeIds() {
+        var ids = new String[27];
+        Arrays.fill(ids, "");
+        return ids;
     }
 }

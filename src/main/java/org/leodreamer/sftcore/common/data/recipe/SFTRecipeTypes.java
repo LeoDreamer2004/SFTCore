@@ -4,6 +4,7 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.feature.IGTRecipeTypeGas;
+import org.leodreamer.sftcore.api.kinetics.KineticRecipeHelper;
 import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
 
@@ -40,7 +41,7 @@ public final class SFTRecipeTypes {
 
     public static void init() {}
 
-    @RegisterLanguage("Acquire Stress: %dsu")
+    @RegisterLanguage("Requires Total Stress: %ssu")
     private static final String ACQUIRE_STRESS = "sftcore.recipe.input_stress";
 
     // create integration
@@ -53,13 +54,16 @@ public final class SFTRecipeTypes {
         .setMaxTooltips(4)
         .addDataInfo(
             data -> {
-                int stress = data.getInt(SFTRecipeBuilder.INPUT_STRESS);
-                return LocalizationUtils.format(ACQUIRE_STRESS, stress);
+                if (!data.contains(SFTRecipeBuilder.INPUT_STRESS)) {
+                    return "";
+                }
+                float stress = data.getFloat(SFTRecipeBuilder.INPUT_STRESS);
+                return LocalizationUtils.format(ACQUIRE_STRESS, KineticRecipeHelper.format(stress));
             }
         )
         .setUiBuilder(
             (recipe, group) -> {
-                if (!recipe.conditions.isEmpty() && recipe.conditions.get(0) instanceof RPMCondition) {
+                if (recipe.conditions.stream().anyMatch(RPMCondition.class::isInstance)) {
                     group.addWidget(
                         new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(
                             new CustomItemStackHandler(AllBlocks.SHAFT.asStack()),
@@ -207,6 +211,7 @@ public final class SFTRecipeTypes {
         )
         .setSound(GTSoundEntries.MACERATOR);
 
+    @SuppressWarnings("deprecation")
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(SFTCore.id(name), group, proxyRecipes);
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, recipeType.registryName, recipeType);

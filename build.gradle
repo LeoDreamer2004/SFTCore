@@ -90,8 +90,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     mavenCentral()
-    maven { url 'https://maven.aliyun.com/repository/public' }
-    maven { url 'https://maven.minecraftforge.net/' }
+    maven { url = 'https://maven.aliyun.com/repository/public' }
+    maven { url = 'https://maven.minecraftforge.net/' }
     maven {
         name = "BMCLAPI"
         url = "https://bmclapi2.bangbang93.com/maven/"
@@ -120,12 +120,12 @@ repositories {
     }
     maven {
         // Registrate
-        url "https://maven.tterrag.com/"
+        url = "https://maven.tterrag.com/"
     }
     maven {
         // ForgeGradle
-        name "firstdarkdev"
-        url "https://maven.firstdarkdev.xyz/snapshots"
+        name = "firstdarkdev"
+        url = "https://maven.firstdarkdev.xyz/snapshots"
     }
     maven {
         // Modrinth maven
@@ -134,14 +134,14 @@ repositories {
     }
     maven {
         // Curseforge maven
-        url "https://cursemaven.com"
+        url = "https://cursemaven.com"
         content {
             includeGroup "curse.maven"
         }
     }
     maven {
         // Cloth Config API
-        url "https://maven.shedaniel.me/"
+        url = "https://maven.shedaniel.me/"
     }
     maven {
         // Jade
@@ -166,7 +166,7 @@ repositories {
     maven {
         // GeckoLib
         name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         content {
             includeGroupByRegex("software\\.bernie.*")
             includeGroup("com.eliotlash.mclib")
@@ -174,7 +174,7 @@ repositories {
     }
     maven {
         // Extended Crafting
-        url 'https://maven.blakesmods.com'
+        url = 'https://maven.blakesmods.com'
     }
     maven {
         // LibX
@@ -183,8 +183,8 @@ repositories {
     }
     maven {
         // Configuration
-        name 'Configuration'
-        url 'https://repo.repsy.io/mvn/toma/public/'
+        name = 'Configuration'
+        url = 'https://repo.repsy.io/mvn/toma/public/'
     }
     mavenLocal()
 }
@@ -307,8 +307,4 @@ spotless {
 
 kotlin {
     jvmToolchain(17)
-}
-
-jar {
-    manifest.attributes('FMLAT': 'accessortransformer.cfg')
 }
