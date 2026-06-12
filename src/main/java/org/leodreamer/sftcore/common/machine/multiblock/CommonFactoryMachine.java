@@ -2,30 +2,43 @@ package org.leodreamer.sftcore.common.machine.multiblock;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.feature.IMachineAdjustment;
+import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
+import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gregtechceu.gtceu.utils.ISubscription;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 
 @DataGenScanned
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine {
 
     public static final GTRecipeType[] AVAILABLE_RECIPES = {
@@ -62,9 +75,11 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         WIREMILL_RECIPES,
     };
 
-    @Nullable
-    private ISubscription machineSub = null;
+    @SaveField
+    @Getter
+    private final NotifiableItemStackHandler machineInventory;
 
+    @Getter
     private GTRecipeType recipeType = DUMMY_RECIPES;
 
     @Getter
@@ -72,33 +87,24 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
 
     public CommonFactoryMachine(BlockEntityCreationInfo info) {
         super(info);
-    }
-
-    @NotNull
-    private IMachineAdjustment getMachineHolder() {
-        for (IMultiPart part : getParts()) {
-            if (part instanceof IMachineAdjustment holderPart) {
-                return holderPart;
-            }
-        }
-        throw new IllegalStateException("No machine adjustment hatch found in the common factory.");
+        this.machineInventory = attachTrait(
+            new NotifiableItemStackHandler(1, IO.NONE, IO.NONE)
+                .setFilter(this::isValidInnerMachine)
+                .shouldSearchContent(false)
+        );
+        this.machineInventory.addChangedListener(this::onMachineChanged);
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        var machineAdjustment = getMachineHolder();
-        this.onMachineAdjustmentChanged(machineAdjustment);
-        this.machineSub = machineAdjustment.addListenerOnChanged(this::onMachineAdjustmentChanged);
+        this.onMachineChanged();
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        if (this.machineSub != null) {
-            this.machineSub.unsubscribe();
-            this.machineSub = null;
-        }
+        clearMachineCache();
     }
 
     private void checkVoltageValid() {
@@ -111,16 +117,51 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         voltageValid = voltageTier == tier;
     }
 
-    private void onMachineAdjustmentChanged(IMachineAdjustment holder) {
-        this.recipeType = holder.getRecipeType();
-        this.tier = holder.getTier();
-        checkVoltageValid();
+    private boolean isValidInnerMachine(ItemStack stack) {
+        return getInnerMachineDefinition(stack) != null;
     }
 
-    @Override
-    @NotNull
-    public GTRecipeType getRecipeType() {
-        return recipeType;
+    @Nullable
+    private static MachineDefinition getInnerMachineDefinition(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return null;
+        }
+        var item = stack.getItem();
+        var rl = RLUtils.getItemRL(item);
+        var def = GTRegistries.MACHINES.get(rl);
+        if (def == null || def instanceof MultiblockMachineDefinition || def.getRecipeTypes().length == 0) {
+            return null;
+        }
+        return def;
+    }
+
+    private void onMachineChanged() {
+        var def = getInnerMachineDefinition(machineInventory.getStackInSlot(0));
+        if (def == null) {
+            clearMachineCache();
+            return;
+        }
+
+        var recipeTypes = def.getRecipeTypes();
+        if (recipeTypes.length == 0) {
+            clearMachineCache();
+            return;
+        }
+
+        // small machine should only have one recipe type
+        this.recipeType = recipeTypes[0];
+        this.tier = def.getTier();
+        checkVoltageValid();
+        getRecipeLogic().markLastRecipeDirty();
+        getRecipeLogic().updateTickSubscription();
+    }
+
+    private void clearMachineCache() {
+        this.recipeType = DUMMY_RECIPES;
+        this.tier = 0;
+        this.voltageValid = false;
+        getRecipeLogic().markLastRecipeDirty();
+        getRecipeLogic().updateTickSubscription();
     }
 
     public int getMaxParallels() {
@@ -134,15 +175,28 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         // Hide the recipe configurator tab
         sideTabs.setMainTab(this);
 
-        var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(self(), self());
+        var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(this, this);
         if (directionalConfigurator != null) sideTabs.attachSubTab(directionalConfigurator);
+    }
+
+    @Override
+    public Widget createUIWidget() {
+        var group = (WidgetGroup) super.createUIWidget();
+
+        group.addWidget(
+            new BlockableSlotWidget(machineInventory.storage, 0, 164, 99)
+                .setBackground(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY)
+        );
+
+        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        return group;
     }
 
     @RegisterLanguage("The voltage of energy hatch and machine don't match!")
     static final String VOLTAGE_INVALID = "sftcore.machine.common_factory.voltage_invalid";
 
     @Override
-    public void addDisplayText(@NotNull List<Component> textList) {
+    public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (!isFormed()) {
             return;

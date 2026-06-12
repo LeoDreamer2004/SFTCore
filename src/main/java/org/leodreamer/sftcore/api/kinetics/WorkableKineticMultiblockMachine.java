@@ -49,20 +49,17 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
 
     @Override
     public void addDisplayText(List<Component> textList) {
-        int numParallels;
-        int subtickParallels;
-        int totalRuns;
+        int numParallels = 0;
+        int subtickParallels = 0;
+        int totalRuns = 0;
         boolean exact = false;
 
-        if (recipeLogic.isActive() && recipeLogic.getLastRecipe() != null) {
-            numParallels = recipeLogic.getLastRecipe().parallels;
-            subtickParallels = recipeLogic.getLastRecipe().subtickParallels;
-            totalRuns = recipeLogic.getLastRecipe().getTotalRuns();
+        var lastRecipe = recipeLogic.getLastRecipe();
+        if (recipeLogic.isActive() && lastRecipe != null) {
+            numParallels = lastRecipe.parallels;
+            subtickParallels = lastRecipe.subtickParallels;
+            totalRuns = lastRecipe.getTotalRuns();
             exact = true;
-        } else {
-            numParallels = 0;
-            subtickParallels = 0;
-            totalRuns = 0;
         }
 
         var builder = MultiblockDisplayText.builder(textList, isFormed())
@@ -76,8 +73,8 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
             .addProgressLine(recipeLogic)
             .addRecipeFailReasonLine(recipeLogic);
 
-        if (recipeLogic.getLastRecipe() != null) {
-            builder.addOutputLines(recipeLogic.getLastRecipe());
+        if (lastRecipe != null) {
+            builder.addOutputLines(lastRecipe);
         }
 
         getDefinition().getAdditionalDisplay().accept(this, textList);
@@ -110,19 +107,24 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
         return SFTGuiTextures.DISPLAY_CREATE;
     }
 
+    /**
+     * See {@link com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine#createUIWidget()} for
+     * reference.
+     */
     @Override
     public Widget createUIWidget() {
         var group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
-        group.addWidget(
-            new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(getScreenTexture())
-                .addWidget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()))
-                .addWidget(
-                    new ComponentPanelWidget(4, 17, this::addDisplayText)
-                        .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText)
-                        .setMaxWidthLimit(200)
-                        .clickHandler(this::handleDisplayClick)
-                )
-        );
+        var scroll = new DraggableScrollableWidgetGroup(4, 4, 182, 117)
+            .setBackground(getScreenTexture())
+            .addWidget(new LabelWidget(4, 5, getBlockState().getBlock().getDescriptionId()))
+            .addWidget(
+                new ComponentPanelWidget(4, 17, this::addDisplayText)
+                    .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText)
+                    .setMaxWidthLimit(200)
+                    .clickHandler(this::handleDisplayClick)
+            );
+
+        group.addWidget(scroll);
         return group;
     }
 

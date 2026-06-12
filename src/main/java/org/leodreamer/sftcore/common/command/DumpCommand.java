@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.common.command;
 
-import org.leodreamer.sftcore.Config;
+import org.leodreamer.sftcore.SFTConfig;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 
@@ -188,7 +188,7 @@ public class DumpCommand {
             result.put(target.getTypeName() + "Tags", target.tags());
         }
 
-        if (mode == Mode.ALL && Config.keepDistinct) {
+        if (mode == Mode.ALL && SFTConfig.keepDistinct) {
             // remove block items
             var blockMap = result.get("Block");
             var itemMap = result.get("Item");

@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 @Mod.EventBusSubscriber(modid = SFTCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Config {
+public class SFTConfig {
 
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     private static final ForgeConfigSpec.BooleanValue KEEP_DISTINCT = BUILDER

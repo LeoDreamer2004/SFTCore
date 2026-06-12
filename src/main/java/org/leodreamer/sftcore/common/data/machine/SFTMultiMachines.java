@@ -214,7 +214,7 @@ public final class SFTMultiMachines {
         .tooltips(
             builder -> builder
                 .intro(
-                    "- §7The simple machine in the§r machine adjustment hatch§7 limits the recipe type and voltage.§r",
+                    "- §7The simple machine in the controller UI slot limits the recipe type and voltage.§r",
                     "- §7The voltage of energy hatch and machine must match, though it is allowed to use two energy hatch.§r",
                     "- §7For every 1 level above §6Cupronickel§7, the machine gets 4 extra parallels§r"
                 )
@@ -238,7 +238,6 @@ public final class SFTMultiMachines {
                     blocks(MULTI_FUNCTIONAL_CASING.get())
                         .setMinGlobalLimited(12)
                         .or(autoAbilities(CommonFactoryMachine.AVAILABLE_RECIPES))
-                        .or(abilities(SFTPartAbility.MACHINE_ADJUSTMENT).setExactLimit(1))
                         .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                 )
                 .build()

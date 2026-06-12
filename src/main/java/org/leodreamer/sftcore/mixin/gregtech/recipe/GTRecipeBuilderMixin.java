@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
-import org.leodreamer.sftcore.Config;
+import org.leodreamer.sftcore.SFTConfig;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
@@ -28,7 +28,7 @@ public abstract class GTRecipeBuilderMixin {
             return;
         }
         // EUt is not empty means this recipe consumes EU
-        this.duration = (int) (this.duration * Config.durationMultiplier);
+        this.duration = (int) (this.duration * SFTConfig.durationMultiplier);
         this.duration = Math.max(this.duration, 1);
     }
 }

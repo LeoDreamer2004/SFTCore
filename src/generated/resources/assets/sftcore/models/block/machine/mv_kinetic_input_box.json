@@ -2,6 +2,11 @@
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
   "machine": "sftcore:mv_kinetic_input_box",
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
   "variants": {
     "": {
       "model": {
@@ -13,10 +18,5 @@
         }
       }
     }
-  },
-  "replaceable_textures": [
-    "bottom",
-    "top",
-    "side"
-  ]
+  }
 }

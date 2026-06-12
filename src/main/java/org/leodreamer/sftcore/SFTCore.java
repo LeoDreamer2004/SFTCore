@@ -37,7 +37,7 @@ public class SFTCore {
     public static final Logger LOGGER = LogManager.getLogger(NAME);
 
     public SFTCore(FMLJavaModLoadingContext context) {
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        context.registerConfig(ModConfig.Type.COMMON, SFTConfig.SPEC);
 
         var bus = context.getModEventBus();
         REGISTRATE.registerEventListeners(bus);
