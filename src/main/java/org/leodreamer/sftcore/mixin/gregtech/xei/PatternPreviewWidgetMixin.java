@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.gregtech.xei;
 
-import org.leodreamer.sftcore.integration.emi.IMultiblockInputProvider;
+import org.leodreamer.sftcore.integration.emi.auto.IMultiblockInputProvider;
 
 import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;
 

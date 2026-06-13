@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.emi;
 
-import org.leodreamer.sftcore.integration.emi.EmiRecipeAutocraft;
+import org.leodreamer.sftcore.integration.emi.auto.EmiRecipeAutocraft;
 
 import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.config.SidebarType;

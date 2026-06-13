@@ -1,6 +1,7 @@
-package org.leodreamer.sftcore.integration.emi;
+package org.leodreamer.sftcore.integration.emi.auto;
 
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.integration.emi.opt.IGTEmiRecipe;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;

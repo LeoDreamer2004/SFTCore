@@ -1,6 +1,7 @@
-package org.leodreamer.sftcore.integration.emi;
+package org.leodreamer.sftcore.integration.emi.auto;
 
 import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
+import org.leodreamer.sftcore.integration.emi.opt.IGTEmiRecipe;
 import org.leodreamer.sftcore.util.ReflectUtils;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;

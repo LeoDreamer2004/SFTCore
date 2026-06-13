@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.emi;
 
-import org.leodreamer.sftcore.integration.emi.ICompactEmiIndexRecipe;
+import org.leodreamer.sftcore.integration.emi.opt.ICompactEmiIndexRecipe;
 
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;

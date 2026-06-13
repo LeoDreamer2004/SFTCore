@@ -111,6 +111,14 @@ public final class ControllerRecipes {
             .output(FISHBIG_MAKER.asStack())
             .save(provider);
 
+        SFTVanillaRecipeHelper.addShapedRecipe("mechanical_box")
+            .pattern("ACA", "CUC", "ACA")
+            .arg('A', AllBlocks.ANDESITE_CASING.get())
+            .arg('C', AllBlocks.COGWHEEL.get())
+            .arg('U', AllBlocks.BRASS_CASING.get())
+            .output(MECHANICAL_BOX.asStack())
+            .save(provider);
+
         SFTVanillaRecipeHelper.addShapedRecipe("oil_drilling_rig")
             .pattern("CBC", "EDE", "CAC")
             .arg('A', new MaterialEntry(pipeHugeFluid, StainlessSteel))

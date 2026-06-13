@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.emi;
 
-import org.leodreamer.sftcore.integration.emi.IGTEmiRecipe;
+import org.leodreamer.sftcore.integration.emi.opt.IGTEmiRecipe;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static org.leodreamer.sftcore.integration.emi.EmiRecipeAutocraft.openedMachine;
+import static org.leodreamer.sftcore.integration.emi.auto.EmiRecipeAutocraft.openedMachine;
 
 @Mixin(value = EmiFavorite.Synthetic.class, remap = false)
 public class SyntheticMixin extends EmiFavorite {

@@ -89,10 +89,10 @@ public final class SFTPartMachines {
         .tier(LuV)
         .register();
 
-    public static final MachineDefinition MACHINE_ADJUSTMENT = REGISTRATE
-        .machine("machine_adjustment_hatch", MachineAdjustmentHatchPartMachine::new)
+    public static final MachineDefinition MECHANICAL_PATTERN_HATCH = REGISTRATE
+        .machine("mechanical_pattern_hatch", MechanicalPatternHatchPartMachine::new)
         .rotationState(RotationState.ALL)
-        .abilities(SFTPartAbility.MACHINE_ADJUSTMENT)
+        .abilities(SFTPartAbility.MECHANICAL_PATTERN_HATCH)
         .colorOverlayTieredHullModel(
             "overlay_machine_in_emissive", null, "overlay_machine_holder"
         )

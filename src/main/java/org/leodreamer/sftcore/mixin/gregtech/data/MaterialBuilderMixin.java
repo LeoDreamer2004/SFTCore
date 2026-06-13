@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.gregtech.data;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.SFTTools;
+import org.leodreamer.sftcore.common.data.SFTTools;
 import org.leodreamer.sftcore.util.ReflectUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

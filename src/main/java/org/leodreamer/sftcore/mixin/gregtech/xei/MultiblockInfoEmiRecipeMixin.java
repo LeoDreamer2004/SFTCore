@@ -3,8 +3,8 @@ package org.leodreamer.sftcore.mixin.gregtech.xei;
 import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.item.OrderBehavior;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
-import org.leodreamer.sftcore.integration.emi.IMultiblockInputConsumer;
-import org.leodreamer.sftcore.integration.emi.IMultiblockInputProvider;
+import org.leodreamer.sftcore.integration.emi.auto.IMultiblockInputConsumer;
+import org.leodreamer.sftcore.integration.emi.auto.IMultiblockInputProvider;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;

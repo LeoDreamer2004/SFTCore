@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.emi;
 
-import org.leodreamer.sftcore.integration.emi.SFTJemiGasBridge;
+import org.leodreamer.sftcore.integration.emi.auto.SFTJemiGasBridge;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
 import com.lowdragmc.lowdraglib.gui.ingredient.IRecipeIngredientSlot;

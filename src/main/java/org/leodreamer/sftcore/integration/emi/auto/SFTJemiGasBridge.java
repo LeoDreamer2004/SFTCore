@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.integration.emi;
+package org.leodreamer.sftcore.integration.emi.auto;
 
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;

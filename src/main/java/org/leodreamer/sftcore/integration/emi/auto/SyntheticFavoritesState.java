@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.integration.emi;
+package org.leodreamer.sftcore.integration.emi.auto;
 
 /**
  * See {@link dev.emi.emi.runtime.EmiFavorite.Synthetic}

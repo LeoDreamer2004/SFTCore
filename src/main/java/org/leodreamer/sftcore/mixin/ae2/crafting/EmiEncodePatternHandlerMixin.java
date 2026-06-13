@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.ae2.crafting;
 
-import org.leodreamer.sftcore.integration.emi.SFTEmiPatternHandler;
+import org.leodreamer.sftcore.integration.emi.auto.SFTEmiPatternHandler;
 
 import appeng.integration.modules.emi.EmiEncodePatternHandler;
 import appeng.menu.me.items.PatternEncodingTermMenu;

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "sftcore:machine_adjustment_hatch",
+  "machine": "sftcore:mechanical_pattern_hatch",
   "replaceable_textures": [
     "bottom",
     "top",

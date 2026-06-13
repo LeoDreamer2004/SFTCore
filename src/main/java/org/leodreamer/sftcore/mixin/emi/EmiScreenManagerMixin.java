@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.emi;
 
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
-import org.leodreamer.sftcore.integration.emi.EmiRecipeAutocraft;
+import org.leodreamer.sftcore.integration.emi.auto.EmiRecipeAutocraft;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;

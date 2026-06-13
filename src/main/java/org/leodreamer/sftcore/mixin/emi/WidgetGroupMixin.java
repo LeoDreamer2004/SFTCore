@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.emi;
 
-import org.leodreamer.sftcore.integration.emi.GTEmiRecipeBackground;
-import org.leodreamer.sftcore.integration.emi.IGTEmiRecipe;
+import org.leodreamer.sftcore.integration.emi.gui.GTEmiRecipeBackground;
+import org.leodreamer.sftcore.integration.emi.opt.IGTEmiRecipe;
 
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.widget.Widget;

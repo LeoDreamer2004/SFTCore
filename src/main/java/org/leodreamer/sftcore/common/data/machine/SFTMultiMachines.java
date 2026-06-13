@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.data.machine;
 
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.kinetics.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.pattern.MultiBlockFileReader;
@@ -7,6 +8,7 @@ import org.leodreamer.sftcore.common.data.machine.ui.SFTMachineDisplays;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeModifiers;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 import org.leodreamer.sftcore.common.machine.multiblock.CommonFactoryMachine;
+import org.leodreamer.sftcore.common.machine.multiblock.MechanicalBoxMachine;
 import org.leodreamer.sftcore.common.machine.multiblock.SFTPartAbility;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -18,6 +20,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 
@@ -61,6 +64,36 @@ public final class SFTMultiMachines {
                 .where('E', blocks(MekanismBlocks.DYNAMIC_TANK.getBlock()))
                 .where('F', blocks(GeneratorsBlocks.FUSION_REACTOR_FRAME.getBlock()))
                 .where('H', blocks(MekanismBlocks.REFINED_GLOWSTONE_BLOCK.getBlock()))
+                .build()
+        )
+        .workableCasingModel(
+            SFTCore.id("block/casings/solid/create_railway_casing"),
+            GTCEu.id("block/multiblock/gcym/large_mixer")
+        )
+        .register();
+
+    public static final MachineDefinition MECHANICAL_BOX = REGISTRATE
+        .multiblock("mechanical_box", MechanicalBoxMachine::new)
+        .rotationState(RotationState.ALL)
+        .recipeType(SFTRecipeTypes.MECHANICAL_BOX_RECIPES)
+        .appearanceBlock(AllBlocks.RAILWAY_CASING)
+        .pattern(
+            definition -> FactoryBlockPattern.start()
+                .aisle("AAA", "AAA", "AAA")
+                .aisle("AAA", "A A", "AAA")
+                .aisle("AAA", "AUA", "AAA")
+                .where('U', controller(blocks(definition.get())))
+                .where(
+                    'A',
+                    blocks(AllBlocks.RAILWAY_CASING.get())
+                        .or(autoAbilities(definition.getRecipeTypes()))
+                        .or(abilities(SFTPartAbility.MECHANICAL_PATTERN_HATCH).setExactLimit(1))
+                        .or(
+                            abilities(SFTPartAbility.INPUT_KINETIC)
+                                .setMaxGlobalLimited(2)
+                                .setMinGlobalLimited(1)
+                        )
+                )
                 .build()
         )
         .workableCasingModel(

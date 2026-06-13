@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common;
+package org.leodreamer.sftcore.common.data;
 
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;

@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.gregtech.xei;
 
-import org.leodreamer.sftcore.integration.emi.SFTEmiPatternHandler;
+import org.leodreamer.sftcore.integration.emi.auto.SFTEmiPatternHandler;
 
 import com.gregtechceu.gtceu.integration.emi.recipe.Ae2PatternTerminalHandler;
 

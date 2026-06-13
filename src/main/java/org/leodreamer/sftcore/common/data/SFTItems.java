@@ -4,6 +4,7 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.cover.AccelerateCover;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 import org.leodreamer.sftcore.common.item.MekTerminalBehavior;
+import org.leodreamer.sftcore.common.item.mechanical.MechanicalEncapsulationPatternBehavior;
 import org.leodreamer.sftcore.common.item.OrderBehavior;
 import org.leodreamer.sftcore.common.item.SelectStickBehavior;
 import org.leodreamer.sftcore.common.item.TimeBottleBehavior;
@@ -125,6 +126,14 @@ public final class SFTItems {
         .model(generatedModel(ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/processing_pattern")))
         .properties(p -> p.stacksTo(1))
         .onRegister(attach(new WildcardPatternBehavior()))
+        .register();
+
+    public static final ItemEntry<ComponentItem> MECHANICAL_ENCAPSULATION_PATTERN = REGISTRATE
+        .item("mechanical_encapsulation_pattern", ComponentItem::create)
+        .lang("Mechanical Encapsulation Pattern")
+        .model(generatedModel(ResourceLocation.fromNamespaceAndPath(IntegrateMods.AE, "item/processing_pattern")))
+        .properties(p -> p.stacksTo(1))
+        .onRegister(attach(new MechanicalEncapsulationPatternBehavior()))
         .register();
 
     public static final ItemEntry<ComponentItem> UU_MATTER = REGISTRATE.item("uu_matter", ComponentItem::create)

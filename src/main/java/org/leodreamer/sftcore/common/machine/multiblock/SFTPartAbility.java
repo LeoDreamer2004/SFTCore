@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 
 public class SFTPartAbility {
 
-    public static final PartAbility MACHINE_ADJUSTMENT = new PartAbility("machine_adjustment");
+    public static final PartAbility MECHANICAL_PATTERN_HATCH = new PartAbility("mechanical_pattern_hatch");
     public static final PartAbility INPUT_KINETIC = new PartAbility("input_kinetic");
 
     public static final PartAbility IMPORT_GASES = new PartAbility("import_gases");

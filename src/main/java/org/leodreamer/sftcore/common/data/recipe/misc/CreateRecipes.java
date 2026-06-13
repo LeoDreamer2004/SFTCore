@@ -8,6 +8,8 @@ import net.minecraft.world.item.Items;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
 
@@ -20,6 +22,14 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 public final class CreateRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
+        SFTVanillaRecipeHelper.addShapedRecipe("mechanical_encapsulation_pattern")
+            .pattern("APA", "PUP", "APA")
+            .arg('A', AllItems.ANDESITE_ALLOY.asItem())
+            .arg('P', Items.PAPER)
+            .arg('U', SFTItems.WILDCARD_PATTERN)
+            .output(SFTItems.MECHANICAL_ENCAPSULATION_PATTERN)
+            .save(provider);
+
         var lavaCell = AE2Recipes.getInfinityCell('f', "minecraft:lava");
 
         ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("creative_motor"))

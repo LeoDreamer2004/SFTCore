@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.integration.emi;
+package org.leodreamer.sftcore.integration.emi.gui;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 import dev.emi.emi.runtime.EmiDrawContext;
+import org.leodreamer.sftcore.integration.emi.opt.IGTEmiRecipe;
 
 public class GTEmiRecipeBackground extends Widget {
 

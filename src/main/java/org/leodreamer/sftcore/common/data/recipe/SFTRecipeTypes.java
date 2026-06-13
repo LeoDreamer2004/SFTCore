@@ -78,6 +78,37 @@ public final class SFTRecipeTypes {
             }
         );
 
+    public static final GTRecipeType MECHANICAL_BOX_RECIPES = register("mechanical_box", KINETIC)
+        .setMaxIOSize(18, 18, 9, 9)
+        .setProgressBar(
+            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
+        )
+        .setSound(GTSoundEntries.ASSEMBLER)
+        .setMaxTooltips(4)
+        .addDataInfo(
+            data -> {
+                if (!data.contains(SFTRecipeBuilder.INPUT_STRESS)) {
+                    return "";
+                }
+                float stress = data.getFloat(SFTRecipeBuilder.INPUT_STRESS);
+                return LocalizationUtils.format(ACQUIRE_STRESS, KineticRecipeHelper.format(stress));
+            }
+        )
+        .setUiBuilder(
+            (recipe, group) -> {
+                group.addWidget(
+                    new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(
+                        new CustomItemStackHandler(AllBlocks.SHAFT.asStack()),
+                        0,
+                        group.getSize().width - 30,
+                        group.getSize().height - 30,
+                        false,
+                        false
+                    )
+                );
+            }
+        );
+
     // ae2 integration
     public static final GTRecipeType CERTUS_QUARTZ_CHARGE_RECIPES = register("certus_quartz_charge", MULTIBLOCK)
         .setEUIO(IO.IN)

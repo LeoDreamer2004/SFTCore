@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.gregtech.xei;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.integration.emi.SFTFastGTEmiRecipe;
+import org.leodreamer.sftcore.integration.emi.opt.SFTFastGTEmiRecipe;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;

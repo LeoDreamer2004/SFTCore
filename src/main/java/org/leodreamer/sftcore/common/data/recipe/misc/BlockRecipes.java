@@ -43,12 +43,12 @@ public final class BlockRecipes {
             .EUt(VA[MV])
             .save(provider);
 
-        SFTVanillaRecipeHelper.addShapedRecipe("machine_adjustment_hatch")
+        SFTVanillaRecipeHelper.addShapedRecipe("mechanical_pattern_hatch")
             .pattern(" A ", " B ", " C ")
             .arg('A', Items.CHEST)
             .arg('B', HULL[LV])
             .arg('C', ELECTRIC_MOTOR_MV)
-            .output(SFTPartMachines.MACHINE_ADJUSTMENT.asStack())
+            .output(SFTPartMachines.MECHANICAL_PATTERN_HATCH.asStack())
             .save(provider);
     }
 }
