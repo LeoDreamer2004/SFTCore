@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.item.mechanical;
+package org.leodreamer.sftcore.common.item.cepattern;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllRecipeTypes;
@@ -16,12 +16,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.fluids.FluidStack;
+import org.leodreamer.sftcore.integration.IntegrateMods;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record MechanicalRecipeStep(
+public record CERecipeStep(
     ResourceLocation id,
     ResourceLocation typeId,
     String titleKey,
@@ -34,15 +35,15 @@ public record MechanicalRecipeStep(
     ChanceLogic itemOutputChanceLogic
 ) {
 
-    public static Optional<MechanicalRecipeStep> fromRecipe(Recipe<?> recipe) {
+    public static Optional<CERecipeStep> fromRecipe(Recipe<?> recipe) {
         if (recipe instanceof ProcessingRecipe<?> processingRecipe) {
-            return Optional.of(fromProcessingRecipe(processingRecipe));
+            return Optional.of(from(processingRecipe));
         }
         if (recipe instanceof MechanicalCraftingRecipe mechanicalCraftingRecipe) {
-            return Optional.of(fromMechanicalCraftingRecipe(mechanicalCraftingRecipe));
+            return Optional.of(from(mechanicalCraftingRecipe));
         }
         if (recipe instanceof SequencedAssemblyRecipe sequencedAssemblyRecipe) {
-            return Optional.of(fromSequencedAssemblyRecipe(sequencedAssemblyRecipe));
+            return Optional.of(from(sequencedAssemblyRecipe));
         }
         return Optional.empty();
     }
@@ -51,9 +52,9 @@ public record MechanicalRecipeStep(
         return Component.translatable(titleKey);
     }
 
-    private static MechanicalRecipeStep fromProcessingRecipe(ProcessingRecipe<?> recipe) {
+    private static CERecipeStep from(ProcessingRecipe<?> recipe) {
         var typeId = recipe.getTypeInfo().getId();
-        return new MechanicalRecipeStep(
+        return new CERecipeStep(
             recipe.getId(),
             typeId,
             titleKey(typeId),
@@ -67,11 +68,11 @@ public record MechanicalRecipeStep(
         );
     }
 
-    private static MechanicalRecipeStep fromMechanicalCraftingRecipe(MechanicalCraftingRecipe recipe) {
+    private static CERecipeStep from(MechanicalCraftingRecipe recipe) {
         var output = recipe.getResultItem(null);
         var outputs = output.isEmpty() ? List.<ProcessingOutput>of() : List.of(new ProcessingOutput(output.copy(), 1.0F));
         var typeId = AllRecipeTypes.MECHANICAL_CRAFTING.getId();
-        return new MechanicalRecipeStep(
+        return new CERecipeStep(
             recipe.getId(),
             typeId,
             titleKey(typeId),
@@ -85,7 +86,7 @@ public record MechanicalRecipeStep(
         );
     }
 
-    private static MechanicalRecipeStep fromSequencedAssemblyRecipe(SequencedAssemblyRecipe recipe) {
+    private static CERecipeStep from(SequencedAssemblyRecipe recipe) {
         var itemInputs = new ArrayList<Ingredient>();
         itemInputs.add(recipe.getIngredient());
         var fluidInputs = new ArrayList<FluidIngredient>();
@@ -103,7 +104,7 @@ public record MechanicalRecipeStep(
 
         var itemOutputs = normalizeSequencedOutputs(recipe.resultPool);
         var typeId = AllRecipeTypes.SEQUENCED_ASSEMBLY.getId();
-        return new MechanicalRecipeStep(
+        return new CERecipeStep(
             recipe.getId(),
             typeId,
             titleKey(typeId),
@@ -139,7 +140,7 @@ public record MechanicalRecipeStep(
     }
 
     private static String titleKey(ResourceLocation typeId) {
-        if (!typeId.getNamespace().equals("create")) {
+        if (!typeId.getNamespace().equals(IntegrateMods.CREATE)) {
             return "emi.category.%s.%s".formatted(typeId.getNamespace(), typeId.getPath().replace('/', '.'));
         }
         return "create.recipe." + switch (typeId.getPath()) {

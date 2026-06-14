@@ -1,8 +1,5 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
-import org.leodreamer.sftcore.common.item.mechanical.MechanicalEncapsulationPatternLogic;
-import org.leodreamer.sftcore.common.machine.multiblock.MechanicalBoxMachine;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -12,13 +9,13 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-
-import net.minecraft.world.item.ItemStack;
-
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.machine.multiblock.MechanicalBoxMachine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +30,7 @@ public class MechanicalPatternHatchPartMachine extends TieredIOPartMachine {
         super(info, GTValues.LV, IO.NONE);
         this.inventory = attachTrait(
             new NotifiableItemStackHandler(9, IO.NONE, IO.NONE, SingleItemStackHandler::new)
-                .setFilter(MechanicalEncapsulationPatternLogic::isEncoded)
+                .setFilter(stack -> stack.is(SFTItems.CREATE_ENCAPSULATION_PATTERN.asItem()))
                 .shouldSearchContent(false)
         );
         this.inventory.addChangedListener(this::onPatternsChanged);
@@ -47,10 +44,7 @@ public class MechanicalPatternHatchPartMachine extends TieredIOPartMachine {
     public List<ItemStack> getEncodedPatterns() {
         var patterns = new ArrayList<ItemStack>();
         for (int i = 0; i < inventory.getSlots(); i++) {
-            var stack = inventory.getStackInSlot(i);
-            if (MechanicalEncapsulationPatternLogic.isEncoded(stack)) {
-                patterns.add(stack);
-            }
+            patterns.add(inventory.getStackInSlot(i));
         }
         return patterns;
     }

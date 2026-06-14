@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.item.mechanical;
+package org.leodreamer.sftcore.common.item.cepattern;
 
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
@@ -15,18 +15,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MechanicalEncapsulationPatternBehavior implements IItemUIFactory, IAddInformation {
+public class CEPatternBehavior implements IItemUIFactory, IAddInformation {
 
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder holder, Player player) {
         var hand = holder.getHand();
-        var provider = new MechanicalEncapsulationPatternUIProvider(
+        var provider = new CEPatternUIProvider(
             player.level(),
-            () -> player.getItemInHand(hand),
-            stack -> {
-                player.setItemInHand(hand, stack);
-                holder.held = stack.copy();
-            }
+            player.getItemInHand(hand),
+            stack -> player.setItemInHand(hand, stack)
         );
         var ui = new ModularUI(230, 258, holder, player)
             .widget(provider.createWidget());
@@ -38,9 +35,9 @@ public class MechanicalEncapsulationPatternBehavior implements IItemUIFactory, I
     public void appendHoverText(
         ItemStack stack,
         @Nullable Level level,
-        List<Component> tooltipComponents,
+        List<Component> tooltips,
         TooltipFlag isAdvanced
     ) {
-        tooltipComponents.addAll(MechanicalEncapsulationPatternLogic.getTooltip(stack, level));
+        tooltips.addAll(CEPatternTooltips.getTooltip(stack, level));
     }
 }

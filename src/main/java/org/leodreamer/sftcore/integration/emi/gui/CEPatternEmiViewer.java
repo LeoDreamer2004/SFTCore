@@ -7,9 +7,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.recipe.EmiRecipe;
 
-public final class MechanicalPatternEmiViewer {
+public final class CEPatternEmiViewer {
 
-    private MechanicalPatternEmiViewer() {}
+    private CEPatternEmiViewer() {}
 
     @OnlyIn(Dist.CLIENT)
     public static void openRecipe(ResourceLocation id) {

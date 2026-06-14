@@ -27,7 +27,7 @@ public final class CreateRecipes {
             .arg('A', AllItems.ANDESITE_ALLOY.asItem())
             .arg('P', Items.PAPER)
             .arg('U', SFTItems.WILDCARD_PATTERN)
-            .output(SFTItems.MECHANICAL_ENCAPSULATION_PATTERN)
+            .output(SFTItems.CREATE_ENCAPSULATION_PATTERN)
             .save(provider);
 
         var lavaCell = AE2Recipes.getInfinityCell('f', "minecraft:lava");

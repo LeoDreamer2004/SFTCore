@@ -1,8 +1,9 @@
 package org.leodreamer.sftcore.integration.emi.recipe;
 
-import org.leodreamer.sftcore.common.item.mechanical.MechanicalEncapsulationPatternUIProvider;
-import org.leodreamer.sftcore.common.item.mechanical.MechanicalPatternEditorWidget;
-import org.leodreamer.sftcore.common.item.mechanical.MechanicalEncapsulationPatternLogic;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import org.leodreamer.sftcore.common.item.cepattern.CEPatternEditorWidget;
+import org.leodreamer.sftcore.common.item.cepattern.CEPatternUIProvider;
+import org.leodreamer.sftcore.common.item.cepattern.CEPatternLogic;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
 
@@ -13,20 +14,21 @@ import dev.emi.emi.api.recipe.EmiPlayerInventory;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.EmiCraftContext;
 import dev.emi.emi.api.recipe.handler.EmiRecipeHandler;
+import org.leodreamer.sftcore.common.item.cepattern.CERecipeStep;
 
 import java.util.List;
 import java.util.Optional;
 
-public class MechanicalPatternRecipeHandler implements EmiRecipeHandler<ModularUIContainer> {
+public class CEPatternRecipeHandler implements EmiRecipeHandler<ModularUIContainer> {
 
     @Override
-    public EmiPlayerInventory getInventory(net.minecraft.client.gui.screens.inventory.AbstractContainerScreen<ModularUIContainer> screen) {
+    public EmiPlayerInventory getInventory(AbstractContainerScreen<ModularUIContainer> screen) {
         return new EmiPlayerInventory(List.of());
     }
 
     @Override
     public boolean supportsRecipe(EmiRecipe recipe) {
-        return getMechanicalRecipeId(recipe).isPresent();
+        return getCERecipeId(recipe).isPresent();
     }
 
     @Override
@@ -36,13 +38,13 @@ public class MechanicalPatternRecipeHandler implements EmiRecipeHandler<ModularU
 
     @Override
     public boolean canCraft(EmiRecipe recipe, EmiCraftContext<ModularUIContainer> context) {
-        return getMechanicalRecipeId(recipe).isPresent() && getEditor(context) != null;
+        return getCERecipeId(recipe).isPresent() && getEditor(context) != null;
     }
 
     @Override
     public boolean craft(EmiRecipe recipe, EmiCraftContext<ModularUIContainer> context) {
         var editor = getEditor(context);
-        var id = getMechanicalRecipeId(recipe);
+        var id = getCERecipeId(recipe);
         if (editor == null || id.isEmpty()) {
             return false;
         }
@@ -50,24 +52,24 @@ public class MechanicalPatternRecipeHandler implements EmiRecipeHandler<ModularU
         return true;
     }
 
-    private MechanicalPatternEditorWidget getEditor(EmiCraftContext<ModularUIContainer> context) {
+    private CEPatternEditorWidget getEditor(EmiCraftContext<ModularUIContainer> context) {
         var ui = context.getScreenHandler().getModularUI();
         if (ui == null) {
             return null;
         }
-        var widget = ui.getFirstWidgetById(MechanicalEncapsulationPatternUIProvider.EDITOR_WIDGET_ID);
-        return widget instanceof MechanicalPatternEditorWidget editor ? editor : null;
+        var widget = ui.getFirstWidgetById(CEPatternUIProvider.EDITOR_WIDGET_ID);
+        return widget instanceof CEPatternEditorWidget editor ? editor : null;
     }
 
-    private Optional<ResourceLocation> getMechanicalRecipeId(EmiRecipe recipe) {
+    private Optional<ResourceLocation> getCERecipeId(EmiRecipe recipe) {
         var backingRecipe = recipe.getBackingRecipe();
-        if (backingRecipe != null && MechanicalEncapsulationPatternLogic.canEncode(backingRecipe)) {
+        if (backingRecipe != null &&  CERecipeStep.fromRecipe(backingRecipe).isPresent()) {
             return Optional.of(backingRecipe.getId());
         }
 
         var level = Minecraft.getInstance().level;
         var id = recipe.getId();
-        if (id != null && level != null && MechanicalEncapsulationPatternLogic.canEncode(level, id)) {
+        if (id != null && level != null && CEPatternLogic.canEncode(level, id)) {
             return Optional.of(id);
         }
         return Optional.empty();
