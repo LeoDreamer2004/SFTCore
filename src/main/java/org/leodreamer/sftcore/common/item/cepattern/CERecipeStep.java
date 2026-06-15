@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A general step for create recipes
+ */
 public record CERecipeStep(
     ResourceLocation id,
     ResourceLocation typeId,

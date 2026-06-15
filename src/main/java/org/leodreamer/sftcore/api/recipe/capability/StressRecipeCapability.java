@@ -1,5 +1,8 @@
 package org.leodreamer.sftcore.api.recipe.capability;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.content.SerializerFloat;
@@ -7,7 +10,11 @@ import com.gregtechceu.gtceu.api.recipe.content.SerializerFloat;
 import java.util.Collection;
 import java.util.List;
 
+@DataGenScanned
 public class StressRecipeCapability extends RecipeCapability<Float> {
+
+    @RegisterLanguage("stress")
+    private static final String NAME = "recipe.capability.su.name";
 
     public static final StressRecipeCapability CAP = new StressRecipeCapability();
 

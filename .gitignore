@@ -121,6 +121,8 @@ run-data/
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
 
-# Claude AI
-.claude/**
+# Agent
+.agents/
+.claude/
+.codex/
 CLAUDE.md

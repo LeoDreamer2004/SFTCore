@@ -214,33 +214,6 @@ public final class AE2Recipes {
             .EUt(VA[EV])
             .save(provider);
 
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("huge_cell_component"))
-            .outputItems(SFTItems.HUGE_CELL_COMPONENT)
-            .inputItems(MEGAItems.CELL_COMPONENT_1M.asItem())
-            .inputItems(CustomTags.EV_CIRCUITS, 8)
-            .inputItems(AEItems.SINGULARITY.asItem(), 4)
-            .duration(2000)
-            .EUt(VA[HV])
-            .save(provider);
-
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("huge_item_cell"))
-            .outputItems(SFTItems.HUGE_ITEM_CELL)
-            .inputItems(SFTItems.HUGE_CELL_COMPONENT)
-            .inputItems(AEItems.ITEM_CELL_HOUSING.asItem())
-            .inputFluids(Polytetrafluoroethylene.getFluid(4 * L))
-            .duration(800)
-            .EUt(VA[LV])
-            .save(provider);
-
-        ASSEMBLER_RECIPES.recipeBuilder(SFTCore.id("huge_fluid_cell"))
-            .outputItems(SFTItems.HUGE_FLUID_CELL)
-            .inputItems(SFTItems.HUGE_CELL_COMPONENT)
-            .inputItems(AEItems.FLUID_CELL_HOUSING.asItem())
-            .inputFluids(Polytetrafluoroethylene.getFluid(4 * L))
-            .duration(800)
-            .EUt(VA[LV])
-            .save(provider);
-
         ASSEMBLY_LINE_RECIPES.recipeBuilder(SFTCore.id("patter_buffer"))
             .inputItems(DUAL_IMPORT_HATCH[LuV], 1)
             .inputItems(EMITTER_LuV, 1)

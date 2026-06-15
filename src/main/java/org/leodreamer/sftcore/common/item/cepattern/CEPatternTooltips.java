@@ -57,6 +57,9 @@ public final class CEPatternTooltips {
         return tooltips;
     }
 
+    /**
+     * Generate a description for recipe like A+B->C
+     */
     public static String describeStep(CERecipeStep recipe) {
         var inputs = new ArrayList<String>();
         recipe.itemInputs().stream()

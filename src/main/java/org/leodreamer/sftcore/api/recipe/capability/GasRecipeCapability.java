@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.api.recipe.capability;
 
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.gui.GasTankWidget;
 import org.leodreamer.sftcore.api.recipe.content.SerializerGasStack;
 import org.leodreamer.sftcore.common.machine.trait.gas.DisplayGasHandler;
@@ -22,7 +24,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@DataGenScanned
 public class GasRecipeCapability extends RecipeCapability<GasStack> {
+
+    @RegisterLanguage("gas")
+    private static final String NAME = "recipe.capability.gas.name";
 
     public static final GasRecipeCapability CAP = new GasRecipeCapability();
 
@@ -57,7 +63,7 @@ public class GasRecipeCapability extends RecipeCapability<GasStack> {
 
     @Override
     public @NotNull List<Object> createXEIContainerContents(List<Content> contents, GTRecipe recipe, IO io) {
-        var gases = new ArrayList<Object>();
+        var gases = new ArrayList<>();
 
         for (var content : contents) {
             var stack = of(content.content);

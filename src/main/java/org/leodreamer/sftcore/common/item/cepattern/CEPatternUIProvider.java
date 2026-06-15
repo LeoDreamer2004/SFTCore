@@ -55,6 +55,7 @@ public class CEPatternUIProvider {
     private final Level level;
     private final ItemStack stack;
     private final Consumer<ItemStack> onSave;
+    private final int lockedPlayerSlot;
     private final List<ResourceLocation> recipeIds = new ArrayList<>();
     private final List<Integer> multipliers = new ArrayList<>();
     private final CustomItemStackHandler inputInventory = new CustomItemStackHandler(1);
@@ -67,11 +68,13 @@ public class CEPatternUIProvider {
     public CEPatternUIProvider(
         Level level,
         ItemStack stack,
-        Consumer<ItemStack> onSave
+        Consumer<ItemStack> onSave,
+        int lockedPlayerSlot
     ) {
         this.level = level;
         this.stack = stack;
         this.onSave = onSave;
+        this.lockedPlayerSlot = lockedPlayerSlot;
         var data = CEPatternData.read(stack.getOrCreateTag());
         this.recipeIds.addAll(data.recipeIds());
         this.multipliers.addAll(data.multipliers());
@@ -133,7 +136,7 @@ public class CEPatternUIProvider {
         root.addWidget(editor);
 
         // player inventory
-        var playerInventory = new PlayerInventoryWidget();
+        var playerInventory = new LockedPlayerInventoryWidget(lockedPlayerSlot);
         playerInventory.setSelfPosition(29, 150);
         playerInventory.setSlotBackground(GuiTextures.SLOT);
         root.addWidget(playerInventory);
@@ -203,6 +206,9 @@ public class CEPatternUIProvider {
         }
 
         var input = inputInventory.getStackInSlot(0);
+        if (!AEItems.BLANK_PATTERN.isSameAs(input)) {
+            return;
+        }
 
         var encoded = CEPatternLogic.makeEncodedProcessingPattern(level, recipeIds, multipliers);
         if (encoded.isEmpty()) {
@@ -317,6 +323,29 @@ public class CEPatternUIProvider {
         }
         if (!player.addItem(stack.copy())) {
             player.drop(stack.copy(), false);
+        }
+    }
+
+    private static final class LockedPlayerInventoryWidget extends PlayerInventoryWidget {
+
+        private final int lockedSlot;
+
+        private LockedPlayerInventoryWidget(int lockedSlot) {
+            this.lockedSlot = lockedSlot;
+        }
+
+        @Override
+        public void initWidget() {
+            super.initWidget();
+            if (lockedSlot < 0) {
+                return;
+            }
+            var widget = getFirstWidgetById("player_inv_" + lockedSlot);
+            if (widget instanceof SlotWidget slotWidget) {
+                slotWidget.setCanTakeItems(false);
+                slotWidget.setCanPutItems(false);
+                slotWidget.setDrawHoverOverlay(false);
+            }
         }
     }
 }

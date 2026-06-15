@@ -418,6 +418,8 @@
   "item.sftcore.wildcard_pattern.tooltip.input": "Input: ",
   "item.sftcore.wildcard_pattern.tooltip.output": "Output: ",
   "item.sftcore.zpm_universal_circuit": "§cZPM §rUniversal Circuit",
+  "recipe.capability.gas.name": "gas",
+  "recipe.capability.su.name": "stress",
   "sftcore.certus_quartz_charge": "Certus Quartz Charge",
   "sftcore.common_mekanism_processing": "Common Mekanism Processing",
   "sftcore.creative_tab.sftcore": "Starter For Technology",
