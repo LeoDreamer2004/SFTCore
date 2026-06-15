@@ -199,6 +199,7 @@ dependencies {
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${mc_version}:1.0.50") { transitive = false }
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${mc_version}:${gtm_version}:slim") { transitive = false }
     implementation files('libs/gtmoremachine-1.20.1-2.0.0.jar')
+    implementation files('libs/neoecoae-1.1.0+mc1.20.1.jar')
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")
     implementation fg.deobf("curse.maven:applied-mekanistics-574300:7244744")
@@ -223,9 +224,7 @@ dependencies {
     implementation fg.deobf("org.moddingx:LibX:${mc_version}-${libx_version}")
     implementation("com.eliotlash.mclib:mclib:20")
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) {
-        jarJar.ranged(it, "[0.2.0,)")
-    }
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) { jarJar.ranged(it, "[0.2.0,)")}
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")

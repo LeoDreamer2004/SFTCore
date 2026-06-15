@@ -126,3 +126,6 @@ run-data/
 .claude/
 .codex/
 CLAUDE.md
+
+# libs
+!libs/**.jar
