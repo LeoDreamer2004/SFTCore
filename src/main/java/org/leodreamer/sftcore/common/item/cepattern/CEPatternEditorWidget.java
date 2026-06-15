@@ -53,8 +53,8 @@ public class CEPatternEditorWidget extends WidgetGroup {
     public void handleClientAction(int id, FriendlyByteBuf buffer) {
         switch (id) {
             case ADD_RECIPE -> provider.addRecipe(buffer.readResourceLocation());
-            case REMOVE_RECIPE ->  provider.removeRecipe(buffer.readVarInt());
-            case SET_MULTIPLIER ->  provider.setMultiplier(buffer.readVarInt(), buffer.readUtf());
+            case REMOVE_RECIPE -> provider.removeRecipe(buffer.readVarInt());
+            case SET_MULTIPLIER -> provider.setMultiplier(buffer.readVarInt(), buffer.readUtf());
             default -> super.handleClientAction(id, buffer);
         }
     }

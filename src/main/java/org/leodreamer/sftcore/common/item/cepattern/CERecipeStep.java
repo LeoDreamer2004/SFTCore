@@ -1,12 +1,6 @@
 package org.leodreamer.sftcore.common.item.cepattern;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllRecipeTypes;
-import com.simibubi.create.content.kinetics.crafter.MechanicalCraftingRecipe;
-import com.simibubi.create.content.processing.recipe.ProcessingOutput;
-import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
-import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
-import com.simibubi.create.foundation.fluid.FluidIngredient;
+import org.leodreamer.sftcore.integration.IntegrateMods;
 
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 
@@ -16,7 +10,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.fluids.FluidStack;
-import org.leodreamer.sftcore.integration.IntegrateMods;
+
+import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllRecipeTypes;
+import com.simibubi.create.content.kinetics.crafter.MechanicalCraftingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingOutput;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,8 @@ public record CERecipeStep(
 
     private static CERecipeStep from(MechanicalCraftingRecipe recipe) {
         var output = recipe.getResultItem(null);
-        var outputs = output.isEmpty() ? List.<ProcessingOutput>of() : List.of(new ProcessingOutput(output.copy(), 1.0F));
+        var outputs = output.isEmpty() ? List.<ProcessingOutput>of() :
+            List.of(new ProcessingOutput(output.copy(), 1.0F));
         var typeId = AllRecipeTypes.MECHANICAL_CRAFTING.getId();
         return new CERecipeStep(
             recipe.getId(),

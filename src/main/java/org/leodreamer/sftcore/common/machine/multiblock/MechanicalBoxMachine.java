@@ -1,24 +1,28 @@
 package org.leodreamer.sftcore.common.machine.multiblock;
 
+import org.leodreamer.sftcore.api.kinetics.WorkableKineticMultiblockMachine;
+import org.leodreamer.sftcore.common.item.cepattern.CEPatternData;
+import org.leodreamer.sftcore.common.item.cepattern.CEPatternLogic;
+import org.leodreamer.sftcore.common.machine.multiblock.part.MechanicalPatternHatchPartMachine;
+
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sync_system.ClassSyncData;
 import com.gregtechceu.gtceu.api.sync_system.data_transformers.ValueTransformer;
 import com.gregtechceu.gtceu.api.sync_system.data_transformers.gtceu.GTRecipeTransformer;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.api.kinetics.WorkableKineticMultiblockMachine;
-import org.leodreamer.sftcore.common.item.cepattern.CEPatternData;
-import org.leodreamer.sftcore.common.item.cepattern.CEPatternLogic;
-import org.leodreamer.sftcore.common.machine.multiblock.part.MechanicalPatternHatchPartMachine;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -146,7 +150,9 @@ public class MechanicalBoxMachine extends WorkableKineticMultiblockMachine {
 
         @Override
         public Tag serializeNBT(GTRecipe value, TransformerContext<GTRecipe> context) {
-            if (context.isClientSync() || !(context.holder() instanceof MechanicalBoxMachine.MechanicalBoxRecipeLogic)) {
+            if (
+                context.isClientSync() || !(context.holder() instanceof MechanicalBoxMachine.MechanicalBoxRecipeLogic)
+            ) {
                 return FULL_RECIPE_TRANSFORMER.serializeNBT(value, context);
             }
 
@@ -166,7 +172,10 @@ public class MechanicalBoxMachine extends WorkableKineticMultiblockMachine {
 
         @Override
         public @Nullable GTRecipe deserializeNBT(Tag tag, TransformerContext<GTRecipe> context) {
-            if (context.isClientSync() || !(context.holder() instanceof MechanicalBoxMachine.MechanicalBoxRecipeLogic logic)) {
+            if (
+                context.isClientSync() ||
+                    !(context.holder() instanceof MechanicalBoxMachine.MechanicalBoxRecipeLogic logic)
+            ) {
                 return FULL_RECIPE_TRANSFORMER.deserializeNBT(tag, context);
             }
             if (!(tag instanceof CompoundTag compound) || compound.isEmpty()) {

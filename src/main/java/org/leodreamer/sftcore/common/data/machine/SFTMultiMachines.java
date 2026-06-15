@@ -1,6 +1,5 @@
 package org.leodreamer.sftcore.common.data.machine;
 
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.kinetics.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.api.pattern.MultiBlockFileReader;
@@ -17,10 +16,10 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 

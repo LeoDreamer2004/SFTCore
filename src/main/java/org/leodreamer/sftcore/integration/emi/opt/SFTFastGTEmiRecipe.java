@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.integration.emi.opt;
 
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
+import org.leodreamer.sftcore.integration.emi.auto.SFTJemiGasBridge;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -40,7 +41,6 @@ import dev.emi.emi.jemi.JemiStack;
 import lombok.Getter;
 import mekanism.api.chemical.gas.GasStack;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.sftcore.integration.emi.auto.SFTJemiGasBridge;
 
 import java.util.ArrayList;
 import java.util.List;

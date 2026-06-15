@@ -1,11 +1,13 @@
 package org.leodreamer.sftcore.common.item.cepattern;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import org.leodreamer.sftcore.SFTCore;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
-import org.leodreamer.sftcore.SFTCore;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.List;
 
@@ -13,10 +15,12 @@ public record CEPatternData(List<ResourceLocation> recipeIds, List<Integer> mult
 
     public static final CEPatternData EMPTY = new CEPatternData(List.of(), List.of());
 
-    public static final Codec<CEPatternData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        ResourceLocation.CODEC.listOf().optionalFieldOf("recipes", List.of()).forGetter(CEPatternData::recipeIds),
-        Codec.INT.listOf().optionalFieldOf("multipliers", List.of()).forGetter(CEPatternData::multipliers)
-    ).apply(instance, CEPatternData::new));
+    public static final Codec<CEPatternData> CODEC = RecordCodecBuilder.create(
+        instance -> instance.group(
+            ResourceLocation.CODEC.listOf().optionalFieldOf("recipes", List.of()).forGetter(CEPatternData::recipeIds),
+            Codec.INT.listOf().optionalFieldOf("multipliers", List.of()).forGetter(CEPatternData::multipliers)
+        ).apply(instance, CEPatternData::new)
+    );
 
     public CEPatternData(List<ResourceLocation> recipeIds, List<Integer> multipliers) {
         int size = Math.min(Math.min(recipeIds.size(), multipliers.size()), CEPatternLogic.MAX_STEPS);

@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.common.data.SFTTools;
 import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.SFTTools;
 import org.leodreamer.sftcore.common.data.machine.SFTPartMachines;
 import org.leodreamer.sftcore.common.data.machine.SFTSingleMachines;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;

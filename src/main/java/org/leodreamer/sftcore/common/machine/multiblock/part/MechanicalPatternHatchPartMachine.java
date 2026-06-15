@@ -1,5 +1,8 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.machine.multiblock.MechanicalBoxMachine;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -9,13 +12,13 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+
+import net.minecraft.world.item.ItemStack;
+
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import lombok.Getter;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.machine.multiblock.MechanicalBoxMachine;
 
 import java.util.ArrayList;
 import java.util.List;

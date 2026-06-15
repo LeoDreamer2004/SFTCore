@@ -1,6 +1,8 @@
 package org.leodreamer.sftcore.common.data.recipe.misc;
 
 import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
@@ -8,8 +10,6 @@ import net.minecraft.world.item.Items;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.common.data.recipe.utils.SFTVanillaRecipeHelper;
 
 import java.util.function.Consumer;
 

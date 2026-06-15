@@ -1,7 +1,5 @@
 package org.leodreamer.sftcore.common.item.cepattern;
 
-import lombok.Getter;
-import lombok.experimental.Accessors;
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.recipe.capability.StressRecipeCapability;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
@@ -28,6 +26,8 @@ import appeng.api.stacks.GenericStack;
 import appeng.crafting.pattern.AEProcessingPattern;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -46,8 +46,7 @@ public final class CEPatternLogic {
     public static final float STRESS_PER_STEP = 8192.0F;
     public static final String SLOT = "ce_slot";
 
-    private CEPatternLogic() {
-    }
+    private CEPatternLogic() {}
 
     public static List<CERecipeStep> resolveSteps(Level level, List<ResourceLocation> recipeIds) {
         if (recipeIds.isEmpty()) {
@@ -88,7 +87,8 @@ public final class CEPatternLogic {
             SFTRecipeTypes.MECHANICAL_BOX_RECIPES
         );
 
-        net.itemInputs().values().forEach(ingredient -> builder.input(ItemRecipeCapability.CAP, SizedIngredient.copy(ingredient)));
+        net.itemInputs().values()
+            .forEach(ingredient -> builder.input(ItemRecipeCapability.CAP, SizedIngredient.copy(ingredient)));
         net.fluidInputs().values().forEach(ingredient -> builder.input(FluidRecipeCapability.CAP, ingredient.copy()));
 
         for (var output : net.itemOutputs().values()) {
@@ -139,8 +139,10 @@ public final class CEPatternLogic {
 
         var inputs = net.toPatternInputs();
         var outputs = net.toPatternOutputs();
-        if (inputs.length == 0 || outputs.length == 0 || inputs.length > AEProcessingPattern.MAX_INPUT_SLOTS ||
-            outputs.length > AEProcessingPattern.MAX_OUTPUT_SLOTS) {
+        if (
+            inputs.length == 0 || outputs.length == 0 || inputs.length > AEProcessingPattern.MAX_INPUT_SLOTS ||
+                outputs.length > AEProcessingPattern.MAX_OUTPUT_SLOTS
+        ) {
             return ItemStack.EMPTY;
         }
 
@@ -158,15 +160,13 @@ public final class CEPatternLogic {
         private final Map<AEItemKey, SizedIngredient> itemInputs = new LinkedHashMap<>();
         private final Map<AEItemKey, ItemStack> itemOutputs = new LinkedHashMap<>();
         private final List<ChancedItemOutput> chancedItemOutputs = new ArrayList<>();
-        private final Map<AEFluidKey, com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient> fluidInputs =
-            new LinkedHashMap<>();
+        private final Map<AEFluidKey, com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient> fluidInputs = new LinkedHashMap<>();
         private final Map<AEFluidKey, FluidStack> fluidOutputs = new LinkedHashMap<>();
         private ChanceLogic itemOutputChanceLogic = ChanceLogic.OR;
         private int duration;
         private int weightedSteps;
 
-        private CompiledRecipe() {
-        }
+        private CompiledRecipe() {}
 
         static CompiledRecipe create(List<CERecipeStep> recipes, List<Integer> multipliers) {
             var net = new CompiledRecipe();
@@ -208,7 +208,8 @@ public final class CEPatternLogic {
                 if (stacks.length == 0 || stacks[0].isEmpty()) {
                     continue;
                 }
-                int amount = ingredient instanceof SizedIngredient sized ? sized.getAmount() : Math.max(1, stacks[0].getCount());
+                int amount = ingredient instanceof SizedIngredient sized ? sized.getAmount() :
+                    Math.max(1, stacks[0].getCount());
                 var key = AEItemKey.of(stacks[0]);
                 if (key == null) {
                     continue;
@@ -368,6 +369,5 @@ public final class CEPatternLogic {
         }
     }
 
-    record ChancedItemOutput(ItemStack stack, int chance) {
-    }
+    record ChancedItemOutput(ItemStack stack, int chance) {}
 }

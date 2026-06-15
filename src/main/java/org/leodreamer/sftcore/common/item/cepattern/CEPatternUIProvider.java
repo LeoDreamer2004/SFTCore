@@ -1,25 +1,28 @@
 package org.leodreamer.sftcore.common.item.cepattern;
 
-import appeng.core.definitions.AEItems;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.data.SFTItems;
+import org.leodreamer.sftcore.integration.emi.gui.CEPatternEmiViewer;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.gui.widget.custom.PlayerInventoryWidget;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.data.SFTItems;
-import org.leodreamer.sftcore.integration.emi.gui.CEPatternEmiViewer;
+
+import appeng.core.definitions.AEItems;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.gui.widget.custom.PlayerInventoryWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,8 +103,10 @@ public class CEPatternUIProvider {
         editor.addWidget(recipeIdField);
 
         // add recipe
-        editor.addWidget(createButton(188, 2, 28, 18, ADD, this::addRecipeFromText)
-            .setClientSideWidget());
+        editor.addWidget(
+            createButton(188, 2, 28, 18, ADD, this::addRecipeFromText)
+                .setClientSideWidget()
+        );
 
         // recipe steps
         stepList = new DraggableScrollableWidgetGroup(4, 24, 212, 94);
@@ -116,7 +121,9 @@ public class CEPatternUIProvider {
             new SlotWidget(inputInventory, 0, 72, 124, true, true)
                 .setBackground(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY)
         );
-        editor.addWidget(new Widget(96, 128, 18, 10).setBackground(GuiTextures.PROGRESS_BAR_ARROW.getSubTexture(0, 0, 1, 0.5)));
+        editor.addWidget(
+            new Widget(96, 128, 18, 10).setBackground(GuiTextures.PROGRESS_BAR_ARROW.getSubTexture(0, 0, 1, 0.5))
+        );
         editor.addWidget(
             new SlotWidget(outputInventory, 0, 120, 124, true, false)
                 .setBackground(GuiTextures.SLOT, GuiTextures.OUT_SLOT_OVERLAY)
@@ -246,8 +253,10 @@ public class CEPatternUIProvider {
                 () -> String.valueOf(multipliers.get(index)),
                 text -> editorWidget.requestSetMultiplier(index, text)
             )
-                .setNumbersOnly(CEPatternLogic.MIN_MULTIPLIER,
-                    CEPatternLogic.MAX_MULTIPLIER)
+                .setNumbersOnly(
+                    CEPatternLogic.MIN_MULTIPLIER,
+                    CEPatternLogic.MAX_MULTIPLIER
+                )
                 .setMaxStringLength(3);
             multiplierField.setClientSideWidget();
             stepList.addWidget(multiplierField);
@@ -255,14 +264,20 @@ public class CEPatternUIProvider {
             // recipe visualization
             String description = recipe == null ? id.toString() :
                 CEPatternTooltips.describeStep(recipe);
-            var viewButton = createButton(150, y + 1, 38, 18, VIEW,
-                cd -> CEPatternEmiViewer.openRecipe(id)).setClientSideWidget();
+            var viewButton = createButton(
+                150, y + 1, 38, 18, VIEW,
+                cd -> CEPatternEmiViewer.openRecipe(id)
+            ).setClientSideWidget();
             viewButton.setHoverTooltips(Component.literal(description).withStyle(ChatFormatting.GRAY));
             stepList.addWidget(viewButton);
 
             // remove recipe
-            stepList.addWidget(createButton(190, y + 1, 18, 18, "x",
-                cd -> editorWidget.requestRemoveRecipe(index)).setClientSideWidget());
+            stepList.addWidget(
+                createButton(
+                    190, y + 1, 18, 18, "x",
+                    cd -> editorWidget.requestRemoveRecipe(index)
+                ).setClientSideWidget()
+            );
         }
     }
 
@@ -288,7 +303,10 @@ public class CEPatternUIProvider {
             y,
             width,
             height,
-            new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON.copy(), new TextTexture(Component.translatable(labelKey).getString())),
+            new GuiTextureGroup(
+                ResourceBorderTexture.BUTTON_COMMON.copy(),
+                new TextTexture(Component.translatable(labelKey).getString())
+            ),
             action
         );
     }

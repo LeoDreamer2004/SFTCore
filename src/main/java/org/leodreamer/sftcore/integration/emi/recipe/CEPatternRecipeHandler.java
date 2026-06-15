@@ -1,20 +1,19 @@
 package org.leodreamer.sftcore.integration.emi.recipe;
 
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.leodreamer.sftcore.common.item.cepattern.CEPatternEditorWidget;
-import org.leodreamer.sftcore.common.item.cepattern.CEPatternUIProvider;
 import org.leodreamer.sftcore.common.item.cepattern.CEPatternLogic;
-
-import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
+import org.leodreamer.sftcore.common.item.cepattern.CEPatternUIProvider;
+import org.leodreamer.sftcore.common.item.cepattern.CERecipeStep;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.resources.ResourceLocation;
 
+import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
 import dev.emi.emi.api.recipe.EmiPlayerInventory;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.EmiCraftContext;
 import dev.emi.emi.api.recipe.handler.EmiRecipeHandler;
-import org.leodreamer.sftcore.common.item.cepattern.CERecipeStep;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +62,7 @@ public class CEPatternRecipeHandler implements EmiRecipeHandler<ModularUIContain
 
     private Optional<ResourceLocation> getCERecipeId(EmiRecipe recipe) {
         var backingRecipe = recipe.getBackingRecipe();
-        if (backingRecipe != null &&  CERecipeStep.fromRecipe(backingRecipe).isPresent()) {
+        if (backingRecipe != null && CERecipeStep.fromRecipe(backingRecipe).isPresent()) {
             return Optional.of(backingRecipe.getId());
         }
 

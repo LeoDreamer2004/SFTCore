@@ -1,11 +1,11 @@
 package org.leodreamer.sftcore.integration.emi;
 
-import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
+import org.leodreamer.sftcore.integration.emi.recipe.CEPatternRecipeHandler;
 
+import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
-import org.leodreamer.sftcore.integration.emi.recipe.CEPatternRecipeHandler;
 
 @EmiEntrypoint
 public class SFTEmiPlugin implements EmiPlugin {

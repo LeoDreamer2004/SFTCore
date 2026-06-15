@@ -26,27 +26,32 @@ public final class CEPatternTooltips {
     @RegisterLanguage("Contains %s Create recipe steps")
     public static final String TOOLTIP_STEPS = "item.sftcore.create_encapsulation_pattern.tooltip.steps";
 
-    private CEPatternTooltips() {
-    }
+    private CEPatternTooltips() {}
 
     public static List<Component> getTooltip(ItemStack stack, Level level) {
         var data = CEPatternData.read(stack.getOrCreateTag());
         var recipeIds = data.recipeIds();
         if (recipeIds.isEmpty()) {
-            return List.of(Component.translatable(TOOLTIP_BLANK)
-                .withStyle(ChatFormatting.GRAY));
+            return List.of(
+                Component.translatable(TOOLTIP_BLANK)
+                    .withStyle(ChatFormatting.GRAY)
+            );
         }
 
         var tooltips = new ArrayList<Component>();
-        tooltips.add(Component.translatable(
-            TOOLTIP_STEPS,
-            recipeIds.size()
-        ).withStyle(ChatFormatting.GRAY));
+        tooltips.add(
+            Component.translatable(
+                TOOLTIP_STEPS,
+                recipeIds.size()
+            ).withStyle(ChatFormatting.GRAY)
+        );
 
         if (level != null) {
             var steps = CEPatternLogic.resolveSteps(level, recipeIds);
             if (!steps.isEmpty()) {
-                tooltips.add(Component.literal(describeNetRecipe(steps, data.multipliers())).withStyle(ChatFormatting.DARK_GRAY));
+                tooltips.add(
+                    Component.literal(describeNetRecipe(steps, data.multipliers())).withStyle(ChatFormatting.DARK_GRAY)
+                );
             }
         }
         return tooltips;
@@ -66,8 +71,10 @@ public final class CEPatternTooltips {
         var outputs = new ArrayList<String>();
         recipe.itemOutputs().stream()
             .filter(output -> !output.getStack().isEmpty())
-            .map(output -> output.getChance() >= 1.0F ? describeStack(output.getStack()) :
-                "%s(%s%%)".formatted(describeStack(output.getStack()), trimPercent(output.getChance())))
+            .map(
+                output -> output.getChance() >= 1.0F ? describeStack(output.getStack()) :
+                    "%s(%s%%)".formatted(describeStack(output.getStack()), trimPercent(output.getChance()))
+            )
             .forEach(outputs::add);
         recipe.fluidOutputs().stream()
             .filter(stack -> !stack.isEmpty())
@@ -90,10 +97,12 @@ public final class CEPatternTooltips {
 
         var out = new ArrayList<String>();
         net.itemOutputs().values().stream().map(CEPatternTooltips::describeStack).forEach(out::add);
-        net.chancedItemOutputs().stream().map(c -> "%s(%s%%)".formatted(
-            describeStack(c.stack()),
-            trimGTChance(c.chance())
-        )).forEach(out::add);
+        net.chancedItemOutputs().stream().map(
+            c -> "%s(%s%%)".formatted(
+                describeStack(c.stack()),
+                trimGTChance(c.chance())
+            )
+        ).forEach(out::add);
         net.fluidOutputs().values().stream().map(CEPatternTooltips::describeFluidStack).forEach(out::add);
         return String.join("+", in) + " -> " + String.join("+", out);
     }
@@ -118,7 +127,9 @@ public final class CEPatternTooltips {
         return describeFluidStack(stack);
     }
 
-    private static String describeGTFluidIngredient(com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient ingredient) {
+    private static String describeGTFluidIngredient(
+        com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient ingredient
+    ) {
         var stacks = ingredient.getStacks();
         if (stacks.length == 0) {
             return "?";
