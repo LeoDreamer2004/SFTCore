@@ -97,8 +97,8 @@ public final class SelectStickSelectionRenderer {
         RenderSystem.depthMask(false);
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        drawFilledBox(poseStack, box, FILL_R, FILL_G, FILL_B, FILL_A);
-        drawLineBox(poseStack, box, LINE_R, LINE_G, LINE_B, LINE_A);
+        drawFilledBox(poseStack, box);
+        drawLineBox(poseStack, box);
 
         RenderSystem.depthMask(true);
         RenderSystem.enableCull();
@@ -107,7 +107,7 @@ public final class SelectStickSelectionRenderer {
         poseStack.popPose();
     }
 
-    private static void drawFilledBox(PoseStack poseStack, AABB box, float r, float g, float b, float a) {
+    private static void drawFilledBox(PoseStack poseStack, AABB box) {
         var builder = Tesselator.getInstance().getBuilder();
         var matrix = poseStack.last().pose();
 
@@ -121,45 +121,45 @@ public final class SelectStickSelectionRenderer {
         double maxZ = box.maxZ;
 
         // bottom
-        vertex(builder, matrix, minX, minY, minZ, r, g, b, a);
-        vertex(builder, matrix, maxX, minY, minZ, r, g, b, a);
-        vertex(builder, matrix, maxX, minY, maxZ, r, g, b, a);
-        vertex(builder, matrix, minX, minY, maxZ, r, g, b, a);
+        vertex(builder, matrix, minX, minY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, minY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, minY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, minY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
 
         // top
-        vertex(builder, matrix, minX, maxY, maxZ, r, g, b, a);
-        vertex(builder, matrix, maxX, maxY, maxZ, r, g, b, a);
-        vertex(builder, matrix, maxX, maxY, minZ, r, g, b, a);
-        vertex(builder, matrix, minX, maxY, minZ, r, g, b, a);
+        vertex(builder, matrix, minX, maxY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, maxY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, maxY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, maxY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
 
         // north
-        vertex(builder, matrix, minX, minY, minZ, r, g, b, a);
-        vertex(builder, matrix, minX, maxY, minZ, r, g, b, a);
-        vertex(builder, matrix, maxX, maxY, minZ, r, g, b, a);
-        vertex(builder, matrix, maxX, minY, minZ, r, g, b, a);
+        vertex(builder, matrix, minX, minY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, maxY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, maxY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, minY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
 
         // south
-        vertex(builder, matrix, maxX, minY, maxZ, r, g, b, a);
-        vertex(builder, matrix, maxX, maxY, maxZ, r, g, b, a);
-        vertex(builder, matrix, minX, maxY, maxZ, r, g, b, a);
-        vertex(builder, matrix, minX, minY, maxZ, r, g, b, a);
+        vertex(builder, matrix, maxX, minY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, maxY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, maxY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, minY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
 
         // west
-        vertex(builder, matrix, minX, minY, maxZ, r, g, b, a);
-        vertex(builder, matrix, minX, maxY, maxZ, r, g, b, a);
-        vertex(builder, matrix, minX, maxY, minZ, r, g, b, a);
-        vertex(builder, matrix, minX, minY, minZ, r, g, b, a);
+        vertex(builder, matrix, minX, minY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, maxY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, maxY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, minX, minY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
 
         // east
-        vertex(builder, matrix, maxX, minY, minZ, r, g, b, a);
-        vertex(builder, matrix, maxX, maxY, minZ, r, g, b, a);
-        vertex(builder, matrix, maxX, maxY, maxZ, r, g, b, a);
-        vertex(builder, matrix, maxX, minY, maxZ, r, g, b, a);
+        vertex(builder, matrix, maxX, minY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, maxY, minZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, maxY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
+        vertex(builder, matrix, maxX, minY, maxZ, FILL_R, FILL_G, FILL_B, FILL_A);
 
         BufferUploader.drawWithShader(builder.end());
     }
 
-    private static void drawLineBox(PoseStack poseStack, AABB box, float r, float g, float b, float a) {
+    private static void drawLineBox(PoseStack poseStack, AABB box) {
         var builder = Tesselator.getInstance().getBuilder();
         var matrix = poseStack.last().pose();
 
@@ -172,20 +172,20 @@ public final class SelectStickSelectionRenderer {
         double maxY = box.maxY;
         double maxZ = box.maxZ;
 
-        line(builder, matrix, minX, minY, minZ, maxX, minY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, minZ, maxX, minY, maxZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, maxZ, minX, minY, maxZ, r, g, b, a);
-        line(builder, matrix, minX, minY, maxZ, minX, minY, minZ, r, g, b, a);
+        line(builder, matrix, minX, minY, minZ, maxX, minY, minZ);
+        line(builder, matrix, maxX, minY, minZ, maxX, minY, maxZ);
+        line(builder, matrix, maxX, minY, maxZ, minX, minY, maxZ);
+        line(builder, matrix, minX, minY, maxZ, minX, minY, minZ);
 
-        line(builder, matrix, minX, maxY, minZ, maxX, maxY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, maxY, minZ, maxX, maxY, maxZ, r, g, b, a);
-        line(builder, matrix, maxX, maxY, maxZ, minX, maxY, maxZ, r, g, b, a);
-        line(builder, matrix, minX, maxY, maxZ, minX, maxY, minZ, r, g, b, a);
+        line(builder, matrix, minX, maxY, minZ, maxX, maxY, minZ);
+        line(builder, matrix, maxX, maxY, minZ, maxX, maxY, maxZ);
+        line(builder, matrix, maxX, maxY, maxZ, minX, maxY, maxZ);
+        line(builder, matrix, minX, maxY, maxZ, minX, maxY, minZ);
 
-        line(builder, matrix, minX, minY, minZ, minX, maxY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, minZ, maxX, maxY, minZ, r, g, b, a);
-        line(builder, matrix, maxX, minY, maxZ, maxX, maxY, maxZ, r, g, b, a);
-        line(builder, matrix, minX, minY, maxZ, minX, maxY, maxZ, r, g, b, a);
+        line(builder, matrix, minX, minY, minZ, minX, maxY, minZ);
+        line(builder, matrix, maxX, minY, minZ, maxX, maxY, minZ);
+        line(builder, matrix, maxX, minY, maxZ, maxX, maxY, maxZ);
+        line(builder, matrix, minX, minY, maxZ, minX, maxY, maxZ);
 
         BufferUploader.drawWithShader(builder.end());
     }
@@ -194,11 +194,10 @@ public final class SelectStickSelectionRenderer {
         BufferBuilder builder,
         Matrix4f matrix,
         double x1, double y1, double z1,
-        double x2, double y2, double z2,
-        float r, float g, float b, float a
+        double x2, double y2, double z2
     ) {
-        vertex(builder, matrix, x1, y1, z1, r, g, b, a);
-        vertex(builder, matrix, x2, y2, z2, r, g, b, a);
+        vertex(builder, matrix, x1, y1, z1, LINE_R, LINE_G, LINE_B, LINE_A);
+        vertex(builder, matrix, x2, y2, z2, LINE_R, LINE_G, LINE_B, LINE_A);
     }
 
     private static void vertex(

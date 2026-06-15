@@ -31,12 +31,14 @@ public class SelectStickBehavior implements IInteractionItem {
         String posStr = pos.getX() + " " + pos.getY() + " " + pos.getZ();
         if (!player.isSecondaryUseActive()) {
             DumpCommand.SelectedData.setSelectedPos1(player, pos);
-            if (context.getLevel().isClientSide)
+            if (context.getLevel().isClientSide) {
                 player.sendSystemMessage(Component.translatable(SELECT_FIRST, posStr));
+            }
         } else {
             DumpCommand.SelectedData.setSelectedPos2(player, pos);
-            if (context.getLevel().isClientSide)
+            if (context.getLevel().isClientSide) {
                 player.sendSystemMessage(Component.translatable(SELECT_SECOND, posStr));
+            }
         }
         return InteractionResult.PASS;
     }

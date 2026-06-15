@@ -1,20 +1,22 @@
 package org.leodreamer.sftcore.common.machine.multiblock;
 
+import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.kinetics.WorkableKineticMultiblockMachine;
 import org.leodreamer.sftcore.common.item.cepattern.CEPatternData;
-import org.leodreamer.sftcore.common.item.cepattern.CEPatternLogic;
 import org.leodreamer.sftcore.common.machine.multiblock.part.MechanicalPatternHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.sync_system.ClassSyncData;
 import com.gregtechceu.gtceu.api.sync_system.data_transformers.ValueTransformer;
-import com.gregtechceu.gtceu.api.sync_system.data_transformers.gtceu.GTRecipeTransformer;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -70,25 +72,12 @@ public class MechanicalBoxMachine extends WorkableKineticMultiblockMachine {
             var patterns = hatch.getEncodedPatterns();
             for (int i = 0; i < patterns.size(); i++) {
                 var data = CEPatternData.read(patterns.get(i).getOrCreateTag());
-                var recipe = CEPatternLogic.buildRecipe(level, data, i);
+                var recipe = data.compile(level).toGTRecipe(recipeId(i, data));
                 if (recipe != null) {
                     recipes.add(recipe);
                 }
             }
             return recipes.iterator();
-        }
-
-        @Override
-        public void onMachineLoad() {
-            super.onMachineLoad();
-            if (lastRecipe != null) {
-                var rebuilt = rebuildRecipe(lastRecipe);
-                lastRecipe = rebuilt;
-                if (rebuilt == null) {
-                    lastOriginRecipe = null;
-                    resetRecipeLogic();
-                }
-            }
         }
 
         @Override
@@ -98,42 +87,8 @@ public class MechanicalBoxMachine extends WorkableKineticMultiblockMachine {
             super.onMachineUnload();
         }
 
-        private @Nullable GTRecipe rebuildRecipe(GTRecipe savedRecipe) {
-            var data = CEPatternData.read(savedRecipe.data);
-            int slot = savedRecipe.data.getInt(CEPatternLogic.SLOT);
-            return rebuildRecipe(data, slot, savedRecipe);
-        }
-
-        private @Nullable GTRecipe rebuildRecipe(
-            CEPatternData data,
-            int slot,
-            @Nullable GTRecipe savedRecipe
-        ) {
-            MechanicalBoxMachine machine;
-            try {
-                if (!(getMachine() instanceof MechanicalBoxMachine mechanicalBox)) {
-                    return null;
-                }
-                machine = mechanicalBox;
-            } catch (IllegalStateException ignored) {
-                return null;
-            }
-            var level = machine.getLevel();
-            if (level == null) {
-                return null;
-            }
-
-            var rebuilt = CEPatternLogic.buildRecipe(level, data, slot);
-            if (rebuilt == null) {
-                return null;
-            }
-            if (savedRecipe != null) {
-                rebuilt.parallels = savedRecipe.parallels;
-                rebuilt.subtickParallels = savedRecipe.subtickParallels;
-                rebuilt.batchParallels = savedRecipe.batchParallels;
-                rebuilt.ocLevel = savedRecipe.ocLevel;
-            }
-            return rebuilt;
+        private static ResourceLocation recipeId(int slot, CEPatternData data) {
+            return SFTCore.id("%s/%s".formatted(slot, Integer.toUnsignedString(data.hashCode(), 16)));
         }
 
         static {
@@ -146,23 +101,14 @@ public class MechanicalBoxMachine extends WorkableKineticMultiblockMachine {
 
     private static final class MechanicalRecipeTransformer implements ValueTransformer<GTRecipe> {
 
-        private static final GTRecipeTransformer FULL_RECIPE_TRANSFORMER = new GTRecipeTransformer();
-
         @Override
         public Tag serializeNBT(GTRecipe value, TransformerContext<GTRecipe> context) {
-            if (
-                context.isClientSync() || !(context.holder() instanceof MechanicalBoxMachine.MechanicalBoxRecipeLogic)
-            ) {
-                return FULL_RECIPE_TRANSFORMER.serializeNBT(value, context);
-            }
-
-            var data = CEPatternData.read(value.data);
-            if (data.recipeIds().isEmpty()) {
-                return FULL_RECIPE_TRANSFORMER.serializeNBT(value, context);
-            }
-
-            var tag = data.write();
-            tag.putInt(CEPatternLogic.SLOT, value.data.getInt(CEPatternLogic.SLOT));
+            var tag = new CompoundTag();
+            tag.putString("id", value.id.toString());
+            tag.put(
+                "recipe", GTRecipeSerializer.CODEC.encodeStart(NbtOps.INSTANCE, value).result()
+                    .orElse(new CompoundTag())
+            );
             tag.putInt("parallels", value.parallels);
             tag.putInt("subtickParallels", value.subtickParallels);
             tag.putInt("batchParallels", value.batchParallels);
@@ -172,25 +118,19 @@ public class MechanicalBoxMachine extends WorkableKineticMultiblockMachine {
 
         @Override
         public @Nullable GTRecipe deserializeNBT(Tag tag, TransformerContext<GTRecipe> context) {
-            if (
-                context.isClientSync() ||
-                    !(context.holder() instanceof MechanicalBoxMachine.MechanicalBoxRecipeLogic logic)
-            ) {
-                return FULL_RECIPE_TRANSFORMER.deserializeNBT(tag, context);
-            }
             if (!(tag instanceof CompoundTag compound) || compound.isEmpty()) {
                 return null;
             }
-            var data = CEPatternData.read(compound);
-            if (data.recipeIds().isEmpty()) {
-                return FULL_RECIPE_TRANSFORMER.deserializeNBT(tag, context);
-            }
 
-            int slot = compound.getInt(CEPatternLogic.SLOT);
-            var recipe = logic.rebuildRecipe(data, slot, null);
+            var recipe = GTRecipeSerializer.CODEC.parse(NbtOps.INSTANCE, compound.get("recipe")).result().orElse(null);
             if (recipe == null) {
                 return null;
             }
+            var id = ResourceLocation.tryParse(compound.getString("id"));
+            if (id == null) {
+                return null;
+            }
+            recipe.id = id;
             recipe.parallels = compound.contains("parallels") ? compound.getInt("parallels") : 1;
             recipe.subtickParallels = compound.contains("subtickParallels") ?
                 compound.getInt("subtickParallels") : 1;

@@ -30,8 +30,7 @@ public final class CEPatternTooltips {
 
     public static List<Component> getTooltip(ItemStack stack, Level level) {
         var data = CEPatternData.read(stack.getOrCreateTag());
-        var recipeIds = data.recipeIds();
-        if (recipeIds.isEmpty()) {
+        if (data.isEmpty()) {
             return List.of(
                 Component.translatable(TOOLTIP_BLANK)
                     .withStyle(ChatFormatting.GRAY)
@@ -42,16 +41,14 @@ public final class CEPatternTooltips {
         tooltips.add(
             Component.translatable(
                 TOOLTIP_STEPS,
-                recipeIds.size()
+                data.size()
             ).withStyle(ChatFormatting.GRAY)
         );
 
         if (level != null) {
-            var steps = CEPatternLogic.resolveSteps(level, recipeIds);
-            if (!steps.isEmpty()) {
-                tooltips.add(
-                    Component.literal(describeNetRecipe(steps, data.multipliers())).withStyle(ChatFormatting.DARK_GRAY)
-                );
+            var description = describeNetRecipe(level, data);
+            if (!description.isEmpty()) {
+                tooltips.add(Component.literal(description).withStyle(ChatFormatting.DARK_GRAY));
             }
         }
         return tooltips;
@@ -86,11 +83,8 @@ public final class CEPatternTooltips {
         return String.join("+", inputs) + " -> " + String.join("+", outputs);
     }
 
-    public static String describeNetRecipe(List<CERecipeStep> recipes, List<Integer> multipliers) {
-        if (recipes.size() != multipliers.size()) {
-            return "";
-        }
-        var net = CEPatternLogic.CompiledRecipe.create(recipes, multipliers);
+    public static String describeNetRecipe(Level level, CEPatternData data) {
+        var net = data.compile(level);
         if (net.isEmpty()) {
             return "";
         }

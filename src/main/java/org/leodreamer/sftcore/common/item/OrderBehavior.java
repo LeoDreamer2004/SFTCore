@@ -145,6 +145,7 @@ public class OrderBehavior
         return false;
     }
 
+    @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
     }

@@ -104,7 +104,9 @@ public class GTWirelessControllerMachine extends MetaMachine implements IGridCon
         if (
             getLevel() instanceof ServerLevel serverLevel &&
                 serverLevel.getServer().isCurrentlySaving()
-        ) return;
+        ) {
+            return;
+        }
 
         waitTasks.clear();
         if (grid != null) {

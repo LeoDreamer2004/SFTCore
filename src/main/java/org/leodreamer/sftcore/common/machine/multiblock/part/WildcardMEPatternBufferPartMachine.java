@@ -689,13 +689,18 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                 }
 
                 var key = AEItemKey.of(stack);
-                if (key == null) continue;
+                if (key == null) {
+                    continue;
+                }
 
                 long inserted = StorageHelper.poweredInsert(energy, networkInv, key, count, actionSource);
                 if (inserted > 0) {
                     count -= inserted;
-                    if (count == 0) it.remove();
-                    else entry.setValue(count);
+                    if (count == 0) {
+                        it.remove();
+                    } else {
+                        entry.setValue(count);
+                    }
                 }
             }
 
@@ -710,13 +715,18 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                 }
 
                 var key = AEFluidKey.of(stack);
-                if (key == null) continue;
+                if (key == null) {
+                    continue;
+                }
 
                 long inserted = StorageHelper.poweredInsert(energy, networkInv, key, amount, actionSource);
                 if (inserted > 0) {
                     amount -= inserted;
-                    if (amount == 0) it.remove();
-                    else entry.setValue(amount);
+                    if (amount == 0) {
+                        it.remove();
+                    } else {
+                        entry.setValue(amount);
+                    }
                 }
             }
 
@@ -757,15 +767,20 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                         continue;
                     }
 
-                    if (!ingredient.test(stack)) continue;
+                    if (!ingredient.test(stack)) {
+                        continue;
+                    }
 
                     int extracted = Math.min(GTMath.saturatedCast(count), amount);
 
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
-                        if (count == 0) it2.remove();
-                        else entry.setValue(count);
+                        if (count == 0) {
+                            it2.remove();
+                        } else {
+                            entry.setValue(count);
+                        }
                     }
 
                     amount -= extracted;
@@ -785,7 +800,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                 }
             }
 
-            if (changed) onContentsChanged();
+            if (changed) {
+                onContentsChanged();
+            }
             return left.isEmpty() ? null : left;
         }
 
@@ -818,15 +835,20 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                         continue;
                     }
 
-                    if (!ingredient.test(stack)) continue;
+                    if (!ingredient.test(stack)) {
+                        continue;
+                    }
 
                     int extracted = Math.min(GTMath.saturatedCast(count), amount);
 
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
-                        if (count == 0) it2.remove();
-                        else entry.setValue(count);
+                        if (count == 0) {
+                            it2.remove();
+                        } else {
+                            entry.setValue(count);
+                        }
                     }
 
                     amount -= extracted;
@@ -842,7 +864,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                 }
             }
 
-            if (changed) onContentsChanged();
+            if (changed) {
+                onContentsChanged();
+            }
             return left.isEmpty() ? null : left;
         }
 
@@ -880,7 +904,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
             var items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (var t : items) {
-                if (!(t instanceof CompoundTag ct)) continue;
+                if (!(t instanceof CompoundTag ct)) {
+                    continue;
+                }
 
                 var stack = ItemStack.of(ct);
                 var count = ct.getLong("real");
@@ -892,7 +918,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
             var fluids = tag.getList("fluidInventory", Tag.TAG_COMPOUND);
             for (var t : fluids) {
-                if (!(t instanceof CompoundTag ct)) continue;
+                if (!(t instanceof CompoundTag ct)) {
+                    continue;
+                }
 
                 var stack = FluidStack.loadFluidStackFromNBT(ct);
                 var amount = ct.getLong("real");

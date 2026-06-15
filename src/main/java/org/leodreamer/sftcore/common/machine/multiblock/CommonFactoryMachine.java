@@ -176,7 +176,9 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         sideTabs.setMainTab(this);
 
         var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(this, this);
-        if (directionalConfigurator != null) sideTabs.attachSubTab(directionalConfigurator);
+        if (directionalConfigurator != null) {
+            sideTabs.attachSubTab(directionalConfigurator);
+        }
     }
 
     @Override

@@ -24,8 +24,6 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.custom.PlayerInventoryWidget;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -56,8 +54,7 @@ public class CEPatternUIProvider {
     private final ItemStack stack;
     private final Consumer<ItemStack> onSave;
     private final int lockedPlayerSlot;
-    private final List<ResourceLocation> recipeIds = new ArrayList<>();
-    private final List<Integer> multipliers = new ArrayList<>();
+    private final CEPatternData data;
     private final CustomItemStackHandler inputInventory = new CustomItemStackHandler(1);
     private final CustomItemStackHandler outputInventory = new CustomItemStackHandler(1);
 
@@ -75,17 +72,7 @@ public class CEPatternUIProvider {
         this.stack = stack;
         this.onSave = onSave;
         this.lockedPlayerSlot = lockedPlayerSlot;
-        var data = CEPatternData.read(stack.getOrCreateTag());
-        this.recipeIds.addAll(data.recipeIds());
-        this.multipliers.addAll(data.multipliers());
-
-        // normalize
-        while (multipliers.size() < recipeIds.size()) {
-            multipliers.add(1);
-        }
-        while (multipliers.size() > recipeIds.size()) {
-            multipliers.remove(multipliers.size() - 1);
-        }
+        this.data = CEPatternData.read(stack.getOrCreateTag());
 
         this.inputInventory.setFilter(AEItems.BLANK_PATTERN::isSameAs);
     }
@@ -164,44 +151,39 @@ public class CEPatternUIProvider {
     }
 
     public void addRecipe(ResourceLocation id) {
-        if (recipeIds.size() >= CEPatternLogic.MAX_STEPS) {
-            return;
-        }
         if (!CEPatternLogic.canEncode(level, id)) {
             return;
         }
-        recipeIds.add(id);
-        multipliers.add(1);
+        if (!data.addRecipe(id)) {
+            return;
+        }
         rebuildStepList();
         saveHeldStack();
     }
 
     public void removeRecipe(int index) {
-        if (index < 0 || index >= recipeIds.size()) {
+        if (!data.removeRecipe(index)) {
             return;
-        }
-        recipeIds.remove(index);
-        if (index < multipliers.size()) {
-            multipliers.remove(index);
         }
         rebuildStepList();
         saveHeldStack();
     }
 
     public void setMultiplier(int index, String text) {
-        if (index < 0 || index >= multipliers.size()) {
-            return;
-        }
+        int multiplier;
         try {
-            multipliers.set(index, Integer.parseInt(text));
+            multiplier = Integer.parseInt(text);
         } catch (NumberFormatException ignored) {
-            multipliers.set(index, 1);
+            multiplier = 1;
+        }
+        if (!data.setMultiplier(index, multiplier)) {
+            return;
         }
         saveHeldStack();
     }
 
     public void generatePattern() {
-        if (recipeIds.isEmpty() || !outputInventory.getStackInSlot(0).isEmpty()) {
+        if (data.isEmpty() || !outputInventory.getStackInSlot(0).isEmpty()) {
             return;
         }
 
@@ -210,7 +192,7 @@ public class CEPatternUIProvider {
             return;
         }
 
-        var encoded = CEPatternLogic.makeEncodedProcessingPattern(level, recipeIds, multipliers);
+        var encoded = data.compile(level).makeAEProcessingPattern();
         if (encoded.isEmpty()) {
             return;
         }
@@ -228,6 +210,8 @@ public class CEPatternUIProvider {
             return;
         }
         stepList.clearAllWidgets();
+        var recipeIds = data.recipeIds();
+        var multipliers = data.multipliers();
         if (recipeIds.isEmpty()) {
             var emptyLabel = new LabelWidget(6, 8, EMPTY);
             emptyLabel.setColor(Objects.requireNonNull(ChatFormatting.GRAY.getColor()));
@@ -259,10 +243,7 @@ public class CEPatternUIProvider {
                 () -> String.valueOf(multipliers.get(index)),
                 text -> editorWidget.requestSetMultiplier(index, text)
             )
-                .setNumbersOnly(
-                    CEPatternLogic.MIN_MULTIPLIER,
-                    CEPatternLogic.MAX_MULTIPLIER
-                )
+                .setNumbersOnly(1, 999)
                 .setMaxStringLength(3);
             multiplierField.setClientSideWidget();
             stepList.addWidget(multiplierField);
@@ -289,8 +270,7 @@ public class CEPatternUIProvider {
 
     private void saveHeldStack() {
         if (!level.isClientSide) {
-            var patternData = new CEPatternData(recipeIds, multipliers);
-            var dataTag = patternData.write();
+            var dataTag = data.write();
             stack.setTag(dataTag);
             onSave.accept(stack);
         }

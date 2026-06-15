@@ -35,7 +35,9 @@ public final class GTMMRecipes {
         for (int tier = GTValues.LV; tier <= GTValues.UV; tier++) {
             var wirelessHatch = WIRELESS_ENERGY_INPUT_HATCH_256A[tier];
             var hatch = LASER_INPUT_HATCH_256[tier];
-            if (hatch == null || wirelessHatch == null) continue;
+            if (hatch == null || wirelessHatch == null) {
+                continue;
+            }
 
             ASSEMBLER_RECIPES
                 .recipeBuilder(
@@ -56,7 +58,9 @@ public final class GTMMRecipes {
         for (int tier = GTValues.LV; tier <= GTValues.UV; tier++) {
             var wirelessHatch = WIRELESS_ENERGY_OUTPUT_HATCH_256A[tier];
             var hatch = LASER_OUTPUT_HATCH_256[tier];
-            if (hatch == null || wirelessHatch == null) continue;
+            if (hatch == null || wirelessHatch == null) {
+                continue;
+            }
 
             ASSEMBLER_RECIPES
                 .recipeBuilder(
@@ -77,7 +81,9 @@ public final class GTMMRecipes {
         for (int tier = GTValues.LV; tier <= GTValues.UV; tier++) {
             var wirelessHatch = WIRELESS_ENERGY_INPUT_HATCH_1024A[tier];
             var hatch = LASER_INPUT_HATCH_1024[tier];
-            if (hatch == null || wirelessHatch == null) continue;
+            if (hatch == null || wirelessHatch == null) {
+                continue;
+            }
 
             ASSEMBLER_RECIPES
                 .recipeBuilder(
@@ -100,7 +106,9 @@ public final class GTMMRecipes {
         for (int tier = GTValues.LV; tier <= GTValues.UV; tier++) {
             var wirelessHatch = WIRELESS_ENERGY_OUTPUT_HATCH_1024A[tier];
             var hatch = LASER_OUTPUT_HATCH_1024[tier];
-            if (hatch == null || wirelessHatch == null) continue;
+            if (hatch == null || wirelessHatch == null) {
+                continue;
+            }
 
             ASSEMBLER_RECIPES
                 .recipeBuilder(
@@ -123,7 +131,9 @@ public final class GTMMRecipes {
         for (int tier = GTValues.LV; tier <= GTValues.UV; tier++) {
             var wirelessHatch = WIRELESS_ENERGY_INPUT_HATCH_4096A[tier];
             var hatch = LASER_INPUT_HATCH_4096[tier];
-            if (hatch == null || wirelessHatch == null) continue;
+            if (hatch == null || wirelessHatch == null) {
+                continue;
+            }
 
             ASSEMBLER_RECIPES
                 .recipeBuilder(
@@ -147,7 +157,9 @@ public final class GTMMRecipes {
         for (int tier = GTValues.LV; tier <= GTValues.UV; tier++) {
             var wirelessHatch = WIRELESS_ENERGY_OUTPUT_HATCH_4096A[tier];
             var hatch = LASER_OUTPUT_HATCH_4096[tier];
-            if (hatch == null || wirelessHatch == null) continue;
+            if (hatch == null || wirelessHatch == null) {
+                continue;
+            }
 
             ASSEMBLER_RECIPES
                 .recipeBuilder(

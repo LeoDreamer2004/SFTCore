@@ -45,7 +45,9 @@ public final class GTMultimachineTweaks {
     public static void ParallelHatchTweaks() {
         for (var hatch : PARALLEL_HATCH) {
             // modified by mixin
-            if (hatch == null) continue;
+            if (hatch == null) {
+                continue;
+            }
             hatch.setTooltipBuilder(
                 hatch
                     .getTooltipBuilder()
@@ -63,7 +65,9 @@ public final class GTMultimachineTweaks {
         for (int tier : GTValues.ALL_TIERS) {
             // mixin
             for (var hatch : new MachineDefinition[] { DUAL_IMPORT_HATCH[tier], DUAL_EXPORT_HATCH[tier] }) {
-                if (hatch == null) continue;
+                if (hatch == null) {
+                    continue;
+                }
                 hatch.setTooltipBuilder(
                     hatch
                         .getTooltipBuilder()

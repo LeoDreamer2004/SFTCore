@@ -168,10 +168,12 @@ public abstract class CraftingCpuLogicMixin {
 
             // Try to push to each provider.
             for (var provider : craftingService.getProviders(details)) {
-                if (craftingContainer == null)
+                if (craftingContainer == null) {
                     break;
-                if (provider.isBusy())
+                }
+                if (provider.isBusy()) {
                     continue;
+                }
 
                 var patternPower = CraftingCpuHelper.calculatePatternPower(craftingContainer);
 
@@ -180,8 +182,9 @@ public abstract class CraftingCpuLogicMixin {
                         patternPower, Actionable.SIMULATE,
                         PowerMultiplier.CONFIG
                     ) < patternPower - 0.01
-                )
+                ) {
                     break;
+                }
 
                 long value = IExecutingCraftingJob.getProgress(task.getValue());
                 int multiplier = 1;

@@ -373,7 +373,9 @@ public final class CommonGTRecipes {
             }
         }
 
-        if (boost) builder.inputItems(BONE_MEAL, 4);
+        if (boost) {
+            builder.inputItems(BONE_MEAL, 4);
+        }
 
         builder.save(provider);
     }
@@ -423,8 +425,11 @@ public final class CommonGTRecipes {
             .outputFluids(output.getFluid(100000))
             .duration(freeze ? 2000 : 1800)
             .EUt(VA[tier]);
-        if (freeze) builder.notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack());
-        else builder.circuitMeta(1);
+        if (freeze) {
+            builder.notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack());
+        } else {
+            builder.circuitMeta(1);
+        }
         builder.save(provider);
     }
 
@@ -437,7 +442,9 @@ public final class CommonGTRecipes {
         };
 
         for (var machine : SFTPartMachines.DUAL_IMPORT_HATCH) {
-            if (machine == null) continue;
+            if (machine == null) {
+                continue;
+            }
             int tier = machine.getTier();
             int j = Math.min(fluidMap.length - 1, tier / 2);
             for (; j < fluidMap.length; j++) {
@@ -463,7 +470,9 @@ public final class CommonGTRecipes {
         }
 
         for (var machine : SFTPartMachines.DUAL_EXPORT_HATCH) {
-            if (machine == null) continue;
+            if (machine == null) {
+                continue;
+            }
             int tier = machine.getTier();
             int j = Math.min(fluidMap.length - 1, tier / 2);
             for (; j < fluidMap.length; j++) {

@@ -151,6 +151,7 @@ public class GasTankWidget extends Widget implements IRecipeIngredientSlot {
         return this;
     }
 
+    @Override
     public List<Component> getFullTooltipTexts() {
         var tooltips = new ArrayList<Component>();
         var gasStack = lastGasInTank == null ? GasStack.EMPTY : lastGasInTank;
