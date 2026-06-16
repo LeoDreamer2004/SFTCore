@@ -28,8 +28,13 @@ public final class CEPatternData {
         ).apply(instance, CEPatternData::new)
     );
 
+    // always make sure that these two lists keep the same length
     private final ArrayList<ResourceLocation> recipeIds;
     private final ArrayList<Integer> multipliers;
+
+    public static CEPatternData empty() {
+        return new CEPatternData(new ArrayList<>(), new ArrayList<>());
+    }
 
     public CEPatternData(List<ResourceLocation> recipeIds, List<Integer> multipliers) {
         int size = Math.min(Math.min(recipeIds.size(), multipliers.size()), MAX_STEPS);
@@ -77,8 +82,12 @@ public final class CEPatternData {
             .orElseGet(CEPatternData::empty);
     }
 
-    public static CEPatternData empty() {
-        return new CEPatternData(new ArrayList<>(), new ArrayList<>());
+    public CompoundTag write() {
+        return CEPatternData.CODEC.encodeStart(NbtOps.INSTANCE, this)
+            .resultOrPartial(SFTCore.LOGGER::error)
+            .filter(CompoundTag.class::isInstance)
+            .map(CompoundTag.class::cast)
+            .orElse(new CompoundTag());
     }
 
     public boolean addRecipe(ResourceLocation id) {
@@ -99,23 +108,10 @@ public final class CEPatternData {
         return true;
     }
 
-    public boolean setMultiplier(int index, int multiplier) {
-        if (index < 0 || index >= multipliers.size()) {
-            return false;
-        }
-        multipliers.set(index, multiplier);
-        return true;
-    }
-
-    public CompoundTag write() {
-        return CEPatternData.CODEC.encodeStart(NbtOps.INSTANCE, this)
-            .resultOrPartial(SFTCore.LOGGER::error)
-            .filter(CompoundTag.class::isInstance)
-            .map(CompoundTag.class::cast)
-            .orElse(new CompoundTag());
-    }
-
-    public CompiledRecipe compile(Level level) {
-        return new CompiledRecipe(level, this);
+    /**
+     * Compile the data into a {@link CECompiledRecipe}
+     */
+    public CECompiledRecipe compile(Level level) {
+        return new CECompiledRecipe(level, this);
     }
 }

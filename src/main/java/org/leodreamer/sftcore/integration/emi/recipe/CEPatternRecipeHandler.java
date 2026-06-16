@@ -1,11 +1,9 @@
 package org.leodreamer.sftcore.integration.emi.recipe;
 
 import org.leodreamer.sftcore.common.item.cepattern.CEPatternEditorWidget;
-import org.leodreamer.sftcore.common.item.cepattern.CEPatternLogic;
 import org.leodreamer.sftcore.common.item.cepattern.CEPatternUIProvider;
 import org.leodreamer.sftcore.common.item.cepattern.CERecipeStep;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.resources.ResourceLocation;
 
@@ -64,12 +62,6 @@ public class CEPatternRecipeHandler implements EmiRecipeHandler<ModularUIContain
         var backingRecipe = recipe.getBackingRecipe();
         if (backingRecipe != null && CERecipeStep.fromRecipe(backingRecipe).isPresent()) {
             return Optional.of(backingRecipe.getId());
-        }
-
-        var level = Minecraft.getInstance().level;
-        var id = recipe.getId();
-        if (id != null && level != null && CEPatternLogic.canEncode(level, id)) {
-            return Optional.of(id);
         }
         return Optional.empty();
     }

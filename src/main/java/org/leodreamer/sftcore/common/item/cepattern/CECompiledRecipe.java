@@ -29,45 +29,40 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * Compiled recipe from {@link CEPatternData}
+ * Compiled recipe from {@link CEPatternData} for GT & AE integration.
+ * <p>
+ * Note: all the chance outputs are using {@link ChanceLogic#OR} here,
+ * simulating the {@link ChanceLogic#XOR} for recipes like assembly.
  */
 @Accessors(fluent = true)
 @Getter
-public final class CompiledRecipe {
+public final class CECompiledRecipe {
 
     private final Map<AEItemKey, SizedIngredient> itemInputs = new LinkedHashMap<>();
     private final Map<AEItemKey, ItemStack> itemOutputs = new LinkedHashMap<>();
     private final List<ChancedItemOutput> chancedItemOutputs = new ArrayList<>();
     private final Map<AEFluidKey, FluidIngredient> fluidInputs = new LinkedHashMap<>();
     private final Map<AEFluidKey, FluidStack> fluidOutputs = new LinkedHashMap<>();
-    private ChanceLogic itemOutputChanceLogic = ChanceLogic.OR;
     private int duration;
     private int weightedSteps;
 
     public static final float REQUIRED_RPM = 64.0F;
     public static final float STRESS_PER_STEP = 4096.0F;
 
-    public CompiledRecipe(Level level, CEPatternData data) {
-        var recipes = CEPatternLogic.resolveSteps(level, data.recipeIds());
-        if (recipes.isEmpty()) {
-            return;
-        }
-        var multipliers = data.multipliers();
-        for (int i = 0; i < recipes.size(); i++) {
-            var recipe = recipes.get(i);
-            int multiplier = multipliers.get(i);
+    public CECompiledRecipe(Level level, CEPatternData data) {
+        for (int i = 0; i < data.size(); i++) {
+            var recipe = CERecipeStep.fromId(data.recipeIds().get(i), level).orElse(null);
+            if (recipe == null) {
+                continue;
+            }
+
+            int multiplier = data.multipliers().get(i);
             weightedSteps += multiplier;
             duration += Math.max(1, recipe.duration()) * multiplier;
             recipe.itemInputs().forEach(ingredient -> consumeItem(ingredient, multiplier));
             recipe.fluidInputs().forEach(ingredient -> consumeFluid(ingredient, multiplier));
             recipe.itemOutputs().forEach(output -> produceItem(output, multiplier));
             recipe.fluidOutputs().forEach(stack -> produceFluid(stack, multiplier));
-        }
-        if (recipes.size() == 1 && recipes.get(0).itemOutputChanceLogic() == ChanceLogic.XOR) {
-            itemOutputChanceLogic = ChanceLogic.XOR;
-        }
-        if (duration <= 0) {
-            duration = recipes.size() * 20;
         }
     }
 
@@ -219,11 +214,11 @@ public final class CompiledRecipe {
     private GenericStack[] toPatternInputs() {
         var inputs = new ArrayList<GenericStack>();
         itemInputs.values().stream()
-            .map(CompiledRecipe::toGenericStack)
+            .map(CECompiledRecipe::toGenericStack)
             .filter(Objects::nonNull)
             .forEach(inputs::add);
         fluidInputs.values().stream()
-            .map(CompiledRecipe::toGenericStack)
+            .map(CECompiledRecipe::toGenericStack)
             .filter(Objects::nonNull)
             .forEach(inputs::add);
         return inputs.toArray(GenericStack[]::new);
@@ -287,9 +282,6 @@ public final class CompiledRecipe {
         }
         for (var output : chancedItemOutputs) {
             builder.chancedOutput(output.stack().copy(), output.chance(), 0);
-        }
-        if (itemOutputChanceLogic != ChanceLogic.OR) {
-            builder.chancedItemOutputLogic(itemOutputChanceLogic);
         }
         for (var stack : fluidOutputs.values()) {
             builder.outputFluids(stack.copy());

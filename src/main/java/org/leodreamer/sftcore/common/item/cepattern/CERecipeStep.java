@@ -2,13 +2,13 @@ package org.leodreamer.sftcore.common.item.cepattern;
 
 import org.leodreamer.sftcore.integration.IntegrateMods;
 
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.simibubi.create.AllBlocks;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A general step for create recipes
+ * A general adapter step for create recipes
  */
 public record CERecipeStep(
     ResourceLocation id,
@@ -35,8 +35,7 @@ public record CERecipeStep(
     List<FluidIngredient> fluidInputs,
     List<ProcessingOutput> itemOutputs,
     List<FluidStack> fluidOutputs,
-    int duration,
-    ChanceLogic itemOutputChanceLogic
+    int duration
 ) {
 
     public static Optional<CERecipeStep> fromRecipe(Recipe<?> recipe) {
@@ -52,6 +51,11 @@ public record CERecipeStep(
         return Optional.empty();
     }
 
+    public static Optional<CERecipeStep> fromId(ResourceLocation id, Level level) {
+        var recipe = level.getRecipeManager().byKey(id);
+        return recipe.flatMap(CERecipeStep::fromRecipe);
+    }
+
     public Component typeName() {
         return Component.translatable(titleKey);
     }
@@ -63,17 +67,16 @@ public record CERecipeStep(
             typeId,
             titleKey(typeId),
             machineIcon(typeId),
-            List.copyOf(recipe.getIngredients()),
-            List.copyOf(recipe.getFluidIngredients()),
-            List.copyOf(recipe.getRollableResults()),
-            List.copyOf(recipe.getFluidResults()),
-            Math.max(1, recipe.getProcessingDuration()),
-            ChanceLogic.OR
+            recipe.getIngredients(),
+            recipe.getFluidIngredients(),
+            recipe.getRollableResults(),
+            recipe.getFluidResults(),
+            Math.max(1, recipe.getProcessingDuration())
         );
     }
 
     private static CERecipeStep from(MechanicalCraftingRecipe recipe) {
-        var output = recipe.getResultItem(null);
+        var output = recipe.getResultItem(RegistryAccess.EMPTY);
         var outputs = output.isEmpty() ? List.<ProcessingOutput>of() :
             List.of(new ProcessingOutput(output.copy(), 1.0F));
         var typeId = AllRecipeTypes.MECHANICAL_CRAFTING.getId();
@@ -82,12 +85,11 @@ public record CERecipeStep(
             typeId,
             titleKey(typeId),
             AllBlocks.MECHANICAL_CRAFTER.asStack(),
-            List.copyOf(recipe.getIngredients()),
+            recipe.getIngredients(),
             List.of(),
             outputs,
             List.of(),
-            100,
-            ChanceLogic.OR
+            100
         );
     }
 
@@ -118,8 +120,7 @@ public record CERecipeStep(
             fluidInputs,
             itemOutputs,
             List.of(),
-            Math.max(1, duration),
-            ChanceLogic.XOR
+            Math.max(1, duration)
         );
     }
 

@@ -136,6 +136,7 @@ public class CEPatternUIProvider {
             return;
         }
         saveHeldStack();
+        // give back the blank patterns and the encoded pattern
         giveToPlayer(player, inputInventory.getStackInSlot(0));
         giveToPlayer(player, outputInventory.getStackInSlot(0));
         inputInventory.setStackInSlot(0, ItemStack.EMPTY);
@@ -151,7 +152,7 @@ public class CEPatternUIProvider {
     }
 
     public void addRecipe(ResourceLocation id) {
-        if (!CEPatternLogic.canEncode(level, id)) {
+        if (CERecipeStep.fromId(id, level).isEmpty()) {
             return;
         }
         if (!data.addRecipe(id)) {
@@ -176,9 +177,7 @@ public class CEPatternUIProvider {
         } catch (NumberFormatException ignored) {
             multiplier = 1;
         }
-        if (!data.setMultiplier(index, multiplier)) {
-            return;
-        }
+        data.multipliers().set(index, multiplier);
         saveHeldStack();
     }
 
@@ -211,7 +210,6 @@ public class CEPatternUIProvider {
         }
         stepList.clearAllWidgets();
         var recipeIds = data.recipeIds();
-        var multipliers = data.multipliers();
         if (recipeIds.isEmpty()) {
             var emptyLabel = new LabelWidget(6, 8, EMPTY);
             emptyLabel.setColor(Objects.requireNonNull(ChatFormatting.GRAY.getColor()));
@@ -222,7 +220,7 @@ public class CEPatternUIProvider {
         for (int i = 0; i < recipeIds.size(); i++) {
             final int index = i;
             var id = recipeIds.get(i);
-            var recipe = CEPatternLogic.getCERecipe(level, id).orElse(null);
+            var recipe = CERecipeStep.fromId(id, level).orElse(null);
             int y = i * 24 + 2;
 
             // mechanical machine
@@ -233,14 +231,13 @@ public class CEPatternUIProvider {
             stepList.addWidget(iconSlot);
 
             // recipe type
-            var typeName = recipe == null ? Component.literal(id.toString()) :
-                recipe.typeName();
+            var typeName = recipe == null ? Component.literal(id.toString()) : recipe.typeName();
             stepList.addWidget(new LabelWidget(24, y + 5, typeName.getString()));
 
             // multiplier
             var multiplierField = new TextFieldWidget(
                 116, y + 3, 28, 16,
-                () -> String.valueOf(multipliers.get(index)),
+                () -> String.valueOf(data.multipliers().get(index)),
                 text -> editorWidget.requestSetMultiplier(index, text)
             )
                 .setNumbersOnly(1, 999)
@@ -306,6 +303,10 @@ public class CEPatternUIProvider {
         }
     }
 
+    /**
+     * A player inventory with a slot locked.
+     * Used to avoid bugs when players change their hand items with nbt.
+     */
     private static final class LockedPlayerInventoryWidget extends PlayerInventoryWidget {
 
         private final int lockedSlot;
