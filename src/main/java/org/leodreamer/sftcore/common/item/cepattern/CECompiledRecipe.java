@@ -38,6 +38,9 @@ import java.util.*;
 @Getter
 public final class CECompiledRecipe {
 
+    public static final float REQUIRED_RPM = 64.0F;
+    public static final float STRESS_PER_STEP = 2048.0F;
+
     private final Map<AEItemKey, SizedIngredient> itemInputs = new LinkedHashMap<>();
     private final Map<AEItemKey, ItemStack> itemOutputs = new LinkedHashMap<>();
     private final List<ChancedItemOutput> chancedItemOutputs = new ArrayList<>();
@@ -45,9 +48,6 @@ public final class CECompiledRecipe {
     private final Map<AEFluidKey, FluidStack> fluidOutputs = new LinkedHashMap<>();
     private int duration;
     private int weightedSteps;
-
-    public static final float REQUIRED_RPM = 64.0F;
-    public static final float STRESS_PER_STEP = 4096.0F;
 
     public CECompiledRecipe(Level level, CEPatternData data) {
         for (int i = 0; i < data.size(); i++) {

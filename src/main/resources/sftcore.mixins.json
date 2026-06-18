@@ -87,7 +87,8 @@
     "ae2.screen.PatternProviderScreenMixin",
     "gregtech.xei.PatternPreviewWidgetMixin",
     "gregtech.xei.PatternPreviewWidgetMixin$MBPatternAccessor",
-    "vanilla.ChangeVanillaTitle"
+    "vanilla.ChangeVanillaTitle",
+    "vanilla.PickBlockMixin"
   ],
   "server": [],
   "injectors": {

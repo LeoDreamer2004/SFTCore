@@ -19,7 +19,8 @@ public class SFTPacketHandler {
     public enum PacketTypes {
 
         AVAILABLE_GT_MACHINES(AvailableGTMachinesPacket.class, AvailableGTMachinesPacket::new),
-        PROMPT_SYNC(PromptSyncPacket.class, PromptSyncPacket::new);
+        PROMPT_SYNC(PromptSyncPacket.class, PromptSyncPacket::new),
+        PICK_BLOCK_AE_REQUEST(PickBlockAERequestPacket.class, PickBlockAERequestPacket::new);
 
         private final Function<FriendlyByteBuf, BasePacket> factory;
 

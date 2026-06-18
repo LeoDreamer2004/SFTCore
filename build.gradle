@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.7.38'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
     }
 }
@@ -36,7 +36,6 @@ java {
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
     copyIdeResources = true
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         configureEach {
             workingDirectory project.file('run')
@@ -89,6 +88,9 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     mavenCentral()
     maven { url = 'https://maven.aliyun.com/repository/public' }
     maven { url = 'https://maven.minecraftforge.net/' }
@@ -198,15 +200,15 @@ dependencies {
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}") { transitive = false }
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${mc_version}:1.0.50") { transitive = false }
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${mc_version}:${gtm_version}:slim") { transitive = false }
-    implementation files('libs/gtmoremachine-1.20.1-2.0.0.jar')
-    implementation files('libs/neoecoae-1.1.0+mc1.20.1.jar')
+    implementation fg.deobf('local:gtmoremachine-1.20.1:2.0.0:slim')
+    implementation fg.deobf("local:neoecoae:1.1.1+mc1.20.1:slim")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")
     implementation fg.deobf("curse.maven:applied-mekanistics-574300:7244744")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:11.1.136")
     implementation fg.deobf("curse.maven:mega-cells-622112:6175008")
-    implementation(fg.deobf("com.simibubi.create:create-${mc_version}:${create_version}:slim") { transitive = false })
-    implementation(fg.deobf("net.createmod.ponder:Ponder-Forge-${mc_version}:${ponder_version}"))
+    implementation fg.deobf("com.simibubi.create:create-${mc_version}:${create_version}:slim") { transitive = false }
+    implementation fg.deobf("net.createmod.ponder:Ponder-Forge-${mc_version}:${ponder_version}")
     implementation fg.deobf("curse.maven:glodium-957920:5226922")
     implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
     implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
@@ -222,16 +224,16 @@ dependencies {
     implementation fg.deobf("curse.maven:travel-anchors-413234:4683662")
     implementation fg.deobf("curse.maven:carry-on-274259:4882500")
     implementation fg.deobf("org.moddingx:LibX:${mc_version}-${libx_version}")
-    implementation("com.eliotlash.mclib:mclib:20")
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")) { jarJar.ranged(it, "[0.2.0,)")}
+    implementation ("com.eliotlash.mclib:mclib:20")
+    implementation annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0")
+    implementation jarJar("io.github.llamalad7:mixinextras-forge:0.5.0") { jarJar.ranged(it, "[0.2.0,)")}
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
-    compileOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${mc_version}:${flywheel_version}"))
+    compileOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${mc_version}:${flywheel_version}")
 
     implementation fg.deobf("dev.toma.configuration:configuration-1.20.1:${configuration_version}-forge") {transitive = false }
-    runtimeOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-${mc_version}:${flywheel_version}"))
+    runtimeOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-${mc_version}:${flywheel_version}")
     runtimeOnly fg.deobf("curse.maven:just-enough-characters-250702:6680042")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     runtimeOnly fg.deobf("maven.modrinth:jade:${jade_version}")
@@ -296,9 +298,6 @@ spotless {
         toggleOffOn()
         importOrderFile(orderFile)
         removeUnusedImports('cleanthat-javaparser-unnecessaryimport')
-        replaceRegex('no-single-line-if-return',
-                /(?m)^(\s*)if\s*\(([^{}\n]+)\)\s*return((?:\s+[^;\n]+)?);\s*$/,
-                '$1if ($2) {\n$1    return$3;\n$1}')
         endWithNewline()
         eclipse('4.31').configFile(formatFile)
     }
