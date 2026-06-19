@@ -34,7 +34,7 @@ public final class PickBlockAEHelper {
         }
 
         var inventory = player.getInventory();
-        if (inventory.getFreeSlot() != -1) {
+        if (inventory.getFreeSlot() == -1) {
             return;
         }
 
