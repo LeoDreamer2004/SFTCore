@@ -31,4 +31,6 @@ public final class SFTCovers {
         GTRegistries.COVERS.register(definition.getId(), definition);
         return definition;
     }
+
+    public static void init() {}
 }

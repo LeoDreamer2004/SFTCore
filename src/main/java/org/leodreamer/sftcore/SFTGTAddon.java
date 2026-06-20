@@ -1,8 +1,10 @@
 package org.leodreamer.sftcore;
 
+import org.leodreamer.sftcore.common.data.SFTBlocks;
+import org.leodreamer.sftcore.common.data.SFTCreativeTabs;
+import org.leodreamer.sftcore.common.data.SFTItems;
 import org.leodreamer.sftcore.common.data.SFTOres;
 import org.leodreamer.sftcore.common.data.SFTRecipes;
-import org.leodreamer.sftcore.common.data.recipe.SFTRecipeCapabilities;
 
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
@@ -21,7 +23,11 @@ public class SFTGTAddon implements IGTAddon {
     }
 
     @Override
-    public void initializeAddon() {}
+    public void initializeAddon() {
+        SFTItems.init();
+        SFTBlocks.init();
+        SFTCreativeTabs.init();
+    }
 
     @Override
     public String addonModId() {
@@ -36,10 +42,5 @@ public class SFTGTAddon implements IGTAddon {
     @Override
     public void registerOreVeins() {
         SFTOres.init();
-    }
-
-    @Override
-    public void registerRecipeCapabilities() {
-        SFTRecipeCapabilities.init();
     }
 }

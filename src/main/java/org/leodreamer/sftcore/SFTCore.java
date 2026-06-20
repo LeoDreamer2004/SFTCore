@@ -3,10 +3,12 @@ package org.leodreamer.sftcore;
 import org.leodreamer.sftcore.api.registry.SFTRegistrate;
 import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 import org.leodreamer.sftcore.common.data.*;
+import org.leodreamer.sftcore.common.data.recipe.SFTRecipeCapabilities;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
 import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -42,7 +44,9 @@ public class SFTCore {
         var bus = context.getModEventBus();
         REGISTRATE.registerEventListeners(bus);
         bus.register(this);
+
         bus.addListener(this::commonSetup);
+        bus.addGenericListener(RecipeCapability.class, this::registerRecipeCapabilities);
         bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         bus.addGenericListener(MachineDefinition.class, this::registerMachines);
         bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
@@ -76,6 +80,11 @@ public class SFTCore {
     }
 
     @SubscribeEvent
+    public void registerRecipeCapabilities(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeCapability<?>> event) {
+        SFTRecipeCapabilities.init();
+    }
+
+    @SubscribeEvent
     public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         SFTRecipeTypes.init();
     }
@@ -92,9 +101,7 @@ public class SFTCore {
 
     @SubscribeEvent
     public void registerCovers(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
-        SFTCreativeTabs.init();
-        SFTBlocks.init();
-        SFTItems.init();
+        SFTCovers.init();
     }
 
     @SubscribeEvent
