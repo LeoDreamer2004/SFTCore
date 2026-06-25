@@ -6,18 +6,15 @@ import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
-import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
@@ -25,10 +22,19 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.api.widget.IWidget;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.BooleanSyncValue;
+import brachy.modularui.value.sync.IntSyncValue;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.slot.ItemSlot;
+import brachy.modularui.widgets.slot.ModularSlot;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -96,14 +102,14 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
     }
 
     @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
+    public void formStructure(String substructureName) {
+        super.formStructure(substructureName);
         this.onMachineChanged();
     }
 
     @Override
-    public void onStructureInvalid() {
-        super.onStructureInvalid();
+    public void invalidateStructure(String name) {
+        super.invalidateStructure(name);
         clearMachineCache();
     }
 
@@ -168,50 +174,77 @@ public class CommonFactoryMachine extends CoilWorkableElectricMultiblockMachine 
         return 4 * (getCoilTier() + 1);
     }
 
-    /// GUI ///
-
     @Override
-    public void attachSideTabs(TabsWidget sideTabs) {
-        // Hide the recipe configurator tab
-        sideTabs.setMainTab(this);
-
-        var directionalConfigurator = CombinedDirectionalFancyConfigurator.of(this, this);
-        if (directionalConfigurator != null) {
-            sideTabs.attachSubTab(directionalConfigurator);
-        }
-    }
-
-    @Override
-    public Widget createUIWidget() {
-        var group = (WidgetGroup) super.createUIWidget();
-
-        group.addWidget(
-            new BlockableSlotWidget(machineInventory.storage, 0, 164, 99)
-                .setBackground(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY)
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        super.buildMainUI(mainWidget, guiData, syncManager, settings);
+        mainWidget.child(
+            new ItemSlot()
+                .slot(new ModularSlot(machineInventory.storage, 0))
+                .background(GTGuiTextures.SLOT, GTGuiTextures.IN_SLOT_OVERLAY)
+                .right(4)
+                .bottom(4)
         );
-
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        return group;
     }
 
     @RegisterLanguage("The voltage of energy hatch and machine don't match!")
     static final String VOLTAGE_INVALID = "sftcore.machine.common_factory.voltage_invalid";
 
     @Override
-    public void addDisplayText(List<Component> textList) {
-        super.addDisplayText(textList);
-        if (!isFormed()) {
-            return;
-        }
+    public List<IWidget> getWidgetsForDisplay(PanelSyncManager syncManager) {
+        var widgets = new ArrayList<>(super.getWidgetsForDisplay(syncManager));
+        widgets.add(addMaxParallelLine(syncManager));
+        widgets.add(addVoltageWarningLine(syncManager));
+        return widgets;
+    }
 
-        if (!recipeLogic.isActive()) {
-            var component = textList.remove(textList.size() - 1); // idle
-            MultiblockDisplayText.builder(textList, isFormed()).addParallelsLine(getMaxParallels());
-            textList.add(component);
-        }
-        if (!isVoltageValid() && recipeType != DUMMY_RECIPES) {
-            textList.add(Component.translatable(VOLTAGE_INVALID).withStyle(ChatFormatting.RED));
-        }
-        getDefinition().getAdditionalDisplay().accept(this, textList);
+    private IWidget addMaxParallelLine(PanelSyncManager syncManager) {
+        var isFormed = syncManager.getOrCreateSyncHandler(
+            "commonFactoryFormed", BooleanSyncValue.class,
+            () -> new BooleanSyncValue(this::isFormed)
+        );
+        var isActive = syncManager.getOrCreateSyncHandler(
+            "commonFactoryActive", BooleanSyncValue.class,
+            () -> new BooleanSyncValue(recipeLogic::isActive)
+        );
+        var maxParallels = syncManager.getOrCreateSyncHandler(
+            "commonFactoryMaxParallels", IntSyncValue.class,
+            () -> new IntSyncValue(this::getMaxParallels)
+        );
+        return Text.dynamic(
+            () -> Component.translatable(
+                "gtceu.multiblock.parallel",
+                Component.literal(FormattingUtil.formatNumbers(maxParallels.getIntValue()))
+                    .withStyle(ChatFormatting.DARK_PURPLE)
+            ).withStyle(ChatFormatting.GRAY)
+        )
+            .asWidget()
+            .setEnabledIf(
+                widget -> isFormed.getBoolValue() && !isActive.getBoolValue() &&
+                    maxParallels.getIntValue() > 1
+            );
+    }
+
+    private IWidget addVoltageWarningLine(PanelSyncManager syncManager) {
+        var isFormed = syncManager.getOrCreateSyncHandler(
+            "commonFactoryFormed", BooleanSyncValue.class,
+            () -> new BooleanSyncValue(this::isFormed)
+        );
+        var voltageValid = syncManager.getOrCreateSyncHandler(
+            "commonFactoryVoltageValid", BooleanSyncValue.class,
+            () -> new BooleanSyncValue(this::isVoltageValid)
+        );
+        var hasMachine = syncManager.getOrCreateSyncHandler(
+            "commonFactoryHasMachine", BooleanSyncValue.class,
+            () -> new BooleanSyncValue(() -> recipeType != DUMMY_RECIPES)
+        );
+        return Text.dynamic(() -> Component.translatable(VOLTAGE_INVALID).withStyle(ChatFormatting.RED))
+            .asWidget()
+            .setEnabledIf(
+                widget -> isFormed.getBoolValue() && !voltageValid.getBoolValue() &&
+                    hasMachine.getBoolValue()
+            );
     }
 }

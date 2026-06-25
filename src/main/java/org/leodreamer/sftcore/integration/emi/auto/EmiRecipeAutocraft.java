@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.integration.emi.auto;
 
 import org.leodreamer.sftcore.SFTCore;
-import org.leodreamer.sftcore.integration.emi.opt.IGTEmiRecipe;
+import org.leodreamer.sftcore.mixin.gregtech.xei.GTEmiRecipeAccessor;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -17,7 +17,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
+import brachy.modularui.api.IMuiScreen;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.recipe.EmiCraftingRecipe;
 import dev.emi.emi.api.recipe.EmiPlayerInventory;
@@ -81,7 +81,7 @@ public class EmiRecipeAutocraft {
     @SubscribeEvent
     public static void onClosingScreen(ScreenEvent.Closing event) {
         var screen = event.getScreen();
-        if (screen instanceof CraftingScreen || screen instanceof ModularUIGuiContainer) {
+        if (screen instanceof CraftingScreen || screen instanceof IMuiScreen) {
             resetCrafting();
         }
     }
@@ -126,9 +126,10 @@ public class EmiRecipeAutocraft {
                 if (screen == AutocraftScreen.CRAFT && recipe instanceof EmiCraftingRecipe) {
                     return syn;
                 } else if (
-                    screen == AutocraftScreen.GT && openedMachine != null && recipe instanceof IGTEmiRecipe gtRecipe
+                    screen == AutocraftScreen.GT && openedMachine != null &&
+                        recipe instanceof GTEmiRecipeAccessor gtRecipe
                 ) {
-                    var recipeType = gtRecipe.recipe().recipeType;
+                    var recipeType = gtRecipe.getRecipe().recipeType;
                     if (GTMachineUtils.guessRecipe(openedMachine, recipeType).ok()) {
                         return syn;
                     }
@@ -193,7 +194,9 @@ public class EmiRecipeAutocraft {
 
             for (var syn : EmiFavorites.syntheticFavorites) {
                 var r = syn.getRecipe();
-                if (r == null) continue;
+                if (r == null) {
+                    continue;
+                }
                 if (r.getId() == currentRecipe.getId() && syn.amount == currentAmount) {
                     // still not crafted, maybe the network delay
                     return;
@@ -209,11 +212,11 @@ public class EmiRecipeAutocraft {
     }
 
     private static int calculateMaxBatches(EmiRecipe recipe, int requested) {
-        if (!(recipe instanceof IGTEmiRecipe gtEmiRecipe)) {
+        if (!(recipe instanceof GTEmiRecipeAccessor gtEmiRecipe)) {
             return requested;
         }
 
-        var gtRecipe = gtEmiRecipe.recipe();
+        var gtRecipe = gtEmiRecipe.getRecipe();
         int max = requested;
         for (var input : RecipeHelper.getInputItems(gtRecipe)) {
             int amount = input.getCount();
@@ -229,7 +232,7 @@ public class EmiRecipeAutocraft {
         if (client.screen instanceof CraftingScreen) {
             return AutocraftScreen.CRAFT;
         }
-        if (client.screen instanceof ModularUIGuiContainer) {
+        if (client.screen instanceof IMuiScreen) {
             return AutocraftScreen.GT;
         }
         return null;

@@ -8,10 +8,11 @@ import org.leodreamer.sftcore.common.item.terminal.gui.impl.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import brachy.modularui.value.sync.PanelSyncManager;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class MekBuilderRegistry {
@@ -33,8 +34,10 @@ public final class MekBuilderRegistry {
         SUPERCRITICAL_PHASE_SHIFTER = register(SPSBuilder::new, SPSTab::new);
     // spotless:on
 
-    public static <
-        T extends IMekMultiblockBuilder> Entry<T> register(Supplier<T> builderSupplier, TabFactory<T> tabFactory) {
+    public static <T extends IMekMultiblockBuilder> Entry<T> register(
+        Supplier<T> builderSupplier,
+        TabFactory<T> tabFactory
+    ) {
         var builder = builderSupplier.get();
         var entry = new Entry<>(builder, tabFactory);
         ENTRIES.put(builder.id(), entry);
@@ -66,22 +69,20 @@ public final class MekBuilderRegistry {
         return INDUCTION_MATRIX; // fallback
     }
 
+    @FunctionalInterface
+    public interface TabFactory<T extends IMekMultiblockBuilder> {
+
+        MekTerminalTab<T> create(T builder, ItemStack terminal, PanelSyncManager syncManager);
+    }
+
     public record Entry<T extends IMekMultiblockBuilder>(T builder, TabFactory<T> tabFactory) {
 
         public ResourceLocation id() {
             return builder.id();
         }
 
-        public MekTerminalTab<T> createTab(
-            ItemStack terminal, Consumer<ItemStack> onSave
-        ) {
-            return tabFactory.create(builder, terminal, onSave);
+        public MekTerminalTab<T> createTab(ItemStack terminal, PanelSyncManager syncManager) {
+            return tabFactory.create(builder, terminal, syncManager);
         }
-    }
-
-    @FunctionalInterface
-    public interface TabFactory<T extends IMekMultiblockBuilder> {
-
-        MekTerminalTab<T> create(T builder, ItemStack terminal, Consumer<ItemStack> onSave);
     }
 }

@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.integration.emi.auto;
 
 import org.leodreamer.sftcore.integration.ae2.feature.ISendToGTMachine;
-import org.leodreamer.sftcore.integration.emi.opt.IGTEmiRecipe;
+import org.leodreamer.sftcore.mixin.gregtech.xei.GTEmiRecipeAccessor;
 import org.leodreamer.sftcore.util.ReflectUtils;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
@@ -15,12 +15,12 @@ public class SFTEmiPatternHandler {
 
     public static <
         T extends PatternEncodingTermMenu> void handleEmiRecipe(EmiRecipe recipe, EmiCraftContext<T> context) {
-        if (recipe instanceof IGTEmiRecipe gtEmiRecipe) {
+        if (recipe instanceof GTEmiRecipeAccessor gtEmiRecipe) {
             var menu = (ISendToGTMachine) context.getScreenHandler();
-            var gtRecipe = gtEmiRecipe.recipe();
+            var gtRecipe = gtEmiRecipe.getRecipe();
             int circuit = 0;
             for (var ingredient : gtRecipe.getInputContents(GTRecipeCapabilities.ITEM)) {
-                if (ingredient.content instanceof IntCircuitIngredient ci) {
+                if (ingredient.content() instanceof IntCircuitIngredient ci) {
                     circuit = ReflectUtils.getFieldValue(ci, "configuration", Integer.class);
                     break;
                 }

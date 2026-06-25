@@ -38,7 +38,9 @@ public class WirelessGridHolder extends MachineTrait {
         if (
             machine.getLevel() instanceof ServerLevel serverLevel &&
                 serverLevel.getServer().isCurrentlySaving()
-        ) return;
+        ) {
+            return;
+        }
 
         if (grid != null) {
             grid.members().remove(machine.getBlockPos());

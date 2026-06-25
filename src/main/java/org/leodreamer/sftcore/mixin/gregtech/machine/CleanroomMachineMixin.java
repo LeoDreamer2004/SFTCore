@@ -15,23 +15,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Mixin(value = CleanroomMachine.class, remap = false)
 public abstract class CleanroomMachineMixin extends WorkableElectricMultiblockMachine {
 
     @Shadow
-    private int lDist;
-
-    @Shadow
-    private int rDist;
-
-    @Shadow
-    private int bDist;
-
-    @Shadow
-    private int fDist;
-
-    @Shadow
-    private int hDist;
+    private List<Integer> bounds;
 
     @Unique
     private boolean sftcore$wasCleanBeforeAdjust;
@@ -72,6 +62,11 @@ public abstract class CleanroomMachineMixin extends WorkableElectricMultiblockMa
 
     @Unique
     private boolean sftcore$isMaxSizeCleanroom() {
-        return this.lDist == 7 && this.rDist == 7 && this.bDist == 7 && this.fDist == 7 && this.hDist == 14;
+        return this.bounds.size() > 5 &&
+            this.bounds.get(1) == CleanroomMachine.MAX_DEPTH &&
+            this.bounds.get(2) == CleanroomMachine.MAX_RADIUS &&
+            this.bounds.get(3) == CleanroomMachine.MAX_RADIUS &&
+            this.bounds.get(4) == CleanroomMachine.MAX_RADIUS &&
+            this.bounds.get(5) == CleanroomMachine.MAX_RADIUS;
     }
 }

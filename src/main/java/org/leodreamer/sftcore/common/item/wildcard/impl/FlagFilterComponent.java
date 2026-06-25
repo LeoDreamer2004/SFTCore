@@ -2,82 +2,65 @@ package org.leodreamer.sftcore.common.item.wildcard.impl;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.wildcard.WildcardCodecUtils;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
-import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTMaterialSlot;
-import org.leodreamer.sftcore.mixin.gregtech.data.MaterialFlagsAccessor;
+import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardFilterComponent;
+import org.leodreamer.sftcore.common.item.wildcard.handler.GTFlagHandler;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
-import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.widget.SelectorWidget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.drawable.Rectangle;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.layout.Flow;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Optional;
 
 @DataGenScanned
-public class FlagFilterComponent implements IWildcardFilterComponent {
+public class FlagFilterComponent extends WildcardFilterComponent {
 
     public static final Codec<FlagFilterComponent> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            WildcardCodecUtils.MATERIAL_FLAG_CODEC.optionalFieldOf("flag")
+            GTFlagHandler.MATERIAL_FLAG_CODEC.optionalFieldOf("flag")
                 .forGetter(component -> Optional.ofNullable(component.flag)),
-            WildcardCodecUtils.MATERIAL_CODEC.optionalFieldOf("example", GTMaterials.NULL)
+            GTFlagHandler.MATERIAL_CODEC.optionalFieldOf("example", GTMaterials.NULL)
                 .forGetter(component -> component.example),
             Codec.BOOL.optionalFieldOf("whitelist", false)
                 .forGetter(component -> component.whitelist)
         ).apply(instance, (flag, example, whitelist) -> new FlagFilterComponent(flag.orElse(null), example, whitelist))
     );
 
+    @Getter
     private Material example;
-
+    @Getter
     @Nullable
     private MaterialFlag flag;
+    private GTFlagHandler exampleSlot;
+    private String detail;
+    private static final int GROUP_BG_WHITE = 0xFFFF33FF;
+    private static final int GROUP_BG_BLACK = 0xFF9933FF;
 
-    @Getter
-    private boolean whitelist;
+    @RegisterLanguage("Flag")
+    public static final String LABEL = "item.sftcore.wildcard_pattern.ui.filter.flag";
 
-    private PhantomGTMaterialSlot exampleSlot;
-    private SelectorWidget flagSelector;
-    private WidgetGroup parent = null;
-
-    private static final IGuiTexture GROUP_BG_WHITE = ResourceBorderTexture.BUTTON_COMMON.copy()
-        .setColor(ColorPattern.PINK.color);
-
-    private static final IGuiTexture GROUP_BG_BLACK = ResourceBorderTexture.BUTTON_COMMON.copy()
-        .setColor(ColorPattern.PURPLE.color);
+    @RegisterLanguage("Material flag")
+    public static final String DETAIL_TOOLTIP = "item.sftcore.wildcard_pattern.ui.filter.material_flag";
 
     public static FlagFilterComponent empty() {
         return new FlagFilterComponent(null, GTMaterials.NULL, false);
     }
 
     public FlagFilterComponent(@Nullable MaterialFlag flag, Material example, boolean whitelist) {
-        this.example = example;
+        super(whitelist);
+        this.example = example == null ? GTMaterials.NULL : example;
         this.flag = flag;
-        this.whitelist = whitelist;
-    }
-
-    @Override
-    public void setWhitelist(boolean whiteList) {
-        this.whitelist = whiteList;
-
-        if (parent != null) {
-            parent.setBackground(whiteList ? GROUP_BG_WHITE : GROUP_BG_BLACK);
-        }
+        this.detail = flag == null ? "" : flag.toString();
     }
 
     @Override
@@ -90,25 +73,31 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
     }
 
     @Override
-    public void createUILine(WidgetGroup line) {
-        line.setBackground(whitelist ? GROUP_BG_WHITE : GROUP_BG_BLACK);
-        parent = line;
+    protected void addLineContent(
+        Flow row,
+        PanelSyncManager syncManager,
+        String lineSyncKey
+    ) {
+        var sampleSyncHandler = registerSampleSlot(
+            new GTFlagHandler(flag, example), GTFlagHandler.class, syncManager, lineSyncKey
+        );
+        this.exampleSlot = sampleSlotHandler(sampleSyncHandler, GTFlagHandler.class);
+        this.exampleSlot.setMaterial(example);
+        this.exampleSlot.setFlag(flag);
+        row.child(createTypeButton(52, LABEL));
+        row.child(createWhitelistButton(row));
+        row.child(createSampleSlot(sampleSyncHandler));
+        row.child(detailField(() -> detail, text -> detail = text, DETAIL_TOOLTIP));
+    }
 
-        exampleSlot = new PhantomGTMaterialSlot(new CustomItemStackHandler(), 0, 3, 3, this::changeExample);
-
-        flagSelector = new MySelectorWidget(25, 5, 80, 15, getMaterialFlagNames(example));
-        flagSelector.setOnChanged(this::updateFlag);
-
-        if (example != GTMaterials.NULL) {
-            exampleSlot.setMaterial(example);
+    @Override
+    public void onSave() {
+        if (exampleSlot == null) {
+            return;
         }
-
-        if (flag != null) {
-            flagSelector.setValue(flag.toString());
-        }
-
-        line.addWidget(exampleSlot);
-        line.addWidget(flagSelector);
+        exampleSlot.setFlagName(detail);
+        example = exampleSlot.getMaterial();
+        flag = exampleSlot.getFlag();
     }
 
     @RegisterLanguage("Flag")
@@ -123,55 +112,11 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
             );
     }
 
-    private boolean changeExample(Material material) {
-        var ok = material != GTMaterials.NULL;
-
-        if (ok) {
-            this.example = material;
-
-            var flags = getMaterialFlagNames(material);
-            flagSelector.setCandidates(flags);
-            flagSelector.setValue(flags.get(0));
-            updateFlag(flags.get(0));
-        }
-
-        return ok;
-    }
-
-    private void updateFlag(String flagName) {
-        if (flagName == null || flagName.isEmpty() || flagName.equals(Component.translatable(NO_FLAG).getString())) {
-            flag = null;
-            return;
-        }
-
-        flag = MaterialFlag.getByName(flagName);
-    }
-
-    @Override
-    public void onSave() {
-        example = exampleSlot.getMaterial();
-        updateFlag(flagSelector.getValue());
-    }
-
     @RegisterLanguage("no flag")
     private static final String NO_FLAG = "item.sftcore.wildcard_pattern.filter.flag.no_flag";
 
-    private static List<String> getMaterialFlagNames(Material material) {
-        var flags = ((MaterialFlagsAccessor) material.getFlags()).getFlags();
-
-        if (flags.isEmpty()) {
-            return List.of(Component.translatable(NO_FLAG).getString());
-        }
-
-        return flags.stream().map(MaterialFlag::toString).toList();
-    }
-
-    private static class MySelectorWidget extends SelectorWidget {
-
-        public MySelectorWidget(int x, int y, int width, int height, List<String> candidates) {
-            super(x, y, width, height, candidates, ColorPattern.WHITE.color);
-            button.setBackground(GuiTextures.BUTTON);
-            textTexture.setColor(ColorPattern.DARK_GRAY.color);
-        }
+    @Override
+    protected Rectangle rowBackground() {
+        return new Rectangle().color(whitelist ? GROUP_BG_WHITE : GROUP_BG_BLACK);
     }
 }

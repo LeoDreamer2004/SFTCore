@@ -2,7 +2,8 @@ package org.leodreamer.sftcore.integration.emi;
 
 import org.leodreamer.sftcore.integration.emi.recipe.CEPatternRecipeHandler;
 
-import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
+import com.gregtechceu.gtceu.common.data.GTMenuTypes;
+
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
@@ -12,6 +13,6 @@ public class SFTEmiPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
-        registry.addRecipeHandler(ModularUIContainer.MENUTYPE, new CEPatternRecipeHandler());
+        registry.addRecipeHandler(GTMenuTypes.MODULAR_CONTAINER.get(), new CEPatternRecipeHandler());
     }
 }

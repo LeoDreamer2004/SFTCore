@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.common.item.wildcard;
 
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
+import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardFilterComponent;
+import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardIOComponent;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
@@ -45,22 +45,20 @@ public class WildcardPatternLogic {
         return new WildcardPatternLogic(stack);
     }
 
-    public @NotNull List<IWildcardIOComponent> getIOComponents(IO io) {
+    public @NotNull List<WildcardIOComponent> getIOComponents(IO io) {
         return WildcardComponentCodecs.readIO(stack.getOrCreateTag(), io);
     }
 
-    public ItemStack setIOComponents(IO io, @NotNull List<? extends IWildcardIOComponent> components) {
+    public void setIOComponents(IO io, @NotNull List<? extends WildcardIOComponent> components) {
         WildcardComponentCodecs.writeIO(stack.getOrCreateTag(), io, components);
-        return stack;
     }
 
-    public @NotNull List<IWildcardFilterComponent> getFilterComponents() {
+    public @NotNull List<WildcardFilterComponent> getFilterComponents() {
         return WildcardComponentCodecs.readFilters(stack.getOrCreateTag());
     }
 
-    public ItemStack setFilterComponents(@NotNull List<? extends IWildcardFilterComponent> components) {
+    public void setFilterComponents(@NotNull List<? extends WildcardFilterComponent> components) {
         WildcardComponentCodecs.writeFilters(stack.getOrCreateTag(), components);
-        return stack;
     }
 
     public @Nullable GenericStack[] getIOStacks(IO io, Material material) {

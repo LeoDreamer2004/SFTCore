@@ -9,13 +9,11 @@ import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-
-import java.util.function.Consumer;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.layout.Flow;
 
 @DataGenScanned
-public final class IndustrialTurbineTab
-    extends MekTerminalTab<IndustrialTurbineBuilder> {
+public final class IndustrialTurbineTab extends MekTerminalTab<IndustrialTurbineBuilder> {
 
     @RegisterLanguage("Industrial Turbine")
     public static final String TITLE = "item.sftcore.mek_terminal.tab.industrial_turbine";
@@ -34,29 +32,21 @@ public final class IndustrialTurbineTab
     )
     public static final String HINT = "item.sftcore.mek_terminal.industrial_turbine.hint";
 
-    public IndustrialTurbineTab(
-        IndustrialTurbineBuilder builder,
-        ItemStack terminal,
-        Consumer<ItemStack> onSave
-    ) {
-        super(builder, terminal, onSave);
+    public IndustrialTurbineTab(IndustrialTurbineBuilder builder, ItemStack terminal, PanelSyncManager syncManager) {
+        super(builder, terminal, syncManager);
     }
 
     @Override
-    public Component getTitle() {
+    public Component title() {
         return Component.translatable(TITLE);
     }
 
     @Override
-    protected void addContentWidgets(
-        WidgetGroup content
-    ) {
+    protected Flow createContent(Flow container) {
         var config = IndustrialTurbineConfig.resolve(terminal.getOrCreateTag());
-
-        addIntRow(content, 22, Component.translatable(WIDTH), config::getWidth, config::setWidth);
-        addIntRow(content, 40, Component.translatable(HEIGHT), config.height::get, config.height::set);
-        addIntRow(content, 58, Component.translatable(ROTORS), config.rotors::get, config.rotors::set);
-
-        addWrappedText(content, 12, 82, 120, 28, HINT);
+        return container.child(intRow("width", Component.translatable(WIDTH), config::getWidth, config::setWidth))
+            .child(intRow("height", Component.translatable(HEIGHT), config.height::get, config.height::set))
+            .child(intRow("rotors", Component.translatable(ROTORS), config.rotors::get, config.rotors::set))
+            .child(wrappedText(HINT, 48));
     }
 }

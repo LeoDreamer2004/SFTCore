@@ -25,29 +25,30 @@ public abstract class MultiblockControllerMachineMixin {
     @Unique
     private boolean sftcore$sharedPartTriggeredThisFormation;
 
-    @Inject(method = "onStructureFormed", at = @At("HEAD"))
-    private void sftcore$captureOldFormedState(CallbackInfo ci) {
+    @Inject(method = "formStructure", at = @At("HEAD"))
+    private void sftcore$captureOldFormedState(String substructureName, CallbackInfo ci) {
         this.sftcore$wasFormedBeforeStructureFormed = isFormed;
         this.sftcore$sharedPartTriggeredThisFormation = false;
     }
 
     /**
-     * GTM calls part.addedToController(this) after collecting all matched parts.
+     * GTM calls part.addedToController(this, substructureName) after collecting all matched parts.
      * Before that call, part.getControllers() still represents the old ownership.
      * <p>
      * If the part already belongs to another formed controller, the new forming
      * controller is sharing a part with an existing multiblock.
      */
     @Redirect(
-        method = "onStructureFormed",
+        method = "formStructure",
         at = @At(
             value = "INVOKE",
-            target = "Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMultiPart;addedToController(Lcom/gregtechceu/gtceu/api/machine/multiblock/MultiblockControllerMachine;)V"
+            target = "Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMultiPart;addedToController(Lcom/gregtechceu/gtceu/api/machine/multiblock/MultiblockControllerMachine;Ljava/lang/String;)V"
         )
     )
     private void sftcore$detectSharedPartBeforeAddingController(
         IMultiPart part,
-        MultiblockControllerMachine controller
+        MultiblockControllerMachine controller,
+        String substructureName
     ) {
         if (
             !this.sftcore$wasFormedBeforeStructureFormed && !this.sftcore$sharedPartTriggeredThisFormation &&
@@ -57,11 +58,11 @@ public abstract class MultiblockControllerMachineMixin {
             SFTCriteriaTriggers.SHARED_MULTIBLOCK_PART.trigger(controller);
         }
 
-        part.addedToController(controller);
+        part.addedToController(controller, substructureName);
     }
 
-    @Inject(method = "onStructureFormed", at = @At("RETURN"))
-    private void sftcore$triggerAdvancementWhenStructureFormed(CallbackInfo ci) {
+    @Inject(method = "formStructure", at = @At("RETURN"))
+    private void sftcore$triggerAdvancementWhenStructureFormed(String substructureName, CallbackInfo ci) {
         if (!sftcore$wasFormedBeforeStructureFormed && isFormed) {
             SFTCriteriaTriggers.FORMED_GT_MULTIBLOCK.trigger((MultiblockControllerMachine) (Object) this);
         }

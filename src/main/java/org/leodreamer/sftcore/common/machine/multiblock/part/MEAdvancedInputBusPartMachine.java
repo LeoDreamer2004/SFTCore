@@ -6,13 +6,11 @@ import org.leodreamer.sftcore.integration.ae2.slot.MEInputUpgradeInventory;
 import org.leodreamer.sftcore.integration.ae2.utils.SerializableMultiCraftingTracker;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.nbt.CompoundTag;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.crafting.ICraftingLink;
@@ -20,11 +18,14 @@ import appeng.api.networking.crafting.ICraftingRequester;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.core.definitions.AEItems;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.value.sync.SyncHandlers;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.layout.Flow;
+import brachy.modularui.widgets.slot.ItemSlot;
 import com.google.common.collect.ImmutableSet;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.ReadOnlyManaged;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -32,16 +33,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine implements ICraftingRequester {
 
-    @Persisted
     @SaveField
     private final MEInputUpgradeInventory upgradeInventory;
 
-    @Persisted
-    @ReadOnlyManaged(
-        onDirtyMethod = "onCraftingDirty",
-        serializeMethod = "serializeCrafting",
-        deserializeMethod = "deserializeCrafting"
-    )
+    @SaveField
     public SerializableMultiCraftingTracker craftingTracker;
 
     public MEAdvancedInputBusPartMachine(BlockEntityCreationInfo holder) {
@@ -82,14 +77,20 @@ public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine impleme
     }
 
     @Override
-    public Widget createUIWidget() {
-        var modular = (WidgetGroup) super.createUIWidget();
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        super.buildMainUI(mainWidget, guiData, syncManager, settings);
+        var cards = Flow.row().coverChildren().right(4).bottom(4);
         for (int i = 0; i < upgradeInventory.getSlots(); i++) {
-            var slot = new SlotWidget(upgradeInventory, i, 80 + i * 18, 90, true, true);
-            slot.setBackgroundTexture(SFTGuiTextures.CARD_UPDATE);
-            modular.addWidget(slot);
+            cards.child(
+                new ItemSlot()
+                    .slot(SyncHandlers.itemSlot(upgradeInventory, i).accessibility(true, true))
+                    .background(SFTGuiTextures.CARD_UPDATE)
+            );
         }
-        return modular;
+        mainWidget.child(cards);
     }
 
     @Override
@@ -117,23 +118,5 @@ public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine impleme
     @Override
     public void jobStateChange(ICraftingLink link) {
         craftingTracker.jobStateChange(link);
-    }
-
-    @SuppressWarnings("unused")
-    public boolean onCraftingDirty(SerializableMultiCraftingTracker tracker) {
-        return true;
-    }
-
-    @SuppressWarnings("unused")
-    public CompoundTag serializeCrafting(SerializableMultiCraftingTracker tracker) {
-        var tag = new CompoundTag();
-        tracker.writeToNBT(tag);
-        return tag;
-    }
-
-    @SuppressWarnings("unused")
-    public SerializableMultiCraftingTracker deserializeCrafting(CompoundTag tag) {
-        craftingTracker.readFromNBT(tag);
-        return craftingTracker;
     }
 }

@@ -16,7 +16,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.multiblock.pattern.MultiblockPatternBuilder;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.world.item.DyeColor;
@@ -28,7 +28,7 @@ import com.simibubi.create.AllBlocks;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.generators.common.registries.GeneratorsBlocks;
 
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.api.multiblock.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.*;
@@ -77,10 +77,10 @@ public final class SFTMultiMachines {
         .recipeType(SFTRecipeTypes.MECHANICAL_BOX_RECIPES)
         .appearanceBlock(AllBlocks.RAILWAY_CASING)
         .pattern(
-            definition -> FactoryBlockPattern.start()
-                .aisle("AAA", "AAA", "AAA")
-                .aisle("AAA", "A A", "AAA")
-                .aisle("AAA", "AUA", "AAA")
+            definition -> MultiblockPatternBuilder.start()
+                .slice("AAA", "AAA", "AAA")
+                .slice("AAA", "A A", "AAA")
+                .slice("AAA", "AUA", "AAA")
                 .where('U', controller(blocks(definition.get())))
                 .where(
                     'A',
@@ -349,20 +349,20 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_STEEL_SOLID)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where("H", controller(blocks(definition.get())))
+                .where('H', controller(blocks(definition.get())))
                 .where(
-                    "A",
+                    'A',
                     blocks(CASING_STEEL_SOLID.get())
                         .setMinGlobalLimited(25)
                         .or(autoAbilities(definition.getRecipeTypes()))
                         .or(autoAbilities(true, false, false))
                 )
-                .where("B", blocks(CASING_TEMPERED_GLASS.get()))
-                .where("C", blocks(CASING_STEEL_SOLID.get()))
-                .where("D", blocks(Blocks.MUD))
-                .where("E", blocks(CASING_GRATE.get()))
-                .where("F", fluids(Fluids.WATER))
-                .where("G", blocks(LAMPS.get(DyeColor.WHITE).get()))
+                .where('B', blocks(CASING_TEMPERED_GLASS.get()))
+                .where('C', blocks(CASING_STEEL_SOLID.get()))
+                .where('D', blocks(Blocks.MUD))
+                .where('E', blocks(CASING_GRATE.get()))
+                .where('F', fluids(Fluids.WATER))
+                .where('G', blocks(LAMPS.get(DyeColor.WHITE).get()))
                 .build()
         )
         .workableCasingModel(

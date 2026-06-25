@@ -9,9 +9,8 @@ import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-
-import java.util.function.Consumer;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.layout.Flow;
 
 @DataGenScanned
 public final class FissionReactorTab extends MekTerminalTab<FissionReactorBuilder> {
@@ -31,27 +30,21 @@ public final class FissionReactorTab extends MekTerminalTab<FissionReactorBuilde
     @RegisterLanguage("Fuel columns use checkerboard layout")
     public static final String CHECKERBOARD = "item.sftcore.mek_terminal.fission_reactor.checkerboard";
 
-    public FissionReactorTab(
-        FissionReactorBuilder builder,
-        ItemStack terminal,
-        Consumer<ItemStack> onSave
-    ) {
-        super(builder, terminal, onSave);
+    public FissionReactorTab(FissionReactorBuilder builder, ItemStack terminal, PanelSyncManager syncManager) {
+        super(builder, terminal, syncManager);
     }
 
     @Override
-    public Component getTitle() {
+    public Component title() {
         return Component.translatable(TITLE);
     }
 
     @Override
-    protected void addContentWidgets(WidgetGroup content) {
+    protected Flow createContent(Flow container) {
         var config = FissionReactorConfig.resolve(terminal.getOrCreateTag());
-
-        addIntRow(content, 22, Component.translatable(WIDTH), config.width::get, config.width::set);
-        addIntRow(content, 40, Component.translatable(HEIGHT), config.height::get, config.height::set);
-        addIntRow(content, 58, Component.translatable(DEPTH), config.depth::get, config.depth::set);
-
-        addWrappedText(content, 12, 84, 134, 14, CHECKERBOARD);
+        return container.child(intRow("width", Component.translatable(WIDTH), config.width::get, config.width::set))
+            .child(intRow("height", Component.translatable(HEIGHT), config.height::get, config.height::set))
+            .child(intRow("depth", Component.translatable(DEPTH), config.depth::get, config.depth::set))
+            .child(wrappedText(CHECKERBOARD, 24));
     }
 }

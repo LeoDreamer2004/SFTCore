@@ -63,7 +63,16 @@ public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {
     }
 
     public GasStack getGas() {
-        return toGasStack(this.stock);
+        if (!isGas(stock)) {
+            return GasStack.EMPTY;
+        }
+
+        var key = (MekanismKey) stock.what();
+        if (!(key.getStack() instanceof GasStack gas)) {
+            return GasStack.EMPTY;
+        }
+
+        return new GasStack(gas, stock.amount());
     }
 
     public GasStack drain(GasStack requested, Action action) {
@@ -108,24 +117,6 @@ public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {
 
     public static boolean isGas(@Nullable GenericStack stack) {
         return stack != null && stack.what() instanceof MekanismKey key && key.getForm() == MekanismKey.GAS;
-    }
-
-    public static @Nullable GenericStack fromGasStack(GasStack gas, long amount) {
-        var key = MekanismKey.of(gas);
-        return key == null ? null : new GenericStack(key, amount);
-    }
-
-    public static GasStack toGasStack(@Nullable GenericStack stack) {
-        if (!isGas(stack)) {
-            return GasStack.EMPTY;
-        }
-
-        var key = (MekanismKey) stack.what();
-        if (!(key.getStack() instanceof GasStack gas)) {
-            return GasStack.EMPTY;
-        }
-
-        return new GasStack(gas, stack.amount());
     }
 
     private void onContentsChanged() {

@@ -1,7 +1,6 @@
 package org.leodreamer.sftcore.mixin.gregtech.machine;
 
 import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
-import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
@@ -16,26 +15,19 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
-import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEPatternViewSlotWidget;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.InternalSlotRecipeHandler;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.inventories.InternalInventory;
 import appeng.core.definitions.AEBlocks;
 import com.google.common.collect.BiMap;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -216,59 +208,9 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         sftcore$syncCachedRecipeMask();
     }
 
-    @Redirect(
-        method = "createUIWidget",
-        at = @At(
-            value = "NEW",
-            target = "(Lnet/minecraftforge/items/IItemHandlerModifiable;III)Lcom/gregtechceu/gtceu/integration/ae2/gui/widget/slot/AEPatternViewSlotWidget;"
-        )
-    )
-    private AEPatternViewSlotWidget sftcore$clearCacheOnClicked(
-        IItemHandlerModifiable itemHandler,
-        final int slotIndex,
-        int xPosition,
-        int yPosition
-    ) {
-        return new AEPatternViewSlotWidget(itemHandler, slotIndex, xPosition, yPosition) {
-
-            @Override
-            public ItemStack slotClick(int dragType, ClickType clickTypeIn, Player player) {
-                if (!player.level().isClientSide) {
-                    sftcore$clearCachedRecipe(slotIndex);
-                }
-                return null;
-            }
-        };
-    }
-
-    @Inject(method = "createUIWidget", at = @At("RETURN"))
-    private void sftcore$addCachedRecipeTooltip(CallbackInfoReturnable<Widget> cir) {
-        if (!(cir.getReturnValue() instanceof WidgetGroup group)) {
-            return;
-        }
-
-        int index = 0;
-
-        for (var widget : group.widgets) {
-            if (!(widget instanceof AEPatternViewSlotWidget slot)) {
-                continue;
-            }
-
-            final int slotIndex = index++;
-
-            slot.setOnAddedTooltips((ignored, tooltips) -> {
-                if (sftcore$isSlotCached(slotIndex)) {
-                    tooltips.add(
-                        Component.translatable(MixinTooltips.PATTERN_CACHED)
-                            .withStyle(ChatFormatting.GREEN)
-                    );
-                }
-            });
-
-            if (index >= sftcore$getSlotCount()) {
-                break;
-            }
-        }
+    @Inject(method = "onPatternChange", at = @At("HEAD"))
+    private void sftcore$clearCacheOnPatternChange(int index, CallbackInfo ci) {
+        sftcore$clearCachedRecipe(index);
     }
 
     @Override
@@ -319,7 +261,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         if (oldMask != sftcore$cachedRecipeMask) {
             sftcore$syncCachedRecipeMask();
         }
-        markAsDirty();
+        setChanged();
     }
 
     @Override
@@ -337,7 +279,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         if (oldMask != sftcore$cachedRecipeMask) {
             sftcore$syncCachedRecipeMask();
         }
-        markAsDirty();
+        setChanged();
     }
 
     @Override

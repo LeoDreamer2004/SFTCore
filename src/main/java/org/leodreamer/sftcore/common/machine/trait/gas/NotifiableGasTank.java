@@ -78,12 +78,12 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
     }
 
     @Override
-    public @Nullable List<GasStack> handleRecipeInner(IO io, GTRecipe recipe, List<GasStack> left, boolean simulate) {
+    public List<GasStack> handleRecipeInner(IO io, GTRecipe recipe, List<GasStack> left, boolean simulate) {
         if (io != handlerIO) {
             return left;
         }
         if (io != IO.IN && io != IO.OUT) {
-            return left.isEmpty() ? null : left;
+            return left;
         }
 
         var action = simulate ? Action.SIMULATE : Action.EXECUTE;
@@ -129,7 +129,7 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
             }
         }
 
-        return left.isEmpty() ? null : left;
+        return left;
     }
 
     @Override

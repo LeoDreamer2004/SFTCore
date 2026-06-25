@@ -8,13 +8,11 @@ import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-
-import java.util.function.Consumer;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.layout.Flow;
 
 @DataGenScanned
-public final class FusionReactorTab
-    extends MekTerminalTab<FusionReactorBuilder> {
+public final class FusionReactorTab extends MekTerminalTab<FusionReactorBuilder> {
 
     @RegisterLanguage("Fusion Reactor")
     public static final String TITLE = "item.sftcore.mek_terminal.tab.fusion_reactor";
@@ -22,21 +20,17 @@ public final class FusionReactorTab
     @RegisterLanguage("Fixed 5x5x5 pattern")
     public static final String FIXED_PATTERN = "item.sftcore.mek_terminal.fusion_reactor.fixed_pattern";
 
-    public FusionReactorTab(
-        FusionReactorBuilder builder,
-        ItemStack terminal,
-        Consumer<ItemStack> onSave
-    ) {
-        super(builder, terminal, onSave);
+    public FusionReactorTab(FusionReactorBuilder builder, ItemStack terminal, PanelSyncManager syncManager) {
+        super(builder, terminal, syncManager);
     }
 
     @Override
-    public Component getTitle() {
+    public Component title() {
         return Component.translatable(TITLE);
     }
 
     @Override
-    protected void addContentWidgets(WidgetGroup content) {
-        addWrappedText(content, 12, 26, 134, 14, FIXED_PATTERN);
+    protected Flow createContent(Flow container) {
+        return container.child(wrappedText(FIXED_PATTERN, 20));
     }
 }

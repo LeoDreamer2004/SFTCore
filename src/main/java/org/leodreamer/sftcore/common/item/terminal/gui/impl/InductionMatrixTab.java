@@ -9,9 +9,8 @@ import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-
-import java.util.function.Consumer;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.layout.Flow;
 
 @DataGenScanned
 public final class InductionMatrixTab extends MekTerminalTab<InductionMatrixBuilder> {
@@ -28,25 +27,20 @@ public final class InductionMatrixTab extends MekTerminalTab<InductionMatrixBuil
     @RegisterLanguage("Depth")
     public static final String DEPTH = "item.sftcore.mek_terminal.induction_matrix.depth";
 
-    public InductionMatrixTab(
-        InductionMatrixBuilder builder,
-        ItemStack terminal,
-        Consumer<ItemStack> onSave
-    ) {
-        super(builder, terminal, onSave);
+    public InductionMatrixTab(InductionMatrixBuilder builder, ItemStack terminal, PanelSyncManager syncManager) {
+        super(builder, terminal, syncManager);
     }
 
     @Override
-    public Component getTitle() {
+    public Component title() {
         return Component.translatable(TITLE);
     }
 
     @Override
-    protected void addContentWidgets(WidgetGroup content) {
+    protected Flow createContent(Flow container) {
         var config = InductionMatrixConfig.resolve(terminal.getOrCreateTag());
-
-        addIntRow(content, 26, Component.translatable(WIDTH), config.width::get, config.width::set);
-        addIntRow(content, 46, Component.translatable(HEIGHT), config.height::get, config.height::set);
-        addIntRow(content, 66, Component.translatable(DEPTH), config.depth::get, config.depth::set);
+        return container.child(intRow("width", Component.translatable(WIDTH), config.width::get, config.width::set))
+            .child(intRow("height", Component.translatable(HEIGHT), config.height::get, config.height::set))
+            .child(intRow("depth", Component.translatable(DEPTH), config.depth::get, config.depth::set));
     }
 }

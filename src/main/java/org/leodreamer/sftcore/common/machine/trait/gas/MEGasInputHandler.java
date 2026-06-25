@@ -160,7 +160,7 @@ public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> im
     }
 
     @Override
-    public @Nullable List<GasStack> handleRecipeInner(
+    public List<GasStack> handleRecipeInner(
         IO io,
         GTRecipe recipe,
         List<GasStack> left,
@@ -198,7 +198,7 @@ public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> im
             }
         }
 
-        return left.isEmpty() ? null : left;
+        return left;
     }
 
     @Override

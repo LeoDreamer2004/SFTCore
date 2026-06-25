@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.api.recipe.capability;
 
+import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 
@@ -19,7 +20,7 @@ public class StressRecipeCapability extends RecipeCapability<Float> {
     public static final StressRecipeCapability CAP = new StressRecipeCapability();
 
     protected StressRecipeCapability() {
-        super("su", 0xFF77A400, false, 4, SerializerFloat.INSTANCE);
+        super(SFTCore.id("su"), 0xFF77A400, false, 4, SerializerFloat.INSTANCE);
     }
 
     @Override

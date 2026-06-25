@@ -2,12 +2,11 @@ package org.leodreamer.sftcore.common.machine;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 import com.gregtechceu.gtceu.utils.ISubscription;
 
 import net.minecraft.core.BlockPos;
@@ -19,8 +18,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.layout.Grid;
+import brachy.modularui.widgets.slot.ItemSlot;
+import brachy.modularui.widgets.slot.ModularSlot;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +33,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class OreReplicatorMachine extends MetaMachine implements IFancyUIMachine {
+public class OreReplicatorMachine extends MetaMachine implements IMuiMachine {
 
     @Getter
     @SaveField
@@ -115,17 +119,21 @@ public class OreReplicatorMachine extends MetaMachine implements IFancyUIMachine
     }
 
     @Override
-    public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 18 + 16, 18 + 16);
-
-        var container = new WidgetGroup(4, 4, 18 + 8, 18 + 8);
-        container.addWidget(
-            new BlockableSlotWidget(inventory.storage, 0, 4, 4)
-                .setBackground(GuiTextures.SLOT, GuiTextures.OUT_SLOT_OVERLAY)
+    public void buildMainUI(
+        ParentWidget<?> mainWidget,
+        PosGuiData guiData,
+        PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        mainWidget.child(
+            new Grid()
+                .coverChildren()
+                .center()
+                .gridOfSizeWidth(
+                    1, 1, (x, y, index) -> new ItemSlot()
+                        .slot(new ModularSlot(inventory.storage, 0).accessibility(false, true))
+                        .background(GTGuiTextures.SLOT, GTGuiTextures.OUT_SLOT_OVERLAY)
+                )
         );
-        container.setBackground(GuiTextures.BACKGROUND_INVERSE);
-
-        group.addWidget(container);
-        return group;
     }
 }

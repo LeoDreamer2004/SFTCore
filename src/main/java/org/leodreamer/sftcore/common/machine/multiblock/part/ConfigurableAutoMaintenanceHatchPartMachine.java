@@ -2,10 +2,11 @@ package org.leodreamer.sftcore.common.machine.multiblock.part;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
@@ -13,14 +14,19 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.FloatSyncValue;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.TextWidget;
+import brachy.modularui.widgets.layout.Flow;
+import brachy.modularui.widgets.textfield.TextFieldWidget;
 import lombok.Getter;
 
 public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachine
-    implements IMaintenanceMachine {
+    implements IMaintenanceMachine, IMuiMachine {
 
     @Getter
     @SaveField
@@ -73,56 +79,42 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
     public void setTimeActive(int time) {}
 
     @Override
-    public Widget createUIWidget() {
-        WidgetGroup group;
-        group = new WidgetGroup(0, 0, 150, 70);
-        group.addWidget(
-            new DraggableScrollableWidgetGroup(4, 4, 150 - 8, 70 - 8)
-                .setBackground(GuiTextures.DISPLAY)
-                .addWidget(
-                    new ComponentPanelWidget(
-                        4,
-                        5,
-                        list -> {
-                            list.add(getTimeWidget());
-                            var buttonText = Component.translatable(
-                                "gtceu.maintenance.configurable_duration.modify"
-                            );
-                            buttonText.append(" ");
-                            buttonText.append(
-                                ComponentPanelWidget.withButton(Component.literal("[-]"), "sub")
-                            );
-                            buttonText.append(" ");
-                            buttonText.append(
-                                ComponentPanelWidget.withButton(Component.literal("[+]"), "add")
-                            );
-                            list.add(buttonText);
-                        }
-                    )
-                        .setMaxWidthLimit(150 - 8 - 8 - 4)
-                        .clickHandler(
-                            (componentData, clickData) -> {
-                                if (!clickData.isRemote) {
-                                    if (componentData.equals("sub")) {
-                                        durationMultiplier = Mth.clamp(
-                                            durationMultiplier - DURATION_ACTION_AMOUNT,
-                                            MIN_DURATION_MULTIPLIER,
-                                            MAX_DURATION_MULTIPLIER
-                                        );
-                                    } else if (componentData.equals("add")) {
-                                        durationMultiplier = Mth.clamp(
-                                            durationMultiplier + DURATION_ACTION_AMOUNT,
-                                            MIN_DURATION_MULTIPLIER,
-                                            MAX_DURATION_MULTIPLIER
-                                        );
-                                    }
-                                }
-                            }
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        mainWidget.child(
+            Flow.col()
+                .width(150)
+                .coverChildrenHeight()
+                .center()
+                .padding(5)
+                .childPadding(5)
+                .background(GTGuiTextures.DISPLAY)
+                .child(new TextWidget<>(Text.dynamic(this::getTimeWidget)))
+                .child(
+                    Flow.row()
+                        .coverChildren()
+                        .childPadding(5)
+                        .child(new TextWidget<>(Text.lang("gtceu.maintenance.configurable_duration.modify")))
+                        .child(
+                            new TextFieldWidget()
+                                .width(45)
+                                .height(18)
+                                .setNumbersDouble(() -> MIN_DURATION_MULTIPLIER, () -> MAX_DURATION_MULTIPLIER)
+                                .setDefaultNumber(1)
+                                .value(new FloatSyncValue(this::getDurationMultiplier, this::setDurationMultiplier))
                         )
                 )
         );
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        return group;
+    }
+
+    public void setDurationMultiplier(float durationMultiplier) {
+        this.durationMultiplier = Mth.clamp(
+            durationMultiplier,
+            MIN_DURATION_MULTIPLIER,
+            MAX_DURATION_MULTIPLIER
+        );
     }
 
     private Component getTimeWidget() {

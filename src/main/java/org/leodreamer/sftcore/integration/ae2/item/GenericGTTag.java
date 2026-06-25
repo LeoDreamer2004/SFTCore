@@ -2,12 +2,14 @@ package org.leodreamer.sftcore.integration.ae2.item;
 
 import org.leodreamer.sftcore.mixin.gregtech.data.GTBucketItemAccessor;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKey;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.item.GTBucketItem;
 
 import net.minecraft.resources.ResourceLocation;
@@ -71,7 +73,7 @@ public record GenericGTTag(GenericType type, String value) {
             return null;
         }
 
-        return TagPrefix.get(value);
+        return GTRegistries.TAG_PREFIXES.get(GTCEu.id(value));
     }
 
     public @Nullable FluidStorageKey fluidTag() {

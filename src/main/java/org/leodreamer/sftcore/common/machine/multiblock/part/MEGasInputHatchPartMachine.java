@@ -8,12 +8,14 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
+import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.config.ConfigHolder;
+import com.gregtechceu.gtceu.integration.ae2.gui.AEConfigWidget;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
@@ -29,9 +31,13 @@ import appeng.api.networking.IGridNodeListener;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.GenericStack;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.BooleanSyncValue;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.layout.Flow;
 import lombok.Getter;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -40,14 +46,11 @@ import java.util.EnumSet;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-/**
- * Still unavailable until GTM finished their LDLib removal refactor.
- */
 @ApiStatus.Experimental
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MEGasInputHatchPartMachine extends TieredIOPartMachine
-    implements IGridConnectedMachine, IDataStickInteractable, IHasCircuitSlot {
+    implements IMuiMachine, IGridConnectedMachine, IDataStickInteractable, IHasCircuitSlot {
 
     protected static final int CONFIG_SIZE = 16;
 
@@ -191,20 +194,53 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
     }
 
     @Override
-    public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 170, 85);
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        BooleanSyncValue isOnlineValue = new BooleanSyncValue(this::isOnline, this::setOnline);
+        syncManager.syncValue("is_online", isOnlineValue);
+        registerConfigActions(syncManager);
 
-        group.addWidget(
-            new LabelWidget(
-                3,
-                0,
-                () -> this.isOnline ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"
+        var flow = Flow.col().coverChildren();
+        flow.child(
+            Text.dynamic(
+                () -> isOnlineValue.getBoolValue() ?
+                    Component.translatable("gtceu.gui.me_network.online") :
+                    Component.translatable("gtceu.gui.me_network.offline")
             )
+                .asWidget().marginTop(2).marginBottom(4)
+        );
+        flow.child(
+            new AEConfigWidget(gasHandler, CONFIG_SIZE, false)
+                .syncManager(syncManager)
+                .size(8 * 18, 2 * (18 * 2 + 2))
         );
 
-        // group.addWidget(new AEGasConfigWidget(3, 12, this.gasHandler));
+        mainWidget.child(flow.center());
+    }
 
-        return group;
+    protected void registerConfigActions(PanelSyncManager syncManager) {
+        syncManager.registerServerSyncedAction("ae_config_set", packet -> {});
+        syncManager.registerServerSyncedAction("ae_config_clear", packet -> {
+            int index = packet.readVarInt();
+            if (index < 0 || index >= CONFIG_SIZE) {
+                return;
+            }
+            gasHandler.getInventory()[index].setConfig(null);
+        });
+        syncManager.registerServerSyncedAction("ae_config_amount", packet -> {
+            int index = packet.readVarInt();
+            long amount = packet.readVarLong();
+            if (index < 0 || index >= CONFIG_SIZE) {
+                return;
+            }
+            var slot = gasHandler.getInventory()[index];
+            if (slot.getConfig() != null && amount > 0) {
+                slot.setConfig(new GenericStack(slot.getConfig().what(), amount));
+            }
+        });
+        syncManager.registerServerSyncedAction("ae_config_set_ghost", packet -> {});
     }
 
     @Override

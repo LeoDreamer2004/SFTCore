@@ -9,13 +9,11 @@ import org.leodreamer.sftcore.common.item.terminal.gui.MekTerminalTab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-
-import java.util.function.Consumer;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.layout.Flow;
 
 @DataGenScanned
-public final class ThermalBoilerTab
-    extends MekTerminalTab<ThermalBoilerBuilder> {
+public final class ThermalBoilerTab extends MekTerminalTab<ThermalBoilerBuilder> {
 
     @RegisterLanguage("Thermoelectric Boiler")
     public static final String TITLE = "item.sftcore.mek_terminal.tab.thermal_boiler";
@@ -32,26 +30,25 @@ public final class ThermalBoilerTab
     @RegisterLanguage("Lower Layers")
     public static final String LOWER_HEIGHT = "item.sftcore.mek_terminal.thermal_boiler.lower_height";
 
-    public ThermalBoilerTab(
-        ThermalBoilerBuilder builder,
-        ItemStack terminal,
-        Consumer<ItemStack> onSave
-    ) {
-        super(builder, terminal, onSave);
+    public ThermalBoilerTab(ThermalBoilerBuilder builder, ItemStack terminal, PanelSyncManager syncManager) {
+        super(builder, terminal, syncManager);
     }
 
     @Override
-    public Component getTitle() {
+    public Component title() {
         return Component.translatable(TITLE);
     }
 
     @Override
-    protected void addContentWidgets(WidgetGroup content) {
+    protected Flow createContent(Flow container) {
         var config = ThermalBoilerConfig.resolve(terminal.getOrCreateTag());
-
-        addIntRow(content, 22, Component.translatable(WIDTH), config.width::get, config.width::set);
-        addIntRow(content, 40, Component.translatable(HEIGHT), config.height::get, config.height::set);
-        addIntRow(content, 58, Component.translatable(DEPTH), config.depth::get, config.depth::set);
-        addIntRow(content, 76, Component.translatable(LOWER_HEIGHT), config.lowerHeight::get, config.lowerHeight::set);
+        return container.child(intRow("width", Component.translatable(WIDTH), config.width::get, config.width::set))
+            .child(intRow("height", Component.translatable(HEIGHT), config.height::get, config.height::set))
+            .child(intRow("depth", Component.translatable(DEPTH), config.depth::get, config.depth::set))
+            .child(
+                intRow(
+                    "lower", Component.translatable(LOWER_HEIGHT), config.lowerHeight::get, config.lowerHeight::set
+                )
+            );
     }
 }

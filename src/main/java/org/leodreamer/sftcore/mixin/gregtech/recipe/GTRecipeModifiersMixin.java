@@ -31,7 +31,9 @@ public class GTRecipeModifiersMixin {
     private static void fixOverlock(CallbackInfo ci) {
         ELECTRIC_OVERCLOCK = Util
             .memoize(logic -> (machine, recipe) -> {
-                if (recipe.duration == 0) recipe.duration = 1;
+                if (recipe.duration == 0) {
+                    recipe.duration = 1;
+                }
 
                 if (!(machine instanceof IOverclockMachine overclockMachine)) {
 

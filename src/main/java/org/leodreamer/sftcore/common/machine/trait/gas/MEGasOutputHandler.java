@@ -13,7 +13,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 
 import me.ramidzkh.mekae2.ae2.MekanismKey;
 import mekanism.api.chemical.gas.GasStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -68,7 +67,7 @@ public class MEGasOutputHandler extends NotifiableRecipeHandlerTrait<GasStack> {
     }
 
     @Override
-    public @Nullable List<GasStack> handleRecipeInner(
+    public List<GasStack> handleRecipeInner(
         IO io,
         GTRecipe recipe,
         List<GasStack> left,
@@ -100,7 +99,7 @@ public class MEGasOutputHandler extends NotifiableRecipeHandlerTrait<GasStack> {
             }
         }
 
-        return left.isEmpty() ? null : left;
+        return left;
     }
 
     public long insertGas(GasStack gas, boolean simulate) {

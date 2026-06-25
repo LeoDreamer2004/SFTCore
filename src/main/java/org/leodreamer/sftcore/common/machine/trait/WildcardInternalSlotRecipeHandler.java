@@ -150,7 +150,7 @@ public final class WildcardInternalSlotRecipeHandler {
         }
 
         @Override
-        public @Nullable List<Ingredient> handleRecipeInner(
+        public List<Ingredient> handleRecipeInner(
             IO io,
             GTRecipe recipe,
             List<Ingredient> left,
@@ -222,7 +222,7 @@ public final class WildcardInternalSlotRecipeHandler {
         }
 
         @Override
-        public @Nullable List<FluidIngredient> handleRecipeInner(
+        public List<FluidIngredient> handleRecipeInner(
             IO io,
             GTRecipe recipe,
             List<FluidIngredient> left,

@@ -108,6 +108,7 @@ repositories {
         url = 'https://maven.gtceu.com'
         content {
             includeGroup 'com.gregtechceu.gtceu'
+            includeGroup 'brachy.modularui'
         }
     }
     maven {
@@ -188,6 +189,10 @@ repositories {
         name = 'Configuration'
         url = 'https://repo.repsy.io/mvn/toma/public/'
     }
+    maven {
+        // Curios API
+        url = "https://maven.theillusivec4.top/"
+    }
     mavenLocal()
 }
 
@@ -198,10 +203,9 @@ dependencies {
     implementation fg.deobf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
 
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}") { transitive = false }
-    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${mc_version}:1.0.50") { transitive = false }
+    implementation fg.deobf("brachy.modularui:modularui-mc1.20.1:${mui_version}") { transitive = false }
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${mc_version}:${gtm_version}:slim") { transitive = false }
     implementation fg.deobf('local:gtmoremachine-1.20.1:2.0.0:slim')
-    implementation fg.deobf("local:neoecoae:1.1.1+mc1.20.1:slim")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}")
     implementation fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")
     implementation fg.deobf("curse.maven:applied-mekanistics-574300:7244744")
@@ -233,9 +237,9 @@ dependencies {
     compileOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${mc_version}:${flywheel_version}")
 
     implementation fg.deobf("dev.toma.configuration:configuration-1.20.1:${configuration_version}-forge") {transitive = false }
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     runtimeOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-${mc_version}:${flywheel_version}")
     runtimeOnly fg.deobf("curse.maven:just-enough-characters-250702:6680042")
-    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     runtimeOnly fg.deobf("maven.modrinth:jade:${jade_version}")
     runtimeOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
     runtimeOnly fg.deobf("curse.maven:ftb-teams-forge-404468:6130786")

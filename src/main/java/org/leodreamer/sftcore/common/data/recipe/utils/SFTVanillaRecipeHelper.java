@@ -12,7 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,17 +26,13 @@ public class SFTVanillaRecipeHelper {
     public static class ShapedRecipeBuilder {
 
         private final ResourceLocation id;
+        @Setter
         private boolean setMaterialInfoData = true;
         private final ArrayList<Object> recipe = new ArrayList<>();
         private ItemStack output;
 
         public ShapedRecipeBuilder(ResourceLocation id) {
             this.id = id;
-        }
-
-        public ShapedRecipeBuilder setMaterialInfoData(boolean setMaterialInfoData) {
-            this.setMaterialInfoData = setMaterialInfoData;
-            return this;
         }
 
         public ShapedRecipeBuilder pattern(String... patterns) {
@@ -71,6 +70,16 @@ public class SFTVanillaRecipeHelper {
         }
 
         private ShapedRecipeBuilder arg(char sign, Object obj) {
+            if (
+                obj == null ||
+                    obj == Items.AIR ||
+                    obj instanceof MaterialEntry entry && entry.isEmpty() ||
+                    obj instanceof ItemStack stack && stack.isEmpty() ||
+                    obj instanceof ItemLike itemLike && itemLike.asItem() == Items.AIR
+            ) {
+                SFTCore.LOGGER.warn("Found empty ingredient '{}' in shaped recipe {}", sign, id);
+                return this;
+            }
             recipe.add(sign);
             recipe.add(obj);
             return this;
@@ -92,6 +101,10 @@ public class SFTVanillaRecipeHelper {
         public void save(Consumer<FinishedRecipe> provider) {
             if (id == null) {
                 SFTCore.LOGGER.warn("Recipe ID is not set for {}", output);
+                return;
+            }
+            if (output == null || output.isEmpty()) {
+                SFTCore.LOGGER.warn("Skipping shaped recipe {} with empty output", id);
                 return;
             }
             VanillaRecipeHelper.addShapedRecipe(

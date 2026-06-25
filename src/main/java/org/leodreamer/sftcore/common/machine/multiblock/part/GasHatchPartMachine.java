@@ -8,17 +8,18 @@ import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CircuitFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
+import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
+import com.gregtechceu.gtceu.api.machine.mui.MachineUIPanel;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
+import com.gregtechceu.gtceu.common.mui.GTMuiMachineUtil;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.ISubscription;
 
@@ -31,10 +32,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.utils.Alignment;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.SlotGroupWidget;
+import brachy.modularui.widgets.TextWidget;
+import brachy.modularui.widgets.layout.Flow;
 import lombok.Getter;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
@@ -45,7 +51,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @DataGenScanned
-public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCircuitSlot {
+public class GasHatchPartMachine extends TieredIOPartMachine implements IMuiMachine, IHasCircuitSlot {
 
     public static final long INITIAL_TANK_CAPACITY_1X = 8_000;
     public static final long INITIAL_TANK_CAPACITY_4X = 2_000;
@@ -185,7 +191,7 @@ public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCirc
     }
 
     @Override
-    public void addedToController(MultiblockControllerMachine controller) {
+    public void addedToController(MultiblockControllerMachine controller, String substructureName) {
         if (!controller.allowCircuitSlots()) {
             if (!ConfigHolder.INSTANCE.machines.ghostCircuit) {
                 circuitInventory.dropInventoryInWorld();
@@ -195,7 +201,7 @@ public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCirc
             setCircuitSlotEnabled(false);
         }
 
-        super.addedToController(controller);
+        super.addedToController(controller, substructureName);
     }
 
     @Override
@@ -217,90 +223,43 @@ public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCirc
     }
 
     @Override
-    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
-        super.attachConfigurators(configuratorPanel);
-
-        if (isCircuitSlotEnabled() && this.io == IO.IN) {
-            configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventory.storage));
-        }
-    }
-
-    @Override
     public void setWorkingEnabled(boolean workingEnabled) {
         super.setWorkingEnabled(workingEnabled);
         updateTankSubscription();
     }
 
     @Override
-    public Widget createUIWidget() {
-        if (slots == 1) {
-            return createSingleSlotGUI();
-        }
-        return createMultiSlotGUI();
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        mainWidget.child(slots == 1 ? createSingleSlotUI() : createMultiSlotUI());
     }
 
-    protected Widget createSingleSlotGUI() {
-        var group = new WidgetGroup(0, 0, 89, 63);
-
-        group.addWidget(new ImageWidget(4, 4, 81, 55, GuiTextures.DISPLAY));
-
-        var tankWidget = new GasTankWidget(
-            this.tank,
-            0,
-            67,
-            22,
-            18,
-            18
-        )
-            .setAllowClickDrained(io.support(IO.IN))
-            .setBackground(GuiTextures.FLUID_SLOT);
-
-        group.addWidget(tankWidget);
-
-        group.addWidget(new LabelWidget(8, 8, GasTankWidget.GAS_AMOUNT))
-            .addWidget(new LabelWidget(8, 18, () -> getGasAmountText(tankWidget)))
-            .addWidget(new LabelWidget(8, 28, () -> getGasNameText(tankWidget).getString()));
-
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
-
-        return group;
+    protected Flow createSingleSlotUI() {
+        return Flow.col()
+            .width(MachineUIPanel.DEFAULT_CONTENT_WIDTH)
+            .height(60)
+            .mainAxisAlignment(Alignment.MainAxis.CENTER)
+            .childPadding(4)
+            .child(new TextWidget<>(Text.dynamic(this::getGasNameText)).horizontalCenter())
+            .child(new TextWidget<>(Text.dynamic(this::getGasAmountText)).horizontalCenter())
+            .child(
+                new GasTankWidget(this.tank, 0)
+                    .setAllowClickDrained(io.support(IO.IN))
+                    .background(GTGuiTextures.FLUID_SLOT)
+            );
     }
 
-    protected Widget createMultiSlotGUI() {
-        int rowSize = (int) Math.sqrt(slots);
-        int colSize = rowSize;
-
-        if (slots == 8) {
-            rowSize = 4;
-            colSize = 2;
-        }
-
-        var group = new WidgetGroup(0, 0, 18 * rowSize + 16, 18 * colSize + 16);
-        var container = new WidgetGroup(4, 4, 18 * rowSize + 8, 18 * colSize + 8);
-
-        int index = 0;
-
-        for (int y = 0; y < colSize; y++) {
-            for (int x = 0; x < rowSize; x++) {
-                container.addWidget(
-                    new GasTankWidget(
-                        this.tank,
-                        index++,
-                        4 + x * 18,
-                        4 + y * 18,
-                        18,
-                        18
-                    )
-                        .setAllowClickDrained(io.support(IO.IN))
-                        .setBackground(GuiTextures.FLUID_SLOT)
-                );
-            }
-        }
-
-        container.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        group.addWidget(container);
-
-        return group;
+    protected SlotGroupWidget createMultiSlotUI() {
+        return SlotGroupWidget.builder()
+            .matrix(GTMuiMachineUtil.createSquareMatrix(slots, 'G'))
+            .key(
+                'G', i -> new GasTankWidget(this.tank, i)
+                    .setAllowClickDrained(io.support(IO.IN))
+                    .background(GTGuiTextures.FLUID_SLOT)
+            )
+            .build();
     }
 
     @Override
@@ -314,8 +273,8 @@ public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCirc
         return super.getCapability(cap, side);
     }
 
-    private Component getGasNameText(GasTankWidget tankWidget) {
-        var gas = tank.getChemicalInTank(tankWidget.getTank());
+    private Component getGasNameText() {
+        var gas = tank.getChemicalInTank(0);
 
         if (!gas.isEmpty()) {
             return gas.getTextComponent();
@@ -324,14 +283,14 @@ public class GasHatchPartMachine extends TieredIOPartMachine implements IHasCirc
         return Component.translatable(GasTankWidget.GAS_EMPTY);
     }
 
-    private String getGasAmountText(GasTankWidget tankWidget) {
-        var gas = tank.getChemicalInTank(tankWidget.getTank());
+    private Component getGasAmountText() {
+        var gas = tank.getChemicalInTank(0);
 
         if (!gas.isEmpty()) {
-            return getFormattedGasAmount(gas);
+            return Component.literal(getFormattedGasAmount(gas));
         }
 
-        return "";
+        return Component.empty();
     }
 
     public String getFormattedGasAmount(GasStack gasStack) {

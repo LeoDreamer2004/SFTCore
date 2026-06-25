@@ -10,14 +10,9 @@ import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
-import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CircuitFancyConfigurator;
-import com.gregtechceu.gtceu.api.machine.fancyconfigurator.FancyInvConfigurator;
-import com.gregtechceu.gtceu.api.machine.fancyconfigurator.FancyTankConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
+import com.gregtechceu.gtceu.api.machine.mui.MachineUIPanelBuilder;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -28,7 +23,9 @@ import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
-import com.gregtechceu.gtceu.integration.ae2.gui.widget.slot.AEPatternViewSlotWidget;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
+import com.gregtechceu.gtceu.common.mui.GTMuiMachineUtil;
+import com.gregtechceu.gtceu.common.mui.widgets.PopupPanel;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
 import com.gregtechceu.gtceu.utils.GTMath;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
@@ -41,7 +38,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -57,11 +53,23 @@ import appeng.api.networking.crafting.ICraftingProvider;
 import appeng.api.stacks.*;
 import appeng.api.storage.StorageHelper;
 import appeng.helpers.patternprovider.PatternContainer;
-import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.IPanelHandler;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.drawable.DynamicDrawable;
+import brachy.modularui.drawable.ItemDrawable;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.RichTooltip;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.BooleanSyncValue;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.value.sync.SyncHandlers;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.ButtonWidget;
+import brachy.modularui.widgets.layout.Flow;
+import brachy.modularui.widgets.layout.Grid;
+import brachy.modularui.widgets.slot.ItemSlot;
+import brachy.modularui.widgets.slot.SlotGroup;
+import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import lombok.Getter;
@@ -188,7 +196,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         installGeneratedPatterns(generatedPatterns, false);
 
         needPatternSync = true;
-        markAsDirty();
+        setChanged();
     }
 
     private void rebuildWildcardPatterns() {
@@ -240,7 +248,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             int slotIndex = i;
             newSlots[i].setOnContentsChanged(() -> {
                 internalRecipeHandler.notifySlotChanged(slotIndex);
-                markAsDirty();
+                setChanged();
             });
         }
 
@@ -255,7 +263,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
     private void clearAllCachedRecipes() {
         Arrays.fill(cachedRecipes, null);
         Arrays.fill(cachedRecipeIds, "");
-        markAsDirty();
+        setChanged();
     }
 
     private void restoreCachedRecipes() {
@@ -338,84 +346,156 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         }
     }
 
-    private void refundAll(ClickData clickData) {
-        if (!clickData.isRemote) {
-            refundAllInternalSlots();
-            clearAllCachedRecipes();
-        }
+    private void refundAll() {
+        refundAllInternalSlots();
+        clearAllCachedRecipes();
     }
 
     @Override
-    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
-        configuratorPanel.attachConfigurators(
-            new ButtonConfigurator(
-                new GuiTextureGroup(GuiTextures.BUTTON, GuiTextures.REFUND_OVERLAY),
-                this::refundAll
-            ).setTooltips(List.of(Component.translatable("gui.gtceu.refund_all.desc")))
-        );
-
-        if (isHasCircuitSlot() && isCircuitSlotEnabled()) {
-            configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventory.storage));
-        }
-
-        configuratorPanel.attachConfigurators(
-            new FancyInvConfigurator(
-                shareInventory.storage,
-                Component.translatable("gui.gtceu.share_inventory.title")
-            ).setTooltips(
-                List.of(
-                    Component.translatable("gui.gtceu.share_inventory.desc.0"),
-                    Component.translatable("gui.gtceu.share_inventory.desc.1")
-                )
-            )
-        );
-
-        configuratorPanel.attachConfigurators(
-            new FancyTankConfigurator(
-                shareTank.getStorages(),
-                Component.translatable("gui.gtceu.share_tank.title")
-            ).setTooltips(
-                List.of(
-                    Component.translatable("gui.gtceu.share_tank.desc.0"),
-                    Component.translatable("gui.gtceu.share_inventory.desc.1")
-                )
-            )
-        );
-    }
-
-    @Override
-    public Widget createUIWidget() {
-        int rowSize = 9;
-        int colSize = 3;
-
-        var group = new WidgetGroup(0, 0, 18 * rowSize + 16, 18 * colSize + 16);
-
-        var slot = new AEPatternViewSlotWidget(patternInventory, 0, 80, 32) {
-
-            @Override
-            public ItemStack slotClick(int dragType, ClickType clickTypeIn, Player player) {
-                if (!player.level().isClientSide) {
-                    clearAllCachedRecipes();
-                }
-                return super.slotClick(dragType, clickTypeIn, player);
+    public MachineUIPanelBuilder getPanelBuilder(PosGuiData data, PanelSyncManager syncManager, UISettings settings) {
+        IPanelHandler sharedItemsPanelHandler = syncManager.syncedPanel(
+            "wildcard_shared_items", true,
+            (panelSyncManager, handler) -> {
+                SlotGroup sharedItemSlotGroup = new SlotGroup("wildcard_shared_item_slots", 3, false);
+                return PopupPanel.createPopupPanel("wildcard_shared_items_panel", 80, 86)
+                    .child(Text.lang("gui.gtceu.share_inventory.title").asWidget().margin(4))
+                    .child(
+                        new Grid()
+                            .name("wildcard_shared_item_grid")
+                            .top(26)
+                            .height(18 * 3)
+                            .minElementMargin(0, 0)
+                            .minColWidth(18)
+                            .minRowHeight(18)
+                            .leftRel(0.5f)
+                            .gridOfSizeWidth(
+                                9, 3, (x, y, index) -> new ItemSlot()
+                                    .slot(
+                                        SyncHandlers.itemSlot(shareInventory, index)
+                                            .slotGroup(sharedItemSlotGroup)
+                                            .accessibility(true, true)
+                                    )
+                            )
+                    );
             }
-        };
-
-        slot.setOccupiedTexture(GuiTextures.SLOT)
-            .setChangeListener(() -> onPatternChange(0))
-            .setBackground(GuiTextures.SLOT, GuiTextures.PATTERN_OVERLAY);
-
-        group.addWidget(slot);
-
-        group.addWidget(
-            new LabelWidget(
-                8,
-                2,
-                () -> this.isOnline ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"
-            )
         );
 
-        return group;
+        IPanelHandler sharedFluidsPanelHandler = syncManager.syncedPanel(
+            "wildcard_shared_fluids", true,
+            (panelSyncManager, handler) -> PopupPanel.createPopupPanel("wildcard_shared_fluids_panel", 85, 86)
+                .child(Text.lang("gui.gtceu.share_tank.title").asWidget().margin(4))
+                .child(
+                    GTMuiMachineUtil.createSlotGroupFromInventory(
+                        panelSyncManager,
+                        shareTank,
+                        "wildcard_shared_fluid_slots",
+                        9,
+                        'F',
+                        GTMuiMachineUtil.createSquareMatrix(9, 'F')
+                    )
+                        .top(26)
+                        .leftRel(0.5f)
+                )
+        );
+
+        BooleanSyncValue canRefundValue = new BooleanSyncValue(this::canRefund, b -> {});
+        syncManager.syncValue("wildcard_can_refund", canRefundValue);
+        syncManager.registerServerSyncedAction("wildcard_refund_all", packet -> refundAll());
+
+        return MachineUIPanelBuilder.panelBuilder(this).leftConfigurators(configurators -> {
+            configurators.child(
+                new ButtonWidget<>()
+                    .size(18)
+                    .onMousePressed((context, button) -> {
+                        if (button == InputConstants.MOUSE_BUTTON_LEFT) {
+                            sharedItemsPanelHandler.openPanel();
+                            return true;
+                        }
+                        return false;
+                    })
+                    .overlay(GTGuiTextures.BUTTON_ITEM_OUTPUT)
+                    .tooltip(
+                        new RichTooltip()
+                            .addLine(Text.lang("gui.gtceu.share_inventory.desc.0"))
+                            .addLine(Text.lang("gui.gtceu.share_inventory.desc.1"))
+                    )
+            );
+            configurators.child(
+                new ButtonWidget<>()
+                    .size(18)
+                    .onMousePressed((context, button) -> {
+                        if (button == InputConstants.MOUSE_BUTTON_LEFT) {
+                            sharedFluidsPanelHandler.openPanel();
+                            return true;
+                        }
+                        return false;
+                    })
+                    .overlay(GTGuiTextures.BUTTON_FLUID_OUTPUT)
+                    .tooltip(
+                        new RichTooltip()
+                            .addLine(Text.lang("gui.gtceu.share_tank.desc.0"))
+                            .addLine(Text.lang("gui.gtceu.share_inventory.desc.1"))
+                    )
+            );
+            configurators.child(
+                new ButtonWidget<>()
+                    .size(18)
+                    .onMousePressed((context, button) -> {
+                        if (canRefundValue.getBoolValue() && button == InputConstants.MOUSE_BUTTON_LEFT) {
+                            syncManager.callSyncedAction("wildcard_refund_all");
+                            return true;
+                        }
+                        return false;
+                    })
+                    .overlay(
+                        new DynamicDrawable(
+                            () -> canRefundValue.getBoolValue() ?
+                                GTGuiTextures.REFUND_OVERLAY.asIcon().size(16) :
+                                new ItemDrawable(ItemStack.EMPTY).asIcon().size(16)
+                        )
+                    )
+                    .tooltip(new RichTooltip().addLine(Text.lang("gui.gtceu.refund_all.desc")))
+            );
+        });
+    }
+
+    @Override
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        SlotGroup patternSlotGroup = new SlotGroup("wildcard_pattern_slots", 1, 0, true);
+
+        BooleanSyncValue isOnlineValue = new BooleanSyncValue(this::isOnline, this::setOnline);
+        syncManager.syncValue("wildcard_is_online", isOnlineValue);
+
+        var flow = Flow.col().coverChildren();
+        flow.child(
+            Text.dynamic(
+                () -> isOnlineValue.getBoolValue() ?
+                    Component.translatable("gtceu.gui.me_network.online") :
+                    Component.translatable("gtceu.gui.me_network.offline")
+            )
+                .asWidget().marginTop(2).marginBottom(4)
+        );
+        flow.child(
+            new ItemSlot()
+                .slot(
+                    SyncHandlers.itemSlot(patternInventory, 0)
+                        .slotGroup(patternSlotGroup)
+                        .accessibility(true, true)
+                        .filter(WildcardPatternDecoder.INSTANCE::isEncodedPattern)
+                        .changeListener((index, oldStack, newStack, init) -> onPatternChange(0))
+                )
+                .background(GTGuiTextures.SLOT, GTGuiTextures.PATTERN_OVERLAY)
+        );
+
+        mainWidget.child(flow.center());
+    }
+
+    public boolean canRefund() {
+        return Arrays.stream(internalInventory)
+            .anyMatch(slot -> slot != null && (!slot.isItemEmpty() || !slot.isFluidEmpty()));
     }
 
     @Override
@@ -588,7 +668,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         cachedRecipes[slot] = recipe;
         resizeCachedRecipeIdsTag(cachedRecipes.length);
         cachedRecipeIds[slot] = recipe.getId().toString();
-        markAsDirty();
+        setChanged();
     }
 
     @Override
@@ -600,7 +680,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         cachedRecipes[slot] = null;
         resizeCachedRecipeIdsTag(cachedRecipes.length);
         cachedRecipeIds[slot] = "";
-        markAsDirty();
+        setChanged();
     }
 
     @Override
@@ -738,7 +818,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             onContentsChanged();
         }
 
-        public @Nullable List<Ingredient> handleItemInternal(List<Ingredient> left, boolean simulate) {
+        public List<Ingredient> handleItemInternal(List<Ingredient> left, boolean simulate) {
             boolean changed = false;
 
             for (var it = left.listIterator(); it.hasNext();) {
@@ -803,10 +883,10 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             if (changed) {
                 onContentsChanged();
             }
-            return left.isEmpty() ? null : left;
+            return left;
         }
 
-        public @Nullable List<FluidIngredient> handleFluidInternal(List<FluidIngredient> left, boolean simulate) {
+        public List<FluidIngredient> handleFluidInternal(List<FluidIngredient> left, boolean simulate) {
             boolean changed = false;
 
             for (var it = left.listIterator(); it.hasNext();) {
@@ -867,7 +947,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             if (changed) {
                 onContentsChanged();
             }
-            return left.isEmpty() ? null : left;
+            return left;
         }
 
         @Override

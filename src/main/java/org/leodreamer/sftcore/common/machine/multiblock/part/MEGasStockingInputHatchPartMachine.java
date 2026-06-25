@@ -4,9 +4,6 @@ import org.leodreamer.sftcore.common.machine.trait.gas.MEGasInputHandler;
 import org.leodreamer.sftcore.common.machine.trait.gas.MEGasStockingInputHandler;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
-import com.gregtechceu.gtceu.api.machine.fancyconfigurator.AutoStockingFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
@@ -68,9 +65,9 @@ public class MEGasStockingInputHatchPartMachine extends MEGasInputHatchPartMachi
     }
 
     @Override
-    public void addedToController(MultiblockControllerMachine controller) {
-        super.addedToController(controller);
-        IMEStockingPart.super.addedToController(controller);
+    public void addedToController(MultiblockControllerMachine controller, String name) {
+        super.addedToController(controller, name);
+        IMEStockingPart.super.addedToController(controller, name);
     }
 
     @Override
@@ -105,18 +102,6 @@ public class MEGasStockingInputHatchPartMachine extends MEGasInputHatchPartMachi
     @Override
     protected void flushInventory() {
         // Stocking hatch does not own real gas.
-    }
-
-    @Override
-    public void attachSideTabs(TabsWidget sideTabs) {
-        sideTabs.setMainTab(this);
-    }
-
-    @Override
-    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
-        IMEStockingPart.super.attachConfigurators(configuratorPanel);
-        super.attachConfigurators(configuratorPanel);
-        configuratorPanel.attachConfigurators(new AutoStockingFancyConfigurator(this));
     }
 
     @Override

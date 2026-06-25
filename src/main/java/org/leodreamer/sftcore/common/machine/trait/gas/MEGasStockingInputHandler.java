@@ -71,7 +71,7 @@ public class MEGasStockingInputHandler extends MEGasInputHandler {
     }
 
     @Override
-    public @Nullable List<GasStack> handleRecipeInner(
+    public List<GasStack> handleRecipeInner(
         IO io,
         GTRecipe recipe,
         List<GasStack> left,
@@ -106,7 +106,7 @@ public class MEGasStockingInputHandler extends MEGasInputHandler {
             }
         }
 
-        return left.isEmpty() ? null : left;
+        return left;
     }
 
     public void refreshList(

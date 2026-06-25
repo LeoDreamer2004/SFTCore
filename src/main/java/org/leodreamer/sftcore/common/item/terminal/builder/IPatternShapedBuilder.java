@@ -46,7 +46,8 @@ public interface IPatternShapedBuilder extends IMekMultiblockBuilder {
     }
 
     /**
-     * Pattern definition for the multiblock, just like {@link com.gregtechceu.gtceu.api.pattern.BlockPattern}
+     * Pattern definition for the multiblock, just like
+     * {@link com.gregtechceu.gtceu.api.multiblock.pattern.BlockPattern}
      */
     @Accessors(fluent = true)
     final class Pattern {

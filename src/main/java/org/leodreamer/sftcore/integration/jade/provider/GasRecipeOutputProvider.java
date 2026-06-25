@@ -79,7 +79,7 @@ public class GasRecipeOutputProvider extends MachineTraitProvider<RecipeLogic, C
             GasStack stack;
 
             try {
-                stack = GasRecipeCapability.CAP.of(gasContent.content);
+                stack = GasRecipeCapability.CAP.of(gasContent.content());
             } catch (Exception ignored) {
                 continue;
             }
@@ -91,9 +91,9 @@ public class GasRecipeOutputProvider extends MachineTraitProvider<RecipeLogic, C
             long amount = stack.getAmount();
 
             // Same with the item/fluid in GTM
-            if (gasContent.chance < gasContent.maxChance) {
+            if (gasContent.chance() < gasContent.maxChance()) {
                 double amountD = (double) amount * runs *
-                    chanceFunction.getBoostedChance(gasContent, recipeTier, chanceTier) / gasContent.maxChance;
+                    chanceFunction.getBoostedChance(gasContent, recipeTier, chanceTier) / gasContent.maxChance();
                 amount = Math.max(1L, Math.round(amountD));
             }
 

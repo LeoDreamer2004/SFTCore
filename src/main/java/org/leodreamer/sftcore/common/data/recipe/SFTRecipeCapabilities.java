@@ -9,8 +9,8 @@ public class SFTRecipeCapabilities {
 
     public static void init() {
         GTRegistries.RECIPE_CAPABILITIES.register(
-            StressRecipeCapability.CAP.name, StressRecipeCapability.CAP
+            StressRecipeCapability.CAP.id, StressRecipeCapability.CAP
         );
-        GTRegistries.RECIPE_CAPABILITIES.register(GasRecipeCapability.CAP.name, GasRecipeCapability.CAP);
+        GTRegistries.RECIPE_CAPABILITIES.register(GasRecipeCapability.CAP.id, GasRecipeCapability.CAP);
     }
 }

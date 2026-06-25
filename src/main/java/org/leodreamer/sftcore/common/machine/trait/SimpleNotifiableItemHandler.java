@@ -1,13 +1,13 @@
 package org.leodreamer.sftcore.common.machine.trait;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-public class SimpleNotifiableItemHandler implements IItemTransfer {
+public class SimpleNotifiableItemHandler implements IItemHandlerModifiable {
 
     @NotNull
     private ItemStack stack = ItemStack.EMPTY;
@@ -34,17 +34,31 @@ public class SimpleNotifiableItemHandler implements IItemTransfer {
     }
 
     @Override
-    public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate, boolean notifyChanges) {
-        this.stack = stack;
-        onChange.accept(stack);
+    public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+        this.stack = stack.copy();
+        if (this.stack.isEmpty()) {
+            onClear.run();
+        } else {
+            onChange.accept(this.stack);
+        }
+    }
+
+    @Override
+    public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+        if (!simulate) {
+            setStackInSlot(slot, stack);
+        }
         return stack;
     }
 
     @Override
-    public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate, boolean notifyChanges) {
-        this.stack = ItemStack.EMPTY;
-        onClear.run();
-        return stack;
+    public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+        var extracted = stack.copy();
+        if (!simulate) {
+            this.stack = ItemStack.EMPTY;
+            onClear.run();
+        }
+        return extracted;
     }
 
     @Override
@@ -54,20 +68,6 @@ public class SimpleNotifiableItemHandler implements IItemTransfer {
 
     @Override
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-        return stack.getItem() == this.stack.getItem();
-    }
-
-    @Override
-    @SuppressWarnings("all")
-    public @NotNull Object createSnapshot() {
-        return stack;
-    }
-
-    @Override
-    @SuppressWarnings("all")
-    public void restoreFromSnapshot(Object snapshot) {
-        if (snapshot instanceof ItemStack itemStack) {
-            stack = itemStack;
-        }
+        return true;
     }
 }

@@ -1,10 +1,11 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
-import org.leodreamer.sftcore.integration.ae2.gui.PhantomGenericSlotWidget;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardIOComponent;
+import org.leodreamer.sftcore.common.item.wildcard.handler.GenericStackHandler;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.ChatFormatting;
@@ -17,18 +18,21 @@ import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
-import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.drawable.Rectangle;
+import brachy.modularui.utils.Alignment;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.layout.Flow;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 
-public class SimpleIOComponent implements IWildcardIOComponent {
+@Accessors(fluent = true)
+@DataGenScanned
+public class SimpleIOComponent extends WildcardIOComponent {
 
     public static final Codec<GenericStack> GENERIC_STACK_CODEC = Codec.PASSTHROUGH.comapFlatMap(dynamic -> {
         var tag = dynamic.convert(NbtOps.INSTANCE).getValue();
@@ -40,7 +44,7 @@ public class SimpleIOComponent implements IWildcardIOComponent {
             return DataResult.error(() -> "Failed to decode GenericStack from tag: " + compoundTag);
         }
         return DataResult.success(stack);
-    }, stack -> new Dynamic<>(NbtOps.INSTANCE, encodeGenericStack(stack)));
+    }, stack -> new Dynamic<>(NbtOps.INSTANCE, GenericStack.writeTag(stack)));
 
     public static final Codec<SimpleIOComponent> CODEC = GENERIC_STACK_CODEC.xmap(
         SimpleIOComponent::new,
@@ -48,13 +52,18 @@ public class SimpleIOComponent implements IWildcardIOComponent {
     );
 
     @NotNull
+    @Getter
     private GenericStack stack;
+    @Getter
+    private long amount;
+    private GenericStackHandler sample;
+    private static final int GROUP_BG = 0xFF337777;
 
-    private PhantomGenericSlotWidget genericSlot;
-    private TextFieldWidget amountEdit;
+    @RegisterLanguage("Single")
+    public static final String LABEL = "item.sftcore.wildcard_pattern.ui.io.single";
 
-    private static final IGuiTexture GROUP_BG = ResourceBorderTexture.BUTTON_COMMON.copy()
-        .setColor(ColorPattern.CYAN.color);
+    @RegisterLanguage("Empty")
+    public static final String EMPTY_TOOLTIP = "item.sftcore.wildcard_pattern.tooltip.empty";
 
     public static SimpleIOComponent empty() {
         return new SimpleIOComponent(new GenericStack(AEItemKey.of(Items.AIR), 1));
@@ -62,10 +71,14 @@ public class SimpleIOComponent implements IWildcardIOComponent {
 
     public SimpleIOComponent(@NotNull GenericStack stack) {
         this.stack = stack;
+        this.amount = stack.amount();
     }
 
     @Override
     public GenericStack apply(Material material) {
+        if (stack.what() == null) {
+            return null;
+        }
         if (stack.what() instanceof AEItemKey item && item.getItem() instanceof BucketItem bucket) {
             return GenericStack.fromFluidStack(
                 new FluidStack(
@@ -74,62 +87,57 @@ public class SimpleIOComponent implements IWildcardIOComponent {
                 )
             );
         }
-
         return stack;
     }
 
     @Override
-    public void createUILine(WidgetGroup line) {
-        line.setBackground(GROUP_BG);
-
-        genericSlot = new PhantomGenericSlotWidget(new CustomItemStackHandler(), 0, 3, 3);
-        genericSlot.setStack(stack);
-
-        amountEdit = new TextFieldWidget(80, 5, 50, 15, this::getAmount, this::setAmount);
-        amountEdit.setNumbersOnly(0, Integer.MAX_VALUE);
-
-        line.addWidget(genericSlot);
-        line.addWidget(new LabelWidget(70, 7, "x"));
-        line.addWidget(amountEdit);
+    protected void addLineContent(
+        Flow row,
+        PanelSyncManager syncManager,
+        String lineSyncKey
+    ) {
+        var sampleSyncHandler = registerSampleSlot(
+            new GenericStackHandler(stack), GenericStackHandler.class, syncManager, lineSyncKey
+        );
+        this.sample = sampleSlotHandler(sampleSyncHandler, GenericStackHandler.class);
+        this.sample.setGenericStack(stack);
+        row.child(createTypeButton(42, LABEL));
+        row.child(createSampleSlot(sampleSyncHandler));
+        row.child(Text.str("x").asWidget().width(8).textAlign(Alignment.Center));
+        row.child(amountField(62, () -> Long.toString(amount), text -> amount = parseLongAmount(text)));
     }
 
     @Override
     public Component createTooltip() {
-        return stack.what().getDisplayName().copy().withStyle(ChatFormatting.YELLOW)
-            .append(Component.literal(" x " + getAmount()).withStyle(ChatFormatting.GRAY));
-    }
-
-    private String getAmount() {
-        return Long.toString(stack.amount());
-    }
-
-    private void setAmount(String str) {
-        if (str == null || str.isEmpty()) {
-            return;
+        if (stack.what() == null) {
+            return Component.translatable(EMPTY_TOOLTIP).withStyle(ChatFormatting.GRAY);
         }
-
-        stack = new GenericStack(stack.what(), Long.parseLong(str));
+        return stack.what().getDisplayName().copy().withStyle(ChatFormatting.YELLOW)
+            .append(Component.literal(" x " + amount).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
     public void onSave() {
-        var genericStack = genericSlot.getStack();
-
-        if (genericStack == null) {
-            stack = empty().stack;
+        if (sample == null) {
             return;
         }
-
-        long amount = Long.parseLong(amountEdit.getCurrentString());
-        stack = new GenericStack(genericStack.what(), amount);
+        var stack = sample.getStackInSlot(0);
+        if (stack.isEmpty()) {
+            return;
+        }
+        var newStack = sample.getGenericStack(amount);
+        if (newStack != null) {
+            this.stack = newStack;
+        }
     }
 
     @Override
-    public String toString() {
-        return "Component " + stack;
+    protected Rectangle rowBackground() {
+        return new Rectangle().color(GROUP_BG);
     }
 
-    private static CompoundTag encodeGenericStack(GenericStack stack) {
-        return GenericStack.writeTag(stack);
+    @Override
+    public @NotNull String toString() {
+        return "Component " + stack;
     }
 }

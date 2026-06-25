@@ -8,28 +8,25 @@ import org.leodreamer.sftcore.api.kinetics.KineticRecipeHelper;
 import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 import org.leodreamer.sftcore.common.recipe.condition.RPMCondition;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.gui.GTRecipeViewerWidget;
+import com.gregtechceu.gtceu.api.recipe.gui.RecipeUIModifier;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
+import com.gregtechceu.gtceu.common.recipe.gui.GTRecipeUIModifiers;
 
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 
-import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
-import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
-import com.lowdragmc.lowdraglib.utils.CycleItemStackHandler;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import brachy.modularui.api.drawable.IDrawable;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.integration.recipeviewer.RecipeSlotRole;
+import brachy.modularui.integration.recipeviewer.RecipeViewerSlotWidget;
+import brachy.modularui.integration.recipeviewer.entry.item.ItemStackList;
 import com.simibubi.create.AllBlocks;
-
-import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.GENERATOR;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.MULTIBLOCK;
@@ -44,86 +41,50 @@ public final class SFTRecipeTypes {
     @RegisterLanguage("Requires Total Stress: %ssu")
     private static final String ACQUIRE_STRESS = "sftcore.recipe.input_stress";
 
+    private static final RecipeUIModifier CONDITIONAL_SHAFT_INFO = (recipe, widget) -> {
+        if (recipe.conditions.stream().anyMatch(RPMCondition.class::isInstance)) {
+            addShaftInfo(widget);
+        }
+    };
+
+    private static final RecipeUIModifier SHAFT_INFO = (recipe, widget) -> addShaftInfo(widget);
+    private static final RecipeUIModifier STRESS_INFO = (recipe, widget) -> {
+        if (recipe.data.contains(SFTRecipeBuilder.INPUT_STRESS)) {
+            float stress = recipe.data.getFloat(SFTRecipeBuilder.INPUT_STRESS);
+            widget.textComponents.child(Text.lang(ACQUIRE_STRESS, KineticRecipeHelper.format(stress)).asWidget());
+        }
+    };
+
     // create integration
     public static final GTRecipeType FISHBIG_MAKER_RECIPES = register("fishbig_maker", KINETIC)
         .setMaxIOSize(9, 1, 3, 0)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
+        .UI(
+            builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW)
+                .addRecipeUIModifier(RecipeUIModifier.all(CONDITIONAL_SHAFT_INFO, STRESS_INFO))
         )
         .setSound(GTSoundEntries.CHEMICAL)
-        .setMaxTooltips(4)
-        .addDataInfo(
-            data -> {
-                if (!data.contains(SFTRecipeBuilder.INPUT_STRESS)) {
-                    return "";
-                }
-                float stress = data.getFloat(SFTRecipeBuilder.INPUT_STRESS);
-                return LocalizationUtils.format(ACQUIRE_STRESS, KineticRecipeHelper.format(stress));
-            }
-        )
-        .setUiBuilder(
-            (recipe, group) -> {
-                if (recipe.conditions.stream().anyMatch(RPMCondition.class::isInstance)) {
-                    group.addWidget(
-                        new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(
-                            new CustomItemStackHandler(AllBlocks.SHAFT.asStack()),
-                            0,
-                            group.getSize().width - 30,
-                            group.getSize().height - 30,
-                            false,
-                            false
-                        )
-                    );
-                }
-            }
-        );
+        .setMaxTooltips(4);
 
     public static final GTRecipeType MECHANICAL_BOX_RECIPES = register("mechanical_box", KINETIC)
         .setMaxIOSize(18, 18, 9, 9)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
+        .UI(
+            builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW)
+                .addRecipeUIModifier(RecipeUIModifier.all(SHAFT_INFO, STRESS_INFO))
         )
         .setSound(GTSoundEntries.ASSEMBLER)
-        .setMaxTooltips(4)
-        .addDataInfo(
-            data -> {
-                if (!data.contains(SFTRecipeBuilder.INPUT_STRESS)) {
-                    return "";
-                }
-                float stress = data.getFloat(SFTRecipeBuilder.INPUT_STRESS);
-                return LocalizationUtils.format(ACQUIRE_STRESS, KineticRecipeHelper.format(stress));
-            }
-        )
-        .setUiBuilder(
-            (recipe, group) -> {
-                group.addWidget(
-                    new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(
-                        new CustomItemStackHandler(AllBlocks.SHAFT.asStack()),
-                        0,
-                        group.getSize().width - 30,
-                        group.getSize().height - 30,
-                        false,
-                        false
-                    )
-                );
-            }
-        );
+        .setMaxTooltips(4);
 
     // ae2 integration
     public static final GTRecipeType CERTUS_QUARTZ_CHARGE_RECIPES = register("certus_quartz_charge", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(2, 1, 1, 0)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW))
         .setSound(GTSoundEntries.ELECTROLYZER);
 
     public static final GTRecipeType LARGE_INSCRIBER = register("large_inscriber", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(3, 1, 1, 0)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW))
         .setSound(GTSoundEntries.ASSEMBLER);
 
     // mekanism integration
@@ -132,115 +93,70 @@ public final class SFTRecipeTypes {
         GENERATOR
     ).sftcore$setMaxIOSize(1, 0, 1, 1, 1, 1)
         .setEUIO(IO.OUT)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_FUSION))
         .setSound(GTSoundEntries.TURBINE);
 
     public static final GTRecipeType MEKANISM_PROCESSING_RECIPES = registerGas("common_mekanism_processing", MULTIBLOCK)
         .sftcore$setMaxIOSize(3, 3, 3, 3, 3, 3)
         .setEUIO(IO.IN)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW))
         .setSound(GTSoundEntries.MIXER);
 
     // GT recipe
     public static final GTRecipeType GREENHOUSE_RECIPES = register("greenhouse", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(3, 4, 1, 0)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW))
         .setSound(GTSoundEntries.SCIENCE);
 
     public static final GTRecipeType OIL_DRILLING_RECIPES = register("oil_drilling_rig", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(1, 1, 1, 1)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW))
         .setSound(GTSoundEntries.DRILL_TOOL);
 
     public static final GTRecipeType DESULFURIZE_RECIPES = register("desulfurize", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(1, 2, 1, 2)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW_MULTIPLE))
         .setSound(GTSoundEntries.CHEMICAL);
 
     public static final GTRecipeType HURRY_UP_RECIPES = register("hurry_up", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(2, 1, 2, 0)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW))
         .setSound(GTSoundEntries.ASSEMBLER);
 
     public static final GTRecipeType LARGE_GAS_COLLECTOR_RECIPES = register("large_gas_collector", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(2, 0, 0, 1)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_GAS_COLLECTOR, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_GAS_COLLECTOR))
         .setSound(GTSoundEntries.COOLING);
 
     public static final GTRecipeType SEMICONDUCTOR_BLAST_RECIPES = register("semiconductor_blast_furnace", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(3, 1, 1, 0)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
-        .addDataInfo(
-            data -> {
-                int temp = data.getInt("ebf_temp");
-                return LocalizationUtils.format("gtceu.recipe.temperature", temp);
-            }
-        )
-        .addDataInfo(
-            data -> {
-                int temp = data.getInt("ebf_temp");
-                ICoilType requiredCoil = ICoilType.getMinRequiredType(temp);
-
-                if (requiredCoil != null && !requiredCoil.getMaterial().isNull()) {
-                    return LocalizationUtils.format(
-                        "gtceu.recipe.coil.tier",
-                        I18n.get(requiredCoil.getMaterial().getUnlocalizedName())
-                    );
-                }
-                return "";
-            }
-        )
-        .setUiBuilder(
-            ((recipe, widgetGroup) -> {
-                var temp = recipe.data.getInt("ebf_temp");
-                var item = GTCEuAPI.HEATING_COILS.entrySet().stream()
-                    .filter((coil) -> (coil.getKey().getCoilTemperature() >= temp))
-                    .map((coil) -> new ItemStack(coil.getValue().get()))
-                    .toList();
-                var items = List.of(item);
-                widgetGroup.addWidget(
-                    new SlotWidget(
-                        new CycleItemStackHandler(items),
-                        0,
-                        widgetGroup.getSize().width - 25,
-                        widgetGroup.getSize().height - 32,
-                        false,
-                        false
-                    )
-                );
-            })
+        .UI(
+            builder -> builder
+                .setProgressBar(GTGuiTextures.PROGRESS_ARROW)
+                .addRecipeUIModifier(GTRecipeUIModifiers.TEMP_COIL_INFO)
         )
         .setSound(GTSoundEntries.FURNACE);
 
     public static final GTRecipeType ORE_PROCESSING = register("ore_processing", MULTIBLOCK)
         .setEUIO(IO.IN)
         .setMaxIOSize(2, 12, 1, 0)
-        .setProgressBar(
-            GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT
-        )
+        .UI(builder -> builder.setProgressBar(GTGuiTextures.PROGRESS_ARROW))
         .setSound(GTSoundEntries.MACERATOR);
+
+    private static void addShaftInfo(GTRecipeViewerWidget widget) {
+        widget.textComponents.child(
+            RecipeViewerSlotWidget.create()
+                .recipeSlotRole(RecipeSlotRole.RENDER_ONLY)
+                .value(ItemStackList.of(AllBlocks.SHAFT.asStack()))
+                .background(IDrawable.EMPTY)
+        );
+    }
 
     @SuppressWarnings("deprecation")
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {

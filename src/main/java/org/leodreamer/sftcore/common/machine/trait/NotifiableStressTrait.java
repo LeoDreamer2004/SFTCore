@@ -12,8 +12,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -48,14 +46,14 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
     }
 
     @Override
-    public @Nullable List<Float> handleRecipeInner(
+    public List<Float> handleRecipeInner(
         IO io,
         GTRecipe recipe,
         List<Float> left,
         boolean simulate
     ) {
         if (left.isEmpty()) {
-            return null;
+            return left;
         }
 
         if (io != IO.IN) {
@@ -66,7 +64,7 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
         float available = machine.getAvailableStress();
 
         if (available >= required) {
-            return null;
+            return Collections.emptyList();
         }
 
         return Collections.singletonList(required - available);

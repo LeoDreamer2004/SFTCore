@@ -1,27 +1,33 @@
 package org.leodreamer.sftcore.common.item.wildcard.impl;
 
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
-import org.leodreamer.sftcore.integration.ae2.gui.PhantomGTTagSlot;
+import org.leodreamer.sftcore.api.annotation.DataGenScanned;
+import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
+import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardIOComponent;
+import org.leodreamer.sftcore.common.item.wildcard.handler.GTTagHandler;
 import org.leodreamer.sftcore.integration.ae2.item.GenericGTTag;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 import appeng.api.stacks.GenericStack;
-import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.drawable.Rectangle;
+import brachy.modularui.utils.Alignment;
+import brachy.modularui.utils.Color;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widgets.TextWidget;
+import brachy.modularui.widgets.layout.Flow;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.Nullable;
 
-public class TagIOComponent implements IWildcardIOComponent {
+@Accessors(fluent = true)
+@DataGenScanned
+public class TagIOComponent extends WildcardIOComponent {
 
     public static final Codec<TagIOComponent> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
@@ -30,89 +36,82 @@ public class TagIOComponent implements IWildcardIOComponent {
         ).apply(instance, TagIOComponent::new)
     );
 
+    @Getter
     private GenericGTTag tag;
+    @Getter
     private int amount;
+    private GTTagHandler sample;
+    private String amountText;
+    private static final int GROUP_BG = 0xFF9933FF;
 
-    private PhantomGTTagSlot tagSlot;
-    private LabelWidget tagLabel;
-    private TextFieldWidget amountEdit;
-
-    private static final IGuiTexture GROUP_BG = ResourceBorderTexture.BUTTON_COMMON.copy()
-        .setColor(ColorPattern.PURPLE.color);
+    @RegisterLanguage("Tag")
+    public static final String LABEL = "item.sftcore.wildcard_pattern.ui.io.tag";
 
     public static TagIOComponent empty() {
         return new TagIOComponent(GenericGTTag.EMPTY, 1);
     }
 
     public TagIOComponent(GenericGTTag tag, int amount) {
-        this.tag = tag;
+        this.tag = tag == null ? GenericGTTag.EMPTY : tag;
         this.amount = amount;
+        this.amountText = Integer.toString(amount);
     }
 
     @Override
     public @Nullable GenericStack apply(Material material) {
+        if (tag.equals(GenericGTTag.EMPTY)) {
+            return null;
+        }
         return tag.toGenericStack(material, amount);
     }
 
     @Override
-    public void createUILine(WidgetGroup line) {
-        line.setBackground(GROUP_BG);
-
-        tagSlot = new PhantomGTTagSlot(new CustomItemStackHandler(), 0, 3, 3, this::updateTag);
-
-        if (tag != GenericGTTag.EMPTY) {
-            tagSlot.setTag(tag);
-        }
-
-        tagLabel = new LabelWidget(25, 7, tag.name());
-
-        amountEdit = new TextFieldWidget(80, 5, 50, 15, this::getAmount, this::setAmount);
-        amountEdit.setNumbersOnly(0, Integer.MAX_VALUE);
-        amountEdit.setCurrentString(amount);
-
-        line.addWidget(tagSlot);
-        line.addWidget(tagLabel);
-        line.addWidget(new LabelWidget(70, 7, "x"));
-        line.addWidget(amountEdit);
+    protected void addLineContent(
+        Flow row,
+        PanelSyncManager syncManager,
+        String lineSyncKey
+    ) {
+        var sampleSyncHandler = registerSampleSlot(new GTTagHandler(tag), GTTagHandler.class, syncManager, lineSyncKey);
+        this.sample = sampleSlotHandler(sampleSyncHandler, GTTagHandler.class);
+        this.sample.setTag(tag);
+        row.child(createTypeButton(32, LABEL));
+        row.child(createSampleSlot(sampleSyncHandler));
+        row.child(
+            new TextWidget<>(Text.dynamic(() -> Component.literal(currentTagName())))
+                .width(63)
+                .height(16)
+                .maxWidth(63)
+                .textAlign(Alignment.Center)
+                .color(Color.WHITE.main)
+                .tooltipDynamic(tooltip -> tooltip.addLine(Text.dynamic(() -> Component.literal(currentTagName()))))
+        );
+        row.child(Text.str("x").asWidget().width(8).textAlign(Alignment.Center));
+        row.child(amountField(34, () -> amountText, text -> amountText = text));
     }
 
     @Override
     public Component createTooltip() {
         return Component.literal(tag.name()).withStyle(ChatFormatting.LIGHT_PURPLE)
-            .append(Component.literal(" x " + getAmount()).withStyle(ChatFormatting.GRAY));
-    }
-
-    private boolean updateTag(GenericGTTag tag) {
-        var ok = tag != GenericGTTag.EMPTY;
-
-        if (ok) {
-            tagLabel.setText(tag.name());
-            this.tag = tag;
-        }
-
-        return ok;
-    }
-
-    private String getAmount() {
-        return Integer.toString(amount);
-    }
-
-    private void setAmount(String str) {
-        if (str == null || str.isEmpty()) {
-            return;
-        }
-
-        amount = Integer.parseInt(str);
+            .append(Component.literal(" x " + amount).withStyle(ChatFormatting.GRAY));
     }
 
     @Override
     public void onSave() {
-        updateTag(tagSlot.getTag());
-        amount = Integer.parseInt(amountEdit.getCurrentString());
+        tag = sample == null ? tag : sample.getTag();
+        amount = parseIntAmount(amountText);
     }
 
     @Override
     public String toString() {
         return "Component " + tag.name() + " x " + amount;
+    }
+
+    private String currentTagName() {
+        return (sample == null ? tag : sample.getTag()).name();
+    }
+
+    @Override
+    protected Rectangle rowBackground() {
+        return new Rectangle().color(GROUP_BG);
     }
 }

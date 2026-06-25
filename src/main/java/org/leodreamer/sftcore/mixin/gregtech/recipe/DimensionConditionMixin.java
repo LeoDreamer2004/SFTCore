@@ -1,14 +1,11 @@
 package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
 import org.leodreamer.sftcore.common.data.SFTDimensions;
-import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.recipe.condition.DimensionCondition;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
@@ -26,20 +23,12 @@ public class DimensionConditionMixin {
 
     @Inject(method = "testCondition", at = @At("HEAD"), cancellable = true)
     private void enableVoid(GTRecipe recipe, RecipeLogic recipeLogic, CallbackInfoReturnable<Boolean> cir) {
-        if (dimension.location().getPath().equals("overworld")) {
+        if ("overworld".equals(dimension.location().getPath())) {
             Level level = recipeLogic.getMachine().getLevel();
             if (level != null && level.dimension() == SFTDimensions.VOID_DIMENSION) {
                 cir.cancel();
                 cir.setReturnValue(true);
             }
-        }
-    }
-
-    @Inject(method = "setupDimensionMarkers", at = @At("RETURN"), remap = false)
-    private void addHoverTooltip(int xOffset, int yOffset, CallbackInfoReturnable<SlotWidget> cir) {
-        SlotWidget dimSlot = cir.getReturnValue();
-        if (dimSlot != null && dimension.location().getPath().equals("overworld")) {
-            dimSlot.appendHoverTooltips(Component.translatable(MixinTooltips.AVAILABLE_IN_VOID));
         }
     }
 }

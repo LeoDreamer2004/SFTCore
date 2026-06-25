@@ -6,24 +6,29 @@ import org.leodreamer.sftcore.common.machine.multiblock.MechanicalBoxMachine;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
+import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widgets.layout.Grid;
+import brachy.modularui.widgets.slot.ItemSlot;
+import brachy.modularui.widgets.slot.ModularSlot;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MechanicalPatternHatchPartMachine extends TieredIOPartMachine {
+public class MechanicalPatternHatchPartMachine extends TieredIOPartMachine implements IMuiMachine {
 
     @SaveField
     @Getter
@@ -40,7 +45,7 @@ public class MechanicalPatternHatchPartMachine extends TieredIOPartMachine {
     }
 
     @Override
-    public boolean canShared() {
+    public boolean canShared(MultiblockControllerMachine controller, String substructureName) {
         return false;
     }
 
@@ -61,21 +66,20 @@ public class MechanicalPatternHatchPartMachine extends TieredIOPartMachine {
     }
 
     @Override
-    public @NotNull Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 18 * 3 + 16, 18 * 3 + 16);
-        var container = new WidgetGroup(4, 4, 18 * 3 + 8, 18 * 3 + 8);
-        for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 3; column++) {
-                int slot = row * 3 + column;
-                container.addWidget(
-                    new BlockableSlotWidget(inventory.storage, slot, 4 + column * 18, 4 + row * 18)
-                        .setBackground(GuiTextures.SLOT)
-                );
-            }
-        }
-        container.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        group.addWidget(container);
-        return group;
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        mainWidget.child(
+            new Grid()
+                .coverChildren()
+                .center()
+                .gridOfSizeWidth(
+                    9, 3, (x, y, index) -> new ItemSlot()
+                        .slot(new ModularSlot(inventory.storage, index))
+                        .background(GTGuiTextures.SLOT)
+                )
+        );
     }
 
     private static class SingleItemStackHandler extends CustomItemStackHandler {

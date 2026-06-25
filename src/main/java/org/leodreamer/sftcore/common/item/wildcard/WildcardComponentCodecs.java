@@ -1,7 +1,8 @@
 package org.leodreamer.sftcore.common.item.wildcard;
 
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardFilterComponent;
-import org.leodreamer.sftcore.common.item.wildcard.feature.IWildcardIOComponent;
+import org.leodreamer.sftcore.SFTCore;
+import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardFilterComponent;
+import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardIOComponent;
 import org.leodreamer.sftcore.common.item.wildcard.impl.*;
 
 import net.minecraft.nbt.CompoundTag;
@@ -20,8 +21,8 @@ public final class WildcardComponentCodecs {
 
     private WildcardComponentCodecs() {}
 
-    private static final Map<String, Entry<? extends IWildcardIOComponent>> IO = new Object2ObjectOpenHashMap<>();
-    private static final Map<String, Entry<? extends IWildcardFilterComponent>> FILTER = new Object2ObjectOpenHashMap<>();
+    private static final Map<String, Entry<? extends WildcardIOComponent>> IO = new Object2ObjectOpenHashMap<>();
+    private static final Map<String, Entry<? extends WildcardFilterComponent>> FILTER = new Object2ObjectOpenHashMap<>();
 
     static {
         register(IO, "simple", SimpleIOComponent.class, SimpleIOComponent.CODEC);
@@ -32,21 +33,21 @@ public final class WildcardComponentCodecs {
         register(FILTER, "property", PropertyFilterComponent.class, PropertyFilterComponent.CODEC);
     }
 
-    public static List<IWildcardIOComponent> readIO(CompoundTag root, WildcardPatternLogic.IO io) {
+    public static List<WildcardIOComponent> readIO(CompoundTag root, WildcardPatternLogic.IO io) {
         return read(IO, root, io.key);
     }
 
     public static void writeIO(
-        CompoundTag root, WildcardPatternLogic.IO io, List<? extends IWildcardIOComponent> components
+        CompoundTag root, WildcardPatternLogic.IO io, List<? extends WildcardIOComponent> components
     ) {
         write(IO, root, io.key, components);
     }
 
-    public static List<IWildcardFilterComponent> readFilters(CompoundTag root) {
+    public static List<WildcardFilterComponent> readFilters(CompoundTag root) {
         return read(FILTER, root, "filter");
     }
 
-    public static void writeFilters(CompoundTag root, List<? extends IWildcardFilterComponent> components) {
+    public static void writeFilters(CompoundTag root, List<? extends WildcardFilterComponent> components) {
         write(FILTER, root, "filter", components);
     }
 
@@ -79,7 +80,8 @@ public final class WildcardComponentCodecs {
             var codec = registry.get(id);
 
             if (codec == null) {
-                throw new IllegalStateException("Unknown wildcard component id: " + id);
+                SFTCore.LOGGER.error("Unknown wildcard component id: {}", id);
+                continue;
             }
 
             result.add(codec.decode(entry.get("value")));

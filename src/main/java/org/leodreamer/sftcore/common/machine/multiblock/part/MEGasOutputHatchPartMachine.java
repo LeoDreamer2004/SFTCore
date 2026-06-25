@@ -1,15 +1,18 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
-import org.leodreamer.sftcore.api.gui.AEGasListGridWidget;
 import org.leodreamer.sftcore.common.machine.trait.gas.MEGasOutputHandler;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
+import com.gregtechceu.gtceu.integration.ae2.gui.AEKeyStorageSyncHandler;
+import com.gregtechceu.gtceu.integration.ae2.gui.AEStackDisplayWidget;
+import com.gregtechceu.gtceu.integration.ae2.gui.ScrollPreservingGrid;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
@@ -21,9 +24,17 @@ import net.minecraft.world.level.block.Block;
 import appeng.api.networking.IGridNodeListener;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.value.sync.BooleanSyncValue;
+import brachy.modularui.value.sync.DynamicLinkedSyncHandler;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widget.scroll.VerticalScrollData;
+import brachy.modularui.widgets.TextWidget;
+import brachy.modularui.widgets.dynamic.DynamicWidget;
+import brachy.modularui.widgets.layout.Flow;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +44,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements IGridConnectedMachine {
+public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements IMuiMachine, IGridConnectedMachine {
 
     @SaveField
     protected final GridNodeHolder nodeHolder;
@@ -158,20 +169,50 @@ public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements 
     }
 
     @Override
-    public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 170, 65);
+    public void buildMainUI(
+        ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        BooleanSyncValue isOnlineValue = new BooleanSyncValue(this::isOnline, this::setOnline);
+        syncManager.syncValue("is_online", isOnlineValue);
 
-        group.addWidget(
-            new LabelWidget(
-                5,
-                0,
-                () -> this.isOnline ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"
+        var flow = Flow.col().coverChildren();
+        flow.child(
+            Text.dynamic(
+                () -> isOnlineValue.getBoolValue() ?
+                    net.minecraft.network.chat.Component.translatable("gtceu.gui.me_network.online") :
+                    net.minecraft.network.chat.Component.translatable("gtceu.gui.me_network.offline")
             )
+                .asWidget().marginTop(2).marginBottom(4)
         );
 
-        group.addWidget(new LabelWidget(5, 10, "gtceu.gui.waiting_list"));
-        group.addWidget(new AEGasListGridWidget(5, 20, 3, this.internalBuffer));
+        var storageSyncHandler = new AEKeyStorageSyncHandler(internalBuffer);
+        syncManager.syncValue("ae_output_display", storageSyncHandler);
 
-        return group;
+        int[] savedScroll = { 0 };
+        var dynamicHandler = new DynamicLinkedSyncHandler<>(storageSyncHandler)
+            .widgetProvider((sm, value) -> {
+                var col = Flow.col().leftRel(0.5f).coverChildrenHeight();
+                var list = value.getValue();
+                if (list.isEmpty()) {
+                    return col.child(new TextWidget<>(Text.lang("gtceu.gui.waiting_list_empty")));
+                }
+                col.child(new TextWidget<>(Text.lang("gtceu.gui.waiting_list")).margin(0, 2));
+                col.child(
+                    new ScrollPreservingGrid(savedScroll)
+                        .size(167, 80)
+                        .scrollable(new VerticalScrollData())
+                        .gridOfSizeWidth(9, 1, (x, y, index) -> new AEStackDisplayWidget(list, index))
+                );
+                return col;
+            });
+
+        flow.child(
+            new DynamicWidget<>()
+                .syncHandler(dynamicHandler)
+                .size(167, 80)
+        );
+
+        mainWidget.child(flow.center());
     }
 }

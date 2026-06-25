@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.mixin.gregtech.xei;
 
 import org.leodreamer.sftcore.integration.emi.auto.SFTEmiPatternHandler;
 
-import com.gregtechceu.gtceu.integration.emi.recipe.Ae2PatternTerminalHandler;
+import com.gregtechceu.gtceu.integration.recipeviewer.emi.recipe.Ae2PatternTerminalHandler;
 
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import dev.emi.emi.api.recipe.EmiRecipe;

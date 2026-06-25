@@ -2,27 +2,32 @@ package org.leodreamer.sftcore.api.kinetics;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
-import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
+import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.common.mui.GTMultiblockTextUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.widget.*;
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.api.widget.IWidget;
+import brachy.modularui.drawable.GuiTextures;
+import brachy.modularui.drawable.Icon;
+import brachy.modularui.factory.PosGuiData;
+import brachy.modularui.screen.UISettings;
+import brachy.modularui.utils.Alignment;
+import brachy.modularui.value.sync.BooleanSyncValue;
+import brachy.modularui.value.sync.PanelSyncManager;
+import brachy.modularui.value.sync.StringSyncValue;
+import brachy.modularui.widget.ParentWidget;
+import brachy.modularui.widget.Widget;
+import brachy.modularui.widgets.ListWidget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -30,8 +35,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @DataGenScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
-    implements IFancyUIMachine, IDisplayUIMachine {
+public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine implements IMuiMachine {
+
+    public static final int MULTI_UI_TEXT_PANEL_WIDTH = 172;
+    public static final int MULTI_UI_TEXT_PANEL_HEIGHT = 136;
 
     public WorkableKineticMultiblockMachine(BlockEntityCreationInfo info) {
         super(info);
@@ -53,100 +60,73 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine
     static final String AVAILABLE_STRESS = "sftcore.multiblock.kinetic.available_stress";
 
     @Override
-    public void addDisplayText(List<Component> textList) {
-        int numParallels = 0;
-        int subtickParallels = 0;
-        int totalRuns = 0;
-        boolean exact = false;
-
-        var lastRecipe = recipeLogic.getLastRecipe();
-        if (recipeLogic.isActive() && lastRecipe != null) {
-            numParallels = lastRecipe.parallels;
-            subtickParallels = lastRecipe.subtickParallels;
-            totalRuns = lastRecipe.getTotalRuns();
-            exact = true;
-        }
-
-        var builder = MultiblockDisplayText.builder(textList, isFormed())
-            .setWorkingStatus(recipeLogic.isWorkingEnabled(), recipeLogic.isActive())
-            .addMachineModeLine(getRecipeType(), getRecipeTypes().length > 1)
-            .addCustom(this::addKineticLines)
-            .addTotalRunsLine(totalRuns)
-            .addParallelsLine(numParallels, exact)
-            .addSubtickParallelsLine(subtickParallels)
-            .addWorkingStatusLine()
-            .addProgressLine(recipeLogic)
-            .addRecipeFailReasonLine(recipeLogic);
-
-        if (lastRecipe != null) {
-            builder.addOutputLines(lastRecipe);
-        }
-
-        getDefinition().getAdditionalDisplay().accept(this, textList);
-        IDisplayUIMachine.super.addDisplayText(textList);
+    public void buildMainUI(
+        ParentWidget<?> mainWidget,
+        PosGuiData guiData,
+        PanelSyncManager syncManager,
+        UISettings settings
+    ) {
+        mainWidget.child(getMainTextPanel(syncManager).margin(4, 2));
     }
 
-    private void addKineticLines(List<Component> textList) {
-        if (!isFormed()) {
-            return;
-        }
+    public Widget<?> getMainTextPanel(PanelSyncManager syncManager) {
+        var parentWidget = new ParentWidget<>();
+        var listWidget = new ListWidget<>()
+            .width(MULTI_UI_TEXT_PANEL_WIDTH - 6)
+            .height(MULTI_UI_TEXT_PANEL_HEIGHT - 6)
+            .childSeparator(Icon.EMPTY_2PX)
+            .crossAxisAlignment(Alignment.CrossAxis.START)
+            .collapseDisabledChildren()
+            .posRel(Alignment.CenterLeft);
+        parentWidget.size(MULTI_UI_TEXT_PANEL_WIDTH, MULTI_UI_TEXT_PANEL_HEIGHT).background(GuiTextures.DISPLAY);
 
-        textList.add(
-            Component.translatable(
-                INPUT_RPM,
-                KineticRecipeHelper.format(KineticRecipeHelper.getMaxInputRPM(recipeLogic))
-            )
-                .withStyle(ChatFormatting.GRAY)
+        listWidget.children(getWidgetsForDisplay(syncManager));
+        parentWidget.child(listWidget.left(3).top(3));
+        return parentWidget;
+    }
+
+    @Override
+    public List<IWidget> getWidgetsForDisplay(PanelSyncManager syncManager) {
+        List<IWidget> widgets = new ArrayList<>();
+        widgets.add(GTMultiblockTextUtil.addUnformedWarning(this, syncManager));
+        widgets.addAll(getKineticWidgets(syncManager));
+        widgets.addAll(super.getWidgetsForDisplay(syncManager));
+        return widgets;
+    }
+
+    private List<IWidget> getKineticWidgets(PanelSyncManager syncManager) {
+        BooleanSyncValue isFormed = syncManager.getOrCreateSyncHandler(
+            "isFormed",
+            BooleanSyncValue.class,
+            () -> new BooleanSyncValue(this::isFormed)
         );
-        textList.add(
-            Component.translatable(
-                AVAILABLE_STRESS,
-                KineticRecipeHelper.format(KineticRecipeHelper.getTotalAvailableStress(recipeLogic))
+        StringSyncValue rpm = syncManager.getOrCreateSyncHandler(
+            "kineticInputRpm",
+            StringSyncValue.class,
+            () -> new StringSyncValue(
+                () -> KineticRecipeHelper.format(KineticRecipeHelper.getMaxInputRPM(recipeLogic)),
+                value -> {}
             )
-                .withStyle(ChatFormatting.GRAY)
         );
-    }
+        StringSyncValue stress = syncManager.getOrCreateSyncHandler(
+            "kineticAvailableStress",
+            StringSyncValue.class,
+            () -> new StringSyncValue(
+                () -> KineticRecipeHelper.format(KineticRecipeHelper.getTotalAvailableStress(recipeLogic)),
+                value -> {}
+            )
+        );
 
-    @Override
-    public IGuiTexture getScreenTexture() {
-        return SFTGuiTextures.DISPLAY_CREATE;
-    }
-
-    /**
-     * See {@link com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine#createUIWidget()} for
-     * reference.
-     */
-    @Override
-    public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
-        var scroll = new DraggableScrollableWidgetGroup(4, 4, 182, 117)
-            .setBackground(getScreenTexture())
-            .addWidget(new LabelWidget(4, 5, getBlockState().getBlock().getDescriptionId()))
-            .addWidget(
-                new ComponentPanelWidget(4, 17, this::addDisplayText)
-                    .textSupplier(this.getLevel().isClientSide ? null : this::addDisplayText)
-                    .setMaxWidthLimit(200)
-                    .clickHandler(this::handleDisplayClick)
-            );
-
-        group.addWidget(scroll);
-        return group;
-    }
-
-    @Override
-    public ModularUI createUI(Player entityPlayer) {
-        return new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
-    }
-
-    @Override
-    public List<IFancyUIProvider> getSubTabs() {
-        return getParts().stream().map(IFancyUIProvider.class::cast).toList();
-    }
-
-    @Override
-    public void attachTooltips(TooltipsPanel tooltipsPanel) {
-        for (var part : getParts()) {
-            part.attachFancyTooltipsToController(this, tooltipsPanel);
-        }
+        return List.of(
+            Text.dynamic(() -> Component.translatable(INPUT_RPM, rpm.getStringValue()).withStyle(ChatFormatting.GRAY))
+                .asWidget()
+                .setEnabledIf(widget -> isFormed.getBoolValue()),
+            Text.dynamic(
+                () -> Component.translatable(AVAILABLE_STRESS, stress.getStringValue())
+                    .withStyle(ChatFormatting.GRAY)
+            )
+                .asWidget()
+                .setEnabledIf(widget -> isFormed.getBoolValue())
+        );
     }
 }
