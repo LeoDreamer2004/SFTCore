@@ -49,9 +49,6 @@ public class FlagFilterComponent extends WildcardFilterComponent {
     @RegisterLanguage("Flag")
     public static final String LABEL = "item.sftcore.wildcard_pattern.ui.filter.flag";
 
-    @RegisterLanguage("Material flag")
-    public static final String DETAIL_TOOLTIP = "item.sftcore.wildcard_pattern.ui.filter.material_flag";
-
     public static FlagFilterComponent empty() {
         return new FlagFilterComponent(null, GTMaterials.NULL, false);
     }
@@ -87,7 +84,7 @@ public class FlagFilterComponent extends WildcardFilterComponent {
         row.child(createTypeButton(52, LABEL));
         row.child(createWhitelistButton(row));
         row.child(createSampleSlot(sampleSyncHandler));
-        row.child(detailField(() -> detail, text -> detail = text, DETAIL_TOOLTIP));
+        row.child(detailField(() -> detail, text -> detail = text));
     }
 
     @Override
@@ -100,12 +97,9 @@ public class FlagFilterComponent extends WildcardFilterComponent {
         flag = exampleSlot.getFlag();
     }
 
-    @RegisterLanguage("Flag")
-    private static final String FLAG_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.flag";
-
     @Override
     public Component createTooltip() {
-        return whitelistTooltip().append(" ").append(Component.translatable(FLAG_TOOLTIP_KEY)).append(" ")
+        return whitelistTooltip().append(" ").append(Component.translatable(LABEL)).append(" ")
             .append(
                 flag == null ? Component.translatable(NO_FLAG).withStyle(ChatFormatting.RED) :
                     Component.literal(flag.toString()).withStyle(ChatFormatting.RED)

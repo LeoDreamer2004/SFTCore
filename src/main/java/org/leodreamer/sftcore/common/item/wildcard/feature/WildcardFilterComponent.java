@@ -3,9 +3,9 @@ package org.leodreamer.sftcore.common.item.wildcard.feature;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternUIProvider;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardFilterPage;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -13,7 +13,6 @@ import net.minecraft.network.chat.MutableComponent;
 
 import brachy.modularui.api.drawable.Text;
 import brachy.modularui.api.widget.IWidget;
-import brachy.modularui.drawable.Rectangle;
 import brachy.modularui.utils.Alignment;
 import brachy.modularui.utils.Color;
 import brachy.modularui.value.StringValue;
@@ -26,7 +25,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @DataGenScanned
-public abstract class WildcardFilterComponent extends IWildcardComponentUI implements Predicate<Material> {
+public abstract class WildcardFilterComponent extends WildcardComponentUI implements Predicate<Material> {
 
     @Getter
     protected boolean whitelist;
@@ -34,9 +33,6 @@ public abstract class WildcardFilterComponent extends IWildcardComponentUI imple
     protected WildcardFilterComponent(boolean whitelist) {
         this.whitelist = whitelist;
     }
-
-    @RegisterLanguage("Delete this filter")
-    private static final String DELETE_TOOLTIP = "item.sftcore.wildcard_pattern.ui.filter.delete";
 
     @RegisterLanguage("[Whitelist]")
     private static final String WHITELIST_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.whitelist";
@@ -49,11 +45,6 @@ public abstract class WildcardFilterComponent extends IWildcardComponentUI imple
 
     @RegisterLanguage("Blacklist")
     private static final String BLACKLIST_BUTTON_TOOLTIP = "item.sftcore.wildcard_pattern.ui.filter.blacklist";
-
-    @Override
-    protected String deleteTooltipKey() {
-        return DELETE_TOOLTIP;
-    }
 
     public MutableComponent whitelistTooltip() {
         return Component.translatable(isWhitelist() ? WHITELIST_KEY : BLACKLIST_KEY)
@@ -76,20 +67,15 @@ public abstract class WildcardFilterComponent extends IWildcardComponentUI imple
 
     protected TextFieldWidget detailField(
         Supplier<String> getter,
-        Consumer<String> setter,
-        String tooltipKey
+        Consumer<String> setter
     ) {
         return new TextFieldWidget()
             .size(84, 16)
             .value(new StringValue.Dynamic(getter, setter))
-            .setPattern(WildcardFilterPage.ID_PATTERN)
             .setMaxLength(96)
             .autoUpdateOnChange(true)
             .setTextAlignment(Alignment.Center)
             .setTextColor(Color.WHITE.main)
-            .tooltipDynamic(tooltip -> tooltip.addLine(Text.lang(tooltipKey)));
+            .background(GTGuiTextures.DISPLAY);
     }
-
-    @Override
-    protected abstract Rectangle rowBackground();
 }

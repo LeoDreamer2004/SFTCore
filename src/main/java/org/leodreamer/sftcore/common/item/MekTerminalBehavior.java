@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.mui.IItemUIHolder;
 import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -25,7 +26,7 @@ import net.minecraft.world.level.Level;
 
 import brachy.modularui.api.drawable.IDrawable;
 import brachy.modularui.api.drawable.Text;
-import brachy.modularui.api.widget.IWidget;
+import brachy.modularui.api.widget.Interactable;
 import brachy.modularui.drawable.GuiTextures;
 import brachy.modularui.factory.PlayerInventoryGuiData;
 import brachy.modularui.screen.ModularPanel;
@@ -39,11 +40,17 @@ import brachy.modularui.widgets.layout.Flow;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @DataGenScanned
 public class MekTerminalBehavior implements IInteractionItem, IItemUIHolder {
 
-    public static final int PAGE_WIDTH = 186;
-    public static final int PAGE_HEIGHT = 154;
+    public static final int PAGE_WIDTH = 220;
+    public static final int PAGE_HEIGHT = 160;
+    public static final int PAGE_PADDING = 4;
+    private static final String SELECT_TAB_ACTION = "mek_terminal_select_tab";
 
     @RegisterLanguage("Right-click the %s with Shift to start building")
     public static final String INVALID_START = "item.sftcore.mek_terminal.invalid_start";
@@ -110,54 +117,65 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIHolder {
     @Override
     public ModularPanel<?> buildUI(PlayerInventoryGuiData<?> data, PanelSyncManager syncManager, UISettings settings) {
         var stack = data.getUsedItemStack();
-        var tabs = createTabs(stack, syncManager);
+
+        // tabs
+        var tabs = new ArrayList<MekTerminalTab<?>>();
+        for (var entry : MekBuilderRegistry.entries()) {
+            tabs.add(entry.createTab(stack, syncManager));
+        }
         var tabController = new PagedWidget.Controller();
-        var editor = createEditor(tabs, tabController);
+        syncManager.registerServerSyncedAction(
+            SELECT_TAB_ACTION,
+            packet -> selectTab(tabs, packet.readVarInt())
+        );
+
+        // editor pages
+        var editor = new PagedWidget<>()
+            .size(PAGE_WIDTH, PAGE_HEIGHT)
+            .initialPage(selectedTabIndex(tabs))
+            .controller(tabController);
+
+        for (var tab : tabs) {
+            editor.addPage(tab.createPage());
+        }
+
+        // main content
         var mainContent = Flow.column()
             .size(230, 190)
             .background(GTGuiTextures.BACKGROUND)
             .child(
                 Flow.column()
-                    .margin(7)
-                    .childPadding(4)
+                    .margin(4)
+                    .childPadding(3)
                     .widthRel(1)
                     .heightRel(1)
                     .child(Text.lang(TITLE).asWidget().horizontalCenter())
                     .child(editor)
             );
+
         var panel = new ModularPanel<>("mek_terminal")
             .background(IDrawable.EMPTY)
             .disableHoverBackground()
             .child(mainContent)
             .coverChildren();
-        panel.child(createTabColumn(tabs, tabController).relative(mainContent).rightRel(1.0f).top(7).decoration());
+        panel.child(
+            createTabColumn(tabs, tabController, syncManager)
+                .relative(mainContent)
+                .rightRel(1.0f)
+                .top(4)
+                .decoration()
+        );
         return panel;
     }
 
-    private IWidget createEditor(List<MekTerminalTab<?>> tabs, PagedWidget.Controller tabController) {
-        var pages = new PagedWidget<>()
-            .size(PAGE_WIDTH, PAGE_HEIGHT)
-            .controller(tabController);
-
-        for (var tab : tabs) {
-            pages.addPage(tab.createPage());
-        }
-
-        return pages;
-    }
-
-    private List<MekTerminalTab<?>> createTabs(ItemStack stack, PanelSyncManager syncManager) {
-        var tabs = new ArrayList<MekTerminalTab<?>>();
-        for (var entry : MekBuilderRegistry.entries()) {
-            tabs.add(entry.createTab(stack, syncManager));
-        }
-        return tabs;
-    }
-
-    private Flow createTabColumn(List<MekTerminalTab<?>> tabs, PagedWidget.Controller tabController) {
+    private Flow createTabColumn(
+        List<MekTerminalTab<?>> tabs,
+        PagedWidget.Controller tabController,
+        PanelSyncManager syncManager
+    ) {
         var column = Flow.column().coverChildren();
         for (int i = 0; i < tabs.size(); i++) {
-            column.child(createTabButton(i, tabLocation(i, tabs.size()), tabController, tabs.get(i)));
+            column.child(createTabButton(i, tabLocation(i, tabs.size()), tabController, tabs.get(i), syncManager));
         }
         return column;
     }
@@ -166,13 +184,39 @@ public class MekTerminalBehavior implements IInteractionItem, IItemUIHolder {
         int index,
         int location,
         PagedWidget.Controller tabController,
-        MekTerminalTab<?> tab
+        MekTerminalTab<?> tab,
+        PanelSyncManager syncManager
     ) {
-        return new PageButton(index, tabController)
+        return new PageButton(index, tabController) {
+
+            @Override
+            public Interactable.Result onMousePressed(int button) {
+                var result = super.onMousePressed(button);
+                if (result == Interactable.Result.SUCCESS) {
+                    syncManager.callSyncedAction(SELECT_TAB_ACTION, buf -> buf.writeVarInt(index));
+                }
+                return result;
+            }
+        }
             .tab(GuiTextures.TAB_LEFT, location)
             .padding(4, 12, 4, 4)
             .overlay(tab.tabIcon().asIcon())
             .tooltip(new RichTooltip().addLine(Text.of(tab.title())));
+    }
+
+    private void selectTab(List<MekTerminalTab<?>> tabs, int index) {
+        if (index >= 0 && index < tabs.size()) {
+            tabs.get(index).select();
+        }
+    }
+
+    private int selectedTabIndex(List<MekTerminalTab<?>> tabs) {
+        for (int i = 0; i < tabs.size(); i++) {
+            if (tabs.get(i).isSelected()) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private int tabLocation(int index, int size) {

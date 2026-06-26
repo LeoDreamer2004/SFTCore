@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.mixin.ae2.crafting;
 
+import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternDecoder;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 import org.leodreamer.sftcore.integration.ae2.feature.IPatternClear;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
 

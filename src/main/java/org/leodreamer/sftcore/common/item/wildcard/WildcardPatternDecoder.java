@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.common.item.wildcard.impl;
+package org.leodreamer.sftcore.common.item.wildcard;
 
 import org.leodreamer.sftcore.common.data.SFTItems;
 

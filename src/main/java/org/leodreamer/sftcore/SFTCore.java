@@ -5,7 +5,7 @@ import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 import org.leodreamer.sftcore.common.data.*;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeCapabilities;
 import org.leodreamer.sftcore.common.data.recipe.SFTRecipeTypes;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternDecoder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;

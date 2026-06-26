@@ -44,9 +44,9 @@ public final class IndustrialTurbineTab extends MekTerminalTab<IndustrialTurbine
     @Override
     protected Flow createContent(Flow container) {
         var config = IndustrialTurbineConfig.resolve(terminal.getOrCreateTag());
-        return container.child(intRow("width", Component.translatable(WIDTH), config::getWidth, config::setWidth))
-            .child(intRow("height", Component.translatable(HEIGHT), config.height::get, config.height::set))
-            .child(intRow("rotors", Component.translatable(ROTORS), config.rotors::get, config.rotors::set))
+        return container.child(intRow("width", WIDTH, config::getWidth, config::setWidth))
+            .child(intRow("height", HEIGHT, config.height::get, config.height::set))
+            .child(intRow("rotors", ROTORS, config.rotors::get, config.rotors::set))
             .child(wrappedText(HINT, 48));
     }
 }

@@ -81,7 +81,7 @@ public class WildcardPatternLogic {
         return stacks.toArray(new GenericStack[0]);
     }
 
-    public boolean test(Material material) {
+    public boolean test(@Nullable Material material) {
         if (material == null) {
             return false;
         }

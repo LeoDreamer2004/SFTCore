@@ -42,13 +42,9 @@ public final class ThermalBoilerTab extends MekTerminalTab<ThermalBoilerBuilder>
     @Override
     protected Flow createContent(Flow container) {
         var config = ThermalBoilerConfig.resolve(terminal.getOrCreateTag());
-        return container.child(intRow("width", Component.translatable(WIDTH), config.width::get, config.width::set))
-            .child(intRow("height", Component.translatable(HEIGHT), config.height::get, config.height::set))
-            .child(intRow("depth", Component.translatable(DEPTH), config.depth::get, config.depth::set))
-            .child(
-                intRow(
-                    "lower", Component.translatable(LOWER_HEIGHT), config.lowerHeight::get, config.lowerHeight::set
-                )
-            );
+        return container.child(intRow("width", WIDTH, config.width::get, config.width::set))
+            .child(intRow("height", HEIGHT, config.height::get, config.height::set))
+            .child(intRow("depth", DEPTH, config.depth::get, config.depth::set))
+            .child(intRow("lower", LOWER_HEIGHT, config.lowerHeight::get, config.lowerHeight::set));
     }
 }

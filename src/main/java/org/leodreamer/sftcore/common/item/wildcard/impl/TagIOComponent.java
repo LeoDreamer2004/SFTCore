@@ -85,7 +85,7 @@ public class TagIOComponent extends WildcardIOComponent {
                 .color(Color.WHITE.main)
                 .tooltipDynamic(tooltip -> tooltip.addLine(Text.dynamic(() -> Component.literal(currentTagName()))))
         );
-        row.child(Text.str("x").asWidget().width(8).textAlign(Alignment.Center));
+        row.child(Text.str("x").asWidget().width(12).textAlign(Alignment.Center).marginLeft(2));
         row.child(amountField(34, () -> amountText, text -> amountText = text));
     }
 

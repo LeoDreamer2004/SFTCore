@@ -1,10 +1,7 @@
 package org.leodreamer.sftcore.common.item.wildcard.feature;
 
-import org.leodreamer.sftcore.api.annotation.DataGenScanned;
-import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardIOPage;
-
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 
 import appeng.api.stacks.GenericStack;
 import brachy.modularui.utils.Alignment;
@@ -15,29 +12,24 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
-@DataGenScanned
-public abstract class WildcardIOComponent extends IWildcardComponentUI {
+public abstract class WildcardIOComponent extends WildcardComponentUI {
 
-    @RegisterLanguage("Delete this ingredient")
-    public static final String DELETE_TOOLTIP = "item.sftcore.wildcard_pattern.ui.io.delete";
+    public static final Pattern AMOUNT_PATTERN = Pattern.compile("[0-9]*");
 
     public abstract @Nullable GenericStack apply(Material material);
-
-    @Override
-    protected String deleteTooltipKey() {
-        return DELETE_TOOLTIP;
-    }
 
     protected TextFieldWidget amountField(int width, Supplier<String> getter, Consumer<String> setter) {
         return new TextFieldWidget()
             .size(width, 16)
             .value(new StringValue.Dynamic(getter, setter))
-            .setPattern(WildcardIOPage.AMOUNT_PATTERN)
+            .setPattern(AMOUNT_PATTERN)
             .setMaxLength(18)
             .autoUpdateOnChange(true)
             .setTextAlignment(Alignment.Center)
-            .setTextColor(Color.WHITE.main);
+            .setTextColor(Color.WHITE.main)
+            .background(GTGuiTextures.DISPLAY);
     }
 
     protected static long parseLongAmount(String text) {

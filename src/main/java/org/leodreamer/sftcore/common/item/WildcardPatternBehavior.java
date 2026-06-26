@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.common.item;
 
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternUIProvider;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardTooltips;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardTooltips;
 
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.mui.IItemUIHolder;

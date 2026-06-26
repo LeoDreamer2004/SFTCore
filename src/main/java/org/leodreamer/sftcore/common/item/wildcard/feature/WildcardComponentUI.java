@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.item.wildcard.feature;
 
+import org.leodreamer.sftcore.api.gui.SFTGuiTextures;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternUIProvider;
 
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -9,15 +10,42 @@ import net.minecraft.network.chat.Component;
 
 import brachy.modularui.api.drawable.Text;
 import brachy.modularui.api.widget.IWidget;
+import brachy.modularui.drawable.GuiTextures;
 import brachy.modularui.drawable.Rectangle;
 import brachy.modularui.utils.Alignment;
+import brachy.modularui.utils.Color;
 import brachy.modularui.value.sync.PanelSyncManager;
 import brachy.modularui.value.sync.PhantomItemSlotSyncHandler;
+import brachy.modularui.widget.EmptyWidget;
 import brachy.modularui.widgets.layout.Flow;
 import brachy.modularui.widgets.slot.ModularSlot;
 import brachy.modularui.widgets.slot.PhantomItemSlot;
 
-public abstract class IWildcardComponentUI {
+public abstract class WildcardComponentUI {
+
+    /**
+     * Add the content to the UI line
+     */
+    protected abstract void addLineContent(
+        Flow row,
+        PanelSyncManager syncManager,
+        String lineSyncKey
+    );
+
+    /**
+     * Background of this line
+     */
+    protected abstract Rectangle rowBackground();
+
+    /**
+     * Generate a tooltip to the wildcard item
+     */
+    public abstract Component createTooltip();
+
+    /**
+     * Save callback
+     */
+    public void onSave() {}
 
     public IWidget createLine(
         int index,
@@ -30,23 +58,30 @@ public abstract class IWildcardComponentUI {
             .height(24)
             .background(rowBackground());
         row.child(Text.str(Integer.toString(index)).asWidget().width(10).textAlign(Alignment.Center));
+
+        // content
         addLineContent(row, syncManager, lineSyncKey);
-        row.child(createDeleteButton(onRemove));
+
+        // stretch
+        var spacer = new EmptyWidget();
+        spacer.resizer().expanded(true);
+        row.child(spacer);
+
+        // remove
+        var remove = WildcardPatternUIProvider.createButton(18, SFTGuiTextures.CLOSE, onRemove)
+            .background(GuiTextures.MC_BUTTON)
+            .hoverBackground(GuiTextures.MC_BUTTON_HOVERED);
+        row.child(remove);
         return row;
     }
 
-    protected abstract void addLineContent(
-        Flow row,
-        PanelSyncManager syncManager,
-        String lineSyncKey
-    );
-
-    protected abstract Rectangle rowBackground();
-
-    protected abstract String deleteTooltipKey();
-
     protected IWidget createTypeButton(int width, String labelKey) {
-        return WildcardPatternUIProvider.createButton(width, Text.lang(labelKey).scale(0.55f), () -> {});
+        return Text.lang(labelKey)
+            .asWidget()
+            .width(width)
+            .height(16)
+            .textAlign(Alignment.Center)
+            .color(Color.WHITE.main);
     }
 
     protected <T extends CustomItemStackHandler> PhantomItemSlotSyncHandler registerSampleSlot(
@@ -55,9 +90,13 @@ public abstract class IWildcardComponentUI {
         PanelSyncManager syncManager,
         String lineSyncKey
     ) {
+        var sample = new ModularSlot(sampleSlot, 0)
+            .changeListener((stack, amount, client, init) -> sampleSlot.setStackInSlot(0, stack))
+            .accessibility(true, false);
         var handler = syncManager.getOrCreateSyncHandler(
-            typedLineSyncKey(lineSyncKey, handlerType), PhantomItemSlotSyncHandler.class,
-            () -> new PhantomItemSlotSyncHandler(createSampleModularSlot(sampleSlot))
+            lineSyncKey + "_" + handlerType.getSimpleName(),
+            PhantomItemSlotSyncHandler.class,
+            () -> new PhantomItemSlotSyncHandler(sample)
         );
         var itemHandler = handler.getSlot().getItemHandler();
         if (!handlerType.isInstance(itemHandler)) {
@@ -78,31 +117,8 @@ public abstract class IWildcardComponentUI {
 
     protected IWidget createSampleSlot(PhantomItemSlotSyncHandler syncHandler) {
         return new PhantomItemSlot()
-            .syncHandler(syncHandler)
-            .background(GTGuiTextures.SLOT);
+            .size(18)
+            .background(GTGuiTextures.SLOT)
+            .syncHandler(syncHandler);
     }
-
-    private static String typedLineSyncKey(
-        String lineSyncKey,
-        Class<? extends CustomItemStackHandler> handlerType
-    ) {
-        return lineSyncKey + "_" + handlerType.getSimpleName();
-    }
-
-    private static ModularSlot createSampleModularSlot(CustomItemStackHandler sampleSlot) {
-        return new ModularSlot(sampleSlot, 0)
-            .changeListener((stack, amount, client, init) -> sampleSlot.setStackInSlot(0, stack))
-            .ignoreMaxStackSize(true)
-            .accessibility(true, false);
-    }
-
-    protected IWidget createDeleteButton(Runnable onRemove) {
-        return WildcardPatternUIProvider.createButton(
-            18, Text.str("X").scale(0.55f), onRemove
-        ).tooltipDynamic(tooltip -> tooltip.addLine(Text.lang(deleteTooltipKey())));
-    }
-
-    public abstract Component createTooltip();
-
-    public void onSave() {}
 }

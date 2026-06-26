@@ -32,7 +32,6 @@ public class WildcardPatternUIProvider implements IItemUIHolder {
 
     public static final String PANEL_NAME = "wildcard_pattern";
     private static final String SAVE_ACTION = "wildcard_pattern_save";
-    public static final int MAX_COMPONENTS = 6;
     public static final int EDITOR_HEIGHT = 252;
     public static final int PAGE_WIDTH = 214;
     public static final int ROW_WIDTH = 205;
@@ -47,6 +46,9 @@ public class WildcardPatternUIProvider implements IItemUIHolder {
     @RegisterLanguage("Save")
     public static final String SAVE_LABEL = "item.sftcore.wildcard_pattern.ui.save";
 
+    @RegisterLanguage("IDX")
+    public static final String INDEX_TAB_LABEL = "item.sftcore.wildcard_pattern.ui.tab.index";
+
     @RegisterLanguage("IN")
     public static final String INPUT_TAB_LABEL = "item.sftcore.wildcard_pattern.ui.tab.input";
 
@@ -55,15 +57,6 @@ public class WildcardPatternUIProvider implements IItemUIHolder {
 
     @RegisterLanguage("FIL")
     public static final String FILTER_TAB_LABEL = "item.sftcore.wildcard_pattern.ui.tab.filter";
-
-    @RegisterLanguage("Input Configuration")
-    public static final String INPUT_TITLE = "item.sftcore.wildcard_pattern.ui.input.title";
-
-    @RegisterLanguage("Output Configuration")
-    public static final String OUTPUT_TITLE = "item.sftcore.wildcard_pattern.ui.output.title";
-
-    @RegisterLanguage("Material Filter Configuration")
-    public static final String FILTER_TITLE = "item.sftcore.wildcard_pattern.ui.filter.title";
 
     public WildcardPatternUIProvider(ItemStack stack, Consumer<ItemStack> onSave) {
         this.stack = stack;
@@ -76,24 +69,16 @@ public class WildcardPatternUIProvider implements IItemUIHolder {
         PlayerInventoryGuiData<?> guiData, PanelSyncManager syncManager, UISettings settings
     ) {
         syncManager.registerServerSyncedAction(SAVE_ACTION, packet -> save());
-        this.inputPage = new WildcardIOPage(
-            INPUT_TITLE,
-            "input",
-            logic.getIOComponents(WildcardPatternLogic.IO.IN),
-            syncManager
-        );
-        this.outputPage = new WildcardIOPage(
-            OUTPUT_TITLE,
-            "output",
-            logic.getIOComponents(WildcardPatternLogic.IO.OUT),
-            syncManager
-        );
-        this.filterPage = new WildcardFilterPage("filter", logic.getFilterComponents(), syncManager);
+        var indexPage = new WildcardIndexPage(logic, guiData.getLevel());
+        this.inputPage = new WildcardIOPage(logic, WildcardPatternLogic.IO.IN, syncManager);
+        this.outputPage = new WildcardIOPage(logic, WildcardPatternLogic.IO.OUT, syncManager);
+        this.filterPage = new WildcardFilterPage(logic, syncManager);
 
         var tabController = new PagedWidget.Controller();
         var editor = new PagedWidget<>()
             .size(PAGE_WIDTH, EDITOR_HEIGHT)
             .controller(tabController)
+            .addPage(indexPage.createWidget())
             .addPage(inputPage.createWidget())
             .addPage(outputPage.createWidget())
             .addPage(filterPage.createWidget());
@@ -107,7 +92,7 @@ public class WildcardPatternUIProvider implements IItemUIHolder {
             .child(editor)
             .child(
                 createButton(
-                    54, Text.lang(SAVE_LABEL).style(ChatFormatting.WHITE).scale(0.55f),
+                    58, Text.lang(SAVE_LABEL).style(ChatFormatting.WHITE).scale(0.75f),
                     () -> syncManager.callSyncedAction(SAVE_ACTION)
                 ).horizontalCenter()
             );
@@ -121,9 +106,10 @@ public class WildcardPatternUIProvider implements IItemUIHolder {
         panel.child(
             Flow.column()
                 .coverChildren()
-                .child(createTabButton(0, -1, tabController, INPUT_TAB_LABEL, INPUT_TITLE))
-                .child(createTabButton(1, 0, tabController, OUTPUT_TAB_LABEL, OUTPUT_TITLE))
-                .child(createTabButton(2, 1, tabController, FILTER_TAB_LABEL, FILTER_TITLE))
+                .child(createTabButton(0, -1, tabController, INDEX_TAB_LABEL, WildcardIndexPage.TITLE))
+                .child(createTabButton(1, 0, tabController, INPUT_TAB_LABEL, WildcardIOPage.INPUT_TITLE))
+                .child(createTabButton(2, 0, tabController, OUTPUT_TAB_LABEL, WildcardIOPage.OUTPUT_TITLE))
+                .child(createTabButton(3, 1, tabController, FILTER_TAB_LABEL, WildcardFilterPage.TITLE))
                 .relative(mainContent)
                 .rightRel(1.0f)
                 .top(0)
@@ -141,13 +127,15 @@ public class WildcardPatternUIProvider implements IItemUIHolder {
     ) {
         return new PageButton(index, tabController)
             .tab(GuiTextures.TAB_LEFT, location)
-            .overlay(Text.lang(labelKey).style(ChatFormatting.WHITE).scale(0.55f))
+            .overlay(Text.lang(labelKey).style(ChatFormatting.WHITE).scale(0.75f))
             .tooltip(new RichTooltip().addLine(Text.lang(tooltipKey)));
     }
 
     public static ButtonWidget<?> createButton(int width, IDrawable label, Runnable action) {
         return new ButtonWidget<>()
             .size(width, 18)
+            .background(GuiTextures.MC_BUTTON)
+            .hoverBackground(GuiTextures.MC_BUTTON_HOVERED)
             .overlay(label)
             .onMousePressed((context, button) -> {
                 if (button == InputConstants.MOUSE_BUTTON_LEFT) {

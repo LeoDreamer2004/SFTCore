@@ -33,7 +33,6 @@ public final class ThermalEvaporationTab extends MekTerminalTab<ThermalEvaporati
     @Override
     protected Flow createContent(Flow container) {
         var config = ThermalEvaporationConfig.resolve(terminal.getOrCreateTag());
-        return container
-            .child(intRow("height", Component.translatable(HEIGHT), config.height::get, config.height::set));
+        return container.child(intRow("height", HEIGHT, config.height::get, config.height::set));
     }
 }

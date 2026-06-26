@@ -38,6 +38,7 @@
     "emi.SyntheticMixin",
     "emi.TooltipQueryMixin",
     "emi.VanillaPluginMixin",
+    "emi.WidgetGroupMixin",
     "extendae.ItemWirelessConnectorToolMixin",
     "extendae.PartExPatternProviderMixin",
     "forge.FluidStackMixin",

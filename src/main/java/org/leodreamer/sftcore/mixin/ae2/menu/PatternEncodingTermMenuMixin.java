@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.mixin.ae2.menu;
 
 import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternDecoder;
 import org.leodreamer.sftcore.integration.ae2.feature.*;
 import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;

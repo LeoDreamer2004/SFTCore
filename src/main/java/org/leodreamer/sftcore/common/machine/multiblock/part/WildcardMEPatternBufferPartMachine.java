@@ -1,8 +1,8 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
 import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
+import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternDecoder;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
-import org.leodreamer.sftcore.common.item.wildcard.impl.WildcardPatternDecoder;
 import org.leodreamer.sftcore.common.machine.trait.WildcardInternalSlotRecipeHandler;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;

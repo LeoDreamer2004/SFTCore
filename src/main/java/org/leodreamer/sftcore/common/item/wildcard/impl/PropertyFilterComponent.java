@@ -56,9 +56,6 @@ public class PropertyFilterComponent extends WildcardFilterComponent {
     @RegisterLanguage("Property")
     public static final String LABEL = "item.sftcore.wildcard_pattern.ui.filter.property";
 
-    @RegisterLanguage("Property key")
-    public static final String DETAIL_TOOLTIP = "item.sftcore.wildcard_pattern.ui.filter.property_key";
-
     public static PropertyFilterComponent empty() {
         return new PropertyFilterComponent(EMPTY, GTMaterials.NULL, false);
     }
@@ -93,7 +90,7 @@ public class PropertyFilterComponent extends WildcardFilterComponent {
         row.child(createTypeButton(52, LABEL));
         row.child(createWhitelistButton(row));
         row.child(createSampleSlot(sampleSyncHandler));
-        row.child(detailField(() -> detail, text -> detail = text, DETAIL_TOOLTIP));
+        row.child(detailField(() -> detail, text -> detail = text));
     }
 
     @Override
@@ -106,12 +103,9 @@ public class PropertyFilterComponent extends WildcardFilterComponent {
         property = exampleSlot.getProperty();
     }
 
-    @RegisterLanguage("Property")
-    private static final String PROPERTY_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.property";
-
     @Override
     public Component createTooltip() {
-        return whitelistTooltip().append(" ").append(Component.translatable(PROPERTY_TOOLTIP_KEY))
+        return whitelistTooltip().append(" ").append(Component.translatable(LABEL))
             .append(Component.literal(" " + property).withStyle(ChatFormatting.RED));
     }
 

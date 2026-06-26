@@ -1,8 +1,7 @@
-package org.leodreamer.sftcore.common.item.wildcard.impl;
+package org.leodreamer.sftcore.common.item.wildcard;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

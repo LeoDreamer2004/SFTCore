@@ -77,12 +77,9 @@ public class SimpleFilterComponent extends WildcardFilterComponent {
         material = example == null ? material : example.getMaterial();
     }
 
-    @RegisterLanguage("Material")
-    private static final String SIMPLE_TOOLTIP_KEY = "item.sftcore.wildcard_pattern.tooltip.filter.simple";
-
     @Override
     public Component createTooltip() {
-        return whitelistTooltip().append(" ").append(Component.translatable(SIMPLE_TOOLTIP_KEY))
+        return whitelistTooltip().append(" ").append(Component.translatable(LABEL))
             .append(Component.literal(" " + getMaterialString(material)).withStyle(ChatFormatting.BLUE));
     }
 

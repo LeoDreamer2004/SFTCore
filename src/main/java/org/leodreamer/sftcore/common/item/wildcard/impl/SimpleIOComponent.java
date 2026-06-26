@@ -103,7 +103,7 @@ public class SimpleIOComponent extends WildcardIOComponent {
         this.sample.setGenericStack(stack);
         row.child(createTypeButton(42, LABEL));
         row.child(createSampleSlot(sampleSyncHandler));
-        row.child(Text.str("x").asWidget().width(8).textAlign(Alignment.Center));
+        row.child(Text.str("x").asWidget().width(12).textAlign(Alignment.Center).marginLeft(2));
         row.child(amountField(62, () -> Long.toString(amount), text -> amount = parseLongAmount(text)));
     }
 
