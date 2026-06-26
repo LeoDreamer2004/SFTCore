@@ -1,5 +1,7 @@
 package org.leodreamer.sftcore.api.pattern;
 
+import org.leodreamer.sftcore.SFTCore;
+
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.multiblock.pattern.MultiblockPatternBuilder;
 import com.gregtechceu.gtceu.api.multiblock.util.RelativeDirection;
@@ -7,13 +9,13 @@ import com.gregtechceu.gtceu.api.multiblock.util.RelativeDirection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class MultiBlockFileReader {
 
     private MultiBlockFileReader() {}
+
+    private static final Pattern REGEX = Pattern.compile("\"([^\"]*)\"");
 
     public static MultiblockPatternBuilder start(MultiblockMachineDefinition definition) {
         return start(
@@ -37,8 +39,6 @@ public final class MultiBlockFileReader {
         return start(charDir, stringDir, aisleDir, definition.getName());
     }
 
-    static Pattern regex = Pattern.compile("\"([^\"]*)\"");
-
     private static MultiblockPatternBuilder start(
         RelativeDirection charDir,
         RelativeDirection stringDir,
@@ -46,18 +46,23 @@ public final class MultiBlockFileReader {
         String name
     ) {
         var pattern = MultiblockPatternBuilder.start(aisleDir, stringDir, charDir);
-        var stream = MultiBlockFileReader.class.getClassLoader().getResourceAsStream("pattern/" + name + ".mbp");
-        if (stream == null) throw new RuntimeException("pattern not found: " + name);
+        var stream = MultiBlockFileReader.class.getClassLoader()
+            .getResourceAsStream("data/" + SFTCore.MOD_ID + "/pattern/" + name + ".mbp");
+        if (stream == null) {
+            throw new RuntimeException("pattern not found: " + name);
+        }
         // read lines from stream
         try (stream) {
             var reader = new BufferedReader(new InputStreamReader(stream));
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.isEmpty()) continue;
+                if (line.isEmpty()) {
+                    continue;
+                }
                 line = line.trim();
 
-                List<String> aisle = new ArrayList<>();
-                Matcher matcher = regex.matcher(line);
+                var aisle = new ArrayList<String>();
+                var matcher = REGEX.matcher(line);
                 while (matcher.find()) {
                     String extracted = matcher.group(1);
                     aisle.add(extracted);

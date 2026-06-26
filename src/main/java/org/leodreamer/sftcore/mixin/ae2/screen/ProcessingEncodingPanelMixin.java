@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-@Mixin(ProcessingEncodingPanel.class)
+@Mixin(value = ProcessingEncodingPanel.class, remap = false)
 public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
 
     @Unique
@@ -65,7 +65,7 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
         return btn;
     }
 
-    @Inject(method = "setVisible", at = @At("TAIL"), remap = false)
+    @Inject(method = "setVisible", at = @At("TAIL"))
     private void setVisibleWithNewBtn(boolean visible, CallbackInfo ci) {
         if (sftcore$x2Btn != null) {
             sftcore$x2Btn.visible = visible;

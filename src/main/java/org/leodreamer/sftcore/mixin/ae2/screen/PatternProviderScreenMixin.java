@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(PatternProviderScreen.class)
+@Mixin(value = PatternProviderScreen.class, remap = false)
 public class PatternProviderScreenMixin<C extends PatternProviderMenu> extends AEBaseScreen<C>
     implements IReceivePrompt {
 

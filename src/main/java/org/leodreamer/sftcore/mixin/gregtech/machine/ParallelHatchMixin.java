@@ -12,12 +12,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(ParallelHatchPartMachine.class)
+@Mixin(value = ParallelHatchPartMachine.class, remap = false)
 public abstract class ParallelHatchMixin {
 
     @Mutable
     @Final
-    @Shadow(remap = false)
+    @Shadow
     private int maxParallel;
 
     @Inject(method = "<init>", at = @At("TAIL"))
@@ -26,10 +26,10 @@ public abstract class ParallelHatchMixin {
         this.setCurrentParallel(this.maxParallel);
     }
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract void setCurrentParallel(int parallelAmount);
 
-    @Inject(method = "canShared", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "canShared", at = @At("HEAD"), cancellable = true)
     private void sftcore$canShared(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }

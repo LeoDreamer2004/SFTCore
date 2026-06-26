@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.mixin.emi;
 
-import org.leodreamer.sftcore.mixin.gregtech.xei.GTEmiRecipeAccessor;
+import org.leodreamer.sftcore.integration.emi.recipe.IGTEmiRecipe;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -33,8 +33,8 @@ public class SyntheticMixin extends EmiFavorite {
         int flags,
         CallbackInfo ci
     ) {
-        if (openedMachine != null && recipe instanceof GTEmiRecipeAccessor gtRecipe) {
-            var recipeType = gtRecipe.getRecipe().recipeType;
+        if (openedMachine != null && recipe instanceof IGTEmiRecipe gtRecipe) {
+            var recipeType = gtRecipe.sftcore$recipe().recipeType;
             if (GTMachineUtils.guessRecipe(openedMachine, recipeType).ok()) {
                 var context = EmiDrawContext.wrap(raw);
                 context.fill(x - 1, y - 1, 18, 18, 0x50FFD700);

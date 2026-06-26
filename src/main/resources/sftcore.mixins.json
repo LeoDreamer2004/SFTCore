@@ -69,7 +69,7 @@
     "gregtech.recipe.RecipeLogicMixin",
     "gregtech.util.GTUtilMixin",
     "gregtech.xei.AE2PatternTerminalHandlerMixin",
-    "gregtech.xei.GTEmiRecipeAccessor",
+    "gregtech.xei.GTEmiRecipeGasMixin",
     "gtmoremachine.MEOutputPartMachineMixin",
     "gtmoremachine.WirelessEnergyInterfaceMixin",
     "mekanism.RenderIndustrialTurbineMixin",

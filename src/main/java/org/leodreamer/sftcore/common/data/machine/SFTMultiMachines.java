@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.multiblock.pattern.MultiblockPatternBuilder;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.world.item.DyeColor;
@@ -25,6 +24,7 @@ import net.minecraft.world.level.material.Fluids;
 
 import appeng.core.definitions.AEBlocks;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.content.decoration.palettes.AllPaletteBlocks;
 import mekanism.common.registries.MekanismBlocks;
 import mekanism.generators.common.registries.GeneratorsBlocks;
 
@@ -44,13 +44,13 @@ public final class SFTMultiMachines {
         .multiblock("fishbig_maker", WorkableKineticMultiblockMachine::new)
         .rotationState(RotationState.ALL)
         .recipeType(SFTRecipeTypes.FISHBIG_MAKER_RECIPES)
-        .appearanceBlock(CASING_STEEL_SOLID)
+        .appearanceBlock(GeneratorsBlocks.FISSION_REACTOR_CASING::getBlock)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('U', controller(blocks(definition.get())))
+                .where('R', controller(blocks(definition.get())))
                 .where(
                     'A',
-                    blocks(AllBlocks.RAILWAY_CASING.get())
+                    blocks(GeneratorsBlocks.FISSION_REACTOR_CASING.getBlock())
                         .or(autoAbilities(definition.getRecipeTypes()))
                         .or(
                             abilities(SFTPartAbility.INPUT_KINETIC)
@@ -58,15 +58,26 @@ public final class SFTMultiMachines {
                                 .setMinGlobalLimited(1)
                         )
                 )
-                .where('B', blocks(MekanismBlocks.INDUCTION_CASING.getBlock()))
-                .where('C', blocks(MekanismBlocks.TELEPORTER_FRAME.getBlock()))
-                .where('E', blocks(MekanismBlocks.DYNAMIC_TANK.getBlock()))
-                .where('F', blocks(GeneratorsBlocks.FUSION_REACTOR_FRAME.getBlock()))
-                .where('H', blocks(MekanismBlocks.REFINED_GLOWSTONE_BLOCK.getBlock()))
+                .where('B', blocks(GeneratorsBlocks.ROTATIONAL_COMPLEX.getBlock()))
+                .where('C', blocks(GeneratorsBlocks.TURBINE_CASING.getBlock()))
+                .where('D', blocks(GeneratorsBlocks.TURBINE_VENT.getBlock()))
+                .where('E', blocks(AllBlocks.RAILWAY_CASING.get()))
+                .where('F', blocks(MekanismBlocks.STEEL_CASING.getBlock()))
+                .where('G', blocks(MekanismBlocks.SPS_CASING.getBlock()))
+                .where('H', blocks(GeneratorsBlocks.ELECTROMAGNETIC_COIL.getBlock()))
+                .where('I', blocks(MekanismBlocks.THERMAL_EVAPORATION_BLOCK.getBlock()))
+                .where('J', blocks(MekanismBlocks.ULTIMATE_INDUCTION_CELL.getBlock()))
+                .where('K', blocks(MekanismBlocks.TELEPORTER_FRAME.getBlock()))
+                .where('L', blocks(MekanismBlocks.DYNAMIC_TANK.getBlock()))
+                .where('M', blocks(GeneratorsBlocks.REACTOR_GLASS.getBlock()))
+                .where('O', blocks(MekanismBlocks.ULTIMATE_INDUCTION_PROVIDER.getBlock()))
+                .where('P', blocks(GeneratorsBlocks.FUSION_REACTOR_FRAME.getBlock()))
+                .where('S', blocks(GeneratorsBlocks.FISSION_FUEL_ASSEMBLY.getBlock()))
+                .where('T', blocks(GeneratorsBlocks.FUSION_REACTOR_PORT.getBlock()))
                 .build()
         )
         .workableCasingModel(
-            SFTCore.id("block/casings/solid/create_railway_casing"),
+            SFTCore.id("block/casings/solid/mek_fission_casing"),
             GTCEu.id("block/multiblock/gcym/large_mixer")
         )
         .register();
@@ -75,16 +86,28 @@ public final class SFTMultiMachines {
         .multiblock("mechanical_box", MechanicalBoxMachine::new)
         .rotationState(RotationState.ALL)
         .recipeType(SFTRecipeTypes.MECHANICAL_BOX_RECIPES)
-        .appearanceBlock(AllBlocks.RAILWAY_CASING)
+        .appearanceBlock(AllBlocks.BRASS_CASING)
         .pattern(
-            definition -> MultiblockPatternBuilder.start()
-                .slice("AAA", "AAA", "AAA")
-                .slice("AAA", "A A", "AAA")
-                .slice("AAA", "AUA", "AAA")
-                .where('U', controller(blocks(definition.get())))
+            definition -> MultiBlockFileReader.start(definition)
+                .where('Q', controller(blocks(definition.get())))
+                .where('A', blocks(AllBlocks.BRASS_CASING.get()))
+                .where('B', blocks(AllPaletteBlocks.FRAMED_GLASS.get()))
+                .where('C', blocks(AllBlocks.RAILWAY_CASING.get()))
+                .where('D', blocks(AllBlocks.BRASS_BLOCK.get()))
+                .where('E', blocks(AllBlocks.DEPOT.get()))
+                .where('F', blocks(AllBlocks.BASIN.get()))
+                .where('G', blocks(AllBlocks.MECHANICAL_PRESS.get()))
+                .where('H', blocks(AllBlocks.MECHANICAL_MIXER.get()))
+                .where('I', blocks(AllBlocks.MECHANICAL_ARM.get()))
+                .where('J', blocks(AllBlocks.CRUSHING_WHEEL.get()))
+                .where('K', blocks(AllBlocks.ENCASED_FLUID_PIPE.get()))
+                .where('L', blocks(AllBlocks.BRASS_SCAFFOLD.get()))
+                .where('M', blocks(AllBlocks.FLUID_PIPE.get()))
+                .where('N', blocks(AllBlocks.BLAZE_BURNER.get()))
+                .where('O', blocks(AllBlocks.FLUID_TANK.get()))
                 .where(
-                    'A',
-                    blocks(AllBlocks.RAILWAY_CASING.get())
+                    'P',
+                    blocks(AllBlocks.BRASS_CASING.get())
                         .or(autoAbilities(definition.getRecipeTypes()))
                         .or(abilities(SFTPartAbility.MECHANICAL_PATTERN_HATCH).setExactLimit(1))
                         .or(
@@ -96,7 +119,7 @@ public final class SFTMultiMachines {
                 .build()
         )
         .workableCasingModel(
-            SFTCore.id("block/casings/solid/create_railway_casing"),
+            SFTCore.id("block/casings/solid/create_brass_casing"),
             GTCEu.id("block/multiblock/gcym/large_mixer")
         )
         .register();

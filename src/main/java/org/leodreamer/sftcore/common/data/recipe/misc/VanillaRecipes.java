@@ -75,7 +75,7 @@ public final class VanillaRecipes {
         var mek = MekanismItems.PROCESSED_RESOURCES;
         uu(
             provider,
-            mek.get(ResourceType.INGOT, PrimaryResource.OSMIUM).asItem(),
+            mek.get(ResourceType.INGOT, PrimaryResource.OSMIUM).get(),
             3,
             " U ",
             "  U",
@@ -83,22 +83,22 @@ public final class VanillaRecipes {
         );
         uu(
             provider,
-            mek.get(ResourceType.INGOT, PrimaryResource.LEAD).asItem(),
+            mek.get(ResourceType.INGOT, PrimaryResource.LEAD).get(),
             3,
             "   ",
             " U ",
             "U U"
         );
-        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.TIN).asItem(), 4, "   ", "U U", " U ");
+        uu(provider, mek.get(ResourceType.INGOT, PrimaryResource.TIN).get(), 4, "   ", "U U", " U ");
         uu(
             provider,
-            mek.get(ResourceType.INGOT, PrimaryResource.URANIUM).asItem(),
+            mek.get(ResourceType.INGOT, PrimaryResource.URANIUM).get(),
             10,
             " U ",
             "UUU",
             "   "
         );
-        uu(provider, MekanismItems.FLUORITE_GEM.asItem(), 8, "   ", "UUU", " U ");
+        uu(provider, MekanismItems.FLUORITE_GEM.get(), 8, "   ", "UUU", " U ");
 
         uu(provider, AEItems.SKY_DUST.asItem(), 6, "  U", " U ", "  U");
     }

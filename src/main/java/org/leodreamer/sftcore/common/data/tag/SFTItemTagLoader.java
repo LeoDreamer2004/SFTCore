@@ -20,8 +20,8 @@ public final class SFTItemTagLoader {
         provider.addTag(Tags.Items.DYES_WHITE).add(Items.QUARTZ);
         provider.addTag(Tags.Items.DYES_LIGHT_BLUE).add(Items.DIAMOND);
 
-        provider.addTag(CustomTags.ULV_CIRCUITS).add(MekanismItems.ADVANCED_CONTROL_CIRCUIT.asItem());
-        provider.addTag(CustomTags.LV_CIRCUITS).add(MekanismItems.ELITE_CONTROL_CIRCUIT.asItem());
-        provider.addTag(CustomTags.MV_CIRCUITS).add(MekanismItems.ULTIMATE_CONTROL_CIRCUIT.asItem());
+        provider.addTag(CustomTags.ULV_CIRCUITS).add(MekanismItems.ADVANCED_CONTROL_CIRCUIT.get());
+        provider.addTag(CustomTags.LV_CIRCUITS).add(MekanismItems.ELITE_CONTROL_CIRCUIT.get());
+        provider.addTag(CustomTags.MV_CIRCUITS).add(MekanismItems.ULTIMATE_CONTROL_CIRCUIT.get());
     }
 }

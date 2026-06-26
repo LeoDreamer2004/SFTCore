@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MEHatchPartMachine.class)
+@Mixin(value = MEHatchPartMachine.class, remap = false)
 public abstract class MEHatchPartMachineMixin extends FluidHatchPartMachine implements IWirelessAEMachine {
 
     @Unique

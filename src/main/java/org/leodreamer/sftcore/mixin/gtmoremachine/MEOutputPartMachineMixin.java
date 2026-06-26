@@ -24,7 +24,7 @@ public abstract class MEOutputPartMachineMixin extends ItemBusPartMachine implem
         super(info, tier, io);
     }
 
-    @Inject(method = "<init>", at = @At("TAIL"))
+    @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void addWirelessHolder(BlockEntityCreationInfo holder, CallbackInfo ci) {
         sftcore$wirelessHolder = attachTrait(new WirelessGridHolder());
     }
