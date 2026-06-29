@@ -77,7 +77,7 @@ public final class SFTMultiMachines {
                 .build()
         )
         .workableCasingModel(
-            SFTCore.id("block/casings/solid/mek_fission_casing"),
+            SFTCore.id("block/casings/solid/mek_fission_reactor_casing"),
             GTCEu.id("block/multiblock/gcym/large_mixer")
         )
         .register();
@@ -223,7 +223,7 @@ public final class SFTMultiMachines {
                 .build()
         )
         .workableCasingModel(
-            SFTCore.id("block/casings/solid/mek_reactor_frame"),
+            SFTCore.id("block/casings/solid/mek_fusion_reactor_frame"),
             GTCEu.id("block/multiblock/generator/large_plasma_turbine")
         )
         .register();

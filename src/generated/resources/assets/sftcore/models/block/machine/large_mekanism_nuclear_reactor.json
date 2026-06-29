@@ -3,14 +3,14 @@
   "loader": "gtceu:machine",
   "machine": "sftcore:large_mekanism_nuclear_reactor",
   "texture_overrides": {
-    "all": "sftcore:block/casings/solid/mek_reactor_frame"
+    "all": "sftcore:block/casings/solid/mek_fusion_reactor_frame"
   },
   "variants": {
     "recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "sftcore:block/casings/solid/mek_reactor_frame",
+          "all": "sftcore:block/casings/solid/mek_fusion_reactor_frame",
           "overlay_front": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front",
           "overlay_front_emissive": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front_emissive"
         }
@@ -20,7 +20,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "sftcore:block/casings/solid/mek_reactor_frame",
+          "all": "sftcore:block/casings/solid/mek_fusion_reactor_frame",
           "overlay_front": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front_paused",
           "overlay_front_emissive": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front_paused_emissive"
         }
@@ -30,7 +30,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "sftcore:block/casings/solid/mek_reactor_frame",
+          "all": "sftcore:block/casings/solid/mek_fusion_reactor_frame",
           "overlay_front": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front_active",
           "overlay_front_emissive": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front_active_emissive"
         }
@@ -40,7 +40,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "sftcore:block/casings/solid/mek_reactor_frame",
+          "all": "sftcore:block/casings/solid/mek_fusion_reactor_frame",
           "overlay_front": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front_active",
           "overlay_front_emissive": "gtceu:block/multiblock/generator/large_plasma_turbine/overlay_front_active_emissive"
         }
