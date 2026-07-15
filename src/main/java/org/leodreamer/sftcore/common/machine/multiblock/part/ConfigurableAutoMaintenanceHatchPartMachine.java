@@ -3,9 +3,8 @@ package org.leodreamer.sftcore.common.machine.multiblock.part;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -25,8 +24,8 @@ import brachy.modularui.widgets.layout.Flow;
 import brachy.modularui.widgets.textfield.TextFieldWidget;
 import lombok.Getter;
 
-public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachine
-    implements IMaintenanceMachine, IMuiMachine {
+public class ConfigurableAutoMaintenanceHatchPartMachine extends MaintenanceHatchPartMachine
+    implements IMuiMachine {
 
     @Getter
     @SaveField
@@ -37,11 +36,11 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends TieredPartMachi
     private static final float DURATION_ACTION_AMOUNT = 0.2f;
 
     public ConfigurableAutoMaintenanceHatchPartMachine(BlockEntityCreationInfo info) {
-        super(info, GTValues.IV);
+        super(info, GTValues.IV, true);
     }
 
     public ConfigurableAutoMaintenanceHatchPartMachine(BlockEntityCreationInfo info, int tier) {
-        super(info, tier);
+        super(info, tier, true);
     }
 
     @Override

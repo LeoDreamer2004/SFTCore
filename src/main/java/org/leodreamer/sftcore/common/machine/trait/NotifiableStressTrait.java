@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;

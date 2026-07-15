@@ -2,12 +2,12 @@ package org.leodreamer.sftcore.common.item;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
-import org.leodreamer.sftcore.common.machine.trait.SimpleNotifiableItemHandler;
 import org.leodreamer.sftcore.util.RLUtils;
 
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.ICustomDescriptionId;
 import com.gregtechceu.gtceu.api.mui.IItemUIHolder;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 
 import net.minecraft.ChatFormatting;
@@ -101,11 +101,23 @@ public class OrderBehavior
     @Override
     public ModularPanel<?> buildUI(PlayerInventoryGuiData<?> data, PanelSyncManager syncManager, UISettings settings) {
         var stack = data.getUsedItemStack();
-        var handler = new SimpleNotifiableItemHandler(
-            target -> setTarget(stack, target),
-            () -> clearTarget(stack)
-        );
-        handler.setStackInSlot(0, getTarget(stack));
+        var handler = new CustomItemStackHandler(getTarget(stack)) {
+
+            @Override
+            public void onContentsChanged(int slot) {
+                var target = getStackInSlot(slot);
+                if (target.isEmpty()) {
+                    clearTarget(stack);
+                } else {
+                    setTarget(stack, target);
+                }
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
+        };
 
         return ModularPanel.defaultPanel("order_marker", 176, 112)
             .background(GTGuiTextures.BACKGROUND)

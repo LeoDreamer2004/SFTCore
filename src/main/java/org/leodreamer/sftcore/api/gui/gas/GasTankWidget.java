@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.gui;
+package org.leodreamer.sftcore.api.gui.gas;
 
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
@@ -7,7 +7,6 @@ import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import brachy.modularui.api.ITheme;
@@ -18,6 +17,7 @@ import brachy.modularui.screen.RichTooltip;
 import brachy.modularui.screen.viewport.ModularGuiContext;
 import brachy.modularui.theme.SlotTheme;
 import brachy.modularui.theme.WidgetThemeEntry;
+import brachy.modularui.utils.Alignment;
 import brachy.modularui.utils.MouseData;
 import brachy.modularui.widget.Widget;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -25,8 +25,6 @@ import lombok.Getter;
 import lombok.Setter;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
-import mekanism.client.gui.GuiUtils;
-import mekanism.client.render.MekanismRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -121,14 +119,7 @@ public class GasTankWidget extends Widget<GasTankWidget> implements Interactable
             return;
         }
 
-        int filledHeight = height;
-        long capacity = getCapacity();
-        if (capacity > 0) {
-            filledHeight = Math.max(1, (int) Math.ceil(height * (gas.getAmount() / (double) capacity)));
-            filledHeight = Math.min(filledHeight, height);
-        }
-
-        drawSimpleGas(context.getGraphics(), gas, 1, 1 + height - filledHeight, width, filledHeight);
+        GasGuiHelper.drawGas(context.getGraphics(), gas, 1, 1, width, height);
     }
 
     @Override
@@ -143,7 +134,7 @@ public class GasTankWidget extends Widget<GasTankWidget> implements Interactable
                 0,
                 getArea().width - 1,
                 getArea().height,
-                brachy.modularui.utils.Alignment.BottomRight
+                Alignment.BottomRight
             );
         }
         if (isHovering()) {
@@ -164,7 +155,7 @@ public class GasTankWidget extends Widget<GasTankWidget> implements Interactable
         }
         var cursorStack = player.containerMenu.getCarried();
         if (!cursorStack.isEmpty() && cursorStack.getCapability(SFTMekanismCapabilities.GAS_HANDLER).isPresent()) {
-            MouseData mouseData = MouseData.create(button);
+            var mouseData = MouseData.create(button);
             syncHandler.syncToServer(GasSlotSyncHandler.SYNC_CLICK, mouseData::writeToPacket);
             return Result.SUCCESS;
         }
@@ -202,32 +193,5 @@ public class GasTankWidget extends Widget<GasTankWidget> implements Interactable
                 );
             }
         }
-    }
-
-    public static void drawSimpleGas(GuiGraphics graphics, GasStack gas, int x, int y) {
-        drawSimpleGas(graphics, gas, x, y, 16, 16);
-    }
-
-    public static void drawSimpleGas(GuiGraphics graphics, GasStack gas, int x, int y, int width, int height) {
-        if (gas.isEmpty()) {
-            return;
-        }
-        var sprite = MekanismRenderer.getChemicalTexture(gas.getType());
-        MekanismRenderer.color(graphics, gas);
-        GuiUtils.drawTiledSprite(
-            graphics,
-            x,
-            y + height,
-            0,
-            width,
-            height,
-            sprite,
-            16,
-            16,
-            100,
-            GuiUtils.TilingDirection.UP_RIGHT,
-            true
-        );
-        MekanismRenderer.resetColor(graphics);
     }
 }

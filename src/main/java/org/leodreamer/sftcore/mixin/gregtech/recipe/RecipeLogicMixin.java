@@ -7,7 +7,7 @@ import org.leodreamer.sftcore.common.machine.trait.SlotRestrictedRecipeHolder;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
@@ -72,7 +72,7 @@ public abstract class RecipeLogicMixin extends MachineTrait {
         method = "onRecipeFinish",
         at = @At(
             value = "INVOKE",
-            target = "Lcom/gregtechceu/gtceu/api/machine/trait/RecipeLogic;handleRecipeIO(Lcom/gregtechceu/gtceu/api/recipe/GTRecipe;Lcom/gregtechceu/gtceu/api/capability/recipe/IO;)Lcom/gregtechceu/gtceu/api/recipe/ActionResult;",
+            target = "Lcom/gregtechceu/gtceu/api/machine/trait/recipe/RecipeLogic;handleRecipeIO(Lcom/gregtechceu/gtceu/api/recipe/GTRecipe;Lcom/gregtechceu/gtceu/api/capability/recipe/IO;)Lcom/gregtechceu/gtceu/api/recipe/ActionResult;",
             shift = At.Shift.AFTER
         )
     )

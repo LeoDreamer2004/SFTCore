@@ -1,21 +1,19 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
+import org.leodreamer.sftcore.api.gui.gas.GasGuiHelper;
 import org.leodreamer.sftcore.common.machine.trait.gas.MEGasInputHandler;
+import org.leodreamer.sftcore.integration.ae2.gui.AEGasConfigWidget;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
-import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
 import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
-import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
-import com.gregtechceu.gtceu.config.ConfigHolder;
-import com.gregtechceu.gtceu.integration.ae2.gui.AEConfigWidget;
+import com.gregtechceu.gtceu.common.machine.trait.ProgrammableCircuitSlotTrait;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
@@ -39,18 +37,19 @@ import brachy.modularui.value.sync.PanelSyncManager;
 import brachy.modularui.widget.ParentWidget;
 import brachy.modularui.widgets.layout.Flow;
 import lombok.Getter;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@ApiStatus.Experimental
+/**
+ * Copy version for gas from {@link com.gregtechceu.gtceu.integration.ae2.machine.MEInputHatchPartMachine}
+ */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MEGasInputHatchPartMachine extends TieredIOPartMachine
-    implements IMuiMachine, IGridConnectedMachine, IDataStickInteractable, IHasCircuitSlot {
+    implements IMuiMachine, IGridConnectedMachine, IDataStickInteractable {
 
     protected static final int CONFIG_SIZE = 16;
 
@@ -65,7 +64,7 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
 
     @SaveField
     @Getter
-    protected final NotifiableItemStackHandler circuitInventory;
+    protected final ProgrammableCircuitSlotTrait circuitSlot;
 
     @SyncToClient
     @Getter
@@ -82,10 +81,8 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
 
         this.gasHandler = attachTrait(createGasHandler());
 
-        this.circuitInventory = attachTrait(new NotifiableItemStackHandler(1, IO.IN, IO.NONE))
-            .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
-            .shouldSearchContent(false)
-            .shouldDropInventoryInWorld(!ConfigHolder.INSTANCE.machines.ghostCircuit);
+        this.circuitSlot = attachTrait(new ProgrammableCircuitSlotTrait());
+        this.circuitSlot.setEnabled(true);
 
         this.gasHandler.notifyListeners();
     }
@@ -198,7 +195,7 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
         ParentWidget<?> mainWidget, PosGuiData guiData, PanelSyncManager syncManager,
         UISettings settings
     ) {
-        BooleanSyncValue isOnlineValue = new BooleanSyncValue(this::isOnline, this::setOnline);
+        var isOnlineValue = new BooleanSyncValue(this::isOnline, this::setOnline);
         syncManager.syncValue("is_online", isOnlineValue);
         registerConfigActions(syncManager);
 
@@ -212,7 +209,7 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
                 .asWidget().marginTop(2).marginBottom(4)
         );
         flow.child(
-            new AEConfigWidget(gasHandler, CONFIG_SIZE, false)
+            new AEGasConfigWidget(gasHandler, CONFIG_SIZE)
                 .syncManager(syncManager)
                 .size(8 * 18, 2 * (18 * 2 + 2))
         );
@@ -236,7 +233,7 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
                 return;
             }
             var slot = gasHandler.getInventory()[index];
-            if (slot.getConfig() != null && amount > 0) {
+            if (GasGuiHelper.isGas(slot.getConfig()) && amount > 0) {
                 slot.setConfig(new GenericStack(slot.getConfig().what(), amount));
             }
         });
@@ -278,17 +275,13 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
         tag.put("ConfigStacks", configStacks);
 
         for (int i = 0; i < CONFIG_SIZE; i++) {
-            GenericStack config = gasHandler.getInventory()[i].getConfig();
-            if (config != null) {
+            var config = gasHandler.getInventory()[i].getConfig();
+            if (GasGuiHelper.isGas(config)) {
                 configStacks.put(Integer.toString(i), GenericStack.writeTag(config));
             }
         }
 
-        tag.putByte(
-            "GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(
-                circuitInventory.getStackInSlot(0)
-            )
-        );
+        tag.putByte("GhostCircuit", (byte) circuitSlot.getCurrentCircuit());
 
         return tag;
     }
@@ -301,7 +294,8 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
                 String key = Integer.toString(i);
 
                 if (configStacks.contains(key)) {
-                    gasHandler.getInventory()[i].setConfig(GenericStack.readTag(configStacks.getCompound(key)));
+                    var config = GenericStack.readTag(configStacks.getCompound(key));
+                    gasHandler.getInventory()[i].setConfig(GasGuiHelper.isGas(config) ? config : null);
                 } else {
                     gasHandler.getInventory()[i].setConfig(null);
                 }
@@ -311,7 +305,7 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
         }
 
         if (tag.contains("GhostCircuit")) {
-            circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit")));
+            circuitSlot.setCurrentCircuit(tag.getByte("GhostCircuit"));
         }
     }
 }

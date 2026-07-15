@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.api.feature;
 
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import org.jetbrains.annotations.NotNull;
@@ -11,8 +11,6 @@ public interface IMEPatternBufferCache {
     int sftcore$getSlotCount();
 
     boolean sftcore$hasInternalContent(int slot);
-
-    boolean sftcore$isSlotCached(int slot);
 
     @Nullable
     GTRecipe sftcore$getCachedRecipe(int slot);

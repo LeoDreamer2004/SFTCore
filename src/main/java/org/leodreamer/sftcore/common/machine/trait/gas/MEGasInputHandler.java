@@ -1,12 +1,13 @@
 package org.leodreamer.sftcore.common.machine.trait.gas;
 
-import org.leodreamer.sftcore.api.gui.ExportOnlyAEGasSlot;
+import org.leodreamer.sftcore.api.gui.gas.ExportOnlyAEGasSlot;
+import org.leodreamer.sftcore.api.gui.gas.GasGuiHelper;
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
@@ -46,8 +47,8 @@ public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> im
     }
 
     public void syncFromME(MEStorage network, IActionSource actionSource) {
-        for (ExportOnlyAEGasSlot slot : inventory) {
-            GenericStack exceed = slot.exceedStack();
+        for (var slot : inventory) {
+            var exceed = slot.exceedStack();
             if (exceed != null) {
                 long inserted = network.insert(
                     exceed.what(),
@@ -62,7 +63,7 @@ public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> im
                 }
             }
 
-            GenericStack request = slot.requestStack();
+            var request = slot.requestStack();
             if (request != null) {
                 long extracted = network.extract(
                     request.what(),
@@ -83,7 +84,7 @@ public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> im
             return;
         }
 
-        for (ExportOnlyAEGasSlot slot : inventory) {
+        for (var slot : inventory) {
             var stock = slot.getStock();
             if (stock == null || stock.amount() <= 0) {
                 continue;
@@ -131,7 +132,7 @@ public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> im
         var result = new ArrayList<>();
 
         for (var slot : inventory) {
-            var gas = slot.getGas();
+            var gas = GasGuiHelper.getGasStack(slot.getStock());
             if (!gas.isEmpty()) {
                 result.add(gas);
             }

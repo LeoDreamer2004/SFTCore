@@ -27,6 +27,7 @@ public class SimpleGasTank implements IGasTank {
         this.onChanged = onChanged;
     }
 
+    @Override
     public void onContentsChanged() {
         onChanged.run();
     }

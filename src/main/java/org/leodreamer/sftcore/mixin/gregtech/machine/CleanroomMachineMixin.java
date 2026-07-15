@@ -4,7 +4,7 @@ import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 import com.gregtechceu.gtceu.common.machine.trait.CleanroomProviderTrait;
 

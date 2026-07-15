@@ -4,13 +4,11 @@ import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.util.GTMachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IHasCircuitSlot;
-import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.common.machine.trait.ProgrammableCircuitSlotTrait;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import appeng.api.implementations.blockentities.PatternContainerGroup;
@@ -40,36 +38,39 @@ public abstract class PatternContainerGroupMixin {
         if (machine == null) {
             return;
         }
-        if (machine instanceof IHasCircuitSlot circuitMachine) {
-            var circuitStack = circuitMachine.isCircuitSlotEnabled() ?
-                circuitMachine.getCircuitInventory().getStackInSlot(0) : ItemStack.EMPTY;
-            int circuit = circuitStack.isEmpty() ? 0 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
-            String desc = machine.getDefinition().getDescriptionId();
-
-            if (GTMachineUtils.isIngredientIOPort(machine)) {
-                var iController = GTMachineUtils.tryGetController(machine);
-                if (iController != null) {
-                    var controller = iController.getDefinition();
-                    var cpos = iController.getBlockPos();
-                    var group = new PatternContainerGroup(
-                        AEItemKey.of(controller.asStack()),
-                        Component.translatable(controller.getDescriptionId()), List.of()
-                    );
-                    group = HackyContainerGroupProxy.of(group)
-                        .setBlockPos(cpos)
-                        .setCircuit(circuit)
-                        .recordPartFrom(Component.translatable(desc))
-                        .get();
-                    cir.setReturnValue(group);
-                    return;
-                }
-            }
-
-            var group = new PatternContainerGroup(
-                AEItemKey.of(machine.getDefinition().asStack()), Component.translatable(desc), List.of()
-            );
-            group = HackyContainerGroupProxy.of(group).setBlockPos(pos).setCircuit(circuit).get();
-            cir.setReturnValue(group);
+        int circuit = -1;
+        var circuitSlot = machine.getTrait(ProgrammableCircuitSlotTrait.TYPE);
+        if (circuitSlot != null) {
+            circuit = circuitSlot.isEnabled() ? circuitSlot.getCurrentCircuit() : 0;
         }
+        if (circuit < 0) {
+            return;
+        }
+        String desc = machine.getDefinition().getDescriptionId();
+
+        if (GTMachineUtils.isIngredientIOPort(machine)) {
+            var iController = GTMachineUtils.tryGetController(machine);
+            if (iController != null) {
+                var controller = iController.getDefinition();
+                var cpos = iController.getBlockPos();
+                var group = new PatternContainerGroup(
+                    AEItemKey.of(controller.asStack()),
+                    Component.translatable(controller.getDescriptionId()), List.of()
+                );
+                group = HackyContainerGroupProxy.of(group)
+                    .setBlockPos(cpos)
+                    .setCircuit(circuit)
+                    .recordPartFrom(Component.translatable(desc))
+                    .get();
+                cir.setReturnValue(group);
+                return;
+            }
+        }
+
+        var group = new PatternContainerGroup(
+            AEItemKey.of(machine.getDefinition().asStack()), Component.translatable(desc), List.of()
+        );
+        group = HackyContainerGroupProxy.of(group).setBlockPos(pos).setCircuit(circuit).get();
+        cir.setReturnValue(group);
     }
 }

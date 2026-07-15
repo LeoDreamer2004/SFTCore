@@ -8,9 +8,9 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerGroupDistinctness;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerGroupDistinctness;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 
@@ -97,7 +97,7 @@ public final class WildcardInternalSlotRecipeHandler {
             fluidRecipeHandler = buffer.attachTrait(new SlotFluidRecipeHandler(buffer, index));
 
             addHandlers(
-                buffer.getCircuitInventory(),
+                buffer.getCircuitSlot(),
                 buffer.getShareInventory(),
                 buffer.getShareTank(),
                 itemRecipeHandler,

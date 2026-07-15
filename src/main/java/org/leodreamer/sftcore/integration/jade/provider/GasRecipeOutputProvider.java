@@ -6,8 +6,7 @@ import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 import org.leodreamer.sftcore.integration.jade.element.JadeGasStackElement;
 
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.integration.jade.provider.MachineTraitProvider;
 
 import net.minecraft.ChatFormatting;
@@ -68,10 +67,7 @@ public class GasRecipeOutputProvider extends MachineTraitProvider<RecipeLogic, C
             return data;
         }
 
-        int recipeTier = RecipeHelper.getPreOCRecipeEuTier(recipe);
-        int chanceTier = recipeTier + recipe.ocLevel;
         int runs = recipe.getTotalRuns();
-        var chanceFunction = recipe.getType().getChanceFunction();
 
         var gasTags = new ListTag();
 
@@ -92,8 +88,7 @@ public class GasRecipeOutputProvider extends MachineTraitProvider<RecipeLogic, C
 
             // Same with the item/fluid in GTM
             if (gasContent.chance() < gasContent.maxChance()) {
-                double amountD = (double) amount * runs *
-                    chanceFunction.getBoostedChance(gasContent, recipeTier, chanceTier) / gasContent.maxChance();
+                double amountD = (double) amount * runs * gasContent.chance() / gasContent.maxChance();
                 amount = Math.max(1L, Math.round(amountD));
             }
 

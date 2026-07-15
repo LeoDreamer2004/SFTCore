@@ -11,7 +11,8 @@ import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
@@ -74,7 +75,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     public abstract InternalSlotRecipeHandler getInternalRecipeHandler();
 
     public MEPatternBufferPartMachineMixin(BlockEntityCreationInfo info, IO io) {
-        super(info, io);
+        super(info, io, new NotifiableItemStackHandler(0, IO.NONE));
     }
 
     /* --- Prompt Support --- */
@@ -226,15 +227,6 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
 
         var internalSlot = internalInventory[slot];
         return !internalSlot.isItemEmpty() || !internalSlot.isFluidEmpty();
-    }
-
-    @Override
-    public boolean sftcore$isSlotCached(int slot) {
-        if (slot < 0 || slot >= sftcore$cachedRecipes.length) {
-            return false;
-        }
-
-        return (sftcore$cachedRecipeMask & (1 << slot)) != 0;
     }
 
     @Override

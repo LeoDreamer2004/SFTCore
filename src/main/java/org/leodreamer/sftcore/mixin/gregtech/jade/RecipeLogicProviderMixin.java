@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.mixin.gregtech.jade;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.integration.jade.provider.RecipeLogicProvider;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class RecipeLogicProviderMixin {
 
     @Inject(
-        method = "write(Lcom/gregtechceu/gtceu/api/machine/trait/RecipeLogic;)Lnet/minecraft/nbt/CompoundTag;",
+        method = "write(Lcom/gregtechceu/gtceu/api/machine/trait/recipe/RecipeLogic;)Lnet/minecraft/nbt/CompoundTag;",
         at = @At("TAIL"), remap = false
     )
     private void fixVoltageInfoForWirelessHatches(

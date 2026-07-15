@@ -6,7 +6,6 @@ import org.leodreamer.sftcore.integration.ae2.slot.MEInputUpgradeInventory;
 import org.leodreamer.sftcore.integration.ae2.utils.SerializableMultiCraftingTracker;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
 
@@ -40,15 +39,10 @@ public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine impleme
     public SerializableMultiCraftingTracker craftingTracker;
 
     public MEAdvancedInputBusPartMachine(BlockEntityCreationInfo holder) {
-        super(holder);
+        super(holder, new IOAEItemList(CONFIG_SIZE));
+        this.aeItemHandler = (IOAEItemList) getInventory();
         craftingTracker = new SerializableMultiCraftingTracker(this, CONFIG_SIZE);
         upgradeInventory = attachTrait(new MEInputUpgradeInventory());
-    }
-
-    @Override
-    protected NotifiableItemStackHandler createInventory() {
-        this.aeItemHandler = new IOAEItemList(CONFIG_SIZE);
-        return this.aeItemHandler;
     }
 
     @Override

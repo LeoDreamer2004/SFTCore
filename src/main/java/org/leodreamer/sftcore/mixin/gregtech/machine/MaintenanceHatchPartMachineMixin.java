@@ -3,9 +3,8 @@ package org.leodreamer.sftcore.mixin.gregtech.machine;
 import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.utils.ExtendedUseOnContext;
@@ -23,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = MaintenanceHatchPartMachine.class, remap = false)
-public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements IMaintenanceMachine {
+public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine {
 
     @Shadow
     @Final

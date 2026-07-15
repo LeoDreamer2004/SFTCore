@@ -3,9 +3,9 @@ package org.leodreamer.sftcore.api.registry.registrate;
 import org.leodreamer.sftcore.common.data.lang.SFTTooltipsBuilder;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MachineInstanceFactory;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
@@ -22,8 +22,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SFTMachineBuilder<DEFINITION extends MachineDefinition>
-    extends MachineBuilder<DEFINITION, SFTMachineBuilder<DEFINITION>> {
+public class SFTMachineBuilder<DEFINITION extends MachineDefinition, MACHINE extends MetaMachine>
+    extends MachineBuilder<DEFINITION, MACHINE, SFTMachineBuilder<DEFINITION, MACHINE>> {
 
     public SFTMachineBuilder(
         GTRegistrate registrate,
@@ -31,13 +31,13 @@ public class SFTMachineBuilder<DEFINITION extends MachineDefinition>
         Function<ResourceLocation, DEFINITION> definition,
         BiFunction<BlockBehaviour.Properties, DEFINITION, MetaMachineBlock> blockFactory,
         BiFunction<MetaMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-        Function<BlockEntityCreationInfo, MetaMachine> blockEntityFactory
+        MachineInstanceFactory<MACHINE> blockEntityFactory
     ) {
         super(registrate, name, definition, blockFactory, itemFactory, blockEntityFactory);
     }
 
-    public SFTMachineBuilder<DEFINITION> tooltips(
-        Function<SFTMachineBuilder<DEFINITION>, SFTTooltipsBuilder> tooltipsBuilder
+    public SFTMachineBuilder<DEFINITION, MACHINE> tooltips(
+        Function<SFTMachineBuilder<DEFINITION, MACHINE>, SFTTooltipsBuilder> tooltipsBuilder
     ) {
         return this.tooltips(tooltipsBuilder.apply(this).list());
     }

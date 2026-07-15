@@ -1,5 +1,6 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
+import org.leodreamer.sftcore.api.gui.gas.GasGuiHelper;
 import org.leodreamer.sftcore.common.machine.trait.gas.MEGasInputHandler;
 import org.leodreamer.sftcore.common.machine.trait.gas.MEGasStockingInputHandler;
 
@@ -7,7 +8,6 @@ import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
-import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.multiblock.IMEStockingPart;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
@@ -111,7 +111,7 @@ public class MEGasStockingInputHatchPartMachine extends MEGasInputHatchPartMachi
 
     @Override
     public boolean testConfiguredInOtherPart(@Nullable GenericStack config) {
-        if (config == null || !isFormed()) {
+        if (!GasGuiHelper.isGas(config) || !isFormed()) {
             return false;
         }
 
@@ -170,11 +170,7 @@ public class MEGasStockingInputHatchPartMachine extends MEGasInputHatchPartMachi
 
         var tag = new CompoundTag();
         tag.putBoolean("AutoPull", true);
-        tag.putByte(
-            "GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(
-                circuitInventory.getStackInSlot(0)
-            )
-        );
+        tag.putByte("GhostCircuit", (byte) circuitSlot.getCurrentCircuit());
 
         return tag;
     }
@@ -183,7 +179,7 @@ public class MEGasStockingInputHatchPartMachine extends MEGasInputHatchPartMachi
     protected void readConfigFromTag(CompoundTag tag) {
         if (tag.getBoolean("AutoPull")) {
             setAutoPull(true);
-            circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit")));
+            circuitSlot.setCurrentCircuit(tag.getByte("GhostCircuit"));
             return;
         }
 

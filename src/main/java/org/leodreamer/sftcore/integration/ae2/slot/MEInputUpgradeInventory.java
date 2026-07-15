@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.integration.ae2.slot;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
 
 import net.minecraft.world.level.ItemLike;
 

@@ -2,8 +2,8 @@ package org.leodreamer.sftcore.mixin.gregtech.machine;
 
 import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableLaserContainer;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableEnergyContainer;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableLaserContainer;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.ActiveTransformerMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 

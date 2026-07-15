@@ -13,9 +13,9 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.mui.MachineUIPanelBuilder;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
@@ -157,7 +157,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
     private String[] cachedRecipeIds = new String[0];
 
     public WildcardMEPatternBufferPartMachine(BlockEntityCreationInfo info) {
-        super(info, IO.IN);
+        super(info, IO.IN, new NotifiableItemStackHandler(9, IO.IN, IO.NONE));
 
         patternInventory.setOnContentsChanged(
             () -> getSyncDataHolder().markClientSyncFieldDirty("patternInventory")
@@ -582,7 +582,8 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             var controller = getControllers().first();
             var controllerDefinition = controller.getDefinition();
 
-            var circuitStack = isHasCircuitSlot() ? circuitInventory.storage.getStackInSlot(0) : ItemStack.EMPTY;
+            var circuitStack = getCircuitSlot().isEnabled() ? getCircuitSlot().storage.getStackInSlot(0) :
+                ItemStack.EMPTY;
             int circuitConfiguration = circuitStack.isEmpty() ? -1 :
                 IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
 
@@ -641,13 +642,6 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         }
         var internalSlot = internalInventory[slot];
         return !internalSlot.isItemEmpty() || !internalSlot.isFluidEmpty();
-    }
-
-    @Override
-    public boolean sftcore$isSlotCached(int slot) {
-        return slot >= 0 &&
-            slot < cachedRecipes.length &&
-            cachedRecipes[slot] != null;
     }
 
     @Override

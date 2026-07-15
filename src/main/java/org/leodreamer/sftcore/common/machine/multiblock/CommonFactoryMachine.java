@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;

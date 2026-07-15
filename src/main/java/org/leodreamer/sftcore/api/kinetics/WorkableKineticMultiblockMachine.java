@@ -6,7 +6,7 @@ import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.common.mui.GTMultiblockTextUtil;
 
 import net.minecraft.ChatFormatting;

@@ -58,13 +58,13 @@ public class OreProcessRecipes {
             .circuitMeta(1)
             .inputItems(tag)
             .outputItems(dust, material, crushedAmount)
-            .chancedOutput(byproductStack, 1400, 850)
-            .chancedOutput(dust, byproductMaterial, property.getByProductMultiplier() * crushedAmount, 1400, 850)
+            .chancedOutput(byproductStack, 1400)
+            .chancedOutput(dust, byproductMaterial, property.getByProductMultiplier() * crushedAmount, 1400)
             .duration((int) (dur + dur + mass) / 2)
             .EUt(12);
         attachSecondaryMaterial(op1, crushedAmount);
         if (byproductMaterial.hasProperty(PropertyKey.DUST)) {
-            op1.chancedOutput(dust, byproductMaterial, crushedAmount, 1111, 0);
+            op1.chancedOutput(dust, byproductMaterial, crushedAmount, 1111);
         }
         op1.save(provider);
 
@@ -81,11 +81,11 @@ public class OreProcessRecipes {
                 .inputItems(tag)
                 .inputFluids(Water.getFluid(100 * crushedAmount))
                 .outputItems(dust, material, crushedAmount)
-                .chancedOutput(byproductStack, 1400, 850)
-                .chancedOutput(dust, byproductMaterial, crushedAmount, 3333, 0)
+                .chancedOutput(byproductStack, 1400)
+                .chancedOutput(dust, byproductMaterial, crushedAmount, 3333)
                 .outputItems(dust, Stone, crushedAmount)
-                .chancedOutput(dust, byproductMaterial1, crushedAmount, 3333, 0)
-                .chancedOutput(byproductStack2, 1400, 850)
+                .chancedOutput(dust, byproductMaterial1, crushedAmount, 3333)
+                .chancedOutput(byproductStack2, 1400)
                 .duration(dur + (200 + 200 + dur) / 2)
                 .EUt(12);
             attachSecondaryMaterial(op2, crushedAmount);
@@ -102,11 +102,11 @@ public class OreProcessRecipes {
             .inputItems(tag)
             .inputFluids(Water.getFluid(100 * crushedAmount))
             .outputItems(dust, material, crushedAmount)
-            .chancedOutput(byproductStack, 1400, 850)
-            .chancedOutput(dust, byproductMaterial, crushedAmount, 3333, 0)
+            .chancedOutput(byproductStack, 1400)
+            .chancedOutput(dust, byproductMaterial, crushedAmount, 3333)
             .outputItems(dust, Stone, crushedAmount)
-            .chancedOutput(byproductStack1, 1400, 850)
-            .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111, 0)
+            .chancedOutput(byproductStack1, 1400)
+            .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111)
             .duration(dur + (200 + dur + 16) / 2)
             .EUt(12);
         attachSecondaryMaterial(op3, crushedAmount);
@@ -126,13 +126,13 @@ public class OreProcessRecipes {
                     .inputItems(tag)
                     .inputFluids(Water.getFluid(100 * crushedAmount))
                     .outputItems(dust, material, crushedAmount)
-                    .chancedOutput(byproductStack, 1400, 850)
-                    .chancedOutput(dust, byproductMaterial, crushedAmount, 3333, 0)
+                    .chancedOutput(byproductStack, 1400)
+                    .chancedOutput(dust, byproductMaterial, crushedAmount, 3333)
                     .outputItems(dust, Stone, crushedAmount)
-                    .chancedOutput(exquisiteStack, 500, 150)
-                    .chancedOutput(flawlessStack, 1500, 200)
-                    .chancedOutput(gemStack, 5000, 1000)
-                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111, 0)
+                    .chancedOutput(exquisiteStack, 500)
+                    .chancedOutput(flawlessStack, 1500)
+                    .chancedOutput(gemStack, 5000)
+                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111)
                     .duration(dur + (200 + 210 + 16) / 2)
                     .EUt(12);
                 attachSecondaryMaterial(op4, crushedAmount);
@@ -144,13 +144,13 @@ public class OreProcessRecipes {
                     .inputItems(tag)
                     .inputFluids(Water.getFluid(100 * crushedAmount))
                     .outputItems(dust, material, crushedAmount)
-                    .chancedOutput(byproductStack, 1400, 850)
-                    .chancedOutput(dust, byproductMaterial, crushedAmount, 3333, 0)
+                    .chancedOutput(byproductStack, 1400)
+                    .chancedOutput(dust, byproductMaterial, crushedAmount, 3333)
                     .outputItems(dust, Stone, crushedAmount)
-                    .chancedOutput(exquisiteStack, 300, 100)
-                    .chancedOutput(flawlessStack, 1000, 150)
-                    .chancedOutput(gemStack, 3500, 500)
-                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111, 0)
+                    .chancedOutput(exquisiteStack, 300)
+                    .chancedOutput(flawlessStack, 1000)
+                    .chancedOutput(gemStack, 3500)
+                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111)
                     .duration(dur + (200 + 210 + 16) / 2)
                     .EUt(12);
                 attachSecondaryMaterial(op4, crushedAmount);
@@ -176,11 +176,11 @@ public class OreProcessRecipes {
                 .inputItems(tag)
                 .inputFluids(washedInTuple.first().getFluid(washedInTuple.rightInt() * crushedAmount))
                 .outputItems(dust, material, crushedAmount)
-                .chancedOutput(byproductStack, 1400, 850)
-                .chancedOutput(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000, 580)
-                .chancedOutput(dust, Stone, crushedAmount, 4000, 650)
-                .chancedOutput(dust, byproductMaterial1, crushedAmount, 3333, 0)
-                .chancedOutput(byproductStack2, 1400, 850)
+                .chancedOutput(byproductStack, 1400)
+                .chancedOutput(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000)
+                .chancedOutput(dust, Stone, crushedAmount, 4000)
+                .chancedOutput(dust, byproductMaterial1, crushedAmount, 3333)
+                .chancedOutput(byproductStack2, 1400)
                 .duration(dur + (200 + 200 + dur) / 2)
                 .EUt(12);
             attachSecondaryMaterial(op5, crushedAmount);
@@ -196,11 +196,11 @@ public class OreProcessRecipes {
             .inputItems(tag)
             .inputFluids(washedInTuple.first().getFluid(washedInTuple.rightInt() * crushedAmount))
             .outputItems(dust, material, crushedAmount)
-            .chancedOutput(byproductStack, 1400, 850)
-            .chancedOutput(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000, 580)
-            .chancedOutput(dust, Stone, crushedAmount, 4000, 650)
-            .chancedOutput(byproductStack1, 1400, 850)
-            .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111, 0)
+            .chancedOutput(byproductStack, 1400)
+            .chancedOutput(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000)
+            .chancedOutput(dust, Stone, crushedAmount, 4000)
+            .chancedOutput(byproductStack1, 1400)
+            .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111)
             .duration(dur + (200 + dur + 16) / 2)
             .EUt(12);
         attachSecondaryMaterial(op6, crushedAmount);
@@ -220,15 +220,15 @@ public class OreProcessRecipes {
                     .inputItems(tag)
                     .inputFluids(washedInTuple.first().getFluid(washedInTuple.rightInt() * crushedAmount))
                     .outputItems(dust, material, crushedAmount)
-                    .chancedOutput(byproductStack, 1400, 850)
+                    .chancedOutput(byproductStack, 1400)
                     .chancedOutput(
-                        dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000, 580
+                        dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000
                     )
-                    .chancedOutput(dust, Stone, crushedAmount, 4000, 650)
-                    .chancedOutput(exquisiteStack, 500, 150)
-                    .chancedOutput(flawlessStack, 1500, 200)
-                    .chancedOutput(gemStack, 5000, 1000)
-                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111, 0)
+                    .chancedOutput(dust, Stone, crushedAmount, 4000)
+                    .chancedOutput(exquisiteStack, 500)
+                    .chancedOutput(flawlessStack, 1500)
+                    .chancedOutput(gemStack, 5000)
+                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111)
                     .duration(dur + (200 + 210 + 16) / 2)
                     .EUt(12);
                 attachSecondaryMaterial(op7, crushedAmount);
@@ -240,15 +240,15 @@ public class OreProcessRecipes {
                     .inputItems(tag)
                     .inputFluids(washedInTuple.first().getFluid(washedInTuple.rightInt() * crushedAmount))
                     .outputItems(dust, material, crushedAmount)
-                    .chancedOutput(byproductStack, 1400, 850)
+                    .chancedOutput(byproductStack, 1400)
                     .chancedOutput(
-                        dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000, 580
+                        dust, washingByproduct, property.getByProductMultiplier() * crushedAmount, 7000
                     )
-                    .chancedOutput(dust, Stone, crushedAmount, 4000, 650)
-                    .chancedOutput(exquisiteStack, 300, 100)
-                    .chancedOutput(flawlessStack, 1000, 150)
-                    .chancedOutput(gemStack, 3500, 500)
-                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111, 0)
+                    .chancedOutput(dust, Stone, crushedAmount, 4000)
+                    .chancedOutput(exquisiteStack, 300)
+                    .chancedOutput(flawlessStack, 1000)
+                    .chancedOutput(gemStack, 3500)
+                    .chancedOutput(dust, byproductMaterial1, crushedAmount, 1111)
                     .duration(dur + (200 + 210 + 16) / 2)
                     .EUt(12);
                 attachSecondaryMaterial(op7, crushedAmount);
@@ -260,9 +260,7 @@ public class OreProcessRecipes {
     private static void attachSecondaryMaterial(GTRecipeBuilder builder, int amount) {
         for (var secondaryMaterial : TagPrefix.ore.secondaryMaterials()) {
             if (secondaryMaterial.material().hasProperty(PropertyKey.DUST)) {
-                builder.chancedOutput(
-                    ChemicalHelper.getGem(secondaryMaterial).copyWithCount(amount), 6700, 800
-                );
+                builder.chancedOutput(ChemicalHelper.getGem(secondaryMaterial).copyWithCount(amount), 6700);
             }
         }
     }

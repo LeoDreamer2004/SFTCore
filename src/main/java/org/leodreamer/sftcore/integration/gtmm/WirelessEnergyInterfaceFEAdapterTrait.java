@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableEnergyContainer;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;

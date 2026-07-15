@@ -281,7 +281,7 @@ public final class CECompiledRecipe {
             builder.outputItems(output.copy());
         }
         for (var output : chancedItemOutputs) {
-            builder.chancedOutput(output.stack().copy(), output.chance(), 0);
+            builder.chancedOutput(output.stack().copy(), output.chance());
         }
         for (var stack : fluidOutputs.values()) {
             builder.outputFluids(stack.copy());

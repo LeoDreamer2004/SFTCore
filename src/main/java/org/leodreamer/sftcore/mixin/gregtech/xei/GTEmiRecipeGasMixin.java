@@ -4,7 +4,6 @@ import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 import org.leodreamer.sftcore.integration.emi.recipe.IGTEmiRecipe;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.integration.recipeviewer.emi.recipe.GTEmiRecipe;
 
@@ -62,9 +61,7 @@ public abstract class GTEmiRecipeGasMixin implements IGTEmiRecipe {
         var stack = JemiUtil.getStack(MekanismJEI.TYPE_GAS, gas.copy());
         stack.setAmount(gas.getAmount());
 
-        int tier = RecipeHelper.getRecipeEUtTier(recipe);
-        float chance = (float) recipe.recipeType.getChanceFunction()
-            .getBoostedChance(content, tier, tier) / content.maxChance();
+        float chance = (float) content.chance() / content.maxChance();
         stack.setChance(chance);
         return stack;
     }

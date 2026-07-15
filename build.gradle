@@ -229,6 +229,7 @@ dependencies {
     modImplementation "curse.maven:advancedae-1084104:7159779"
     modImplementation "software.bernie.geckolib:geckolib-forge-${mc_version}:${geckolib_version}"
     modImplementation "curse.maven:jade-324717:6855440"
+    modImplementation "curse.maven:neo-eco-ae-extension-1460639:8357722"
     modImplementation "com.blakebr0.cucumber:Cucumber:${mc_version}-${cucumber_version}"
     modImplementation "com.blakebr0.extendedcrafting:ExtendedCrafting:${mc_version}-${extended_crafting_version}"
     modImplementation "curse.maven:travel-anchors-413234:4683662"

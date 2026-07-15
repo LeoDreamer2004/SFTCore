@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.common.machine.trait.gas;
 
-import org.leodreamer.sftcore.api.gui.ExportOnlyAEGasSlot;
+import org.leodreamer.sftcore.api.gui.gas.GasGuiHelper;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -49,7 +49,7 @@ public class MEGasStockingInputHandler extends MEGasInputHandler {
         for (var slot : inventory) {
             var config = slot.getConfig();
 
-            if (!ExportOnlyAEGasSlot.isGas(config)) {
+            if (!GasGuiHelper.isGas(config)) {
                 slot.setStock(null);
                 continue;
             }

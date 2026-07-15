@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.integration.ae2.slot;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList;

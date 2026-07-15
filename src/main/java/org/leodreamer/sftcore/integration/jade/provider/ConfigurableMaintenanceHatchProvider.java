@@ -4,7 +4,7 @@ import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.annotation.DataGenScanned;
 import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -40,7 +40,7 @@ public class ConfigurableMaintenanceHatchProvider
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
-        CompoundTag tag = accessor.getServerData();
+        var tag = accessor.getServerData();
         if (tag.contains(DURATION_MULTIPLIER)) {
             float multiplier = tag.getFloat(DURATION_MULTIPLIER);
             if (multiplier != 1.0F) {
@@ -54,7 +54,7 @@ public class ConfigurableMaintenanceHatchProvider
     @Override
     public void appendServerData(CompoundTag tag, BlockAccessor accessor) {
         if (
-            accessor.getBlockEntity() instanceof IMaintenanceMachine machine
+            accessor.getBlockEntity() instanceof MaintenanceHatchPartMachine machine
         ) {
             tag.putFloat(DURATION_MULTIPLIER, machine.getDurationMultiplier());
         }

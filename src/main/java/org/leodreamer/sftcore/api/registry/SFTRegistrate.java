@@ -4,10 +4,11 @@ import org.leodreamer.sftcore.api.registry.registrate.SFTMachineBuilder;
 import org.leodreamer.sftcore.api.registry.registrate.SFTMultiblockMachineBuilder;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MachineInstanceFactory;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -33,10 +34,10 @@ public class SFTRegistrate extends GTRegistrate {
     }
 
     @Override
-    public SFTMultiblockMachineBuilder multiblock(
-        String name, Function<BlockEntityCreationInfo, MetaMachine> blockEntityFactory
+    public <MACHINE extends MultiblockControllerMachine> SFTMultiblockMachineBuilder<MACHINE> multiblock(
+        String name, MachineInstanceFactory<MACHINE> blockEntityFactory
     ) {
-        return new SFTMultiblockMachineBuilder(
+        return new SFTMultiblockMachineBuilder<>(
             this,
             name,
             MetaMachineBlock::new,
@@ -46,9 +47,9 @@ public class SFTRegistrate extends GTRegistrate {
     }
 
     @Override
-    public SFTMachineBuilder<MachineDefinition> machine(
+    public <MACHINE extends MetaMachine> SFTMachineBuilder<MachineDefinition, MACHINE> machine(
         String name,
-        Function<BlockEntityCreationInfo, MetaMachine> blockEntityFactory
+        MachineInstanceFactory<MACHINE> blockEntityFactory
     ) {
         return new SFTMachineBuilder<>(
             this,
@@ -60,13 +61,14 @@ public class SFTRegistrate extends GTRegistrate {
         );
     }
 
-    public <DEFINITION extends MachineDefinition> SFTMachineBuilder<DEFINITION> machine(
-        String name,
-        Function<ResourceLocation, DEFINITION> definitionFactory,
-        BiFunction<BlockBehaviour.Properties, DEFINITION, MetaMachineBlock> blockFactory,
-        BiFunction<MetaMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
-        Function<BlockEntityCreationInfo, MetaMachine> blockEntityFactory
-    ) {
+    public <DEFINITION extends MachineDefinition,
+        MACHINE extends MetaMachine> SFTMachineBuilder<DEFINITION, MACHINE> machine(
+            String name,
+            Function<ResourceLocation, DEFINITION> definitionFactory,
+            BiFunction<BlockBehaviour.Properties, DEFINITION, MetaMachineBlock> blockFactory,
+            BiFunction<MetaMachineBlock, Item.Properties, MetaMachineItem> itemFactory,
+            MachineInstanceFactory<MACHINE> blockEntityFactory
+        ) {
         return new SFTMachineBuilder<>(
             this, name, definitionFactory, blockFactory, itemFactory, blockEntityFactory
         );

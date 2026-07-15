@@ -4,7 +4,7 @@ import org.leodreamer.sftcore.common.machine.multiblock.part.KineticInputPartMac
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import java.util.List;

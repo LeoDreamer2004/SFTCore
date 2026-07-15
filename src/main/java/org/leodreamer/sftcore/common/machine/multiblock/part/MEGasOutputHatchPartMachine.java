@@ -1,6 +1,7 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
 import org.leodreamer.sftcore.common.machine.trait.gas.MEGasOutputHandler;
+import org.leodreamer.sftcore.integration.ae2.gui.AEGasStackDisplayWidget;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
@@ -11,7 +12,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.integration.ae2.gui.AEKeyStorageSyncHandler;
-import com.gregtechceu.gtceu.integration.ae2.gui.AEStackDisplayWidget;
 import com.gregtechceu.gtceu.integration.ae2.gui.ScrollPreservingGrid;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
@@ -202,7 +202,7 @@ public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements 
                     new ScrollPreservingGrid(savedScroll)
                         .size(167, 80)
                         .scrollable(new VerticalScrollData())
-                        .gridOfSizeWidth(9, 1, (x, y, index) -> new AEStackDisplayWidget(list, index))
+                        .gridOfSizeWidth(9, 1, (x, y, index) -> new AEGasStackDisplayWidget(list, index))
                 );
                 return col;
             });

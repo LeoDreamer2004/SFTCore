@@ -1,4 +1,4 @@
-package org.leodreamer.sftcore.api.gui;
+package org.leodreamer.sftcore.api.gui.gas;
 
 import org.leodreamer.sftcore.integration.mek.SFTMekanismCapabilities;
 

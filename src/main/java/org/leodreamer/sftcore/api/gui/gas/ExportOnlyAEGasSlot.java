@@ -1,8 +1,9 @@
-package org.leodreamer.sftcore.api.gui;
+package org.leodreamer.sftcore.api.gui.gas;
 
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAESlot;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
 
 import appeng.api.stacks.GenericStack;
 import me.ramidzkh.mekae2.ae2.MekanismKey;
@@ -21,12 +22,12 @@ public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {
     }
 
     public ExportOnlyAEGasSlot(@Nullable GenericStack config, @Nullable GenericStack stock) {
-        super(config, stock);
+        super(copyGas(config), copyGas(stock));
     }
 
     @Override
     public void addStack(GenericStack stack) {
-        if (!isGas(stack)) {
+        if (!GasGuiHelper.isGas(stack)) {
             return;
         }
 
@@ -43,7 +44,7 @@ public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {
 
     @Override
     public void setStock(@Nullable GenericStack stack) {
-        if (stack != null && !isGas(stack)) {
+        if (stack != null && !GasGuiHelper.isGas(stack)) {
             return;
         }
 
@@ -62,17 +63,25 @@ public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {
         onContentsChanged();
     }
 
-    public GasStack getGas() {
-        if (!isGas(stock)) {
-            return GasStack.EMPTY;
+    @Override
+    public void setConfig(@Nullable GenericStack stack) {
+        if (stack != null && !GasGuiHelper.isGas(stack)) {
+            return;
         }
 
-        var key = (MekanismKey) stock.what();
-        if (!(key.getStack() instanceof GasStack gas)) {
-            return GasStack.EMPTY;
+        if (this.config == null && stack == null) {
+            return;
         }
 
-        return new GasStack(gas, stock.amount());
+        if (
+            this.config != null && stack != null && this.config.what().equals(stack.what()) &&
+                this.config.amount() == stack.amount()
+        ) {
+            return;
+        }
+
+        this.config = stack == null ? null : copy(stack);
+        onContentsChanged();
     }
 
     public GasStack drain(GasStack requested, Action action) {
@@ -80,8 +89,8 @@ public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {
             return GasStack.EMPTY;
         }
 
-        var requestedKey = MekanismKey.of(requested);
-        if (!this.stock.what().equals(requestedKey)) {
+        var key = MekanismKey.of(requested);
+        if (!this.stock.what().equals(key)) {
             return GasStack.EMPTY;
         }
 
@@ -115,8 +124,14 @@ public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {
         }
     }
 
-    public static boolean isGas(@Nullable GenericStack stack) {
-        return stack != null && stack.what() instanceof MekanismKey key && key.getForm() == MekanismKey.GAS;
+    @Override
+    public void deserializeNBT(CompoundTag tag) {
+        setConfig(tag.contains(CONFIG_TAG) ? GenericStack.readTag(tag.getCompound(CONFIG_TAG)) : null);
+        setStock(tag.contains(STOCK_TAG) ? GenericStack.readTag(tag.getCompound(STOCK_TAG)) : null);
+    }
+
+    private static @Nullable GenericStack copyGas(@Nullable GenericStack stack) {
+        return GasGuiHelper.isGas(stack) ? ExportOnlyAESlot.copy(stack) : null;
     }
 
     private void onContentsChanged() {

@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerList;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;

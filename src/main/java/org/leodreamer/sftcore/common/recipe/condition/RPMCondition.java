@@ -5,7 +5,7 @@ import org.leodreamer.sftcore.api.annotation.RegisterLanguage;
 import org.leodreamer.sftcore.api.kinetics.KineticRecipeHelper;
 import org.leodreamer.sftcore.common.data.SFTRecipeConditions;
 
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;

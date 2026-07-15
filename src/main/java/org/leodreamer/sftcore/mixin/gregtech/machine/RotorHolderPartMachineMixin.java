@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.mixin.gregtech.machine;
 
 import org.leodreamer.sftcore.common.advancement.SFTCriteriaTriggers;
 
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 
@@ -27,7 +27,7 @@ public abstract class RotorHolderPartMachineMixin {
 
     @Inject(method = "onWorking", at = @At("TAIL"))
     private void sftcore$triggerLargeTurbineFullSpeed(
-        IWorkableMultiController controller,
+        WorkableMultiblockMachine controller,
         CallbackInfoReturnable<Boolean> cir
     ) {
         int maxSpeed = getMaxRotorHolderSpeed();

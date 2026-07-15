@@ -6,7 +6,7 @@ import org.leodreamer.sftcore.common.item.cepattern.CEPatternData;
 import org.leodreamer.sftcore.common.machine.multiblock.part.MechanicalPatternHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.sync_system.ClassSyncData;

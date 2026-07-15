@@ -2,7 +2,7 @@ package org.leodreamer.sftcore.mixin.gregtech.recipe;
 
 import org.leodreamer.sftcore.common.data.SFTDimensions;
 
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.recipe.condition.DimensionCondition;
 
