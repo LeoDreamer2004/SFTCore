@@ -6,8 +6,6 @@ import org.leodreamer.sftcore.api.recipe.capability.GasRecipeCapability;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
-import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
@@ -28,22 +26,28 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * Copy version for gas from {@link com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEFluidList}
+ */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> implements IConfigurableSlotList {
-
-    public static final MachineTraitType<MEGasInputHandler> TYPE = new MachineTraitType<>(MEGasInputHandler.class);
+public class ExportOnlyAEGasList extends NotifiableGasTank implements IConfigurableSlotList {
 
     @Getter
     protected final ExportOnlyAEGasSlot[] inventory;
 
-    public MEGasInputHandler(int slots) {
+    public ExportOnlyAEGasList(int slots) {
+        super(slots, 0, IO.IN, IO.NONE);
         this.inventory = new ExportOnlyAEGasSlot[slots];
 
         for (int i = 0; i < slots; i++) {
-            this.inventory[i] = new ExportOnlyAEGasSlot();
+            this.inventory[i] = createSlot();
             this.inventory[i].setOnContentsChanged(this::onContentsChanged);
         }
+    }
+
+    protected ExportOnlyAEGasSlot createSlot() {
+        return new ExportOnlyAEGasSlot();
     }
 
     public void syncFromME(MEStorage network, IActionSource actionSource) {
@@ -103,18 +107,14 @@ public class MEGasInputHandler extends NotifiableRecipeHandlerTrait<GasStack> im
         }
     }
 
-    protected void onContentsChanged() {
-        notifyListeners();
+    @Override
+    public void onContentsChanged() {
+        super.onContentsChanged();
     }
 
     @Override
     public IO getHandlerIO() {
         return IO.IN;
-    }
-
-    @Override
-    public MachineTraitType<?> getTraitType() {
-        return TYPE;
     }
 
     @Override

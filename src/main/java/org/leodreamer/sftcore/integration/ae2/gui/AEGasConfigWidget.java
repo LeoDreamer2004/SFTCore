@@ -1,7 +1,7 @@
 package org.leodreamer.sftcore.integration.ae2.gui;
 
 import org.leodreamer.sftcore.api.gui.gas.GasGuiHelper;
-import org.leodreamer.sftcore.common.machine.trait.gas.MEGasInputHandler;
+import org.leodreamer.sftcore.common.machine.trait.gas.ExportOnlyAEGasList;
 
 import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 import com.gregtechceu.gtceu.integration.ae2.gui.AEConfigSyncHandler;
@@ -37,7 +37,7 @@ public class AEGasConfigWidget extends Widget<AEGasConfigWidget> implements Inte
     private static final int PAIR_HEIGHT = CELL_SIZE * 2 + 2;
     private static final int COLUMNS = 8;
 
-    private final MEGasInputHandler gasHandler;
+    private final ExportOnlyAEGasList gasHandler;
     private final int slotCount;
     private @Nullable PanelSyncManager syncManager;
     private @Nullable AEConfigSyncHandler configSyncHandler;
@@ -51,7 +51,7 @@ public class AEGasConfigWidget extends Widget<AEGasConfigWidget> implements Inte
     @OnlyIn(Dist.CLIENT)
     private @Nullable TextFieldWidget amountField;
 
-    public AEGasConfigWidget(MEGasInputHandler gasHandler, int slotCount) {
+    public AEGasConfigWidget(ExportOnlyAEGasList gasHandler, int slotCount) {
         this.gasHandler = gasHandler;
         this.slotCount = slotCount;
     }

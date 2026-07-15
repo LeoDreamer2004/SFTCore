@@ -31,6 +31,9 @@ import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * Copy version for gas from {@link com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableFluidTank}
+ */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> implements ICapabilityTrait, IGasHandler {

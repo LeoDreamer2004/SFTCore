@@ -13,6 +13,9 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * Copy version for gas from {@link com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEFluidSlot}
+ */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ExportOnlyAEGasSlot extends ExportOnlyAESlot {

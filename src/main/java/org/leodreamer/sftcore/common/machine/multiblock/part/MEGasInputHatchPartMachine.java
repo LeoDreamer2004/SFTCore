@@ -1,33 +1,21 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
 import org.leodreamer.sftcore.api.gui.gas.GasGuiHelper;
-import org.leodreamer.sftcore.common.machine.trait.gas.MEGasInputHandler;
+import org.leodreamer.sftcore.common.machine.trait.gas.ExportOnlyAEGasList;
+import org.leodreamer.sftcore.common.machine.trait.gas.NotifiableGasTank;
 import org.leodreamer.sftcore.integration.ae2.gui.AEGasConfigWidget;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
-import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
-import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
-import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
-import com.gregtechceu.gtceu.common.machine.trait.ProgrammableCircuitSlotTrait;
-import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import appeng.api.networking.IGridNodeListener;
-import appeng.api.networking.IManagedGridNode;
-import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.GenericStack;
 import brachy.modularui.api.drawable.Text;
 import brachy.modularui.factory.PosGuiData;
@@ -37,9 +25,6 @@ import brachy.modularui.value.sync.PanelSyncManager;
 import brachy.modularui.widget.ParentWidget;
 import brachy.modularui.widgets.layout.Flow;
 import lombok.Getter;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.EnumSet;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -48,75 +33,23 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEGasInputHatchPartMachine extends TieredIOPartMachine
-    implements IMuiMachine, IGridConnectedMachine, IDataStickInteractable {
+public class MEGasInputHatchPartMachine extends MEGasHatchPartMachine implements IDataStickInteractable {
 
-    protected static final int CONFIG_SIZE = 16;
-
-    @SaveField
-    protected final GridNodeHolder nodeHolder;
-
-    protected final IActionSource actionSource;
-
-    @SaveField
     @Getter
-    protected final MEGasInputHandler gasHandler;
-
-    @SaveField
-    @Getter
-    protected final ProgrammableCircuitSlotTrait circuitSlot;
-
-    @SyncToClient
-    @Getter
-    protected boolean isOnline;
-
-    @Nullable
-    protected TickableSubscription autoIOSubs;
+    protected ExportOnlyAEGasList gasHandler;
 
     public MEGasInputHatchPartMachine(BlockEntityCreationInfo info) {
-        super(info, GTValues.EV, IO.IN);
-
-        this.nodeHolder = attachTrait(new GridNodeHolder(this));
-        this.actionSource = IActionSource.ofMachine(nodeHolder.getMainNode()::getNode);
-
-        this.gasHandler = attachTrait(createGasHandler());
-
-        this.circuitSlot = attachTrait(new ProgrammableCircuitSlotTrait());
-        this.circuitSlot.setEnabled(true);
-
-        this.gasHandler.notifyListeners();
-    }
-
-    protected MEGasInputHandler createGasHandler() {
-        return new MEGasInputHandler(CONFIG_SIZE);
+        super(info, IO.IN);
     }
 
     @Override
-    public IManagedGridNode getMainNode() {
-        return nodeHolder.getMainNode();
+    protected NotifiableGasTank createTank(long initialCapacity, int slots) {
+        this.gasHandler = createGasHandler(slots);
+        return gasHandler;
     }
 
-    @Override
-    public void setOnline(boolean online) {
-        this.isOnline = online;
-        syncDataHolder.markClientSyncFieldDirty("isOnline");
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        scheduleForNextServerTick(this::updateGasSubscription);
-        getHandlerList().setColor(getPaintingColor());
-    }
-
-    @Override
-    public void onUnload() {
-        super.onUnload();
-
-        if (autoIOSubs != null) {
-            autoIOSubs.unsubscribe();
-            autoIOSubs = null;
-        }
+    protected ExportOnlyAEGasList createGasHandler(int slots) {
+        return new ExportOnlyAEGasList(slots);
     }
 
     @Override
@@ -126,39 +59,9 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
     }
 
     @Override
-    public void onMainNodeStateChanged(IGridNodeListener.State reason) {
-        IGridConnectedMachine.super.onMainNodeStateChanged(reason);
-        updateGasSubscription();
-    }
-
-    @Override
-    public void onRotated(Direction oldFacing, Direction newFacing) {
-        super.onRotated(oldFacing, newFacing);
-        getMainNode().setExposedOnSides(EnumSet.of(newFacing));
-    }
-
-    @Override
-    public void setWorkingEnabled(boolean workingEnabled) {
-        super.setWorkingEnabled(workingEnabled);
-        updateGasSubscription();
-    }
-
-    protected boolean shouldSubscribe() {
-        return isWorkingEnabled() && isOnline();
-    }
-
-    protected void updateGasSubscription() {
-        if (shouldSubscribe()) {
-            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
-        } else if (autoIOSubs != null) {
-            autoIOSubs.unsubscribe();
-            autoIOSubs = null;
-        }
-    }
-
     protected void autoIO() {
         if (!isWorkingEnabled()) {
-            updateGasSubscription();
+            updateTankSubscription();
             return;
         }
 
@@ -168,7 +71,7 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
 
         if (updateMEStatus()) {
             syncME();
-            updateGasSubscription();
+            updateTankSubscription();
         }
     }
 
@@ -262,7 +165,7 @@ public class MEGasInputHatchPartMachine extends TieredIOPartMachine
 
         if (!isRemote()) {
             readConfigFromTag(tag.getCompound("MEGasInputHatch"));
-            updateGasSubscription();
+            updateTankSubscription();
             player.sendSystemMessage(Component.translatable("gtceu.machine.me.import_paste_settings"));
         }
 

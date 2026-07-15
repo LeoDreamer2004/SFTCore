@@ -42,6 +42,9 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * Copy version for gas from {@link com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine}
+ */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @DataGenScanned

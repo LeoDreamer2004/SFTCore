@@ -1,29 +1,20 @@
 package org.leodreamer.sftcore.common.machine.multiblock.part;
 
-import org.leodreamer.sftcore.common.machine.trait.gas.MEGasOutputHandler;
+import org.leodreamer.sftcore.api.gui.gas.GasGuiHelper;
+import org.leodreamer.sftcore.common.machine.trait.gas.NotifiableGasTank;
 import org.leodreamer.sftcore.integration.ae2.gui.AEGasStackDisplayWidget;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
-import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.integration.ae2.gui.AEKeyStorageSyncHandler;
 import com.gregtechceu.gtceu.integration.ae2.gui.ScrollPreservingGrid;
-import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.network.chat.Component;
 
-import appeng.api.networking.IGridNodeListener;
-import appeng.api.networking.IManagedGridNode;
-import appeng.api.networking.security.IActionSource;
 import brachy.modularui.api.drawable.Text;
 import brachy.modularui.factory.PosGuiData;
 import brachy.modularui.screen.UISettings;
@@ -35,81 +26,36 @@ import brachy.modularui.widget.scroll.VerticalScrollData;
 import brachy.modularui.widgets.TextWidget;
 import brachy.modularui.widgets.dynamic.DynamicWidget;
 import brachy.modularui.widgets.layout.Flow;
-import lombok.Getter;
-import org.jetbrains.annotations.Nullable;
+import mekanism.api.chemical.gas.GasStack;
 
-import java.util.EnumSet;
+import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * Copy version for gas from {@link com.gregtechceu.gtceu.integration.ae2.machine.MEOutputHatchPartMachine}
+ */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements IMuiMachine, IGridConnectedMachine {
+public class MEGasOutputHatchPartMachine extends MEGasHatchPartMachine {
 
     @SaveField
-    protected final GridNodeHolder nodeHolder;
-
-    @SaveField
-    protected final KeyStorage internalBuffer = new KeyStorage();
-
-    @SaveField
-    @Getter
-    protected final MEGasOutputHandler gasHandler;
-
-    @SyncToClient
-    @Getter
-    protected boolean isOnline;
-
-    protected final IActionSource actionSource;
-
-    @Nullable
-    protected TickableSubscription autoIOSubs;
+    private KeyStorage internalBuffer;
 
     public MEGasOutputHatchPartMachine(BlockEntityCreationInfo info) {
-        super(info, GTValues.EV, IO.OUT);
-
-        this.nodeHolder = attachTrait(new GridNodeHolder(this));
-        this.actionSource = IActionSource.ofMachine(nodeHolder.getMainNode()::getNode);
-
-        this.gasHandler = attachTrait(new MEGasOutputHandler(this.internalBuffer));
-
-        this.internalBuffer.setOnContentsChanged(() -> {
-            this.gasHandler.notifyListeners();
-            this.updateGasSubscription();
-        });
+        super(info, IO.OUT);
     }
 
     @Override
-    public IManagedGridNode getMainNode() {
-        return nodeHolder.getMainNode();
-    }
-
-    @Override
-    public void setOnline(boolean online) {
-        this.isOnline = online;
-        syncDataHolder.markClientSyncFieldDirty("isOnline");
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        scheduleForNextServerTick(this::updateGasSubscription);
-        getHandlerList().setColor(getPaintingColor());
-    }
-
-    @Override
-    public void onUnload() {
-        super.onUnload();
-        if (autoIOSubs != null) {
-            autoIOSubs.unsubscribe();
-            autoIOSubs = null;
-        }
+    protected NotifiableGasTank createTank(long initialCapacity, int slots) {
+        this.internalBuffer = new KeyStorage();
+        return new InaccessibleInfiniteGasTank();
     }
 
     @Override
     public void onMachineDestroyed() {
         super.onMachineDestroyed();
-
         var grid = getMainNode().getGrid();
         if (grid != null && !internalBuffer.isEmpty()) {
             internalBuffer.insertInventory(grid.getStorageService().getInventory(), actionSource);
@@ -117,54 +63,21 @@ public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements 
     }
 
     @Override
-    public void onMainNodeStateChanged(IGridNodeListener.State reason) {
-        IGridConnectedMachine.super.onMainNodeStateChanged(reason);
-        updateGasSubscription();
-    }
-
-    @Override
-    public void onNeighborChanged(Block block, net.minecraft.core.BlockPos fromPos, boolean isMoving) {
-        super.onNeighborChanged(block, fromPos, isMoving);
-        updateGasSubscription();
-    }
-
-    @Override
-    public void onRotated(Direction oldFacing, Direction newFacing) {
-        super.onRotated(oldFacing, newFacing);
-        getMainNode().setExposedOnSides(EnumSet.of(newFacing));
-    }
-
-    @Override
-    public void setWorkingEnabled(boolean workingEnabled) {
-        super.setWorkingEnabled(workingEnabled);
-        updateGasSubscription();
-    }
-
     protected boolean shouldSubscribe() {
-        return isWorkingEnabled() && isOnline() && !internalBuffer.isEmpty();
+        return super.shouldSubscribe() && !internalBuffer.isEmpty();
     }
 
-    protected void updateGasSubscription() {
-        if (shouldSubscribe()) {
-            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
-        } else if (autoIOSubs != null) {
-            autoIOSubs.unsubscribe();
-            autoIOSubs = null;
-        }
-    }
-
+    @Override
     protected void autoIO() {
         if (!shouldSyncME()) {
             return;
         }
         if (updateMEStatus()) {
             var grid = getMainNode().getGrid();
-
             if (grid != null && !internalBuffer.isEmpty()) {
                 internalBuffer.insertInventory(grid.getStorageService().getInventory(), actionSource);
             }
-
-            updateGasSubscription();
+            updateTankSubscription();
         }
     }
 
@@ -180,8 +93,8 @@ public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements 
         flow.child(
             Text.dynamic(
                 () -> isOnlineValue.getBoolValue() ?
-                    net.minecraft.network.chat.Component.translatable("gtceu.gui.me_network.online") :
-                    net.minecraft.network.chat.Component.translatable("gtceu.gui.me_network.offline")
+                    Component.translatable("gtceu.gui.me_network.online") :
+                    Component.translatable("gtceu.gui.me_network.offline")
             )
                 .asWidget().marginTop(2).marginBottom(4)
         );
@@ -213,6 +126,109 @@ public class MEGasOutputHatchPartMachine extends TieredIOPartMachine implements 
                 .size(167, 80)
         );
 
-        mainWidget.child(flow.center());
+        mainWidget.child(flow);
+    }
+
+    private class InaccessibleInfiniteGasTank extends NotifiableGasTank {
+
+        public InaccessibleInfiniteGasTank() {
+            super(1, Long.MAX_VALUE, IO.OUT, IO.NONE);
+            internalBuffer.setOnContentsChanged(this::onContentsChanged);
+        }
+
+        @Override
+        public int getTanks() {
+            return 128;
+        }
+
+        @Override
+        public List<Object> getContents() {
+            return Collections.emptyList();
+        }
+
+        @Override
+        public double getTotalContentAmount() {
+            return 0;
+        }
+
+        @Override
+        public boolean shouldSearchContent() {
+            return false;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return true;
+        }
+
+        @Override
+        public GasStack getChemicalInTank(int tank) {
+            return GasStack.EMPTY;
+        }
+
+        @Override
+        public void setChemicalInTank(int tank, GasStack stack) {}
+
+        @Override
+        public long getTankCapacity(int tank) {
+            return Long.MAX_VALUE;
+        }
+
+        @Override
+        public boolean isValid(int tank, GasStack stack) {
+            return true;
+        }
+
+        @Override
+        public List<GasStack> handleRecipeInner(IO io, GTRecipe recipe, List<GasStack> left, boolean simulate) {
+            if (io != IO.OUT) {
+                return left;
+            }
+
+            for (var it = left.iterator(); it.hasNext();) {
+                var gas = it.next();
+
+                if (gas == null || gas.isEmpty()) {
+                    it.remove();
+                    continue;
+                }
+
+                long accepted = insertGas(gas, simulate);
+                if (accepted <= 0) {
+                    continue;
+                }
+
+                long remaining = gas.getAmount() - accepted;
+                if (remaining <= 0) {
+                    it.remove();
+                } else {
+                    gas.setAmount(remaining);
+                }
+            }
+
+            return left;
+        }
+
+        private long insertGas(GasStack gas, boolean simulate) {
+            var key = GasGuiHelper.getGasKey(gas);
+            if (key == null) {
+                return 0;
+            }
+
+            long amount = gas.getAmount();
+            if (amount <= 0) {
+                return 0;
+            }
+
+            long oldAmount = internalBuffer.storage.getOrDefault(key, 0L);
+            long accepted = Math.min(Long.MAX_VALUE - oldAmount, amount);
+
+            if (accepted > 0 && !simulate) {
+                internalBuffer.storage.put(key, oldAmount + accepted);
+                internalBuffer.onChanged();
+            }
+
+            return accepted;
+        }
     }
 }

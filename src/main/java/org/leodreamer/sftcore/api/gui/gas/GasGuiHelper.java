@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.InventoryMenu;
 
+import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.ramidzkh.mekae2.ae2.MekanismKey;
@@ -87,7 +88,19 @@ public final class GasGuiHelper {
     }
 
     public static boolean isGas(GenericStack stack) {
-        return stack != null && stack.what() instanceof MekanismKey key && key.getForm() == MekanismKey.GAS;
+        return stack != null && isGas(stack.what());
+    }
+
+    public static boolean isGas(AEKey key) {
+        return key instanceof MekanismKey mekanismKey && mekanismKey.getForm() == MekanismKey.GAS;
+    }
+
+    public static MekanismKey getGasKey(GasStack gas) {
+        if (gas == null || gas.isEmpty()) {
+            return null;
+        }
+        var key = MekanismKey.of(gas);
+        return key != null && key.getForm() == MekanismKey.GAS ? key : null;
     }
 
     public static void renderTooltip(GuiGraphics graphics, GenericStack stack, int mouseX, int mouseY) {
