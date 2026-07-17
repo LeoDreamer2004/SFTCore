@@ -10,26 +10,36 @@ import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryPr
 import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IFilteredHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerGroupDistinctness;
 import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.trait.InternalSlotRecipeHandler;
 
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.inventories.InternalInventory;
 import appeng.core.definitions.AEBlocks;
-import com.google.common.collect.BiMap;
-import org.jetbrains.annotations.NotNull;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,8 +51,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @Mixin(value = MEPatternBufferPartMachine.class, remap = false)
 public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     implements IPromptProvider, IMemoryCardInteraction, IScaleUpCraftingProvider, IMEPatternBufferCache {
@@ -59,6 +75,12 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     @Final
     private InternalInventory internalPatternInventory;
 
+    @Shadow
+    public abstract NotifiableItemStackHandler getShareInventory();
+
+    @Shadow
+    public abstract com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableFluidTank getShareTank();
+
     @Unique
     private final GTRecipe[] sftcore$cachedRecipes = new GTRecipe[27];
 
@@ -71,8 +93,8 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     // 32-bit 0-1 mask
     private int sftcore$cachedRecipeMask = 0;
 
-    @Shadow
-    public abstract InternalSlotRecipeHandler getInternalRecipeHandler();
+    @Unique
+    private final RecipeHandlerList[] sftcore$cacheSlotHandlers = new RecipeHandlerList[27];
 
     public MEPatternBufferPartMachineMixin(BlockEntityCreationInfo info, IO io) {
         super(info, io, new NotifiableItemStackHandler(0, IO.NONE));
@@ -82,13 +104,13 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
 
     @Override
     @Unique
-    public @NotNull String sftcore$getPrompt() {
+    public String sftcore$getPrompt() {
         return customName;
     }
 
     @Override
     @Unique
-    public void sftcore$setPrompt(@NotNull String prompt) {
+    public void sftcore$setPrompt(String prompt) {
         customName = prompt;
     }
 
@@ -120,31 +142,28 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
         cir.setReturnValue(group);
     }
 
-    @Redirect(
-        method = "pushPattern",
+    @WrapOperation(
+        method = {
+            "pushPattern",
+            "onPatternChange"
+        },
         at = @At(
             value = "INVOKE",
-            target = "Lcom/google/common/collect/BiMap;containsKey(Ljava/lang/Object;)Z"
+            target = "Ljava/lang/Object;equals(Ljava/lang/Object;)Z"
         )
     )
-    private boolean sftcore$containsKeyForScaleUpPattern(BiMap<?, ?> map, Object details) {
-        if (details instanceof ScaledProcessingPattern spp) {
-            return map.containsKey(spp.original());
+    private boolean sftcore$equalsScaleUpPattern(
+        Object instance,
+        Object other,
+        Operation<Boolean> original
+    ) {
+        if (instance instanceof ScaledProcessingPattern scaled) {
+            return scaled.original().equals(other);
         }
-        return map.containsKey(details);
-    }
-
-    @Redirect(
-        method = "pushPattern",
-        at = @At(
-            value = "INVOKE", target = "Lcom/google/common/collect/BiMap;get(Ljava/lang/Object;)Ljava/lang/Object;"
-        )
-    )
-    private Object sftcore$checkSlotForScaleUpPattern(BiMap<?, ?> map, Object details) {
-        if (details instanceof ScaledProcessingPattern spp) {
-            return map.get(spp.original());
+        if (other instanceof ScaledProcessingPattern scaled) {
+            return instance.equals(scaled.original());
         }
-        return map.get(details);
+        return original.call(instance, other);
     }
 
     /* --- memory card integration --- */
@@ -211,7 +230,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
 
     @Inject(method = "onPatternChange", at = @At("HEAD"))
     private void sftcore$clearCacheOnPatternChange(int index, CallbackInfo ci) {
-        sftcore$clearCachedRecipe(index);
+        sftcore$clearAllCachedRecipes();
     }
 
     @Override
@@ -239,7 +258,7 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     }
 
     @Override
-    public void sftcore$setCachedRecipe(int slot, @NotNull GTRecipe recipe) {
+    public void sftcore$setCachedRecipe(int slot, GTRecipe recipe) {
         if (slot < 0 || slot >= sftcore$cachedRecipes.length) {
             return;
         }
@@ -280,12 +299,13 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
             return null;
         }
 
-        var handlers = getInternalRecipeHandler().getSlotHandlers();
-        if (slot >= handlers.size()) {
-            return null;
+        var handler = sftcore$cacheSlotHandlers[slot];
+        if (handler == null) {
+            handler = new CacheSlotRecipeHandlerList(internalInventory[slot]);
+            sftcore$cacheSlotHandlers[slot] = handler;
         }
 
-        return handlers.get(slot);
+        return handler;
     }
 
     @Unique
@@ -294,9 +314,137 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
     }
 
     @Unique
+    private void sftcore$clearAllCachedRecipes() {
+        Arrays.fill(sftcore$cachedRecipes, null);
+        Arrays.fill(sftcore$cachedRecipeIds, "");
+
+        int oldMask = sftcore$cachedRecipeMask;
+        sftcore$cachedRecipeMask = 0;
+        if (oldMask != 0) {
+            sftcore$syncCachedRecipeMask();
+        }
+        setChanged();
+    }
+
+    @Unique
     private static String[] sftcore$emptyCachedRecipeIds() {
         var ids = new String[27];
         Arrays.fill(ids, "");
         return ids;
+    }
+
+    @Unique
+    private class CacheSlotRecipeHandlerList extends RecipeHandlerList {
+
+        CacheSlotRecipeHandlerList(MEPatternBufferPartMachine.InternalSlot slot) {
+            super(IO.IN);
+            addHandlers(
+                getCircuitSlot(),
+                getShareInventory(),
+                getShareTank(),
+                new SlotItemRecipeHandler(slot),
+                new SlotFluidRecipeHandler(slot)
+            );
+            setGroup(RecipeHandlerGroupDistinctness.BUS_DISTINCT);
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public void setDistinct(boolean ignored, boolean notify) {}
+    }
+
+    @Unique
+    private static class SlotItemRecipeHandler implements IRecipeHandler<Ingredient> {
+
+        private final MEPatternBufferPartMachine.InternalSlot slot;
+
+        SlotItemRecipeHandler(MEPatternBufferPartMachine.InternalSlot slot) {
+            this.slot = slot;
+        }
+
+        @Override
+        public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
+            if (io != IO.IN || slot.isItemEmpty()) {
+                return left;
+            }
+            return slot.handleItemInternal(left, simulate);
+        }
+
+        @Override
+        public List<Object> getContents() {
+            return new ArrayList<>(slot.getItems());
+        }
+
+        @Override
+        public double getTotalContentAmount() {
+            return slot.getItems().stream().mapToLong(ItemStack::getCount).sum();
+        }
+
+        @Override
+        public RecipeCapability<Ingredient> getCapability() {
+            return ItemRecipeCapability.CAP;
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public int getPriority() {
+            return IFilteredHandler.HIGH;
+        }
+    }
+
+    @Unique
+    private static class SlotFluidRecipeHandler implements IRecipeHandler<FluidIngredient> {
+
+        private final MEPatternBufferPartMachine.InternalSlot slot;
+
+        SlotFluidRecipeHandler(MEPatternBufferPartMachine.InternalSlot slot) {
+            this.slot = slot;
+        }
+
+        @Override
+        public List<FluidIngredient> handleRecipeInner(
+            IO io,
+            GTRecipe recipe,
+            List<FluidIngredient> left,
+            boolean simulate
+        ) {
+            if (io != IO.IN || slot.isFluidEmpty()) {
+                return left;
+            }
+            return slot.handleFluidInternal(left, simulate);
+        }
+
+        @Override
+        public List<Object> getContents() {
+            return new ArrayList<>(slot.getFluids());
+        }
+
+        @Override
+        public double getTotalContentAmount() {
+            return slot.getFluids().stream().mapToLong(FluidStack::getAmount).sum();
+        }
+
+        @Override
+        public RecipeCapability<FluidIngredient> getCapability() {
+            return FluidRecipeCapability.CAP;
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public int getPriority() {
+            return IFilteredHandler.HIGH;
+        }
     }
 }
