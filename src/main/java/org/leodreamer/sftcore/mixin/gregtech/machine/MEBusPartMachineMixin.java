@@ -5,6 +5,7 @@ import org.leodreamer.sftcore.common.machine.trait.WirelessGridHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
 
@@ -20,12 +21,14 @@ public abstract class MEBusPartMachineMixin extends ItemBusPartMachine implement
     @Unique
     private WirelessGridHolder sftcore$wirelessHolder;
 
-    public MEBusPartMachineMixin(BlockEntityCreationInfo info, int tier, IO io) {
-        super(info, tier, io);
+    public MEBusPartMachineMixin(BlockEntityCreationInfo info, IO io, NotifiableItemStackHandler inventory) {
+        super(info, 6, io, inventory);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addWirelessHolder(BlockEntityCreationInfo info, IO io, CallbackInfo ci) {
+    private void addWirelessHolder(
+        BlockEntityCreationInfo info, IO io, NotifiableItemStackHandler inventory, CallbackInfo ci
+    ) {
         sftcore$wirelessHolder = attachTrait(new WirelessGridHolder());
     }
 
