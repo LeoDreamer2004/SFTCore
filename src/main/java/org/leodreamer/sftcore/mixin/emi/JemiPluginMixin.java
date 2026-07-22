@@ -25,7 +25,8 @@ public abstract class JemiPluginMixin {
     private Stream<IRecipeCategory<?>> sftcore$skipNativeTagCategories(IRecipeCategoriesLookup lookup) {
         return lookup.get().filter(category -> {
             String path = category.getRecipeType().getUid().getPath();
-            return !"tag_recipes/block".equals(path) && !"tag_recipes/item".equals(path) && !"tag_recipes/fluid".equals(path);
+            return !"tag_recipes/block".equals(path) && !"tag_recipes/item".equals(path) &&
+                !"tag_recipes/fluid".equals(path);
         });
     }
 

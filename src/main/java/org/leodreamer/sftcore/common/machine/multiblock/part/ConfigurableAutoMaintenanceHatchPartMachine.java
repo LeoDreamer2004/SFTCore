@@ -103,9 +103,11 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends MaintenanceHatc
 
     @Override
     public void setDurationMultiplier(float durationMultiplier) {
-        super.setDurationMultiplier(Mth.clamp(
-            durationMultiplier, MIN_DURATION_MULTIPLIER, MAX_DURATION_MULTIPLIER
-        ));
+        super.setDurationMultiplier(
+            Mth.clamp(
+                durationMultiplier, MIN_DURATION_MULTIPLIER, MAX_DURATION_MULTIPLIER
+            )
+        );
     }
 
     private Component getTimeWidget() {
