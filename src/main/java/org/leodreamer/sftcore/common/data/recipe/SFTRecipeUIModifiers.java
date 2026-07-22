@@ -21,11 +21,13 @@ public class SFTRecipeUIModifiers {
     private static final String ACQUIRE_STRESS = "sftcore.recipe.input_stress";
 
     public static final RecipeUIModifier SHAFT_INFO = (recipe, widget) -> {
-        widget.textComponents.child(
+        widget.child(
             RecipeViewerSlotWidget.create()
                 .recipeSlotRole(RecipeSlotRole.RENDER_ONLY)
                 .value(ItemStackList.of(AllBlocks.SHAFT.asStack()))
                 .background(IDrawable.EMPTY)
+                .right(3)
+                .bottom(3)
         );
     };
 

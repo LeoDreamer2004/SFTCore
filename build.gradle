@@ -260,6 +260,7 @@ dependencies {
     modRuntimeOnly "curse.maven:architectury-api-419699:5137938"
     modRuntimeOnly "curse.maven:ftb-teams-forge-404468:6130786"
     modRuntimeOnly "curse.maven:ftb-library-forge-404465:6807424"
+    modRuntimeOnly "curse.maven:modernfix-790626:8447888"
 
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     annotationProcessor "org.moddingx:LibX:${mc_version}-${libx_version}"

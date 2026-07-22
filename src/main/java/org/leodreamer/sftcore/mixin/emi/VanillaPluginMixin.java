@@ -24,7 +24,6 @@ import java.util.Set;
 
 @Mixin(value = VanillaPlugin.class, remap = false)
 public abstract class VanillaPluginMixin {
-
     /**
      * EMI generates a huge amount of synthetic recipes:
      * - emi:/anvil/repairing/material/*

@@ -1,6 +1,6 @@
 package org.leodreamer.sftcore.common.data.recipe;
 
-import org.leodreamer.sftcore.api.recipe.remove.RecipeFilter;
+import org.leodreamer.sftcore.api.recipe.remove.RecipeRemoval;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -19,17 +19,14 @@ import mekanism.common.registries.MekanismBlocks;
 import mekanism.generators.common.registries.GeneratorsBlocks;
 import net.pedroksl.advanced_ae.common.definitions.AAEBlocks;
 
-import java.util.function.Consumer;
-
 import static cn.qiuye.gtmoremachine.common.data.machines.WirelessMachines.*;
-import static org.leodreamer.sftcore.api.recipe.remove.RecipeFilters.*;
 import static org.leodreamer.sftcore.integration.IntegrateMods.*;
 import static org.leodreamer.sftcore.util.RLUtils.getItemById;
 
 public final class SFTRecipeRemovals {
 
-    public static void init(Consumer<RecipeFilter> registry) {
-        ItemLike[] ITEMS = new ItemLike[] {
+    public static void init(RecipeRemoval registry) {
+        var ITEMS = new ItemLike[] {
             GTMachines.HULL[GTValues.LV].getItem(),
             GTMachines.CLEANING_MAINTENANCE_HATCH.getItem(),
             GTAEMachines.ME_PATTERN_BUFFER.getItem(),
@@ -49,10 +46,10 @@ public final class SFTRecipeRemovals {
         };
 
         for (var item : ITEMS) {
-            registry.accept(output(item));
+            registry.output(item);
         }
 
-        MachineDefinition[][] laserHatches = new MachineDefinition[][] {
+        var laserHatches = new MachineDefinition[][] {
             WIRELESS_ENERGY_INPUT_HATCH_256A,
             WIRELESS_ENERGY_OUTPUT_HATCH_256A,
             WIRELESS_ENERGY_INPUT_HATCH_1024A,
@@ -64,14 +61,14 @@ public final class SFTRecipeRemovals {
         for (var hatches : laserHatches) {
             for (var item : hatches) {
                 if (item != null) {
-                    registry.accept(output(item.getItem()));
+                    registry.output(item.getItem());
                 }
             }
         }
 
-        registry.accept(input(GTItems.NAN_CERTIFICATE));
+        registry.input(GTItems.NAN_CERTIFICATE);
 
-        ItemLike[] AAE_ITEMS = new ItemLike[] {
+        var AAE_ITEMS = new ItemLike[] {
             AEItems.FLUIX_CRYSTAL,
             MEGAItems.SKY_STEEL_INGOT,
             AEItems.CERTUS_QUARTZ_CRYSTAL,
@@ -84,7 +81,7 @@ public final class SFTRecipeRemovals {
         };
 
         for (var item : AAE_ITEMS) {
-            registry.accept(output(item).and(mod(AAE)));
+            registry.output(AAE, item);
         }
     }
 }

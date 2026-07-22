@@ -1,6 +1,5 @@
 package org.leodreamer.sftcore.mixin.vanilla;
 
-import org.leodreamer.sftcore.SFTCore;
 import org.leodreamer.sftcore.api.recipe.remove.RecipeRemoval;
 
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +23,7 @@ public class RecipeManagerMixin {
         at = @At("TAIL")
     )
     private static void sftcore$removeRecipe(
-        ResourceLocation id,
+        ResourceLocation recipeId,
         JsonObject json,
         ICondition.IContext context,
         CallbackInfoReturnable<Recipe<?>> cir
@@ -34,9 +33,7 @@ public class RecipeManagerMixin {
             return;
         }
         try {
-            boolean remove = RecipeRemoval.INSTANCE.test(id, recipe);
-            if (remove) {
-                SFTCore.LOGGER.debug("Removed recipe {}", id);
+            if (RecipeRemoval.INSTANCE.test(recipeId, recipe)) {
                 cir.setReturnValue(null);
             }
         } catch (RuntimeException ignored) {}

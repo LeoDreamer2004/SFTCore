@@ -180,7 +180,7 @@ public final class CommonGTRecipes {
         OIL_DRILLING_RECIPES
             .recipeBuilder(SFTCore.id("oil_" + circuit))
             .outputFluids(output.getFluid(2000))
-            .chancedOutput(dust, Oilsands, 1000, 1000)
+            .chancedOutput(dust, Oilsands, 1, 1000)
             .inputFluids(Lubricant.getFluid(200))
             .circuitMeta(circuit)
             .duration(120)

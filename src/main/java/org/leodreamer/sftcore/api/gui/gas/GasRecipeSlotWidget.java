@@ -14,22 +14,27 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import brachy.modularui.api.ITheme;
+import brachy.modularui.api.widget.Interactable;
 import brachy.modularui.screen.RichTooltip;
 import brachy.modularui.screen.viewport.ModularGuiContext;
 import brachy.modularui.theme.WidgetThemeEntry;
 import brachy.modularui.widget.Widget;
+import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.SlotWidget;
+import dev.emi.emi.jemi.JemiUtil;
 import mekanism.api.chemical.gas.GasStack;
+import mekanism.client.jei.MekanismJEI;
 
-public class GasRecipeSlotWidget extends Widget<GasRecipeSlotWidget> {
+public class GasRecipeSlotWidget extends Widget<GasRecipeSlotWidget> implements Interactable {
 
     private GasStack gas = GasStack.EMPTY;
     private long amount;
     private ContentOverlay contentOverlay;
+    private SlotWidget emiSlot = new SlotWidget(EmiStack.EMPTY, 0, 0).drawBack(false);
 
     public GasRecipeSlotWidget() {
         size(18);
         tooltip().autoUpdate(true);
-        tooltipBuilder(this::addTooltip);
     }
 
     public GasRecipeSlotWidget value(
@@ -41,6 +46,15 @@ public class GasRecipeSlotWidget extends Widget<GasRecipeSlotWidget> {
         this.gas = GasRecipeCapability.CAP.of(content.content());
         this.amount = gas.isEmpty() ? 0 : gas.getAmount();
         this.contentOverlay = new ContentOverlay(content, perTick);
+        if (gas.isEmpty()) {
+            emiSlot = new SlotWidget(EmiStack.EMPTY, 0, 0).drawBack(false);
+        } else {
+            float chance = (float) content.chance() / content.maxChance();
+            var stack = JemiUtil.getStack(MekanismJEI.TYPE_GAS, gas.copy())
+                .setAmount(amount)
+                .setChance(chance);
+            emiSlot = new SlotWidget(stack, 0, 0).drawBack(false);
+        }
         tooltipBuilder(
             tooltip -> {
                 addTooltip(tooltip);
@@ -55,6 +69,17 @@ public class GasRecipeSlotWidget extends Widget<GasRecipeSlotWidget> {
             }
         );
         return this;
+    }
+
+    @Override
+    public Result onMousePressed(int button) {
+        emiSlot.mouseClicked(getContext().getMouseX(), getContext().getAbsMouseY(), button);
+        return Result.SUCCESS;
+    }
+
+    @Override
+    public Result onKeyPressed(int keyCode, int scanCode, int modifiers) {
+        return emiSlot.keyPressed(keyCode, scanCode, modifiers) ? Result.SUCCESS : Result.ACCEPT;
     }
 
     @Override
@@ -75,6 +100,9 @@ public class GasRecipeSlotWidget extends Widget<GasRecipeSlotWidget> {
     @Override
     public void drawOverlay(ModularGuiContext context, WidgetThemeEntry<?> widgetTheme) {
         super.drawOverlay(context, widgetTheme);
+        if (emiSlot.shouldDrawSlotHighlight(context.getMouseX(), context.getMouseY())) {
+            emiSlot.drawSlotHighlight(context.getGraphics(), emiSlot.getBounds());
+        }
         if (contentOverlay != null) {
             contentOverlay.draw(context, 0, 0, 18, 18, widgetTheme.theme());
         }

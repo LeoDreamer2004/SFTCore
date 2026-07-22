@@ -3,7 +3,6 @@ package org.leodreamer.sftcore.common.machine.multiblock.part;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
-import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -22,18 +21,12 @@ import brachy.modularui.widget.ParentWidget;
 import brachy.modularui.widgets.TextWidget;
 import brachy.modularui.widgets.layout.Flow;
 import brachy.modularui.widgets.textfield.TextFieldWidget;
-import lombok.Getter;
 
 public class ConfigurableAutoMaintenanceHatchPartMachine extends MaintenanceHatchPartMachine
     implements IMuiMachine {
 
-    @Getter
-    @SaveField
-    private float durationMultiplier = 1f;
-
     private static final float MAX_DURATION_MULTIPLIER = 5f;
     private static final float MIN_DURATION_MULTIPLIER = 0.2f;
-    private static final float DURATION_ACTION_AMOUNT = 0.2f;
 
     public ConfigurableAutoMaintenanceHatchPartMachine(BlockEntityCreationInfo info) {
         super(info, GTValues.IV, true);
@@ -108,16 +101,16 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends MaintenanceHatc
         );
     }
 
+    @Override
     public void setDurationMultiplier(float durationMultiplier) {
-        this.durationMultiplier = Mth.clamp(
-            durationMultiplier,
-            MIN_DURATION_MULTIPLIER,
-            MAX_DURATION_MULTIPLIER
-        );
+        super.setDurationMultiplier(Mth.clamp(
+            durationMultiplier, MIN_DURATION_MULTIPLIER, MAX_DURATION_MULTIPLIER
+        ));
     }
 
     private Component getTimeWidget() {
         Component tooltip;
+        float durationMultiplier = getDurationMultiplier();
         if (durationMultiplier == 1.0) {
             tooltip = Component.translatable("gtceu.maintenance.configurable_duration.unchanged_description");
         } else {
