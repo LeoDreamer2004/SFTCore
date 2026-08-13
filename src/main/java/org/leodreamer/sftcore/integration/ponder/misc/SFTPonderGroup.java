@@ -1,5 +1,8 @@
 package org.leodreamer.sftcore.integration.ponder.misc;
 
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.common.data.GTMachines;
+
 import net.minecraft.world.level.ItemLike;
 
 import appeng.core.definitions.AEBlocks;
@@ -22,6 +25,8 @@ import java.util.Arrays;
 public enum SFTPonderGroup {
 
     CONTROLLER(AEBlocks.CONTROLLER),
+
+    LATHE(GTMachines.LATHE[GTValues.LV].getBlock()),
 
     QUANTUM_COMPUTER(
         AAEBlocks.QUANTUM_ACCELERATOR,

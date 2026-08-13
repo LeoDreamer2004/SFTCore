@@ -1,5 +1,8 @@
 package org.leodreamer.sftcore.integration.ponder.api;
 
+import org.leodreamer.sftcore.integration.ponder.element.MUIWindowElement;
+import org.leodreamer.sftcore.integration.ponder.instruction.ShowMUIInstruction;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -7,13 +10,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import brachy.modularui.screen.ModularPanel;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
+import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.element.EntityElement;
 import net.createmod.ponder.api.element.TextElementBuilder;
 import net.createmod.ponder.api.scene.SceneBuilder;
 import net.createmod.ponder.api.scene.Selection;
 
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -31,6 +37,19 @@ public class SFTSceneBuilder extends CreateSceneBuilder {
 
     public TextElementBuilder text(int duration, String text) {
         return overlay().showText(duration).text(text);
+    }
+
+    public void mui(
+        Vec3 position,
+        Pointing pointing,
+        int duration,
+        int width,
+        int height,
+        Supplier<? extends ModularPanel<?>> panelFactory
+    ) {
+        addInstruction(new ShowMUIInstruction(
+            new MUIWindowElement(position, pointing, width, height, panelFactory), duration
+        ));
     }
 
     @Override
