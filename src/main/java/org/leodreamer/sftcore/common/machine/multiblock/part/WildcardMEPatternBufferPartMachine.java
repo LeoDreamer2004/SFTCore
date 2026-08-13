@@ -17,7 +17,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.mui.MachineUIPanelBuilder;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
@@ -492,16 +491,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
     @Getter
     private class AggregateItemHandler extends NotifiableRecipeHandlerTrait<Ingredient> {
 
-        static final MachineTraitType<AggregateItemHandler> TYPE = new MachineTraitType<>(AggregateItemHandler.class);
-
         private final RecipeCapability<Ingredient> capability = ItemRecipeCapability.CAP;
         private final IO handlerIO = IO.IN;
         private final boolean isDistinct = true;
-
-        @Override
-        public MachineTraitType<AggregateItemHandler> getTraitType() {
-            return TYPE;
-        }
 
         @Override
         public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
@@ -535,16 +527,9 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
     @Getter
     private class AggregateFluidHandler extends NotifiableRecipeHandlerTrait<FluidIngredient> {
 
-        static final MachineTraitType<AggregateFluidHandler> TYPE = new MachineTraitType<>(AggregateFluidHandler.class);
-
         private final RecipeCapability<FluidIngredient> capability = FluidRecipeCapability.CAP;
         private final IO handlerIO = IO.IN;
         private final boolean isDistinct = true;
-
-        @Override
-        public MachineTraitType<AggregateFluidHandler> getTraitType() {
-            return TYPE;
-        }
 
         @Override
         public List<FluidIngredient> handleRecipeInner(
@@ -735,7 +720,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                             .gridOfSizeWidth(
                                 9, 3, (x, y, index) -> new ItemSlot()
                                     .slot(
-                                        SyncHandlers.itemSlot(shareInventory, index)
+                                        SyncHandlers.itemSlot(shareInventory.storage, index)
                                             .slotGroup(sharedItemSlotGroup)
                                             .accessibility(true, true)
                                     )

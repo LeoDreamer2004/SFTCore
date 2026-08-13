@@ -49,7 +49,7 @@ public class GasRecipeOutputProvider extends MachineTraitProvider<RecipeLogic, C
     static final String JADE_CONFIG = "config.jade.plugin_sftcore.recipe_gas_output_info";
 
     private GasRecipeOutputProvider() {
-        super(SFTCore.id("recipe_gas_output_info"), RecipeLogic.TYPE);
+        super(SFTCore.id("recipe_gas_output_info"), RecipeLogic.class);
     }
 
     @Override

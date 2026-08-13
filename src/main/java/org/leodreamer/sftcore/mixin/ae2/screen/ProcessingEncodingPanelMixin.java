@@ -2,6 +2,7 @@ package org.leodreamer.sftcore.mixin.ae2.screen;
 
 import org.leodreamer.sftcore.common.data.lang.MixinTooltips;
 import org.leodreamer.sftcore.integration.ae2.feature.IPatternMultiply;
+import org.leodreamer.sftcore.integration.ae2.feature.IVirtualCatalystEncoding;
 import org.leodreamer.sftcore.integration.ae2.gui.TinyTextButton;
 
 import net.minecraft.client.gui.components.Button;
@@ -31,6 +32,9 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     @Unique
     private Button sftcore$halfBtn;
 
+    @Unique
+    private TinyTextButton sftcore$virtualCatalystBtn;
+
     private ProcessingEncodingPanelMixin(
         PatternEncodingTermScreen<?> screen,
         WidgetContainer widgets
@@ -46,6 +50,24 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
         widgets.add("x2Pattern", sftcore$x2Btn);
         widgets.add("x64Pattern", sftcore$x64Btn);
         widgets.add("halfPattern", sftcore$halfBtn);
+        sftcore$virtualCatalystBtn = new TinyTextButton(
+            Component.literal("V"), button -> {
+                var encoding = (IVirtualCatalystEncoding) menu;
+                encoding.sftcore$setVirtualCatalystsEnabled(!encoding.sftcore$getVirtualCatalystsEnabled());
+            }
+        );
+        widgets.add("virtualCatalysts", sftcore$virtualCatalystBtn);
+    }
+
+    @Inject(method = "updateBeforeRender", at = @At("TAIL"), remap = false)
+    private void sftcore$updateVirtualCatalystButton(CallbackInfo ci) {
+        boolean enabled = ((IVirtualCatalystEncoding) menu).sftcore$getVirtualCatalystsEnabled();
+        sftcore$virtualCatalystBtn.setTooltips(List.of(
+            Component.translatable(enabled ? MixinTooltips.VIRTUAL_CATALYSTS_ON :
+                MixinTooltips.VIRTUAL_CATALYSTS_OFF),
+            Component.translatable(enabled ? MixinTooltips.VIRTUAL_CATALYSTS_ON_DESC :
+                MixinTooltips.VIRTUAL_CATALYSTS_OFF_DESC)
+        ));
     }
 
     @Unique
@@ -71,6 +93,7 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
             sftcore$x2Btn.visible = visible;
             sftcore$x64Btn.visible = visible;
             sftcore$halfBtn.visible = visible;
+            sftcore$virtualCatalystBtn.visible = visible;
         }
     }
 }

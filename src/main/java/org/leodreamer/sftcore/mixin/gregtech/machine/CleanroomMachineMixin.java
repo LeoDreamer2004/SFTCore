@@ -32,7 +32,7 @@ public abstract class CleanroomMachineMixin extends WorkableElectricMultiblockMa
 
     @Inject(method = "adjustCleanAmount", at = @At("HEAD"), remap = false)
     private void sftcore$captureCleanroomStateBeforeAdjust(int amount, CallbackInfo ci) {
-        var trait = getTrait(CleanroomProviderTrait.TYPE);
+        var trait = getTrait(CleanroomProviderTrait.class);
 
         this.sftcore$wasCleanBeforeAdjust = trait != null && trait.isActive();
     }
@@ -47,7 +47,7 @@ public abstract class CleanroomMachineMixin extends WorkableElectricMultiblockMa
             return;
         }
 
-        var trait = getTrait(CleanroomProviderTrait.TYPE);
+        var trait = getTrait(CleanroomProviderTrait.class);
 
         if (trait == null || !trait.isActive()) {
             return;

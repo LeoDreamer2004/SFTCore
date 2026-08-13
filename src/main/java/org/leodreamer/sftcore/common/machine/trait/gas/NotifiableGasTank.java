@@ -7,7 +7,6 @@ import org.leodreamer.sftcore.integration.mek.SimpleGasTank;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
@@ -38,8 +37,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> implements ICapabilityTrait, IGasHandler {
 
-    public static final MachineTraitType<NotifiableGasTank> TYPE = new MachineTraitType<>(NotifiableGasTank.class);
-
     @Getter
     public final IO handlerIO;
 
@@ -67,11 +64,6 @@ public class NotifiableGasTank extends NotifiableRecipeHandlerTrait<GasStack> im
             storages[i] = new SimpleGasTank(capacity);
             storages[i].setOnContentsChanged(this::onContentsChanged);
         }
-    }
-
-    @Override
-    public MachineTraitType<NotifiableGasTank> getTraitType() {
-        return TYPE;
     }
 
     public void onContentsChanged() {

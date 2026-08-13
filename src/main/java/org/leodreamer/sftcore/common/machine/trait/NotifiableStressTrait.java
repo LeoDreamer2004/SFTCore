@@ -6,7 +6,6 @@ import org.leodreamer.sftcore.common.machine.multiblock.part.KineticInputPartMac
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -20,10 +19,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> implements ICapabilityTrait {
-
-    public static final MachineTraitType<NotifiableStressTrait> TYPE = new MachineTraitType<>(
-        NotifiableStressTrait.class
-    );
 
     private final KineticInputPartMachine machine;
     private final IO handlerIO;
@@ -88,11 +83,6 @@ public class NotifiableStressTrait extends NotifiableRecipeHandlerTrait<Float> i
     @Override
     public boolean shouldSearchContent() {
         return false;
-    }
-
-    @Override
-    public MachineTraitType<?> getTraitType() {
-        return TYPE;
     }
 
     public void notifyStressChanged() {

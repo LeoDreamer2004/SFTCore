@@ -83,7 +83,7 @@ public class MechanicalBoxMachine extends WorkableKineticMultiblockMachine {
         @Override
         public void onMachineUnload() {
             lastFailedMatches = null;
-            failureReasonMap.clear();
+            clearFailureReason();
             super.onMachineUnload();
         }
 

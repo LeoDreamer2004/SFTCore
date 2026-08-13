@@ -12,6 +12,10 @@
     "halfPattern": {
       "left": 82,
       "bottom": 133
+    },
+    "virtualCatalysts": {
+      "left": 164,
+      "bottom": 146
     }
   }
 }

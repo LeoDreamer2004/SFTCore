@@ -3,69 +3,83 @@ package org.leodreamer.sftcore.mixin.emi;
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.core.mixins.TagValueAccessor;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.TagEmiIngredient;
+import dev.emi.emi.registry.EmiTags;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.Overwrite;
+
+import java.util.Arrays;
 
 @Mixin(value = EmiIngredient.class, remap = false)
 public interface EmiIngredientMixin {
 
-    @Inject(
-        method = "of(Lnet/minecraft/world/item/crafting/Ingredient;)Ldev/emi/emi/api/stack/EmiIngredient;",
-        at = @At("HEAD"),
-        cancellable = true
-    )
-    private static void sftcore$ofTag(
-        Ingredient ingredient,
-        CallbackInfoReturnable<EmiIngredient> cir
-    ) {
-        var result = sftcore$ofTag(ingredient, 1);
-        if (result != null) {
-            cir.setReturnValue(result);
-        }
-    }
-
-    @Inject(
-        method = "of(Lnet/minecraft/world/item/crafting/Ingredient;J)Ldev/emi/emi/api/stack/EmiIngredient;",
-        at = @At("HEAD"),
-        cancellable = true
-    )
-    private static void sftcore$ofTag(
-        Ingredient ingredient,
-        long amount,
-        CallbackInfoReturnable<EmiIngredient> cir
-    ) {
-        var result = sftcore$ofTag(ingredient, amount);
-        if (result != null) {
-            cir.setReturnValue(result);
-        }
-    }
-
-    @Unique
-    private static EmiIngredient sftcore$ofTag(Ingredient ingredient, long amount) {
-        if (ingredient == null || !ingredient.isVanilla()) {
-            return null;
-        }
-        var values = ((IngredientAccessor) ingredient).getValues();
-        if (values.length != 1 || !(values[0] instanceof Ingredient.TagValue tagValue)) {
-            return null;
-        }
-
-        var tag = ((TagValueAccessor) tagValue).getTag();
-        var result = new TagEmiIngredient(tag, amount);
-        if (result.getEmiStacks().isEmpty()) {
+    /**
+     * @author leodreamer
+     * @reason Preserve vanilla tags instead of eagerly expanding all entries.
+    */
+    @Overwrite
+    static EmiIngredient of(Ingredient ingredient) {
+        if (ingredient == null) {
             return EmiStack.EMPTY;
         }
-        if (result.getEmiStacks().size() == 1) {
-            return result.getEmiStacks().get(0).copy().setAmount(amount);
+        if (ingredient.isVanilla()) {
+            var values = ((IngredientAccessor) ingredient).getValues();
+            if (values.length == 1 && values[0] instanceof Ingredient.TagValue) {
+                return of(ingredient, 1);
+            }
         }
-        return result;
+        if (ingredient.isEmpty()) {
+            return EmiStack.EMPTY;
+        }
+
+        ItemStack[] stacks = ingredient.getItems();
+        int amount = 1;
+        if (stacks.length != 0) {
+            amount = stacks[0].getCount();
+            for (int i = 1; i < stacks.length; i++) {
+                if (stacks[i].getCount() != amount) {
+                    amount = 1;
+                    break;
+                }
+            }
+        }
+        return of(ingredient, amount);
+    }
+
+    /**
+     * @author leodreamer
+     * @reason Preserve vanilla tags instead of eagerly expanding all entries.
+    */
+    @Overwrite
+    static EmiIngredient of(Ingredient ingredient, long amount) {
+        if (ingredient == null) {
+            return EmiStack.EMPTY;
+        }
+        if (ingredient.isVanilla()) {
+            var values = ((IngredientAccessor) ingredient).getValues();
+            if (values.length == 1 && values[0] instanceof Ingredient.TagValue tagValue) {
+                var tag = ((TagValueAccessor) tagValue).getTag();
+                var result = new TagEmiIngredient(tag, amount);
+                var stacks = result.getEmiStacks();
+                if (stacks.isEmpty()) {
+                    return EmiStack.EMPTY;
+                }
+                if (stacks.size() == 1) {
+                    return stacks.get(0).copy().setAmount(amount);
+                }
+                return result;
+            }
+        }
+        if (ingredient.isEmpty()) {
+            return EmiStack.EMPTY;
+        }
+        return EmiTags.getIngredient(Item.class,
+            Arrays.stream(ingredient.getItems()).map(EmiStack::of).toList(), amount);
     }
 }

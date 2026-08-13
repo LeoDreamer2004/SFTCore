@@ -23,7 +23,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 @Mixin(value = RecipeLogic.class, remap = false)
 public abstract class RecipeLogicMixin extends MachineTrait {
@@ -38,14 +37,14 @@ public abstract class RecipeLogicMixin extends MachineTrait {
 
     @Shadow
     @Nullable
+    protected GTRecipe lastUnrolledRecipe;
+
+    @Shadow
+    @Nullable
     protected GTRecipe lastOriginRecipe;
 
     @Shadow
     protected boolean recipeDirty;
-
-    @Shadow
-    @Final
-    protected Map<GTRecipe, Component> failureReasonMap;
 
     @Shadow
     public abstract IRecipeLogicMachine getRLMachine();
@@ -64,6 +63,16 @@ public abstract class RecipeLogicMixin extends MachineTrait {
 
     @Shadow
     protected abstract void handleSearchingRecipes(Iterator<GTRecipe> matches);
+
+    @Shadow
+    protected abstract void clearFailureReason();
+
+    @Shadow
+    protected abstract void recordFailureReason(
+        @Nullable GTRecipe recipe,
+        @Nullable Component reason,
+        double score
+    );
 
     @Shadow
     private RecipeLogic.Status status;
@@ -93,25 +102,32 @@ public abstract class RecipeLogicMixin extends MachineTrait {
     @Overwrite
     public void findAndHandleRecipe() {
         lastFailedMatches = null;
+        clearFailureReason();
 
-        // Keep the fast lastRecipe
-        if (!recipeDirty && lastRecipe != null && checkRecipe(lastRecipe).isSuccess()) {
-            var recipe = lastRecipe;
-            lastRecipe = null;
-            lastOriginRecipe = null;
-            setupRecipe(recipe);
-            recipeDirty = false;
-            return;
+        // Keep the fast unrolled recipe so ranged ingredients are rolled again per run.
+        var previousRecipe = lastUnrolledRecipe;
+        if (!recipeDirty && previousRecipe != null) {
+            var lastCheck = checkRecipe(previousRecipe);
+            if (lastCheck.isSuccess()) {
+                lastRecipe = null;
+                lastUnrolledRecipe = null;
+                lastOriginRecipe = null;
+                setupRecipe(previousRecipe);
+                recipeDirty = false;
+                return;
+            }
+            recordFailureReason(previousRecipe, lastCheck.reason(), Double.POSITIVE_INFINITY);
         }
 
-        failureReasonMap.clear();
         lastRecipe = null;
+        lastUnrolledRecipe = null;
         lastOriginRecipe = null;
 
         var buffers = sftcore$getPatternBuffers();
 
         if (buffers.isEmpty()) {
             handleSearchingRecipes(searchRecipe());
+            sftcore$syncLastRecipes();
             recipeDirty = false;
             return;
         }
@@ -124,7 +140,14 @@ public abstract class RecipeLogicMixin extends MachineTrait {
 
         sftcore$searchRecipesAndUpdatePatternCache(buffers);
 
+        sftcore$syncLastRecipes();
         recipeDirty = false;
+    }
+
+    @Unique
+    private void sftcore$syncLastRecipes() {
+        syncDataHolder.markClientSyncFieldDirty("lastRecipe");
+        syncDataHolder.markClientSyncFieldDirty("lastDisplayedRecipe");
     }
 
     @Unique
@@ -195,7 +218,9 @@ public abstract class RecipeLogicMixin extends MachineTrait {
                 }
             }
 
-            if (!matchRecipe(match).isSuccess()) {
+            var matchResult = matchRecipe(match);
+            if (!matchResult.isSuccess()) {
+                recordFailureReason(match, matchResult.reason(), matchResult.score());
                 continue;
             }
 
@@ -227,7 +252,7 @@ public abstract class RecipeLogicMixin extends MachineTrait {
         var self = (RecipeLogic) (Object) this;
         var conditionResult = RecipeHelper.checkConditions(modified, self);
         if (!conditionResult.isSuccess()) {
-            RecipeLogic.putFailureReason(self, originRecipe, conditionResult.reason());
+            RecipeLogic.putFailureReason(self, originRecipe, conditionResult.reason(), conditionResult.score());
             return false;
         }
 

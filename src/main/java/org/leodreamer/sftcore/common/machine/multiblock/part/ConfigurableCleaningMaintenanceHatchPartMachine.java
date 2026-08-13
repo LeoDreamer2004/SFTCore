@@ -39,14 +39,14 @@ public class ConfigurableCleaningMaintenanceHatchPartMachine
     @Override
     public void addedToController(MultiblockControllerMachine controller, String name) {
         super.addedToController(controller, name);
-        controller.self().getTraitOptional(CleanroomReceiverTrait.TYPE)
+        controller.self().getTraitOptional(CleanroomReceiverTrait.class)
             .ifPresent(t -> t.setCleanroomProvider(cleanroomProvider));
     }
 
     @Override
     public void removedFromController(MultiblockControllerMachine controller) {
         super.removedFromController(controller);
-        controller.getTraitOptional(CleanroomReceiverTrait.TYPE)
+        controller.getTraitOptional(CleanroomReceiverTrait.class)
             .ifPresent(CleanroomReceiverTrait::removeCleanroom);
     }
 

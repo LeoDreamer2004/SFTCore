@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.capability.compat.FeCompat;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.ICapabilityTrait;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableEnergyContainer;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -21,20 +20,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class WirelessEnergyInterfaceFEAdapterTrait extends MachineTrait
     implements ICapabilityTrait, IEnergyStorage {
 
-    public static final MachineTraitType<WirelessEnergyInterfaceFEAdapterTrait> TYPE = new MachineTraitType<>(
-        WirelessEnergyInterfaceFEAdapterTrait.class
-    );
-
     private final NotifiableEnergyContainer container;
 
     public WirelessEnergyInterfaceFEAdapterTrait(NotifiableEnergyContainer container) {
         this.container = container;
         setCapabilityValidator(this::canExposeOnSide);
-    }
-
-    @Override
-    public MachineTraitType<WirelessEnergyInterfaceFEAdapterTrait> getTraitType() {
-        return TYPE;
     }
 
     @Override

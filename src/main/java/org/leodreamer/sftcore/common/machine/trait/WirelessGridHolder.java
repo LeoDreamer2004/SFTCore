@@ -4,7 +4,6 @@ import org.leodreamer.sftcore.common.save.WirelessSavedData;
 import org.leodreamer.sftcore.integration.ae2.logic.WirelessGrid;
 
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTraitType;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.server.level.ServerLevel;
@@ -23,13 +22,6 @@ public class WirelessGridHolder extends MachineTrait {
     @Setter
     @Nullable
     private WirelessGrid grid;
-
-    public static final MachineTraitType<?> TYPE = new MachineTraitType<>(WirelessGridHolder.class);
-
-    @Override
-    public MachineTraitType<?> getTraitType() {
-        return TYPE;
-    }
 
     @Override
     public void onMachineUnload() {

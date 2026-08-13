@@ -80,7 +80,7 @@ public class MEAdvancedInputBusPartMachine extends MEInputBusPartMachine impleme
         for (int i = 0; i < upgradeInventory.getSlots(); i++) {
             cards.child(
                 new ItemSlot()
-                    .slot(SyncHandlers.itemSlot(upgradeInventory, i).accessibility(true, true))
+                    .slot(SyncHandlers.itemSlot(upgradeInventory.storage, i).accessibility(true, true))
                     .background(SFTGuiTextures.CARD_UPDATE)
             );
         }

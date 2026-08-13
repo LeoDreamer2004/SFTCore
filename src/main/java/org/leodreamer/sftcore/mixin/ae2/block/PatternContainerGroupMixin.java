@@ -39,7 +39,7 @@ public abstract class PatternContainerGroupMixin {
             return;
         }
         int circuit = -1;
-        var circuitSlot = machine.getTrait(ProgrammableCircuitSlotTrait.TYPE);
+        var circuitSlot = machine.getTrait(ProgrammableCircuitSlotTrait.class);
         if (circuitSlot != null) {
             circuit = circuitSlot.isEnabled() ? circuitSlot.getCurrentCircuit() : 0;
         }

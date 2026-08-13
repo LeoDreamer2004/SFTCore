@@ -9,39 +9,47 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 
+import brachy.modularui.api.drawable.Text;
+import brachy.modularui.api.widget.IWidget;
+import brachy.modularui.value.sync.BooleanSyncValue;
+import brachy.modularui.value.sync.IntSyncValue;
+import brachy.modularui.value.sync.PanelSyncManager;
+
+import java.util.Collections;
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public final class SFTMachineDisplays {
 
-    public static BiConsumer<MultiblockControllerMachine, List<Component>> coilMachineTempDisplay(
+    public static BiFunction<MultiblockControllerMachine, PanelSyncManager, List<IWidget>> coilMachineTempDisplay(
         Function<CoilWorkableElectricMultiblockMachine, Integer> tempFunc
     ) {
-        return (controller, components) -> {
-            if (!controller.isFormed()) {
-                return;
-            }
+        return (controller, syncManager) -> {
             if (!(controller instanceof CoilWorkableElectricMultiblockMachine coilMachine)) {
-                return;
+                return Collections.emptyList();
             }
-            int temp = tempFunc.apply(coilMachine);
-            String tempStr = FormattingUtil.formatNumbers(temp) + "K";
-            components.add(
-                Component.translatable(
-                    "gtceu.multiblock.blast_furnace.max_temperature",
-                    Component.literal(tempStr)
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
-                )
+            var isFormed = syncManager.getOrCreateSyncHandler(
+                "sftcoreIsFormed", BooleanSyncValue.class,
+                () -> new BooleanSyncValue(controller::isFormed)
             );
+            var temperature = syncManager.getOrCreateSyncHandler(
+                "sftcoreCoilTemperature", IntSyncValue.class,
+                () -> new IntSyncValue(() -> tempFunc.apply(coilMachine))
+            );
+            return Collections.singletonList(Text.dynamic(() -> Component.translatable(
+                "gtceu.multiblock.blast_furnace.max_temperature",
+                Component.literal(FormattingUtil.formatNumbers(temperature.getIntValue()) + "K")
+                    .setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
+            )).asWidget().setEnabledIf(widget -> isFormed.getBoolValue()));
         };
     }
 
-    public static final BiConsumer<MultiblockControllerMachine, List<Component>> simpleCoilDisplay = coilMachineTempDisplay(
+    public static final BiFunction<MultiblockControllerMachine, PanelSyncManager, List<IWidget>> simpleCoilDisplay = coilMachineTempDisplay(
         coilMachine -> coilMachine.getCoilType().getCoilTemperature()
     );
 
-    public static final BiConsumer<MultiblockControllerMachine, List<Component>> ebfCoilDisplay = coilMachineTempDisplay(
+    public static final BiFunction<MultiblockControllerMachine, PanelSyncManager, List<IWidget>> ebfCoilDisplay = coilMachineTempDisplay(
         coilMachine -> coilMachine.getCoilType().getCoilTemperature() +
             100 * Math.max(0, coilMachine.getTier() - GTValues.MV)
     );

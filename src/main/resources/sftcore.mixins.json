@@ -76,6 +76,7 @@
     "gregtech.xei.AE2PatternTerminalHandlerMixin",
     "gregtech.xei.GTEmiRecipeGasMixin",
     "gtmoremachine.MEOutputPartMachineMixin",
+    "gtmoremachine.VirtualItemProviderBehaviorAccessor",
     "gtmoremachine.WirelessEnergyInterfaceMixin",
     "mekanism.RenderIndustrialTurbineMixin",
     "travelarchor.EventListenerMixin",

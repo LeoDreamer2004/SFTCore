@@ -8,6 +8,8 @@ import org.leodreamer.sftcore.integration.ae2.logic.AvailableGTRow;
 import org.leodreamer.sftcore.integration.ae2.logic.GTTransferLogic;
 import org.leodreamer.sftcore.integration.ae2.sync.AvailableGTMachinesPacket;
 import org.leodreamer.sftcore.integration.ae2.sync.RecipeInfoPack;
+import org.leodreamer.sftcore.integration.ae2.sync.VirtualCatalystsPack;
+import org.leodreamer.sftcore.mixin.gtmoremachine.VirtualItemProviderBehaviorAccessor;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,6 +31,7 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import appeng.util.ConfigInventory;
 import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
+import cn.qiuye.gtmoremachine.integration.ae.item.GTMMAEItems;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -47,7 +50,7 @@ import javax.annotation.Nullable;
 @Mixin(PatternEncodingTermMenu.class)
 public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     implements IMenuCraftingPacket, ISendToGTMachine,
-    ISendToAssemblyMatrix, IPatternMultiply {
+    ISendToAssemblyMatrix, IPatternMultiply, IVirtualCatalystEncoding {
 
     @Unique
     private static final AEItemKey sftcore$key = AEItemKey.of(AEItems.BLANK_PATTERN);
@@ -65,8 +68,15 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     public boolean sftcore$transferToMatrix = true;
 
     @Unique
+    @GuiSync(151)
+    public boolean sftcore$virtualCatalysts = false;
+
+    @Unique
     @Nullable
     private RecipeInfo sftcore$curRecipe = null;
+
+    @Unique
+    private List<ItemStack> sftcore$virtualCatalystItems = List.of();
 
     @Shadow(remap = false)
     @Final
@@ -91,6 +101,12 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
     @Unique
     private static final String MULTIPLY_PATTERN = "multiplyPattern";
+
+    @Unique
+    private static final String VIRTUAL_CATALYSTS = "virtualCatalysts";
+
+    @Unique
+    private static final String SET_VIRTUAL_CATALYSTS = "setVirtualCatalysts";
 
     public PatternEncodingTermMenuMixin(
         MenuType<?> menuType,
@@ -125,6 +141,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         );
         registerClientAction(SEND_TO_GT_MACHINE, Integer.class, this::sftcore$sendToGTMachine);
         registerClientAction(MULTIPLY_PATTERN, Integer.class, this::sftcore$multiplyPattern);
+        registerClientAction(VIRTUAL_CATALYSTS, Boolean.class, this::sftcore$setVirtualCatalystsEnabled);
+        registerClientAction(SET_VIRTUAL_CATALYSTS, VirtualCatalystsPack.class,
+            pack -> sftcore$setVirtualCatalysts(pack.unpack()));
     }
 
     @Override
@@ -150,6 +169,32 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
             sendClientAction(SET_GT_RECIPE_INFO, RecipeInfoPack.pack(info));
         } else {
             sftcore$curRecipe = info;
+        }
+    }
+
+    @Override
+    @Unique
+    public boolean sftcore$getVirtualCatalystsEnabled() {
+        return sftcore$virtualCatalysts;
+    }
+
+    @Override
+    @Unique
+    public void sftcore$setVirtualCatalystsEnabled(boolean enabled) {
+        if (isClientSide()) {
+            sendClientAction(VIRTUAL_CATALYSTS, enabled);
+        } else {
+            sftcore$virtualCatalysts = enabled;
+        }
+    }
+
+    @Override
+    @Unique
+    public void sftcore$setVirtualCatalysts(List<ItemStack> catalysts) {
+        if (isClientSide()) {
+            sendClientAction(SET_VIRTUAL_CATALYSTS, VirtualCatalystsPack.pack(catalysts));
+        } else {
+            sftcore$virtualCatalystItems = List.copyOf(catalysts);
         }
     }
 
@@ -220,6 +265,29 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         }
     }
 
+    @Inject(method = "encode", at = @At("HEAD"), remap = false)
+    private void sftcore$wrapGTCatalysts(CallbackInfo ci) {
+        if (isClientSide()) {
+            return;
+        }
+
+        if (!sftcore$virtualCatalysts || sftcore$curRecipe == null) {
+            return;
+        }
+
+        for (var catalyst : sftcore$virtualCatalystItems) {
+            var virtual = VirtualItemProviderBehaviorAccessor.sftcore$setVirtualItem(
+                GTMMAEItems.VIRTUAL_ITEM_PROVIDER.asStack(), catalyst.copyWithCount(1)
+            );
+            for (int i = 0; i < encodedInputsInv.size(); i++) {
+                if (encodedInputsInv.getStack(i) == null) {
+                    encodedInputsInv.setStack(i, GenericStack.fromItemStack(virtual));
+                    break;
+                }
+            }
+        }
+    }
+
     @Inject(method = "encode", at = @At("TAIL"), remap = false)
     private void autoTransferAfterEncoding(CallbackInfo ci) {
         if (isClientSide()) {
@@ -270,8 +338,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         if (
             !AEItems.CRAFTING_PATTERN.isSameAs(pattern) && !AEItems.STONECUTTING_PATTERN.isSameAs(pattern) &&
                 !AEItems.SMITHING_TABLE_PATTERN.isSameAs(pattern)
-        )
+        ) {
             return false;
+        }
 
         for (var mat : node.getGrid().getActiveMachines(TileAssemblerMatrixPattern.class)) {
             var inv = mat.getPatternInventory();
@@ -308,7 +377,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
 
                 for (var node : thisNode.getGrid().getMachineNodes(machineClz)) {
                     var owner = node.getOwner();
-                    if (!machineClz.isInstance(owner)) continue;
+                    if (!machineClz.isInstance(owner)) {
+                        continue;
+                    }
                     var container = machineClz.cast(owner);
                     var row = GTTransferLogic.tryBuild(container, node, sftcore$curRecipe);
                     row.ifPresent(
@@ -334,7 +405,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         method = "encode",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;shrink(I)V")
     )
-    private void extractPatternFromStorage(ItemStack instance, int pDecrement) {
+    private void extractPatternFromStorage(ItemStack instance, int decrement) {
         if (storage != null) {
             storage.extract(sftcore$key, 1, Actionable.MODULATE, getActionSource());
         }
@@ -359,13 +430,17 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
     private void sftcore$multiplySlotStack(ConfigInventory inv, int multiplier) {
         for (int i = 0; i < inv.size(); i++) {
             var stack = inv.getStack(i);
-            if (stack == null) continue;
+            if (stack == null) {
+                continue;
+            }
             var amount = stack.amount();
             if (multiplier >= 0) {
                 amount *= multiplier;
             } else {
                 amount /= -multiplier;
-                if (amount == 0) amount = 1;
+                if (amount == 0) {
+                    amount = 1;
+                }
             }
             if (amount > Integer.MAX_VALUE) {
                 amount = Integer.MAX_VALUE;

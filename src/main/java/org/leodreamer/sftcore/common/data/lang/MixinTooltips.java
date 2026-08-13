@@ -52,6 +52,18 @@ public class MixinTooltips {
     @RegisterLanguage("Divide the pattern by %d.")
     public static final String DIVIDE_PATTERN = "sftcore.mixin.ae2.pattern_encoding.divide_pattern";
 
+    @RegisterLanguage("Virtual catalysts enabled")
+    public static final String VIRTUAL_CATALYSTS_ON = "sftcore.mixin.ae2.pattern_encoding.virtual_catalysts_enabled";
+
+    @RegisterLanguage("Non-consumable GT catalysts will be encoded as virtual items")
+    public static final String VIRTUAL_CATALYSTS_ON_DESC = "sftcore.mixin.ae2.pattern_encoding.virtual_catalysts_enabled.tooltip";
+
+    @RegisterLanguage("Virtual catalysts disabled")
+    public static final String VIRTUAL_CATALYSTS_OFF = "sftcore.mixin.ae2.pattern_encoding.virtual_catalysts_disabled";
+
+    @RegisterLanguage("Non-consumable GT catalysts will be omitted from the pattern")
+    public static final String VIRTUAL_CATALYSTS_OFF_DESC = "sftcore.mixin.ae2.pattern_encoding.virtual_catalysts_disabled.tooltip";
+
     @RegisterLanguage("Send to Assembly Matrix Enabled")
     public static final String SEND_TO_ASSEMBLY_MATRIX_ON = "sftcore.mixin.ae2.pattern_encoding.craft_to_matrix_enabled";
 
