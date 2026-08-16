@@ -8,12 +8,14 @@ import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
+import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IFilteredHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.item.component.ISpoilableItem;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.mui.MachineUIPanelBuilder;
@@ -28,6 +30,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SaveField;
 import com.gregtechceu.gtceu.api.sync_system.annotations.SyncToClient;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.gregtechceu.gtceu.common.item.behavior.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.mui.GTGuiTextures;
 import com.gregtechceu.gtceu.common.mui.GTMuiMachineUtil;
@@ -412,7 +415,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             if (io != IO.IN || slot.isItemEmpty()) {
                 return left;
             }
-            return slot.handleItemInternal(left, simulate);
+            return slot.handleItemInternal(recipe, left, simulate);
         }
 
         @Override
@@ -459,7 +462,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             if (io != IO.IN || slot.isFluidEmpty()) {
                 return left;
             }
-            return slot.handleFluidInternal(left, simulate);
+            return slot.handleFluidInternal(recipe, left, simulate);
         }
 
         @Override
@@ -1213,7 +1216,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             onContentsChanged();
         }
 
-        public List<Ingredient> handleItemInternal(List<Ingredient> left, boolean simulate) {
+        public List<Ingredient> handleItemInternal(GTRecipe recipe, List<Ingredient> left, boolean simulate) {
             boolean changed = false;
 
             for (var it = left.listIterator(); it.hasNext();) {
@@ -1248,6 +1251,15 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
                     int extracted = Math.min(GTMath.saturatedCast(count), amount);
 
+                    if (extracted > 0) {
+                        var copied = stack.copyWithCount(extracted);
+                        ISpoilableItem spoilable = GTCapabilityHelper.getSpoilable(copied);
+                        if (spoilable != null) {
+                            spoilable.freezeSpoiling();
+                        }
+                        recipe.spoilageData.addConsumedInput(GTRecipeCapabilities.ITEM, Ingredient.of(copied));
+                    }
+
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
@@ -1281,7 +1293,11 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
             return left;
         }
 
-        public List<FluidIngredient> handleFluidInternal(List<FluidIngredient> left, boolean simulate) {
+        public List<FluidIngredient> handleFluidInternal(
+            GTRecipe recipe,
+            List<FluidIngredient> left,
+            boolean simulate
+        ) {
             boolean changed = false;
 
             for (var it = left.listIterator(); it.hasNext();) {
@@ -1315,6 +1331,14 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
                     }
 
                     int extracted = Math.min(GTMath.saturatedCast(count), amount);
+
+                    if (extracted > 0) {
+                        var copied = stack.copy();
+                        copied.setAmount(extracted);
+                        recipe.spoilageData.addConsumedInput(
+                            GTRecipeCapabilities.FLUID, FluidIngredient.of(copied)
+                        );
+                    }
 
                     if (!simulate && extracted > 0) {
                         changed = true;
