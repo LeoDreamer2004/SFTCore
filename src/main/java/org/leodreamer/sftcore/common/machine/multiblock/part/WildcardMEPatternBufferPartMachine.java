@@ -24,6 +24,7 @@ import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableItemStackHan
 import com.gregtechceu.gtceu.api.machine.trait.notifiable.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerGroupDistinctness;
 import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
@@ -387,6 +388,15 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         }
 
         return false;
+    }
+
+    private <T> void recordConsumedInput(GTRecipe recipe, RecipeCapability<T> capability, T content) {
+        for (var controller : getControllers()) {
+            var logic = controller.getTrait(RecipeLogic.class);
+            if (logic != null && logic.getStartingRecipe() == recipe) {
+                logic.getConsumedInputs().addConsumedInput(capability, content);
+            }
+        }
     }
 
     private class Worker {
@@ -1251,13 +1261,13 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
                     int extracted = Math.min(GTMath.saturatedCast(count), amount);
 
-                    if (extracted > 0) {
+                    if (!simulate && extracted > 0) {
                         var copied = stack.copyWithCount(extracted);
                         ISpoilableItem spoilable = GTCapabilityHelper.getSpoilable(copied);
                         if (spoilable != null) {
                             spoilable.freezeSpoiling();
                         }
-                        recipe.spoilageData.addConsumedInput(GTRecipeCapabilities.ITEM, Ingredient.of(copied));
+                        recordConsumedInput(recipe, GTRecipeCapabilities.ITEM, Ingredient.of(copied));
                     }
 
                     if (!simulate && extracted > 0) {
@@ -1332,12 +1342,10 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
 
                     int extracted = Math.min(GTMath.saturatedCast(count), amount);
 
-                    if (extracted > 0) {
+                    if (!simulate && extracted > 0) {
                         var copied = stack.copy();
                         copied.setAmount(extracted);
-                        recipe.spoilageData.addConsumedInput(
-                            GTRecipeCapabilities.FLUID, FluidIngredient.of(copied)
-                        );
+                        recordConsumedInput(recipe, GTRecipeCapabilities.FLUID, FluidIngredient.of(copied));
                     }
 
                     if (!simulate && extracted > 0) {

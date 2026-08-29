@@ -146,8 +146,7 @@ public abstract class RecipeLogicMixin extends MachineTrait {
 
     @Unique
     private void sftcore$syncLastRecipes() {
-        syncDataHolder.markClientSyncFieldDirty("lastRecipe");
-        syncDataHolder.markClientSyncFieldDirty("lastDisplayedRecipe");
+        syncDataHolder.markClientSyncFieldDirty("lastUnrolledRecipe");
     }
 
     @Unique

@@ -47,7 +47,7 @@ public class IOAEItemList extends ExportOnlyAEItemList {
     @Override
     public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
         // use `io` instead of `handlerIO` here to cheat
-        return NotifiableItemStackHandler.handleRecipe(io, recipe, left, simulate, io, getHandler());
+        return NotifiableItemStackHandler.handleRecipe(io, recipe, left, simulate, io, getHandler(), getMachine());
     }
 
     private static class ItemStackHandlerDelegate extends CustomItemStackHandler {
