@@ -73,7 +73,6 @@ public class SFTVanillaRecipeHelper {
             if (
                 obj == null ||
                     obj == Items.AIR ||
-                    obj instanceof MaterialEntry entry && entry.isEmpty() ||
                     obj instanceof ItemStack stack && stack.isEmpty() ||
                     obj instanceof ItemLike itemLike && itemLike.asItem() == Items.AIR
             ) {

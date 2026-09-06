@@ -13,8 +13,10 @@ public record VirtualCatalystsPack(List<ItemPack> items) {
     public record ItemPack(ResourceLocation item, String tag) {
 
         private static ItemPack pack(ItemStack stack) {
-            return new ItemPack(RLUtils.getItemRL(stack.getItem()),
-                stack.hasTag() ? stack.getTag().toString() : "");
+            return new ItemPack(
+                RLUtils.getItemRL(stack.getItem()),
+                stack.hasTag() ? stack.getTag().toString() : ""
+            );
         }
 
         private ItemStack unpack() {

@@ -158,7 +158,7 @@ public class OreProcessRecipes {
             }
         }
 
-        if (property.getWashedIn().first().isNull()) {
+        if (!property.hasWashedInFluid()) {
             return;
         }
 

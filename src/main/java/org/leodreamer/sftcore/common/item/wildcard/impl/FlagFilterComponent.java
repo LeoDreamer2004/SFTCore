@@ -7,7 +7,6 @@ import org.leodreamer.sftcore.common.item.wildcard.handler.GTFlagHandler;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -29,14 +28,18 @@ public class FlagFilterComponent extends WildcardFilterComponent {
         instance -> instance.group(
             GTFlagHandler.MATERIAL_FLAG_CODEC.optionalFieldOf("flag")
                 .forGetter(component -> Optional.ofNullable(component.flag)),
-            GTFlagHandler.MATERIAL_CODEC.optionalFieldOf("example", GTMaterials.NULL)
-                .forGetter(component -> component.example),
+            GTFlagHandler.MATERIAL_CODEC.optionalFieldOf("example", Optional.empty())
+                .forGetter(component -> Optional.ofNullable(component.example)),
             Codec.BOOL.optionalFieldOf("whitelist", false)
                 .forGetter(component -> component.whitelist)
-        ).apply(instance, (flag, example, whitelist) -> new FlagFilterComponent(flag.orElse(null), example, whitelist))
+        ).apply(
+            instance,
+            (flag, example, whitelist) -> new FlagFilterComponent(flag.orElse(null), example.orElse(null), whitelist)
+        )
     );
 
     @Getter
+    @Nullable
     private Material example;
     @Getter
     @Nullable
@@ -50,12 +53,12 @@ public class FlagFilterComponent extends WildcardFilterComponent {
     public static final String LABEL = "item.sftcore.wildcard_pattern.ui.filter.flag";
 
     public static FlagFilterComponent empty() {
-        return new FlagFilterComponent(null, GTMaterials.NULL, false);
+        return new FlagFilterComponent(null, null, false);
     }
 
-    public FlagFilterComponent(@Nullable MaterialFlag flag, Material example, boolean whitelist) {
+    public FlagFilterComponent(@Nullable MaterialFlag flag, @Nullable Material example, boolean whitelist) {
         super(whitelist);
-        this.example = example == null ? GTMaterials.NULL : example;
+        this.example = example;
         this.flag = flag;
         this.detail = flag == null ? "" : flag.toString();
     }

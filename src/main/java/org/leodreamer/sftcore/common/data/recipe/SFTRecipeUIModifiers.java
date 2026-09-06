@@ -7,6 +7,8 @@ import org.leodreamer.sftcore.common.data.recipe.builder.SFTRecipeBuilder;
 
 import com.gregtechceu.gtceu.api.recipe.gui.RecipeUIModifier;
 
+import net.minecraft.world.item.ItemStack;
+
 import brachy.modularui.api.drawable.IDrawable;
 import brachy.modularui.api.drawable.Text;
 import brachy.modularui.integration.recipeviewer.RecipeSlotRole;
@@ -22,7 +24,7 @@ public class SFTRecipeUIModifiers {
 
     public static final RecipeUIModifier SHAFT_INFO = (recipe, widget) -> {
         widget.child(
-            RecipeViewerSlotWidget.create()
+            RecipeViewerSlotWidget.create(ItemStack.class)
                 .recipeSlotRole(RecipeSlotRole.RENDER_ONLY)
                 .value(ItemStackList.of(AllBlocks.SHAFT.asStack()))
                 .background(IDrawable.EMPTY)

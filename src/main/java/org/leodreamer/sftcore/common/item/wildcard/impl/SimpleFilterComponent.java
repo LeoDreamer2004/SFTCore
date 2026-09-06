@@ -6,7 +6,6 @@ import org.leodreamer.sftcore.common.item.wildcard.feature.WildcardFilterCompone
 import org.leodreamer.sftcore.common.item.wildcard.handler.GTMaterialHandler;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -17,20 +16,24 @@ import brachy.modularui.widgets.layout.Flow;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 @DataGenScanned
 public class SimpleFilterComponent extends WildcardFilterComponent {
 
     public static final Codec<SimpleFilterComponent> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(
-            GTMaterialHandler.MATERIAL_CODEC.optionalFieldOf("material", GTMaterials.NULL)
-                .forGetter(component -> component.material),
+            GTMaterialHandler.MATERIAL_CODEC.optionalFieldOf("material", Optional.empty())
+                .forGetter(component -> Optional.ofNullable(component.material)),
             Codec.BOOL.optionalFieldOf("whitelist", false)
                 .forGetter(component -> component.whitelist)
-        ).apply(instance, SimpleFilterComponent::new)
+        ).apply(instance, (material, whitelist) -> new SimpleFilterComponent(material.orElse(null), whitelist))
     );
 
     @Getter
+    @Nullable
     private Material material;
     private GTMaterialHandler example;
     private static final int GROUP_BG_WHITE = 0xFF44AAFF;
@@ -40,17 +43,17 @@ public class SimpleFilterComponent extends WildcardFilterComponent {
     public static final String LABEL = "item.sftcore.wildcard_pattern.ui.filter.material";
 
     public static SimpleFilterComponent empty() {
-        return new SimpleFilterComponent(GTMaterials.NULL, false);
+        return new SimpleFilterComponent(null, false);
     }
 
-    public SimpleFilterComponent(Material material, boolean whitelist) {
+    public SimpleFilterComponent(@Nullable Material material, boolean whitelist) {
         super(whitelist);
-        this.material = material == null ? GTMaterials.NULL : material;
+        this.material = material;
     }
 
     @Override
     public boolean test(Material material) {
-        if (this.material == GTMaterials.NULL) {
+        if (this.material == null) {
             return true;
         }
         return whitelist == (this.material == material);
@@ -86,8 +89,8 @@ public class SimpleFilterComponent extends WildcardFilterComponent {
     @RegisterLanguage("No material")
     private static final String NO_MATERIAL = "item.sftcore.wildcard_pattern.filter.simple.no_material";
 
-    private static String getMaterialString(Material material) {
-        if (material == GTMaterials.NULL) {
+    private static String getMaterialString(@Nullable Material material) {
+        if (material == null) {
             return Component.translatable(NO_MATERIAL).getString();
         }
 

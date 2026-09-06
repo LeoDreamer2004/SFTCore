@@ -39,7 +39,7 @@ public record GenericGTTag(GenericType type, String value) {
         ).apply(instance, GenericGTTag::new)
     );
 
-    public static final GenericGTTag EMPTY = item(TagPrefix.NULL_PREFIX);
+    public static final GenericGTTag EMPTY = new GenericGTTag(GenericType.ITEM, "");
 
     public enum GenericType {
 
@@ -54,7 +54,7 @@ public record GenericGTTag(GenericType type, String value) {
 
     public static GenericGTTag item(@Nullable TagPrefix prefix) {
         if (prefix == null) {
-            prefix = TagPrefix.NULL_PREFIX;
+            return EMPTY;
         }
 
         return new GenericGTTag(GenericType.ITEM, prefix.name);
@@ -69,7 +69,7 @@ public record GenericGTTag(GenericType type, String value) {
     }
 
     public @Nullable TagPrefix itemTag() {
-        if (type != GenericType.ITEM) {
+        if (type != GenericType.ITEM || value.isBlank()) {
             return null;
         }
 
@@ -96,7 +96,7 @@ public record GenericGTTag(GenericType type, String value) {
             case ITEM -> {
                 var prefix = itemTag();
 
-                if (prefix == null || prefix == TagPrefix.NULL_PREFIX) {
+                if (prefix == null) {
                     yield null;
                 }
 
@@ -123,7 +123,7 @@ public record GenericGTTag(GenericType type, String value) {
             case ITEM -> {
                 var prefix = itemTag();
 
-                if (prefix == null || prefix == TagPrefix.NULL_PREFIX) {
+                if (prefix == null) {
                     yield ItemStack.EMPTY;
                 }
 

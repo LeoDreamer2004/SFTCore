@@ -37,11 +37,15 @@ public final class SFTMachineDisplays {
                 "sftcoreCoilTemperature", IntSyncValue.class,
                 () -> new IntSyncValue(() -> tempFunc.apply(coilMachine))
             );
-            return Collections.singletonList(Text.dynamic(() -> Component.translatable(
-                "gtceu.multiblock.blast_furnace.max_temperature",
-                Component.literal(FormattingUtil.formatNumbers(temperature.getIntValue()) + "K")
-                    .setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
-            )).asWidget().setEnabledIf(widget -> isFormed.getBoolValue()));
+            return Collections.singletonList(
+                Text.dynamic(
+                    () -> Component.translatable(
+                        "gtceu.multiblock.blast_furnace.max_temperature",
+                        Component.literal(FormattingUtil.formatNumbers(temperature.getIntValue()) + "K")
+                            .setStyle(Style.EMPTY.withColor(ChatFormatting.RED))
+                    )
+                ).asWidget().setEnabledIf(widget -> isFormed.getBoolValue())
+            );
         };
     }
 

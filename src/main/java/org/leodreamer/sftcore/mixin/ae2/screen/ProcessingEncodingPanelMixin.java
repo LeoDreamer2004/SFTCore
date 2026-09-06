@@ -62,12 +62,18 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     @Inject(method = "updateBeforeRender", at = @At("TAIL"), remap = false)
     private void sftcore$updateVirtualCatalystButton(CallbackInfo ci) {
         boolean enabled = ((IVirtualCatalystEncoding) menu).sftcore$getVirtualCatalystsEnabled();
-        sftcore$virtualCatalystBtn.setTooltips(List.of(
-            Component.translatable(enabled ? MixinTooltips.VIRTUAL_CATALYSTS_ON :
-                MixinTooltips.VIRTUAL_CATALYSTS_OFF),
-            Component.translatable(enabled ? MixinTooltips.VIRTUAL_CATALYSTS_ON_DESC :
-                MixinTooltips.VIRTUAL_CATALYSTS_OFF_DESC)
-        ));
+        sftcore$virtualCatalystBtn.setTooltips(
+            List.of(
+                Component.translatable(
+                    enabled ? MixinTooltips.VIRTUAL_CATALYSTS_ON :
+                        MixinTooltips.VIRTUAL_CATALYSTS_OFF
+                ),
+                Component.translatable(
+                    enabled ? MixinTooltips.VIRTUAL_CATALYSTS_ON_DESC :
+                        MixinTooltips.VIRTUAL_CATALYSTS_OFF_DESC
+                )
+            )
+        );
     }
 
     @Unique

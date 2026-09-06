@@ -7,7 +7,6 @@ import org.leodreamer.sftcore.common.item.wildcard.handler.GTPropertyHandler;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -20,6 +19,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -34,15 +36,18 @@ public class PropertyFilterComponent extends WildcardFilterComponent {
         instance -> instance.group(
             GTPropertyHandler.PROPERTY_CODEC.optionalFieldOf("property", EMPTY)
                 .forGetter(component -> component.property),
-            GTPropertyHandler.MATERIAL_CODEC.optionalFieldOf("example", GTMaterials.NULL)
-                .forGetter(component -> component.example),
+            GTPropertyHandler.MATERIAL_CODEC.optionalFieldOf("example", Optional.empty())
+                .forGetter(component -> Optional.ofNullable(component.example)),
             Codec.BOOL.optionalFieldOf("whitelist", false)
                 .forGetter(component -> component.whitelist)
-        ).apply(instance, PropertyFilterComponent::new)
+        ).apply(
+            instance,
+            (property, example, whitelist) -> new PropertyFilterComponent(property, example.orElse(null), whitelist)
+        )
     );
 
-    @NotNull
     @Getter
+    @Nullable
     private Material example;
     @Getter
     @NotNull
@@ -57,10 +62,10 @@ public class PropertyFilterComponent extends WildcardFilterComponent {
     public static final String LABEL = "item.sftcore.wildcard_pattern.ui.filter.property";
 
     public static PropertyFilterComponent empty() {
-        return new PropertyFilterComponent(EMPTY, GTMaterials.NULL, false);
+        return new PropertyFilterComponent(EMPTY, null, false);
     }
 
-    public PropertyFilterComponent(PropertyKey<?> property, Material example, boolean whitelist) {
+    public PropertyFilterComponent(PropertyKey<?> property, @Nullable Material example, boolean whitelist) {
         super(whitelist);
         this.example = example;
         this.property = property;

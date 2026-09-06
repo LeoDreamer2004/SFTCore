@@ -43,5 +43,4 @@ public class SFTEmiPatternHandler {
             virtualEncoding.sftcore$setVirtualCatalysts(List.of());
         }
     }
-
 }

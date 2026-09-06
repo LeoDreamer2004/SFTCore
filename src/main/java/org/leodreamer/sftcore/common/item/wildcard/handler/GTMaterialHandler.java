@@ -9,13 +9,15 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKey;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.GTBucketItem;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 
 import com.mojang.serialization.Codec;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -23,39 +25,38 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class GTMaterialHandler extends CustomItemStackHandler {
 
-    public static final Codec<Material> MATERIAL_CODEC = Codec.STRING.xmap(
-        GTMaterialHandler::materialFromId,
-        material -> material.getResourceLocation().toString()
+    public static final Codec<Optional<Material>> MATERIAL_CODEC = Codec.STRING.xmap(
+        id -> Optional.ofNullable(materialFromId(id)),
+        material -> material.map(value -> value.getResourceLocation().toString()).orElse("")
     );
 
     public GTMaterialHandler() {
         super(1);
     }
 
-    public GTMaterialHandler(Material material) {
+    public GTMaterialHandler(@Nullable Material material) {
         this();
         setMaterial(material);
     }
 
-    public void setMaterial(Material material) {
+    public void setMaterial(@Nullable Material material) {
         setStackInSlot(0, findExampleForMaterial(material));
     }
 
-    public Material getMaterial() {
+    public @Nullable Material getMaterial() {
         return materialFromSample(getStackInSlot(0));
     }
 
-    public static Material materialFromId(String id) {
+    public static @Nullable Material materialFromId(String id) {
         if (id.isBlank()) {
-            return GTMaterials.NULL;
+            return null;
         }
-        var material = GTRegistries.MATERIALS.get(id);
-        return material == null ? GTMaterials.NULL : material;
+        return GTRegistries.MATERIALS.get(id);
     }
 
-    public static Material materialFromSample(ItemStack stack) {
+    public static @Nullable Material materialFromSample(ItemStack stack) {
         if (stack.isEmpty()) {
-            return GTMaterials.NULL;
+            return null;
         }
         if (stack.getItem() instanceof GTBucketItem bucket) {
             return ((GTBucketItemAccessor) bucket).getMaterial();
@@ -63,12 +64,12 @@ public class GTMaterialHandler extends CustomItemStackHandler {
         try {
             return ChemicalHelper.getMaterialEntry(stack.getItem()).material();
         } catch (Exception ignored) {
-            return GTMaterials.NULL;
+            return null;
         }
     }
 
-    public static ItemStack findExampleForMaterial(Material material) {
-        if (material == GTMaterials.NULL) {
+    public static ItemStack findExampleForMaterial(@Nullable Material material) {
+        if (material == null) {
             return ItemStack.EMPTY;
         }
 

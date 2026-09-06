@@ -22,7 +22,7 @@ public interface EmiIngredientMixin {
     /**
      * @author leodreamer
      * @reason Preserve vanilla tags instead of eagerly expanding all entries.
-    */
+     */
     @Overwrite
     static EmiIngredient of(Ingredient ingredient) {
         if (ingredient == null) {
@@ -55,7 +55,7 @@ public interface EmiIngredientMixin {
     /**
      * @author leodreamer
      * @reason Preserve vanilla tags instead of eagerly expanding all entries.
-    */
+     */
     @Overwrite
     static EmiIngredient of(Ingredient ingredient, long amount) {
         if (ingredient == null) {
@@ -79,7 +79,9 @@ public interface EmiIngredientMixin {
         if (ingredient.isEmpty()) {
             return EmiStack.EMPTY;
         }
-        return EmiTags.getIngredient(Item.class,
-            Arrays.stream(ingredient.getItems()).map(EmiStack::of).toList(), amount);
+        return EmiTags.getIngredient(
+            Item.class,
+            Arrays.stream(ingredient.getItems()).map(EmiStack::of).toList(), amount
+        );
     }
 }

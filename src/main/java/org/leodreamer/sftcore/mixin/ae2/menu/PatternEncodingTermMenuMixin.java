@@ -30,8 +30,8 @@ import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import appeng.util.ConfigInventory;
-import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
 import cn.qiuye.gtmoremachine.integration.ae.item.GTMMAEItems;
+import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -142,8 +142,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu
         registerClientAction(SEND_TO_GT_MACHINE, Integer.class, this::sftcore$sendToGTMachine);
         registerClientAction(MULTIPLY_PATTERN, Integer.class, this::sftcore$multiplyPattern);
         registerClientAction(VIRTUAL_CATALYSTS, Boolean.class, this::sftcore$setVirtualCatalystsEnabled);
-        registerClientAction(SET_VIRTUAL_CATALYSTS, VirtualCatalystsPack.class,
-            pack -> sftcore$setVirtualCatalysts(pack.unpack()));
+        registerClientAction(
+            SET_VIRTUAL_CATALYSTS, VirtualCatalystsPack.class,
+            pack -> sftcore$setVirtualCatalysts(pack.unpack())
+        );
     }
 
     @Override
