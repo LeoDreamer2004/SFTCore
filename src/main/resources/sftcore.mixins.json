@@ -73,7 +73,6 @@
     "gregtech.recipe.GTRecipeTypeMixin",
     "gregtech.recipe.RecipeLogicMixin",
     "gregtech.util.GTUtilMixin",
-    "gregtech.xei.AE2PatternTerminalHandlerMixin",
     "gregtech.xei.GTEmiRecipeGasMixin",
     "gtmoremachine.MEOutputPartMachineMixin",
     "gtmoremachine.VirtualItemProviderBehaviorAccessor",

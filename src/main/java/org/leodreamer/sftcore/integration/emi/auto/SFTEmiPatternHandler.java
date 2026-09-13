@@ -33,7 +33,9 @@ public class SFTEmiPatternHandler {
                 }
                 if (ingredient.chance() == 0) {
                     var stacks = GTRecipeCapabilities.ITEM.of(ingredient.content()).getItems();
-                    if (stacks.length > 0) catalysts.add(stacks[0].copyWithCount(1));
+                    if (stacks.length > 0) {
+                        catalysts.add(stacks[0].copyWithCount(1));
+                    }
                 }
             }
             var type = gtRecipe.recipeType;
