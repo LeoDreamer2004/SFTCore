@@ -47,7 +47,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(GeneratorsBlocks.FISSION_REACTOR_CASING::getBlock)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('R', controller(blocks(definition.get())))
+                .where('R', controller(definition))
                 .where(
                     'A',
                     blocks(GeneratorsBlocks.FISSION_REACTOR_CASING.getBlock())
@@ -89,7 +89,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(AllBlocks.BRASS_CASING)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('Q', controller(blocks(definition.get())))
+                .where('Q', controller(definition))
                 .where('A', blocks(AllBlocks.BRASS_CASING.get()))
                 .where('B', blocks(AllPaletteBlocks.FRAMED_GLASS.get()))
                 .where('C', blocks(AllBlocks.RAILWAY_CASING.get()))
@@ -137,7 +137,7 @@ public final class SFTMultiMachines {
         .recipeModifiers(PARALLEL_HATCH, OC_NON_PERFECT)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('K', controller(blocks(definition.get())))
+                .where('K', controller(definition))
                 .where('X', blocks(AEBlocks.QUARTZ_VIBRANT_GLASS.block()))
                 .where('S', blocks(AEBlocks.CHARGER.block()))
                 .where(
@@ -169,7 +169,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_STEEL_SOLID)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('K', controller(blocks(definition.get())))
+                .where('K', controller(definition))
                 .where('X', blocks(AEBlocks.QUARTZ_VIBRANT_GLASS.block()))
                 .where('S', blocks(AEBlocks.INSCRIBER.block()))
                 .where('Z', blocks(MACHINE_CASING_MV.get()))
@@ -204,7 +204,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(GeneratorsBlocks.FUSION_REACTOR_FRAME::getBlock)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('L', controller(blocks(definition.get())))
+                .where('L', controller(definition))
                 .where(
                     'A',
                     blocks(GeneratorsBlocks.FUSION_REACTOR_FRAME.getBlock())
@@ -241,7 +241,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(MekanismBlocks.SPS_CASING::getBlock)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('L', controller(blocks(definition.get())))
+                .where('L', controller(definition))
                 .where(
                     'A',
                     blocks(MekanismBlocks.SPS_CASING.getBlock())
@@ -286,7 +286,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(MULTI_FUNCTIONAL_CASING)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('S', controller(blocks(definition.get())))
+                .where('S', controller(definition))
                 .where('C', heatingCoils())
                 .where(
                     'A',
@@ -317,7 +317,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_STAINLESS_TURBINE)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('I', controller(blocks(definition.get())))
+                .where('I', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_STAINLESS_TURBINE.get())
@@ -347,7 +347,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(TREATED_WOOD_PLANK)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('B', controller(blocks(definition.get())))
+                .where('B', controller(definition))
                 .where(
                     'A',
                     blocks(TREATED_WOOD_PLANK.get())
@@ -372,7 +372,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_STEEL_SOLID)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('H', controller(blocks(definition.get())))
+                .where('H', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_STEEL_SOLID.get())
@@ -409,7 +409,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_STAINLESS_CLEAN)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('I', controller(blocks(definition.get())))
+                .where('I', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_STAINLESS_CLEAN.get())
@@ -444,7 +444,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_STEEL_SOLID)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('C', controller(blocks(definition.get())))
+                .where('C', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_STEEL_SOLID.get())
@@ -473,7 +473,7 @@ public final class SFTMultiMachines {
         )
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('H', controller(blocks(definition.get())))
+                .where('H', controller(definition))
                 .where('A', blocks(CASING_STRESS_PROOF.get()))
                 .where('B', blocks(CASING_CORROSION_PROOF.get()))
                 .where('C', frames(GTMaterials.StainlessSteel))
@@ -508,7 +508,7 @@ public final class SFTMultiMachines {
         )
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('G', controller(blocks(definition.get())))
+                .where('G', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_HIGH_TEMPERATURE_SMELTING.get())
@@ -554,7 +554,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_STAINLESS_CLEAN)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('H', controller(blocks(definition.get())))
+                .where('H', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_STAINLESS_CLEAN.get())
@@ -598,7 +598,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(CASING_PTFE_INERT)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('N', controller(blocks(definition.getBlock())))
+                .where('N', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_PTFE_INERT.get())
@@ -641,7 +641,7 @@ public final class SFTMultiMachines {
         .appearanceBlock(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('O', controller(blocks(definition.get())))
+                .where('O', controller(definition))
                 .where(
                     'A',
                     blocks(CASING_HIGH_TEMPERATURE_SMELTING.get())
@@ -687,7 +687,7 @@ public final class SFTMultiMachines {
         )
         .pattern(
             definition -> MultiBlockFileReader.start(definition)
-                .where('P', controller(blocks(definition.get())))
+                .where('P', controller(definition))
                 .where('A', blocks(CASING_LAMINATED_GLASS.get()))
                 .where(
                     'B', blocks(CASING_STAINLESS_TURBINE.get())
