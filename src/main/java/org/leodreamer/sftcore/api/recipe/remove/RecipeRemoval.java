@@ -16,6 +16,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -80,15 +82,15 @@ public final class RecipeRemoval {
         return false;
     }
 
-    public void output(ItemLike item) {
-        outputs.add(item.asItem());
+    public void output(@Nullable ItemLike item) {
+        if (item != null) outputs.add(item.asItem());
     }
 
-    public void output(String mod, ItemLike item) {
-        modOutputs.computeIfAbsent(mod, ignored -> new HashSet<>()).add(item.asItem());
+    public void output(String mod, @Nullable ItemLike item) {
+        if (item != null) modOutputs.computeIfAbsent(mod, ignored -> new HashSet<>()).add(item.asItem());
     }
 
-    public void input(ItemLike item) {
-        inputs.add(item.asItem());
+    public void input(@Nullable ItemLike item) {
+        if (item != null) inputs.add(item.asItem());
     }
 }

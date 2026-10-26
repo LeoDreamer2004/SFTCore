@@ -127,6 +127,7 @@ public class MixinTooltips {
         };
 
         for (var patternEncoder : patternEncoders) {
+            if (patternEncoder == null) continue;
             map.put(
                 patternEncoder,
                 SFTTooltipsBuilder.of()

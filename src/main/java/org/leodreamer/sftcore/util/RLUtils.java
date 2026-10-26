@@ -27,6 +27,7 @@ public class RLUtils {
     }
 
     public static @Nullable Item getItemByRL(ResourceLocation rl) {
+        if (!ForgeRegistries.ITEMS.containsKey(rl)) return null;
         var item = ForgeRegistries.ITEMS.getValue(rl);
         if (item == null) {
             SFTCore.LOGGER.warn("Could not find item with: {}", rl);
@@ -43,6 +44,7 @@ public class RLUtils {
     }
 
     public static @Nullable Fluid getFluidByRL(ResourceLocation rl) {
+        if (!ForgeRegistries.FLUIDS.containsKey(rl)) return null;
         var fluid = ForgeRegistries.FLUIDS.getValue(rl);
         if (fluid == null) {
             SFTCore.LOGGER.warn("Could not find fluid with: {}", rl);

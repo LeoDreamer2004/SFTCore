@@ -4,10 +4,8 @@ import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
 import org.leodreamer.sftcore.integration.ae2.feature.IMemoryCardInteraction;
 import org.leodreamer.sftcore.integration.ae2.feature.IPromptProvider;
-import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
 import org.leodreamer.sftcore.integration.ae2.item.MemoryCardUtils;
 import org.leodreamer.sftcore.integration.ae2.logic.MemoryCardPatternInventoryProxy;
-import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -38,8 +36,6 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.inventories.InternalInventory;
 import appeng.core.definitions.AEBlocks;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -61,7 +57,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @Mixin(value = MEPatternBufferPartMachine.class, remap = false)
 public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
-    implements IPromptProvider, IMemoryCardInteraction, IScaleUpCraftingProvider, IMEPatternBufferCache {
+    implements IPromptProvider, IMemoryCardInteraction, IMEPatternBufferCache {
 
     // custom name now acts as the prompt, instead of the name shown in the pattern group!
     @Shadow
@@ -140,30 +136,6 @@ public abstract class MEPatternBufferPartMachineMixin extends MEBusPartMachine
             .recordPartFrom(Component.translatable(getDefinition().getDescriptionId()))
             .get();
         cir.setReturnValue(group);
-    }
-
-    @WrapOperation(
-        method = {
-            "pushPattern",
-            "onPatternChange"
-        },
-        at = @At(
-            value = "INVOKE",
-            target = "Ljava/lang/Object;equals(Ljava/lang/Object;)Z"
-        )
-    )
-    private boolean sftcore$equalsScaleUpPattern(
-        Object instance,
-        Object other,
-        Operation<Boolean> original
-    ) {
-        if (instance instanceof ScaledProcessingPattern scaled) {
-            return scaled.original().equals(other);
-        }
-        if (other instanceof ScaledProcessingPattern scaled) {
-            return instance.equals(scaled.original());
-        }
-        return original.call(instance, other);
     }
 
     /* --- memory card integration --- */

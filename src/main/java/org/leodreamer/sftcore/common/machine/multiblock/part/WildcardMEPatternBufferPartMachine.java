@@ -4,8 +4,6 @@ import org.leodreamer.sftcore.api.feature.IMEPatternBufferCache;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternDecoder;
 import org.leodreamer.sftcore.common.item.wildcard.WildcardPatternLogic;
 import org.leodreamer.sftcore.integration.ae2.feature.HackyContainerGroupProxy;
-import org.leodreamer.sftcore.integration.ae2.feature.IScaleUpCraftingProvider;
-import org.leodreamer.sftcore.integration.ae2.logic.ScaledProcessingPattern;
 
 import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -102,7 +100,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
-    implements IScaleUpCraftingProvider, PatternContainer, IDataStickInteractable, IMEPatternBufferCache {
+    implements ICraftingProvider, PatternContainer, IDataStickInteractable, IMEPatternBufferCache {
 
     private final InternalInventory internalPatternInventory = new InternalInventory() {
 
@@ -199,6 +197,8 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
         this.aggregateFluidHandler = attachTrait(new AggregateFluidHandler());
         this.bufferRecipeHandler = new BufferRecipeHandlerList();
         this.bufferHandlers = List.of(bufferRecipeHandler);
+        // The inherited inventory is unused and has no UI for retrieving inserted items.
+        getInventory().setFilter(stack -> false);
     }
 
     @Override
@@ -881,11 +881,7 @@ public class WildcardMEPatternBufferPartMachine extends MEBusPartMachine
     }
 
     private int getSlotIndexForPattern(IPatternDetails patternDetails) {
-        return wildcardDetailsSlotMap.getOrDefault(unwrapScaledPattern(patternDetails), -1);
-    }
-
-    private IPatternDetails unwrapScaledPattern(IPatternDetails patternDetails) {
-        return patternDetails instanceof ScaledProcessingPattern scaled ? scaled.original() : patternDetails;
+        return wildcardDetailsSlotMap.getOrDefault(patternDetails, -1);
     }
 
     private boolean slotInvalid(int slot) {

@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.blockentity.BlockEntityCreationInfo;
 import com.gregtechceu.gtceu.api.machine.feature.IMuiMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.recipe.RecipeLogic;
-import com.gregtechceu.gtceu.common.mui.GTMultiblockTextUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -15,17 +14,12 @@ import net.minecraft.network.chat.Component;
 
 import brachy.modularui.api.drawable.Text;
 import brachy.modularui.api.widget.IWidget;
-import brachy.modularui.drawable.GuiTextures;
-import brachy.modularui.drawable.Icon;
 import brachy.modularui.factory.PosGuiData;
 import brachy.modularui.screen.UISettings;
-import brachy.modularui.utils.Alignment;
 import brachy.modularui.value.sync.BooleanSyncValue;
 import brachy.modularui.value.sync.PanelSyncManager;
 import brachy.modularui.value.sync.StringSyncValue;
 import brachy.modularui.widget.ParentWidget;
-import brachy.modularui.widget.Widget;
-import brachy.modularui.widgets.ListWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +30,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine implements IMuiMachine {
-
-    public static final int MULTI_UI_TEXT_PANEL_WIDTH = 172;
-    public static final int MULTI_UI_TEXT_PANEL_HEIGHT = 136;
 
     public WorkableKineticMultiblockMachine(BlockEntityCreationInfo info) {
         super(info);
@@ -69,26 +60,9 @@ public class WorkableKineticMultiblockMachine extends WorkableMultiblockMachine 
         mainWidget.child(getMainTextPanel(syncManager).margin(4, 2));
     }
 
-    public Widget<?> getMainTextPanel(PanelSyncManager syncManager) {
-        var parentWidget = new ParentWidget<>();
-        var listWidget = new ListWidget<>()
-            .width(MULTI_UI_TEXT_PANEL_WIDTH - 6)
-            .height(MULTI_UI_TEXT_PANEL_HEIGHT - 6)
-            .childSeparator(Icon.EMPTY_2PX)
-            .crossAxisAlignment(Alignment.CrossAxis.START)
-            .collapseDisabledChildren()
-            .posRel(Alignment.CenterLeft);
-        parentWidget.size(MULTI_UI_TEXT_PANEL_WIDTH, MULTI_UI_TEXT_PANEL_HEIGHT).background(GuiTextures.DISPLAY);
-
-        listWidget.children(getWidgetsForDisplay(syncManager));
-        parentWidget.child(listWidget.left(3).top(3));
-        return parentWidget;
-    }
-
     @Override
     public List<IWidget> getWidgetsForDisplay(PanelSyncManager syncManager) {
         List<IWidget> widgets = new ArrayList<>();
-        widgets.add(GTMultiblockTextUtil.addUnformedWarning(this, syncManager));
         widgets.addAll(getKineticWidgets(syncManager));
         widgets.addAll(super.getWidgetsForDisplay(syncManager));
         return widgets;
